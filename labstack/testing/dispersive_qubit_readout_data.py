@@ -60,6 +60,22 @@ def angle_data(theta: float, n: int = 100) -> np.ndarray:
     return state_data(state)
 
 
+def probability_data(p_e: float, n: int = 100) -> np.ndarray:
+    """Readout data for given qubit excitation probability.
+
+    :param p_e: probability for qubit being in the excited state
+    :param n: number of samples
+    :returns: complex readout data for each sample
+    """
+    rng = np.random.default_rng()
+    state = rng.choice(
+        np.array([0, 1]),
+        size=n,
+        p=np.array([1-p_e, p_e]),
+    )
+    return state_data(state)
+
+
 if __name__ == '__main__':
     from matplotlib import pyplot as plt
 

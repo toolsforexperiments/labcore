@@ -12,7 +12,7 @@ import numpy as np
 from functools import reduce
 from typing import List, Tuple, Dict, Sequence, Union, Any, Iterator, Optional, TypeVar
 
-from plottr.utils import num, misc
+from labstack.utils import num, misc
 
 
 __author__ = 'Wolfgang Pfaff'
