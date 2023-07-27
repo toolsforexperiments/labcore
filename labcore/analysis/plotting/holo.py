@@ -30,7 +30,7 @@ import holoviews as hv
 import hvplot.pandas
 import hvplot.xarray
 
-from labstack.data.datadict import (
+from labcore.data.datadict import (
     DataDict,
     MeshgridDataDict,
     dd2df,
