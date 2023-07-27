@@ -8,6 +8,7 @@ import copy as cp
 import re
 import logging
 import pandas as pd
+import xarray as xr
 import numpy as np
 from functools import reduce
 from typing import List, Tuple, Dict, Sequence, Union, Any, Iterator, Optional, TypeVar
@@ -1652,45 +1653,55 @@ def datasets_are_equal(a: DataDictBase, b: DataDictBase,
     return True
 
 
-def datadict_to_dataframe(data: DataDict) -> pd.DataFrame:
+def dd2df(dd: DataDict):
+    """make a pandas Dataframe from a datadict.
+    Uses MultiIndex, and assumes that all data fields are compatible.
+
+    Parameters
+    ----------
+    dd : DataDict
+        source data
+
+    Returns
+    -------
+    DataFrame
+        pandas DataFrame
     """
-    datadict_to_dataframe use data stored in DataDict return a copy in form pandas.DataFrame
-    column labels are the names of variables
-    row labels are the index of values in list
-    ex.       x     y      z
-          0   x1    y1     z1
-          1   x2    y2     z2
-          2   x3    y3     z3
+    dd_flat = dd.expand()
+    idx = pd.MultiIndex.from_arrays(
+        [dd_flat[a]['values'] for a in dd_flat.axes()],
+        names = dd_flat.axes(),
+    )
+    vals = {d: dd_flat[d]['values'] for d in dd_flat.dependents()}
+    return pd.DataFrame(data=vals, index=idx)
 
-    :param data: source data stored in Datadict form
-    :return: copy of data stored in DataFrame form
+
+def dd2xr(dd: MeshgridDataDict) -> xr.Dataset:
+    """makes an xarray Dataset from a MeshgridDataDict.
+
+    TODO: currently only supports 'regular' grides, i.e., all axes
+        are independet of each other, and can be represented by 1d arrays.
+        For each axis, the first slice is used as coordinate values.
+
+    Parameters
+    ----------
+    dd : MeshgridDataDict
+        input data
+
+    Returns
+    -------
+    xr.Dataset
+        xarray Dataset
     """
-    # initialize parameter
-    data_set = {}
-    axe_ls = data.axes()
-    dimension_check = True
-    max_ele = 0
+    axes = dd.axes()
+    coords = {}
+    for i, a in enumerate(axes):
+        slices = [0] * len(axes)
+        slices[i] = slice(None)
+        coords[a] = dd[a]['values'][*slices]
 
-    # check for the dimension of Data
-    for key, value in data.data_items():
-        if np.shape(data.data_vals(key)) != np.shape(data.data_vals(axe_ls[0])):
-            dimension_check = False
-
-        if np.size(data.data_vals(key)) > max_ele:
-            max_ele = np.size(data.data_vals(key))
-
-    # if the dimension of all variables are the same, directly flat the array
-    if dimension_check:
-        for key, value in data.data_items():
-            data_set[key] = (data.data_vals(key)).flatten()
-
-    # if the dimension is different between variables, match their dimension to the highest one
-    else:
-        for key, value in data.data_items():
-            repeated_time = int(max_ele/np.size(data.data_vals(key)))
-            value_array = np.repeat(data.data_vals(key), repeated_time)
-            data_set[key] = value_array.flatten('F')
-
-    # convert organized data to DataFrame and return it
-    return pd.DataFrame(data=data_set)
-
+    xds = xr.Dataset(
+        {d: (axes, dd[d]['values']) for d in dd.dependents()},
+        coords=coords,
+    )
+    return xds

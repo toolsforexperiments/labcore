@@ -1,5 +1,5 @@
-# measurement-tools
-Code for measuring.
+# labstack
+Code for measuring and such.
 
 ## installation
 - clone from github

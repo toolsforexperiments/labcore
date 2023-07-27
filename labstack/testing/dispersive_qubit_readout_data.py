@@ -23,6 +23,8 @@ Readout settings can be changed through module-level variables:
 from typing import Union
 import numpy as np
 
+from ..data.datadict import str2dd
+
 
 angle = np.pi/2
 amp = 2.
@@ -74,6 +76,25 @@ def probability_data(p_e: float, n: int = 100) -> np.ndarray:
         p=np.array([1-p_e, p_e]),
     )
     return state_data(state)
+
+
+def rabi(Omega_0, Delta, t):
+    Omega = (Omega_0**2 + Delta**2)**.5 
+    return (Omega_0 / Omega)**2 * (1.0-np.cos(Omega*t))/2.
+
+
+def chevron_dataset(Omega_0, Delta_vals, t_vals, n):
+    data = str2dd("signal(repetition, detuning, time); detuning[Hz]; time[s];")
+    for i, Delta in enumerate(Delta_vals):
+        for j, t in enumerate(t_vals):
+            data.add_data(
+                signal=probability_data(rabi(2*np.pi*Omega_0, 2*np.pi*Delta, t), n=n),
+                repetition=np.arange(n, dtype=int)+1,
+                detuning=Delta,
+                time=t,
+            )
+    return data
+
 
 
 if __name__ == '__main__':
