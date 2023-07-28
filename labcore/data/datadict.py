@@ -13,7 +13,7 @@ import numpy as np
 from functools import reduce
 from typing import List, Tuple, Dict, Sequence, Union, Any, Iterator, Optional, TypeVar
 
-from labstack.utils import num, misc
+from labcore.utils import num, misc
 
 
 __author__ = 'Wolfgang Pfaff'
@@ -1698,8 +1698,8 @@ def dd2xr(dd: MeshgridDataDict) -> xr.Dataset:
     for i, a in enumerate(axes):
         slices = [0] * len(axes)
         slices[i] = slice(None)
-        coords[a] = dd[a]['values'][*slices]
-
+        coords[a] = dd[a]['values'][tuple(slices)]
+    
     xds = xr.Dataset(
         {d: (axes, dd[d]['values']) for d in dd.dependents()},
         coords=coords,
