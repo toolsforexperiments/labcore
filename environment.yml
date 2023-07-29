@@ -1,0 +1,24 @@
+name: labcore
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - jupyterlab
+  - qcodes
+  - bokeh
+  - pandas
+  - xarray
+  - matplotlib
+  - numpy
+  - scipy
+  - scikit-learn
+  - lmfit
+  - h5py
+  - xhistogram
+  - holoviews
+  - panel
+  - param
+  - hvplot
+  - versioningit
+  - pip
