@@ -770,3 +770,12 @@ def labeled_widget(w, lbl=None):
         lbl_w,
         w,
     )
+
+# -- convenience functions
+
+def plot_data(data: Union[pd.DataFrame, xr.Dataset]) -> pn.viewable.Viewable:
+    n = Node(data, name='plot')
+    return pn.Column(
+        n,
+        n.plot,
+    )
