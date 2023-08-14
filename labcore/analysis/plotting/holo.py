@@ -30,6 +30,12 @@ import holoviews as hv
 import hvplot.pandas
 import hvplot.xarray
 
+import asyncio
+import nest_asyncio
+nest_asyncio.apply()
+
+import os
+
 from labcore.data.datadict import (
     DataDict,
     MeshgridDataDict,
@@ -410,22 +416,36 @@ class LoaderNode(Node):
         self.pre_process_dim_input = pn.widgets.TextInput(
             value="repetition", name="Pre-process dimension"
         )
+        self.refresh_rate =pn.widgets.FloatSlider(
+            name='Refresh Rate (Seconds)', start=1, end=10, step=1
+            )
+        self.refresh_rate.param.trigger('value')
         self.grid_on_load_toggle = pn.widgets.Checkbox(value=True, name="Auto-grid")
 
         self.layout = pn.Column(
             pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
+            self.refresh_rate,
             self.grid_on_load_toggle,
         )
 
         self.generate_button = pn.widgets.Button(name="Load data")
-        self.generate_button.on_click(self.load_and_preprocess)
+        self.generate_button.on_click(self.trigger_load_data_button)
         self.layout.append(self.generate_button)
 
+    async def update_data(self):
+        while (True):
+            await asyncio.sleep(self.refresh_rate.value)
+            self.load_and_preprocess()
+
+    def trigger_load_data_button(self, *events: param.parameterized.Event) -> None:
+        self.load_and_preprocess()
+        self.task = asyncio.ensure_future(self.update_data())
+    
     def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
         """Call load data and perform pre-processing.
 
         Function is triggered by clicking the "Load data" button.
-        """
+        """     
         dd = self.load_data()  # this is simply a datadict now.
 
         # this is the case for making a pandas DataFrame
@@ -454,6 +474,7 @@ class LoaderNode(Node):
             self.units_out[dim] = dd.get(dim, {}).get("unit", None)
 
         self.data_out = data
+        
 
     def load_data(self) -> DataDict:
         """Load data. Needs to be implemented by subclasses.
@@ -463,6 +484,7 @@ class LoaderNode(Node):
         NotImplementedError
             if not implemented by subclass.
         """
+                
         raise NotImplementedError
 
 
