@@ -484,7 +484,6 @@ class LoaderNode(Node):
         NotImplementedError
             if not implemented by subclass.
         """
-                
         raise NotImplementedError
 
 
