@@ -475,7 +475,6 @@ class LoaderNode(Node):
 
         self.data_out = data
         
-
     def load_data(self) -> DataDict:
         """Load data. Needs to be implemented by subclasses.
         
