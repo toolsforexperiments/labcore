@@ -44,7 +44,7 @@ from labcore.data.datadict import (
     MeshgridDataDict,
     dd2df,
     datadict_to_meshgrid,
-    dd2xr
+    dd2xr,
 )
 
 
@@ -398,7 +398,6 @@ class LoaderNode(Node):
 
     the panel of the node consists of UI options for loading and pre-processing.
 
-    Each subclass must implement ``LoaderNode.load_data``.
     """
 
     data_location = ""
@@ -488,12 +487,8 @@ class LoaderNode(Node):
         self.data_out = data
         
     def load_data(self) -> DataDict:
-        """Load data. Needs to be implemented by subclasses.
-        
-        Raises
-        ------
-        NotImplementedError
-            if not implemented by subclass.
+        """
+        Load data. Can override for specific needs
         """
         return datadict_from_hdf5(self.file_loc.value)
 

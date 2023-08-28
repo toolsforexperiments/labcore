@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 # TODO: it may be more sophisticated do define a dataclass for a data field?
 #   (or some other dedicated object)
 
+
 def is_meta_key(key: str) -> bool:
     """Checks if ``key`` is meta information.
 
