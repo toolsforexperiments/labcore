@@ -11,6 +11,7 @@ import pandas as pd
 import xarray as xr
 import numpy as np
 from functools import reduce
+from enum import Enum
 from typing import List, Tuple, Dict, Sequence, Union, Any, Iterator, Optional, TypeVar
 
 from labcore.utils import num, misc
@@ -26,7 +27,6 @@ logger = logging.getLogger(__name__)
 # TODO: direct slicing of full datasets. implement getitem/setitem?
 # TODO: it may be more sophisticated do define a dataclass for a data field?
 #   (or some other dedicated object)
-
 
 def is_meta_key(key: str) -> bool:
     """Checks if ``key`` is meta information.

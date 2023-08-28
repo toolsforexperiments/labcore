@@ -36,12 +36,15 @@ nest_asyncio.apply()
 
 import os
 
+from labcore.data.datadict_storage import (
+    datadict_from_hdf5
+)
 from labcore.data.datadict import (
     DataDict,
     MeshgridDataDict,
     dd2df,
     datadict_to_meshgrid,
-    dd2xr,
+    dd2xr
 )
 
 
@@ -398,6 +401,8 @@ class LoaderNode(Node):
     Each subclass must implement ``LoaderNode.load_data``.
     """
 
+    data_location = ""
+
     def __init__(self, *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNode``.
 
@@ -416,6 +421,10 @@ class LoaderNode(Node):
         self.pre_process_dim_input = pn.widgets.TextInput(
             value="repetition", name="Pre-process dimension"
         )
+        self.file_loc = pn.widgets.TextInput(
+            name="File Location", value=""
+        )
+        self.file_loc.param.trigger('value')
         self.refresh_rate =pn.widgets.FloatSlider(
             name='Refresh Rate (Seconds)', start=1, end=10, step=1
             )
@@ -425,6 +434,7 @@ class LoaderNode(Node):
         self.layout = pn.Column(
             pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
             self.refresh_rate,
+            self.file_loc,
             self.grid_on_load_toggle,
         )
 
@@ -440,6 +450,8 @@ class LoaderNode(Node):
     def trigger_load_data_button(self, *events: param.parameterized.Event) -> None:
         self.load_and_preprocess()
         self.task = asyncio.ensure_future(self.update_data())
+        self.data_location = self.file_loc.value
+
     
     def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
         """Call load data and perform pre-processing.
@@ -483,7 +495,8 @@ class LoaderNode(Node):
         NotImplementedError
             if not implemented by subclass.
         """
-        raise NotImplementedError
+        return datadict_from_hdf5(self.file_loc.value)
+
 
 
 class ReduxNode(Node):
