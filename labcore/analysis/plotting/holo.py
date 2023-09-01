@@ -36,6 +36,7 @@ nest_asyncio.apply()
 
 import os
 
+from pathlib import Path
 from labcore.data.datadict_storage import (
     datadict_from_hdf5
 )
@@ -400,8 +401,6 @@ class LoaderNode(Node):
 
     """
 
-    data_location = ""
-
     def __init__(self, *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNode``.
 
@@ -421,18 +420,20 @@ class LoaderNode(Node):
             value="repetition", name="Pre-process dimension"
         )
         self.file_loc = pn.widgets.TextInput(
-            name="File Location", value=""
+            name="File Location"
         )
         self.file_loc.param.trigger('value')
         self.refresh_rate =pn.widgets.FloatSlider(
             name='Refresh Rate (Seconds)', start=1, end=10, step=1
             )
+        self.pause_refresh = pn.widgets.Toggle(name="Pause Refresh")
         self.refresh_rate.param.trigger('value')
         self.grid_on_load_toggle = pn.widgets.Checkbox(value=True, name="Auto-grid")
 
         self.layout = pn.Column(
             pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
-            self.refresh_rate,
+            pn.Row(self.refresh_rate,
+            self.pause_refresh),
             self.file_loc,
             self.grid_on_load_toggle,
         )
@@ -444,13 +445,12 @@ class LoaderNode(Node):
     async def update_data(self):
         while (True):
             await asyncio.sleep(self.refresh_rate.value)
-            self.load_and_preprocess()
+            if not self.pause_refresh.value:
+                self.load_and_preprocess()
 
     def trigger_load_data_button(self, *events: param.parameterized.Event) -> None:
         self.load_and_preprocess()
         self.task = asyncio.ensure_future(self.update_data())
-        self.data_location = self.file_loc.value
-
     
     def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
         """Call load data and perform pre-processing.
