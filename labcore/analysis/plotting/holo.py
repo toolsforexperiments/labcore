@@ -456,7 +456,7 @@ class LoaderNode(Node):
         """Call load data and perform pre-processing.
 
         Function is triggered by clicking the "Load data" button.
-        """     
+        """
         dd = self.load_data()  # this is simply a datadict now.
 
         # this is the case for making a pandas DataFrame
