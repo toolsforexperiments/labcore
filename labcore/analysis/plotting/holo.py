@@ -393,6 +393,7 @@ class Node(pn.viewable.Viewer):
             self.param.unwatch(self._watchers[other])
             del self._watchers[other]
 
+
 class LoaderNodeBase(Node):
     """A node that loads data.
 
@@ -544,7 +545,6 @@ class LoaderNodePath(LoaderNodeBase):
         Load data from the file location specified
         """
         return datadict_from_hdf5(self.file_loc.value)
-
 
 
 class ReduxNode(Node):
