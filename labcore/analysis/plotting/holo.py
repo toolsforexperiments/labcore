@@ -393,16 +393,97 @@ class Node(pn.viewable.Viewer):
             self.param.unwatch(self._watchers[other])
             del self._watchers[other]
 
-
-class LoaderNode(Node):
+class LoaderNodeBase(Node):
     """A node that loads data.
+
+    the panel of the node consists of UI options for loading and pre-processing.
+
+    Each subclass must implement ``LoaderNodeBase.load_data``.
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any):
+        """Constructor for ``LoaderNode``.
+
+        Parameters
+        ----------
+        *args:
+            passed to ``Node``.
+        **kwargs:
+            passed to ``Node``.
+        """
+        super().__init__(*args, **kwargs)
+
+        self.pre_process_opts = RBG(
+            options=[None, "Average"], value="Average", name="Pre-processing"
+        )
+        self.pre_process_dim_input = pn.widgets.TextInput(
+            value="repetition", name="Pre-process dimension"
+        )
+        self.grid_on_load_toggle = pn.widgets.Checkbox(value=True, name="Auto-grid")
+
+        self.layout = pn.Column(
+            pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
+            self.grid_on_load_toggle,
+        )
+
+        self.generate_button = pn.widgets.Button(name="Load data")
+        self.generate_button.on_click(self.load_and_preprocess)
+        self.layout.append(self.generate_button)
+
+    def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
+        """Call load data and perform pre-processing.
+
+        Function is triggered by clicking the "Load data" button.
+        """
+        dd = self.load_data()  # this is simply a datadict now.
+
+        # this is the case for making a pandas DataFrame
+        if not self.grid_on_load_toggle.value:
+            data = self.split_complex(dd2df(dd))
+            indep, dep = self.data_dims(data)
+
+            if self.pre_process_dim_input.value in indep:
+                if self.pre_process_opts.value == "Average":
+                    data = self.mean(data, self.pre_process_dim_input.value)
+                    indep.pop(indep.index(self.pre_process_dim_input.value))
+
+        # when making gridded data, can do things slightly differently
+        # TODO: what if gridding goes wrong?
+        else:
+            mdd = datadict_to_meshgrid(dd)
+
+            if self.pre_process_dim_input.value in mdd.axes():
+                if self.pre_process_opts.value == "Average":
+                    mdd = mdd.mean(self.pre_process_dim_input.value)
+
+            data = self.split_complex(dd2xr(mdd))
+            indep, dep = self.data_dims(data)
+
+        for dim in indep + dep:
+            self.units_out[dim] = dd.get(dim, {}).get("unit", None)
+
+        self.data_out = data
+
+    def load_data(self) -> DataDict:
+        """Load data. Needs to be implemented by subclasses.
+        
+        Raises
+        ------
+        NotImplementedError
+            if not implemented by subclass.
+        """
+        raise NotImplementedError
+
+
+class LoaderNodePath(LoaderNodeBase):
+    """A node that loads data from a specified file location.
 
     the panel of the node consists of UI options for loading and pre-processing.
 
     """
 
     def __init__(self, *args: Any, **kwargs: Any):
-        """Constructor for ``LoaderNode``.
+        """Constructor for ``LoaderNodePath``.
 
         Parameters
         ----------
@@ -443,52 +524,24 @@ class LoaderNode(Node):
         self.layout.append(self.generate_button)
 
     async def update_data(self):
+        """
+        Async function to automatically refresh the data
+        """
         while (True):
             await asyncio.sleep(self.refresh_rate.value)
             if not self.pause_refresh.value:
                 self.load_and_preprocess()
 
     def trigger_load_data_button(self, *events: param.parameterized.Event) -> None:
+        """
+        Triggered when the 'Load Data' button is pressed
+        """
         self.load_and_preprocess()
         self.task = asyncio.ensure_future(self.update_data())
-    
-    def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
-        """Call load data and perform pre-processing.
-
-        Function is triggered by clicking the "Load data" button.
-        """
-        dd = self.load_data()  # this is simply a datadict now.
-
-        # this is the case for making a pandas DataFrame
-        if not self.grid_on_load_toggle.value:
-            data = self.split_complex(dd2df(dd))
-            indep, dep = self.data_dims(data)
-
-            if self.pre_process_dim_input.value in indep:
-                if self.pre_process_opts.value == "Average":
-                    data = self.mean(data, self.pre_process_dim_input.value)
-                    indep.pop(indep.index(self.pre_process_dim_input.value))
-
-        # when making gridded data, can do things slightly differently
-        # TODO: what if gridding goes wrong?
-        else:
-            mdd = datadict_to_meshgrid(dd)
-
-            if self.pre_process_dim_input.value in mdd.axes():
-                if self.pre_process_opts.value == "Average":
-                    mdd = mdd.mean(self.pre_process_dim_input.value)
-
-            data = self.split_complex(dd2xr(mdd))
-            indep, dep = self.data_dims(data)
-
-        for dim in indep + dep:
-            self.units_out[dim] = dd.get(dim, {}).get("unit", None)
-
-        self.data_out = data
         
     def load_data(self) -> DataDict:
         """
-        Load data. Can override for specific needs
+        Load data from the file location specified
         """
         return datadict_from_hdf5(self.file_loc.value)
 
