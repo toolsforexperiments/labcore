@@ -494,13 +494,6 @@ class LoaderNodePath(LoaderNodeBase):
             passed to ``Node``.
         """
         super().__init__(*args, **kwargs)
-
-        self.pre_process_opts = RBG(
-            options=[None, "Average"], value="Average", name="Pre-processing"
-        )
-        self.pre_process_dim_input = pn.widgets.TextInput(
-            value="repetition", name="Pre-process dimension"
-        )
         self.file_loc = pn.widgets.TextInput(
             name="File Location"
         )
@@ -509,9 +502,6 @@ class LoaderNodePath(LoaderNodeBase):
             name='Refresh Rate (Seconds)', start=1, end=10, step=1
             )
         self.pause_refresh = pn.widgets.Toggle(name="Pause Refresh")
-        self.refresh_rate.param.trigger('value')
-        self.grid_on_load_toggle = pn.widgets.Checkbox(value=True, name="Auto-grid")
-
         self.layout = pn.Column(
             pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
             pn.Row(self.refresh_rate,
