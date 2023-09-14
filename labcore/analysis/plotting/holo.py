@@ -30,6 +30,16 @@ import holoviews as hv
 import hvplot.pandas
 import hvplot.xarray
 
+import asyncio
+import nest_asyncio
+nest_asyncio.apply()
+
+import os
+
+from pathlib import Path
+from labcore.data.datadict_storage import (
+    datadict_from_hdf5
+)
 from labcore.data.datadict import (
     DataDict,
     MeshgridDataDict,
@@ -384,12 +394,12 @@ class Node(pn.viewable.Viewer):
             del self._watchers[other]
 
 
-class LoaderNode(Node):
+class LoaderNodeBase(Node):
     """A node that loads data.
 
     the panel of the node consists of UI options for loading and pre-processing.
 
-    Each subclass must implement ``LoaderNode.load_data``.
+    Each subclass must implement ``LoaderNodeBase.load_data``.
     """
 
     def __init__(self, *args: Any, **kwargs: Any):
@@ -464,6 +474,67 @@ class LoaderNode(Node):
             if not implemented by subclass.
         """
         raise NotImplementedError
+
+
+class LoaderNodePath(LoaderNodeBase):
+    """A node that loads data from a specified file location.
+
+    the panel of the node consists of UI options for loading and pre-processing.
+
+    """
+
+    def __init__(self, *args: Any, **kwargs: Any):
+        """Constructor for ``LoaderNodePath``.
+
+        Parameters
+        ----------
+        *args:
+            passed to ``Node``.
+        **kwargs:
+            passed to ``Node``.
+        """
+        super().__init__(*args, **kwargs)
+        self.file_loc = pn.widgets.TextInput(
+            name="File Location"
+        )
+        self.file_loc.param.trigger('value')
+        self.refresh_rate =pn.widgets.FloatSlider(
+            name='Refresh Rate (Seconds)', start=1, end=10, step=1
+            )
+        self.pause_refresh = pn.widgets.Toggle(name="Pause Refresh")
+        self.layout = pn.Column(
+            pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
+            pn.Row(self.refresh_rate,
+            self.pause_refresh),
+            self.file_loc,
+            self.grid_on_load_toggle,
+        )
+
+        self.generate_button = pn.widgets.Button(name="Load data")
+        self.generate_button.on_click(self.trigger_load_data_button)
+        self.layout.append(self.generate_button)
+
+    async def update_data(self):
+        """
+        Async function to automatically refresh the data
+        """
+        while (True):
+            await asyncio.sleep(self.refresh_rate.value)
+            if not self.pause_refresh.value:
+                self.load_and_preprocess()
+
+    def trigger_load_data_button(self, *events: param.parameterized.Event) -> None:
+        """
+        Triggered when the 'Load Data' button is pressed
+        """
+        self.load_and_preprocess()
+        self.task = asyncio.ensure_future(self.update_data())
+        
+    def load_data(self) -> DataDict:
+        """
+        Load data from the file location specified
+        """
+        return datadict_from_hdf5(self.file_loc.value)
 
 
 class ReduxNode(Node):
