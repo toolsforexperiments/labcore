@@ -483,7 +483,7 @@ class LoaderNodePath(LoaderNodeBase):
 
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, path:str = '', *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNodePath``.
 
         Parameters
@@ -495,7 +495,7 @@ class LoaderNodePath(LoaderNodeBase):
         """
         super().__init__(*args, **kwargs)
         self.file_loc = pn.widgets.TextInput(
-            name="File Location"
+            name="File Location", value = path
         )
         self.file_loc.param.trigger('value')
         self.refresh_rate =pn.widgets.FloatSlider(
