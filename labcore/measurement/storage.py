@@ -29,10 +29,10 @@ import logging
 import numpy as np
 import h5py
 
-from .datadict import DataDict, is_meta_key
-from .datadict_storage import DDH5Writer
+from ..data.datadict import DataDict, is_meta_key
+from ..data.datadict_storage import DDH5Writer
 
-from ..measurement.sweep import Sweep
+from .sweep import Sweep
 
 __author__ = 'Wolfgang Pfaff'
 __license__ = 'MIT'
