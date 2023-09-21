@@ -407,3 +407,169 @@ class FileOpener:
             time.sleep(self.test_delay)  # don't overwhelm the FS by very fast repeated calls.
             if time.time() - t0 > self.timeout:
                 raise RuntimeError('Lock file remained for longer than timeout time')
+
+                
+class DDH5Writer(object):
+    """Context manager for writing data to DDH5.
+    Based on typical needs in taking data in an experimental physics lab.
+
+    Creates lock file when writing data.
+
+    :param basedir: The root directory in which data is stored.
+        :meth:`.create_file_structure` is creating the structure inside this root and
+        determines the file name of the data. The default structure implemented here is
+        ``<root>/YYYY-MM-DD/YYYY-mm-dd_THHMMSS_<ID>-<name>/<filename>.ddh5``,
+        where <ID> is a short identifier string and <name> is the value of parameter `name`.
+        To change this, re-implement :meth:`.data_folder` and/or
+        :meth:`.create_file_structure`.
+    :param datadict: Initial data object. Must contain at least the structure of the
+        data to be able to use :meth:`add_data` to add data.
+    :param groupname: Name of the top-level group in the file container. An existing
+        group of that name will be deleted.
+    :param name: Name of this dataset. Used in path/file creation and added as meta data.
+    :param filename: Filename to use. Defaults to 'data.ddh5'.
+    :param file_timeout: How long the function will wait for the ddh5 file to unlock. If none uses the default
+        value from the :class:`FileOpener`.
+    """
+
+    # TODO: need an operation mode for not keeping data in memory.
+    # TODO: a mode for working with pre-allocated data
+
+    def __init__(self,
+                 datadict: DataDict,
+                 basedir: Union[str, Path] = '.',
+                 groupname: str = 'data',
+                 name: Optional[str] = None,
+                 filename: str = 'data',
+                 filepath: Optional[Union[str, Path]] = None,
+                 file_timeout: Optional[float] = None):
+        """Constructor for :class:`.DDH5Writer`"""
+
+        self.basedir = Path(basedir)
+        self.datadict = datadict
+
+        if name is None:
+            name = ''
+        self.name = name
+
+        self.groupname = groupname
+        self.filename = Path(filename)
+
+        self.filepath: Optional[Path] = None
+        if filepath is not None:
+            self.filepath = Path(filepath)
+
+        self.datadict.add_meta('dataset.name', name)
+        self.file_timeout = file_timeout
+        self.uuid = uuid.uuid1()
+
+    def __enter__(self) -> "DDH5Writer":
+        if self.filepath is None:
+            self.filepath = _data_file_path(self.data_file_path(), True)
+        logger.info(f'Data location: {self.filepath}')
+
+        nrecords: Optional[int] = self.datadict.nrecords()
+        if nrecords is not None and nrecords > 0:
+            datadict_to_hdf5(self.datadict,
+                             str(self.filepath),
+                             groupname=self.groupname,
+                             append_mode=AppendMode.none,
+                             file_timeout=self.file_timeout)
+        return self
+
+    def __exit__(self,
+                 exc_type: Optional[Type[BaseException]],
+                 exc_value: Optional[BaseException],
+                 exc_traceback: Optional[TracebackType]) -> None:
+        assert self.filepath is not None
+        with FileOpener(self.filepath, 'a', timeout=self.file_timeout) as f:
+            add_cur_time_attr(f.require_group(self.groupname), name='close')
+        if exc_type is None:
+            # exiting because the measurement is complete
+            self.add_tag('__complete__')
+        else:
+            # exiting because of an exception
+            self.add_tag('__interrupted__')
+
+    def data_folder(self) -> Path:
+        """Return the folder, relative to the data root path, in which data will
+        be saved.
+
+        Default format:
+        ``<basedir>/YYYY-MM-DD/YYYY-mm-ddTHHMMSS_<ID>-<name>``.
+        In this implementation we use the first 8 characters of a UUID as ID.
+
+        :returns: The folder path.
+        """
+        ID = str(self.uuid).split('-')[0]
+        parent = f"{datetime.datetime.now().replace(microsecond=0).isoformat().replace(':', '')}_{ID}"
+        if self.name:
+            parent += f'-{self.name}'
+        path = Path(time.strftime("%Y-%m-%d"), parent)
+        return path
+
+    def data_file_path(self) -> Path:
+        """Determine the filepath of the data file.
+
+        :returns: The filepath of the data file.
+        """
+        data_folder_path = Path(self.basedir, self.data_folder())
+        appendix = ''
+        idx = 2
+        while data_folder_path.exists():
+            appendix = f'-{idx}'
+            data_folder_path = Path(self.basedir,
+                                    str(self.data_folder())+appendix)
+            idx += 1
+
+        return Path(data_folder_path, self.filename)
+
+    def add_data(self, **kwargs: Any) -> None:
+        """Add data to the file (and the internal `DataDict`).
+
+        Requires one keyword argument per data field in the `DataDict`, with
+        the key being the name, and value the data to add. It is required that
+        all added data has the same number of 'rows', i.e., the most outer dimension
+        has to match for data to be inserted faithfully.
+        If some data is scalar and others are not, then the data should be reshaped
+        to (1, ) for the scalar data, and (1, ...) for the others; in other words,
+        an outer dimension with length 1 is added for all.
+        """
+        self.datadict.add_data(**kwargs)
+        nrecords = self.datadict.nrecords()
+        if nrecords is not None and nrecords > 0:
+            datadict_to_hdf5(self.datadict, str(self.filepath),
+                             groupname=self.groupname,
+                             file_timeout=self.file_timeout)
+
+            assert self.filepath is not None
+            with FileOpener(self.filepath, 'a', timeout=self.file_timeout) as f:
+                add_cur_time_attr(f, name='last_change')
+                add_cur_time_attr(f[self.groupname], name='last_change')
+
+
+    # convenience methods for saving things in the same directory as the ddh5 file
+
+    def add_tag(self, tags: Union[str, Collection[str]]) -> None:
+        assert self.filepath is not None
+        if isinstance(tags, str):
+            tags = [tags]
+        for tag in tags:
+            open(self.filepath.parent / f"{tag}.tag", "x").close()
+
+    def backup_file(self, paths: Union[str, Collection[str]]) -> None:
+        assert self.filepath is not None
+        if isinstance(paths, str):
+            paths = [paths]
+        for path in paths:
+            shutil.copy(path, self.filepath.parent)
+
+    def save_text(self, name: str, text: str) -> None:
+        assert self.filepath is not None
+        with open(self.filepath.parent / name, "x") as f:
+            f.write(text)
+
+    def save_dict(self, name: str, d: dict) -> None:
+        assert self.filepath is not None
+        with open(self.filepath.parent / name, "x") as f:
+            json.dump(d, f, indent=4, ensure_ascii=False, cls=NumpyJSONEncoder)
