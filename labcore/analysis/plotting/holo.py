@@ -36,6 +36,16 @@ nest_asyncio.apply()
 
 import os
 
+from labcore.measurement.sweep import (
+    Sweep
+)
+from labcore.measurement.storage import (
+    run_and_save_sweep
+)
+from labcore.measurement.sweep import (
+    Sweep
+)
+
 from pathlib import Path
 from labcore.data.datadict_storage import (
     datadict_from_hdf5
@@ -436,6 +446,7 @@ class LoaderNodeBase(Node):
 
         Function is triggered by clicking the "Load data" button.
         """
+        print("load_and_preprocess")
         dd = self.load_data()  # this is simply a datadict now.
 
         # this is the case for making a pandas DataFrame
@@ -474,6 +485,58 @@ class LoaderNodeBase(Node):
             if not implemented by subclass.
         """
         raise NotImplementedError
+
+class LoaderNodeSweep(LoaderNodeBase):
+    
+    InputSweep = Sweep(None)
+    sweep_path = ""
+
+
+    def __init__(self, Input_Sweep:Sweep = Sweep(None), path:str = ".", name:str = "", *args: Any, **kwargs: Any):
+        self.InputSweep = Input_Sweep
+
+        super().__init__(*args, **kwargs)
+
+        self.file_loc = pn.widgets.TextInput(
+            name="Save Directory Path", value = path
+        )
+        self.file_name = pn.widgets.TextInput(
+            name="File Name", value = name
+        )
+        self.sweep_button = pn.widgets.Button(name="Perform Sweep")
+        self.sweep_button.on_click(self.perform_sweep)
+        self.layout = pn.Column(
+            pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
+            pn.Row(self.file_loc, self.file_name),
+            self.sweep_button,
+            self.grid_on_load_toggle,
+        )
+
+        self.generate_button = pn.widgets.Button(name="Load data")
+        self.generate_button.on_click(self.trigger_load_data_button)
+        self.layout.append(self.generate_button)
+
+    def perform_sweep(self, *events: param.parameterized.Event) -> str:
+        """
+        Runs and saves sweep, then returns the Python path location
+        """
+
+        path_loc = run_and_save_sweep(self.InputSweep, self.file_loc.value, self.file_name.value)
+        self.sweep_path = os.path.abspath(path_loc[0]) + "\data.ddh5"
+        self.sweep_path = self.sweep_path.replace("C:","")
+        return str(self.sweep_path)
+    
+    def load_data(self) -> DataDict:
+        """
+        Load data from the file location specified
+        """
+        return datadict_from_hdf5(self.perform_sweep())
+
+    def trigger_load_data_button(self, *events: param.parameterized.Event) -> None:
+        """
+        Triggered when the 'Load Data' button is pressed
+        """
+        self.load_and_preprocess()
 
 
 class LoaderNodePath(LoaderNodeBase):
