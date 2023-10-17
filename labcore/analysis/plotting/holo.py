@@ -487,12 +487,25 @@ class LoaderNodeBase(Node):
         raise NotImplementedError
 
 class LoaderNodeSweep(LoaderNodeBase):
+     """A node that performs a predeclared sweep then plots from the saved file location
+
+    the panel of the node consists of UI options for loading and pre-processing.
+    """
     
     InputSweep = Sweep(None)
     sweep_path = ""
 
+    def __init__(self, Input_Sweep:Sweep = Sweep(None), name:str = "", *args: Any, **kwargs: Any):
+        """Constructor for ``LoaderNodeSweep``.
 
-    def __init__(self, Input_Sweep:Sweep = Sweep(None), path:str = ".", name:str = "", *args: Any, **kwargs: Any):
+        Parameters
+        ----------
+        *args:
+            passed to ``Node``.
+        **kwargs:
+            passed to ``Node``.
+        """
+
         self.InputSweep = Input_Sweep
 
         super().__init__(*args, **kwargs)
