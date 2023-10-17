@@ -487,7 +487,7 @@ class LoaderNodeBase(Node):
         raise NotImplementedError
 
 class LoaderNodeSweep(LoaderNodeBase):
-     """A node that performs a predeclared sweep then plots from the saved file location
+    """A node that performs a predeclared sweep then plots from the saved file location
 
     the panel of the node consists of UI options for loading and pre-processing.
     """
@@ -515,10 +515,15 @@ class LoaderNodeSweep(LoaderNodeBase):
         )
         self.sweep_button = pn.widgets.Button(name="Perform Sweep")
         self.sweep_button.on_click(self.perform_sweep)
+        self.refresh_rate =pn.widgets.FloatSlider(
+            name='Refresh Rate (Seconds)', start=1, end=10, step=1
+            )
+        self.pause_refresh = pn.widgets.Toggle(name="Pause Refresh")
         self.layout = pn.Column(
             pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
             self.file_name,
             self.sweep_button,
+            pn.Row(self.refresh_rate,self.pause_refresh),
             self.grid_on_load_toggle,
         )
 
