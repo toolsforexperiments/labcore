@@ -487,7 +487,7 @@ class LoaderNodeBase(Node):
         raise NotImplementedError
 
 class LoaderNodeSweep(LoaderNodeBase):
-     """A node that performs a predeclared sweep then plots from the saved file location
+    """A node that performs a predeclared sweep then plots from the saved file location
 
     the panel of the node consists of UI options for loading and pre-processing.
     """
