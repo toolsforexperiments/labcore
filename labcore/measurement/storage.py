@@ -30,7 +30,7 @@ import numpy as np
 import h5py
 
 from ..data.datadict import DataDict, is_meta_key
-from ..data.datadict_storage import DDH5Writer
+from ..data.datadict_storage import DDH5Writer, datadict_from_hdf5
 
 from .sweep import Sweep
 
@@ -38,6 +38,9 @@ __author__ = 'Wolfgang Pfaff'
 __license__ = 'MIT'
 
 TIMESTRFORMAT = "%Y-%m-%dT%H%M%S"
+
+WD = os.getcwd()
+DATADIR = os.path.join(WD, 'data')
 
 logger = logging.getLogger(__name__)
 
@@ -232,3 +235,27 @@ def run_and_save_sweep(sweep: Sweep,
     ret = (dir, data_dict) if return_data else (dir, None)
     return ret
 
+def data_info(folder: str, fn: str = 'data.ddh5', do_print: bool = True):
+    fn = Path(folder, fn)
+    dataset = datadict_from_hdf5(fn)
+    if do_print:
+        print(dataset)
+    else:
+        return str(dataset)
+
+def run_measurement(sweep: Sweep, name: str, **kwargs) -> Union[str, Path]:
+    data_location, data = run_and_save_sweep(
+        sweep=sweep,
+        data_dir=DATADIR,
+        name=name,
+        save_action_kwargs=True,
+        **kwargs)
+
+    info = data
+
+    logger.info(f"""
+==========
+Saved data at {data_location}:
+{data_info(data_location, do_print=False)}
+=========""")
+    return data_location, data
