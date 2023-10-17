@@ -531,6 +531,15 @@ class LoaderNodeSweep(LoaderNodeBase):
         self.generate_button.on_click(self.trigger_load_data_button)
         self.layout.append(self.generate_button)
 
+    async def update_data(self):
+        """
+        Async function to automatically refresh the data
+        """
+        while (True):
+            await asyncio.sleep(self.refresh_rate.value)
+            if not self.pause_refresh.value:
+                self.load_and_preprocess()
+
     def perform_sweep(self, *events: param.parameterized.Event) -> str:
         """
         Runs and saves sweep, then returns the Python path location
@@ -552,7 +561,7 @@ class LoaderNodeSweep(LoaderNodeBase):
         Triggered when the 'Load Data' button is pressed
         """
         self.load_and_preprocess()
-
+        self.task = asyncio.ensure_future(self.update_data())
 
 class LoaderNodePath(LoaderNodeBase):
     """A node that loads data from a specified file location.
