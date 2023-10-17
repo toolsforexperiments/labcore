@@ -40,7 +40,7 @@ from labcore.measurement.sweep import (
     Sweep
 )
 from labcore.measurement.storage import (
-    run_and_save_sweep
+    run_measurement
 )
 from labcore.measurement.sweep import (
     Sweep
@@ -497,9 +497,6 @@ class LoaderNodeSweep(LoaderNodeBase):
 
         super().__init__(*args, **kwargs)
 
-        self.file_loc = pn.widgets.TextInput(
-            name="Save Directory Path", value = path
-        )
         self.file_name = pn.widgets.TextInput(
             name="File Name", value = name
         )
@@ -507,7 +504,7 @@ class LoaderNodeSweep(LoaderNodeBase):
         self.sweep_button.on_click(self.perform_sweep)
         self.layout = pn.Column(
             pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
-            pn.Row(self.file_loc, self.file_name),
+            self.file_name,
             self.sweep_button,
             self.grid_on_load_toggle,
         )
@@ -521,7 +518,7 @@ class LoaderNodeSweep(LoaderNodeBase):
         Runs and saves sweep, then returns the Python path location
         """
 
-        path_loc = run_and_save_sweep(self.InputSweep, self.file_loc.value, self.file_name.value)
+        path_loc = run_measurement(self.InputSweep, self.file_name.value)
         self.sweep_path = os.path.abspath(path_loc[0]) + "\data.ddh5"
         self.sweep_path = self.sweep_path.replace("C:","")
         return str(self.sweep_path)
