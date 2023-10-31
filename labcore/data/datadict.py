@@ -11,6 +11,7 @@ import pandas as pd
 import xarray as xr
 import numpy as np
 from functools import reduce
+from enum import Enum
 from typing import List, Tuple, Dict, Sequence, Union, Any, Iterator, Optional, TypeVar
 
 from labcore.utils import num, misc
