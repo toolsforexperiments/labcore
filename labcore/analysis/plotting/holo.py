@@ -14,7 +14,7 @@ Important Classes:
         - XYSelect: a widget for selecting x and y axes.
 """
 
-from typing import Optional, Union, Any, Dict
+from typing import Optional, Union, Any, Dict, Callable
 from datetime import datetime
 
 import numpy as np
@@ -40,7 +40,8 @@ from labcore.measurement.sweep import (
     Sweep
 )
 from labcore.measurement.storage import (
-    run_measurement
+    run_measurement,
+    run_and_save_sweep
 )
 from labcore.measurement.sweep import (
     Sweep
@@ -492,7 +493,7 @@ class LoaderNodeSweep(LoaderNodeBase):
     the panel of the node consists of UI options for loading and pre-processing.
     """
     
-    def __init__(self, input_sweep:Sweep = Sweep(None), name:str = "", sweep_kwargs:dict= {}, *args: Any, **kwargs: Any):
+    def __init__(self, input_sweep:Sweep = Sweep(None), name:str = "", sweep_kwargs:dict= {}, sweep_func: Optional[Callable] = None, *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNodeSweep``.
 
         Parameters
@@ -503,6 +504,8 @@ class LoaderNodeSweep(LoaderNodeBase):
             name of save file
         sweep_kwargs:
             **kwargs to be passed to the Sweep when executed (as a dict)
+        sweep_func:
+            Function used to call the sweep
         *args:
             passed to ``Node``.
         **kwargs:
@@ -514,7 +517,7 @@ class LoaderNodeSweep(LoaderNodeBase):
             name="File Name", value = name
         )
         self.sweep_button = pn.widgets.Button(name="Perform Sweep")
-        self.sweep_button.on_click(lambda event, arg1 = 'DefaultArg': self.trigger_perform_sweep_button(name, input_sweep, **sweep_kwargs))
+        self.sweep_button.on_click(lambda event, arg1 = 'DefaultArg': self.trigger_perform_sweep_button(name, input_sweep, sweep_func, **sweep_kwargs))
         self.layout = pn.Column(
             pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
             self.file_name,
@@ -525,14 +528,17 @@ class LoaderNodeSweep(LoaderNodeBase):
         self.generate_button.on_click(self.trigger_load_data_button)
         self.layout.append(self.generate_button)
 
-    def trigger_perform_sweep_button(self, name: str, input_sweep: Sweep, *events: param.parameterized.Event,**kwargs: Any) -> None:
+    def trigger_perform_sweep_button(self, name: str, input_sweep: Sweep, sweep_func:Optional[Callable], *events: param.parameterized.Event,**kwargs: Any) -> None:
         """
         Runs and saves sweep, also saves file location
 
         Triggered when the 'Perform Sweep' button is pressed
 
         """
-        path_loc = run_measurement(input_sweep, name, **kwargs)
+        if sweep_func is None:
+            path_loc = run_and_save_sweep(input_sweep,os.path.join(os.getcwd(), 'data'), name, save_action_kwargs = True, **kwargs)
+        else:
+            path_loc = sweep_func(input_sweep,name,**kwargs)
         sweep_path = os.path.abspath(path_loc[0]) + "\data.ddh5"
         sweep_path = sweep_path.replace("C:","")
         self.file_loc = str(sweep_path)
