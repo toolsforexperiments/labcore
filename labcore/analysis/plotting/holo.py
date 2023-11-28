@@ -485,13 +485,13 @@ class LoaderNodeBase(Node):
         """
         raise NotImplementedError
 
+
 class LoaderNodeSweep(LoaderNodeBase):
     """A node that performs a predeclared sweep then plots from the saved file location
 
     the panel of the node consists of UI options for loading and pre-processing.
     """
     
-    sweep_path = ""
 
     def __init__(self, input_sweep:Sweep = Sweep(None), name:str = "", sweep_kwargs:dict= {}, *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNodeSweep``.
@@ -517,7 +517,7 @@ class LoaderNodeSweep(LoaderNodeBase):
         )
         self.str_pane = pn.pane.Str('')
         self.sweep_button = pn.widgets.Button(name="Perform Sweep")
-        self.sweep_button.on_click(lambda event, arg1 = 'DefaultArg': self.trigger_perform_sweep_button(name, input_sweep, sweep_kwargs = sweep_kwargs))
+        self.sweep_button.on_click(lambda event, arg1 = 'DefaultArg': self.trigger_perform_sweep_button(name, input_sweep, **sweep_kwargs))
         self.layout = pn.Column(
             pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
             self.file_name,
@@ -529,21 +529,14 @@ class LoaderNodeSweep(LoaderNodeBase):
         self.generate_button.on_click(self.trigger_load_data_button)
         self.layout.append(self.generate_button)
 
-    def trigger_perform_sweep_button(self, name: str, input_sweep: Sweep, sweep_kwargs:dict = {}, *events: param.parameterized.Event) -> None:
-        """
-        Triggered when the 'Perform Sweep' Button is pressed
-        """
-        location = self.perform_sweep(name, input_sweep, **sweep_kwargs)
-        self.str_pane.object = location
-
-    def perform_sweep(self, name: str, input_sweep: Sweep, **kwargs: Any) -> str:
+    def trigger_perform_sweep_button(self, name: str, input_sweep: Sweep, *events: param.parameterized.Event,**kwargs: Any) -> str:
         """
         Runs and saves sweep, then returns the Python path location
         """
         path_loc = run_measurement(input_sweep, name, **kwargs)
         self.sweep_path = os.path.abspath(path_loc[0]) + "\data.ddh5"
         self.sweep_path = self.sweep_path.replace("C:","")
-        return str(self.sweep_path)
+        self.str_pane.object = str(self.sweep_path)
     
     def load_data(self,*events: param.parameterized.Event) -> None:
         """
@@ -558,7 +551,6 @@ class LoaderNodeSweep(LoaderNodeBase):
         """
         self.load_and_preprocess()
         
-
 
 class LoaderNodePath(LoaderNodeBase):
     """A node that loads data from a specified file location.
