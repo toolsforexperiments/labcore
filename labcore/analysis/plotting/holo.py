@@ -492,7 +492,6 @@ class LoaderNodeSweep(LoaderNodeBase):
     the panel of the node consists of UI options for loading and pre-processing.
     """
     
-
     def __init__(self, input_sweep:Sweep = Sweep(None), name:str = "", sweep_kwargs:dict= {}, *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNodeSweep``.
 
@@ -501,48 +500,48 @@ class LoaderNodeSweep(LoaderNodeBase):
         input_sweep:
             Sweep to be executed
         name:
-            name of the dict
+            name of save file
         sweep_kwargs:
-            **kwargs to be passed to the Sweep when executed
+            **kwargs to be passed to the Sweep when executed (as a dict)
         *args:
             passed to ``Node``.
         **kwargs:
             passed to ``Node``.
         """
-
         super().__init__(*args, **kwargs)
-
+        self.file_loc = ""
         self.file_name = pn.widgets.TextInput(
             name="File Name", value = name
         )
-        self.str_pane = pn.pane.Str('')
         self.sweep_button = pn.widgets.Button(name="Perform Sweep")
         self.sweep_button.on_click(lambda event, arg1 = 'DefaultArg': self.trigger_perform_sweep_button(name, input_sweep, **sweep_kwargs))
         self.layout = pn.Column(
             pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
             self.file_name,
             self.sweep_button,
-            self.str_pane,
             self.grid_on_load_toggle,
         )
         self.generate_button = pn.widgets.Button(name="Load data")
         self.generate_button.on_click(self.trigger_load_data_button)
         self.layout.append(self.generate_button)
 
-    def trigger_perform_sweep_button(self, name: str, input_sweep: Sweep, *events: param.parameterized.Event,**kwargs: Any) -> str:
+    def trigger_perform_sweep_button(self, name: str, input_sweep: Sweep, *events: param.parameterized.Event,**kwargs: Any) -> None:
         """
-        Runs and saves sweep, then returns the Python path location
+        Runs and saves sweep, also saves file location
+
+        Triggered when the 'Perform Sweep' button is pressed
+
         """
         path_loc = run_measurement(input_sweep, name, **kwargs)
-        self.sweep_path = os.path.abspath(path_loc[0]) + "\data.ddh5"
-        self.sweep_path = self.sweep_path.replace("C:","")
-        self.str_pane.object = str(self.sweep_path)
+        sweep_path = os.path.abspath(path_loc[0]) + "\data.ddh5"
+        sweep_path = sweep_path.replace("C:","")
+        self.file_loc = str(sweep_path)
     
     def load_data(self,*events: param.parameterized.Event) -> None:
         """
         Load data from the file location specified
         """
-        return datadict_from_hdf5(self.str_pane.object)
+        return datadict_from_hdf5(self.file_loc)
         
 
     def trigger_load_data_button(self, *events: param.parameterized.Event) -> None:
