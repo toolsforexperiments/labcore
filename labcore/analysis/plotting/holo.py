@@ -40,11 +40,7 @@ from labcore.measurement.sweep import (
     Sweep
 )
 from labcore.measurement.storage import (
-    run_measurement,
     run_and_save_sweep
-)
-from labcore.measurement.sweep import (
-    Sweep
 )
 
 from pathlib import Path
