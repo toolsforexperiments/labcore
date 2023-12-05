@@ -14,8 +14,9 @@ import datetime
 import uuid
 import json
 import shutil
+import re
 from enum import Enum
-from typing import Any, Union, Optional, Dict, Type, Collection
+from typing import Any, Union, Optional, Dict, Type, Collection, List
 from types import TracebackType
 from pathlib import Path
 
@@ -257,7 +258,7 @@ def datadict_from_hdf5(path: Union[str, Path],
     """
     filepath = _data_file_path(path)
     if not filepath.exists():
-        raise ValueError("Specified file does not exist.")
+        raise ValueError(f"Specified file '{filepath}' does not exist.")
 
     if startidx is None:
         startidx = 0
@@ -573,3 +574,44 @@ class DDH5Writer(object):
         assert self.filepath is not None
         with open(self.filepath.parent / name, "x") as f:
             json.dump(d, f, indent=4, ensure_ascii=False, cls=NumpyJSONEncoder)
+
+
+def data_info(folder: str, fn: str = 'data.ddh5', do_print: bool = True):
+    fn = Path(folder, fn)
+    dataset = datadict_from_hdf5(fn)
+    if do_print:
+        print(dataset)
+    else:
+        return str(dataset)
+
+
+def timestamp_from_path(p: Path) -> datetime.datetime:
+    """Return a `datetime` timestamp from a standard-formatted path.
+    Assumes that the path stem has a timestamp that begins in ISO-like format
+    ``YYYY-mm-ddTHHMMSS``.
+    """
+    timestring = str(p.stem)[:13] + ":" + str(p.stem)[13:15] + ":" + str(p.stem)[15:17]
+    return datetime.datetime.fromisoformat(timestring)
+
+
+def find_data(root, 
+              newer_than: Optional[datetime.datetime]=None, 
+              older_than: Optional[datetime.datetime]=None, 
+              folder_filter: Optional[str]=None) -> List[Path]:
+                  
+    folders = {}
+    for f, dirs, files in os.walk(root):
+        if 'data.ddh5' in files:
+            fp = Path(f)
+            ts = timestamp_from_path(fp)
+            if newer_than is not None and ts <= newer_than:
+                continue
+            if older_than is not None and ts >= older_than:
+                continue            
+            if folder_filter is not None:
+                pattern = re.compile(folder_filter)
+                if not pattern.search(str(fp.stem)):
+                    continue               
+                
+            folders[fp] = (dirs, files)
+    return folders

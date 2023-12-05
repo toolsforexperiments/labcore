@@ -16,6 +16,7 @@ Important Classes:
 
 from typing import Optional, Union, Any, Dict
 from datetime import datetime
+import time
 
 import numpy as np
 import pandas as pd
@@ -37,9 +38,7 @@ nest_asyncio.apply()
 import os
 
 from pathlib import Path
-from labcore.data.datadict_storage import (
-    datadict_from_hdf5
-)
+from labcore.data.datadict_storage import datadict_from_hdf5
 from labcore.data.datadict import (
     DataDict,
     MeshgridDataDict,
@@ -412,30 +411,64 @@ class LoaderNodeBase(Node):
         **kwargs:
             passed to ``Node``.
         """
+        # to be able to watch, this needs to be defined before super().__init__
+        self.refresh = pn.widgets.Select(
+            name="Auto-refresh",
+            options={
+                'None': None,
+                '2 s': 2,
+                '5 s': 5,
+                '10 s': 10,
+                '1 min': 60,
+                '10 min': 600,
+            },
+            value="None",
+            width=80,
+        )
+        self.task = None
+
         super().__init__(*args, **kwargs)
 
         self.pre_process_opts = RBG(
-            options=[None, "Average"], value="Average", name="Pre-processing"
+            options=[None, "Average"],
+            value="Average",
+            name="Pre-processing",
+            align="end",
         )
         self.pre_process_dim_input = pn.widgets.TextInput(
-            value="repetition", name="Pre-process dimension"
+            value="repetition",
+            name="Pre-process dim.",
+            width=100,
+            align="end",
         )
-        self.grid_on_load_toggle = pn.widgets.Checkbox(value=True, name="Auto-grid")
+        self.grid_on_load_toggle = pn.widgets.Toggle(
+            value=True, name="Auto-grid", align="end"
+        )
+        self.generate_button = pn.widgets.Button(
+            name="Load data", align="end", button_type="primary"
+        )
+        self.generate_button.on_click(self.load_and_preprocess)
+        self.info_label = pn.widgets.StaticText(name="Info", align="start")
+        self.info_label.value = "No data loaded."
+
 
         self.layout = pn.Column(
-            pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
-            self.grid_on_load_toggle,
+            pn.Row(
+                labeled_widget(self.pre_process_opts),
+                self.pre_process_dim_input,
+                self.grid_on_load_toggle,
+                self.generate_button,
+                self.refresh,
+            ),
+            self.display_info,
         )
-
-        self.generate_button = pn.widgets.Button(name="Load data")
-        self.generate_button.on_click(self.load_and_preprocess)
-        self.layout.append(self.generate_button)
 
     def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
         """Call load data and perform pre-processing.
 
         Function is triggered by clicking the "Load data" button.
         """
+        t0 = datetime.now()
         dd = self.load_data()  # this is simply a datadict now.
 
         # this is the case for making a pandas DataFrame
@@ -464,10 +497,31 @@ class LoaderNodeBase(Node):
             self.units_out[dim] = dd.get(dim, {}).get("unit", None)
 
         self.data_out = data
+        t1 = datetime.now()
+        self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
+
+    @pn.depends("info_label.value")
+    def display_info(self):
+        return self.info_label
+    
+    @pn.depends("refresh.value", watch=True)
+    def on_refresh_changed(self):
+        if self.refresh.value is None:
+            self.task = None
+        
+        if self.refresh.value is not None:
+            if self.task is None:
+                self.task = asyncio.ensure_future(self.run_auto_refresh())
+
+    async def run_auto_refresh(self):
+        while self.refresh.value is not None:
+            await asyncio.sleep(self.refresh.value)
+            self.load_and_preprocess()
+        return
 
     def load_data(self) -> DataDict:
         """Load data. Needs to be implemented by subclasses.
-        
+
         Raises
         ------
         NotImplementedError
@@ -476,14 +530,16 @@ class LoaderNodeBase(Node):
         raise NotImplementedError
 
 
-class LoaderNodePath(LoaderNodeBase):
+class DDH5LoaderNode(LoaderNodeBase):
     """A node that loads data from a specified file location.
 
     the panel of the node consists of UI options for loading and pre-processing.
 
     """
 
-    def __init__(self, path:str = '', *args: Any, **kwargs: Any):
+    file_path = param.Parameter(None)
+
+    def __init__(self, path: Union[str, Path] = "", *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNodePath``.
 
         Parameters
@@ -494,47 +550,13 @@ class LoaderNodePath(LoaderNodeBase):
             passed to ``Node``.
         """
         super().__init__(*args, **kwargs)
-        self.file_loc = pn.widgets.TextInput(
-            name="File Location", value = path
-        )
-        self.file_loc.param.trigger('value')
-        self.refresh_rate =pn.widgets.FloatSlider(
-            name='Refresh Rate (Seconds)', start=1, end=10, step=1
-            )
-        self.pause_refresh = pn.widgets.Toggle(name="Pause Refresh")
-        self.layout = pn.Column(
-            pn.Row(labeled_widget(self.pre_process_opts), self.pre_process_dim_input),
-            pn.Row(self.refresh_rate,
-            self.pause_refresh),
-            self.file_loc,
-            self.grid_on_load_toggle,
-        )
+        self.file_path = path
 
-        self.generate_button = pn.widgets.Button(name="Load data")
-        self.generate_button.on_click(self.trigger_load_data_button)
-        self.layout.append(self.generate_button)
-
-    async def update_data(self):
-        """
-        Async function to automatically refresh the data
-        """
-        while (True):
-            await asyncio.sleep(self.refresh_rate.value)
-            if not self.pause_refresh.value:
-                self.load_and_preprocess()
-
-    def trigger_load_data_button(self, *events: param.parameterized.Event) -> None:
-        """
-        Triggered when the 'Load Data' button is pressed
-        """
-        self.load_and_preprocess()
-        self.task = asyncio.ensure_future(self.update_data())
-        
     def load_data(self) -> DataDict:
         """
         Load data from the file location specified
         """
-        return datadict_from_hdf5(self.file_loc.value)
+        return datadict_from_hdf5(self.file_path.absolute())
 
 
 class ReduxNode(Node):
@@ -647,16 +669,18 @@ class XYSelect(pn.viewable.Viewer):
 
 class ValuePlot(Node):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
         self.xy_select = XYSelect()
         self._old_indep = []
+        
+        super().__init__(*args, **kwargs)
 
-    def __panel__(self):
-        return pn.Column(
+        self.layout = pn.Column(
             self.plot_options_panel,
             self.plot_panel,
         )
+
+    def __panel__(self):
+        return self.layout
 
     @pn.depends("data_out")
     def plot_options_panel(self):
@@ -678,6 +702,9 @@ class ValuePlot(Node):
 
     @pn.depends("data_out", "xy_select.value")
     def plot_panel(self):
+
+        t0 = time.perf_counter()
+
         plot = "*No valid options chosen.*"
         x, y = self.xy_select.value
         indep, dep = self.data_dims(self.data_out)
@@ -737,6 +764,9 @@ class ComplexHist(Node):
 
     @pn.depends("data_out", "gb_select.value")
     def plot_panel(self):
+
+        t0 = time.perf_counter()
+
         plot = "*No valid options chosen.*"
 
         layout = pn.Column()
@@ -842,10 +872,12 @@ def labeled_widget(w, lbl=None):
         w,
     )
 
+
 # -- convenience functions
 
+
 def plot_data(data: Union[pd.DataFrame, xr.Dataset]) -> pn.viewable.Viewable:
-    n = Node(data, name='plot')
+    n = Node(data, name="plot")
     return pn.Column(
         n,
         n.plot,
