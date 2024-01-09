@@ -22,16 +22,12 @@ from pathlib import Path
 
 import numpy as np
 import h5py
+import xarray as xr
 
 from qcodes.utils import NumpyJSONEncoder
-#from plottr import QtGui, Signal, Slot, QtWidgets, QtCore
-'''
-from ..node import (
-    Node, NodeWidget, updateOption, updateGuiFromNode,
-    emitGuiUpdate,
-)
-'''
-from .datadict import DataDict, is_meta_key, DataDictBase
+
+from labcore.analysis import Node, split_complex
+from .datadict import DataDict, is_meta_key, DataDictBase, dd2xr, datadict_to_meshgrid, dd2df
 
 __author__ = 'Wolfgang Pfaff'
 __license__ = 'MIT'
@@ -598,6 +594,9 @@ def find_data(root,
               newer_than: Optional[datetime.datetime]=None, 
               older_than: Optional[datetime.datetime]=None, 
               folder_filter: Optional[str]=None) -> List[Path]:
+    
+    if not isinstance(root, Path):
+        root = Path(root)
                   
     folders = {}
     for f, dirs, files in os.walk(root):
@@ -615,3 +614,43 @@ def find_data(root,
                 
             folders[fp] = (dirs, files)
     return folders
+
+def most_recent_data_path(
+        root,
+        older_than: Optional[datetime.datetime]=None,
+        folder_filter: Optional[str]=None) -> Path:
+    folders = find_data(root, older_than=older_than, folder_filter=folder_filter)
+    return sorted(folders.keys())[-1]
+
+
+def load_as_xr(folder: Path, fn='data.ddh5') -> xr.Dataset:
+    """Load ddh5 data as xarray (only for gridable data).
+
+    Parameters
+    ----------
+    folder :
+        data folder
+    fn : str, optional
+        filename, by default 'data.ddh5'
+
+    Returns
+    -------
+    _type_
+        _description_
+    """
+    fn = folder / fn
+    dd = datadict_from_hdf5(fn)
+    xrdata = split_complex(
+        dd2xr(datadict_to_meshgrid(dd))
+    )
+    xrdata.attrs['raw_data_folder'] = folder.resolve()
+    xrdata.attrs['raw_data_fn'] = fn
+    return xrdata
+
+
+def load_as_df(folder, fn='data.ddh5'):
+    fn = folder / fn
+    dfdata = split_complex(dd2df(datadict_from_hdf5(fn)))
+    return dfdata
+
+

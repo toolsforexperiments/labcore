@@ -15,7 +15,6 @@ Important Classes:
 """
 
 from typing import Optional, Union, Any, Dict
-from datetime import datetime
 import time
 
 import numpy as np
@@ -30,22 +29,6 @@ from panel.widgets import RadioButtonGroup as RBG
 import holoviews as hv
 import hvplot.pandas
 import hvplot.xarray
-
-import asyncio
-import nest_asyncio
-nest_asyncio.apply()
-
-import os
-
-from pathlib import Path
-from labcore.data.datadict_storage import datadict_from_hdf5
-from labcore.data.datadict import (
-    DataDict,
-    MeshgridDataDict,
-    dd2df,
-    datadict_to_meshgrid,
-    dd2xr,
-)
 
 
 Data = Union[xr.Dataset, pd.DataFrame]
@@ -228,6 +211,9 @@ class Node(pn.viewable.Viewer):
             if np.iscomplexobj(data[d]):
                 data[f"{d}_Re"] = np.real(data[d])
                 data[f"{d}_Im"] = np.imag(data[d])
+                if isinstance(data, xr.Dataset):
+                    data[f"{d}_Re"].attrs = data[d].attrs
+                    data[f"{d}_Im"].attrs = data[d].attrs
                 dropped.append(d)
         if isinstance(data, pd.DataFrame):
             return data.drop(columns=dropped)
@@ -391,173 +377,6 @@ class Node(pn.viewable.Viewer):
         if other in self._watchers:
             self.param.unwatch(self._watchers[other])
             del self._watchers[other]
-
-
-class LoaderNodeBase(Node):
-    """A node that loads data.
-
-    the panel of the node consists of UI options for loading and pre-processing.
-
-    Each subclass must implement ``LoaderNodeBase.load_data``.
-    """
-
-    def __init__(self, *args: Any, **kwargs: Any):
-        """Constructor for ``LoaderNode``.
-
-        Parameters
-        ----------
-        *args:
-            passed to ``Node``.
-        **kwargs:
-            passed to ``Node``.
-        """
-        # to be able to watch, this needs to be defined before super().__init__
-        self.refresh = pn.widgets.Select(
-            name="Auto-refresh",
-            options={
-                'None': None,
-                '2 s': 2,
-                '5 s': 5,
-                '10 s': 10,
-                '1 min': 60,
-                '10 min': 600,
-            },
-            value="None",
-            width=80,
-        )
-        self.task = None
-
-        super().__init__(*args, **kwargs)
-
-        self.pre_process_opts = RBG(
-            options=[None, "Average"],
-            value="Average",
-            name="Pre-processing",
-            align="end",
-        )
-        self.pre_process_dim_input = pn.widgets.TextInput(
-            value="repetition",
-            name="Pre-process dim.",
-            width=100,
-            align="end",
-        )
-        self.grid_on_load_toggle = pn.widgets.Toggle(
-            value=True, name="Auto-grid", align="end"
-        )
-        self.generate_button = pn.widgets.Button(
-            name="Load data", align="end", button_type="primary"
-        )
-        self.generate_button.on_click(self.load_and_preprocess)
-        self.info_label = pn.widgets.StaticText(name="Info", align="start")
-        self.info_label.value = "No data loaded."
-
-
-        self.layout = pn.Column(
-            pn.Row(
-                labeled_widget(self.pre_process_opts),
-                self.pre_process_dim_input,
-                self.grid_on_load_toggle,
-                self.generate_button,
-                self.refresh,
-            ),
-            self.display_info,
-        )
-
-    def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
-        """Call load data and perform pre-processing.
-
-        Function is triggered by clicking the "Load data" button.
-        """
-        t0 = datetime.now()
-        dd = self.load_data()  # this is simply a datadict now.
-
-        # this is the case for making a pandas DataFrame
-        if not self.grid_on_load_toggle.value:
-            data = self.split_complex(dd2df(dd))
-            indep, dep = self.data_dims(data)
-
-            if self.pre_process_dim_input.value in indep:
-                if self.pre_process_opts.value == "Average":
-                    data = self.mean(data, self.pre_process_dim_input.value)
-                    indep.pop(indep.index(self.pre_process_dim_input.value))
-
-        # when making gridded data, can do things slightly differently
-        # TODO: what if gridding goes wrong?
-        else:
-            mdd = datadict_to_meshgrid(dd)
-
-            if self.pre_process_dim_input.value in mdd.axes():
-                if self.pre_process_opts.value == "Average":
-                    mdd = mdd.mean(self.pre_process_dim_input.value)
-
-            data = self.split_complex(dd2xr(mdd))
-            indep, dep = self.data_dims(data)
-
-        for dim in indep + dep:
-            self.units_out[dim] = dd.get(dim, {}).get("unit", None)
-
-        self.data_out = data
-        t1 = datetime.now()
-        self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
-
-    @pn.depends("info_label.value")
-    def display_info(self):
-        return self.info_label
-    
-    @pn.depends("refresh.value", watch=True)
-    def on_refresh_changed(self):
-        if self.refresh.value is None:
-            self.task = None
-        
-        if self.refresh.value is not None:
-            if self.task is None:
-                self.task = asyncio.ensure_future(self.run_auto_refresh())
-
-    async def run_auto_refresh(self):
-        while self.refresh.value is not None:
-            await asyncio.sleep(self.refresh.value)
-            self.load_and_preprocess()
-        return
-
-    def load_data(self) -> DataDict:
-        """Load data. Needs to be implemented by subclasses.
-
-        Raises
-        ------
-        NotImplementedError
-            if not implemented by subclass.
-        """
-        raise NotImplementedError
-
-
-class DDH5LoaderNode(LoaderNodeBase):
-    """A node that loads data from a specified file location.
-
-    the panel of the node consists of UI options for loading and pre-processing.
-
-    """
-
-    file_path = param.Parameter(None)
-
-    def __init__(self, path: Union[str, Path] = "", *args: Any, **kwargs: Any):
-        """Constructor for ``LoaderNodePath``.
-
-        Parameters
-        ----------
-        *args:
-            passed to ``Node``.
-        **kwargs:
-            passed to ``Node``.
-        """
-        super().__init__(*args, **kwargs)
-        self.file_path = path
-
-    def load_data(self) -> DataDict:
-        """
-        Load data from the file location specified
-        """
-        return datadict_from_hdf5(self.file_path.absolute())
-
 
 class ReduxNode(Node):
     OPTS = ["None", "Mean"]
