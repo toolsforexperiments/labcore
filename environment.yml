@@ -22,4 +22,5 @@ dependencies:
   - param
   - hvplot
   - versioningit
+  - qtpy
   - pip
