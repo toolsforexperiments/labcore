@@ -1705,4 +1705,10 @@ def dd2xr(dd: MeshgridDataDict) -> xr.Dataset:
         {d: (axes, dd[d]['values']) for d in dd.dependents()},
         coords=coords,
     )
+    
+    for d in xds.data_vars:
+        xds[d].attrs['units'] = dd[d]['unit']
+    for d in xds.dims:
+        xds[d].attrs['units'] = dd[d]['unit']
+
     return xds
