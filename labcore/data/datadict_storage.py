@@ -27,20 +27,29 @@ import xarray as xr
 from qcodes.utils import NumpyJSONEncoder
 
 from labcore.analysis import Node, split_complex
-from .datadict import DataDict, is_meta_key, DataDictBase, dd2xr, datadict_to_meshgrid, dd2df
+from .datadict import (
+    DataDict,
+    is_meta_key,
+    DataDictBase,
+    dd2xr,
+    datadict_to_meshgrid,
+    dd2df,
+)
 
-__author__ = 'Wolfgang Pfaff'
-__license__ = 'MIT'
+__author__ = "Wolfgang Pfaff"
+__license__ = "MIT"
 
-DATAFILEXT = 'ddh5'
+DATAFILEXT = "ddh5"
 TIMESTRFORMAT = "%Y-%m-%d %H:%M:%S"
 
 logger = logging.getLogger(__name__)
 
 # FIXME: need correct handling of dtypes and list/array conversion
 
+
 class AppendMode(Enum):
     """How/Whether to append data to existing data."""
+
     #: Data that is additional compared to already existing data is appended.
     new = 0
     #: All data is appended to existing data.
@@ -48,7 +57,9 @@ class AppendMode(Enum):
     #: Data is overwritten.
     none = 2
 
+
 # tools for working on hdf5 objects
+
 
 def h5ify(obj: Any) -> Any:
     """
@@ -69,8 +80,8 @@ def h5ify(obj: Any) -> Any:
         if not all_string:
             obj = np.array(obj)
 
-    if type(obj) == np.ndarray and obj.dtype.kind == 'U':
-        return np.char.encode(obj, encoding='utf8')
+    if type(obj) == np.ndarray and obj.dtype.kind == "U":
+        return np.char.encode(obj, encoding="utf8")
 
     return obj
 
@@ -84,7 +95,7 @@ def deh5ify(obj: Any) -> Any:
     if type(obj) == bytes:
         return obj.decode()
 
-    if type(obj) == np.ndarray and obj.dtype.kind == 'S':
+    if type(obj) == np.ndarray and obj.dtype.kind == "S":
         return np.char.decode(obj)
 
     return obj
@@ -104,8 +115,9 @@ def set_attr(h5obj: Any, name: str, val: Any) -> None:
         h5obj.attrs[name] = h5ify(newval)
 
 
-def add_cur_time_attr(h5obj: Any, name: str = 'creation',
-                      prefix: str = '__', suffix: str = '__') -> None:
+def add_cur_time_attr(
+    h5obj: Any, name: str = "creation", prefix: str = "__", suffix: str = "__"
+) -> None:
     """Add current time information to the given HDF5 object, following the format of:
     ``<prefix><name>_time_sec<suffix>``.
 
@@ -119,11 +131,12 @@ def add_cur_time_attr(h5obj: Any, name: str = 'creation',
     tsec = time.mktime(t)
     tstr = time.strftime(TIMESTRFORMAT, t)
 
-    set_attr(h5obj, prefix + name + '_time_sec' + suffix, tsec)
-    set_attr(h5obj, prefix + name + '_time_str' + suffix, tstr)
+    set_attr(h5obj, prefix + name + "_time_sec" + suffix, tsec)
+    set_attr(h5obj, prefix + name + "_time_str" + suffix, tstr)
 
 
 # elementary reading/writing
+
 
 def _data_file_path(file: Union[str, Path], init_directory: bool = False) -> Path:
     """Get the full filepath of the data file.
@@ -131,18 +144,20 @@ def _data_file_path(file: Union[str, Path], init_directory: bool = False) -> Pat
 
     path = Path(file)
 
-    if path.suffix != f'.{DATAFILEXT}':
-        path = Path(path.parent, path.stem + f'.{DATAFILEXT}')
+    if path.suffix != f".{DATAFILEXT}":
+        path = Path(path.parent, path.stem + f".{DATAFILEXT}")
     if init_directory:
         path.parent.mkdir(parents=True, exist_ok=True)
     return path
 
 
-def datadict_to_hdf5(datadict: DataDict,
-                     path: Union[str, Path],
-                     groupname: str = 'data',
-                     append_mode: AppendMode = AppendMode.new,
-                     file_timeout: Optional[float] = None) -> None:
+def datadict_to_hdf5(
+    datadict: DataDict,
+    path: Union[str, Path],
+    groupname: str = "data",
+    append_mode: AppendMode = AppendMode.new,
+    file_timeout: Optional[float] = None,
+) -> None:
     """Write a DataDict to DDH5
 
     Note: Meta data is only written during initial writing of the dataset.
@@ -168,7 +183,7 @@ def datadict_to_hdf5(datadict: DataDict,
     if not filepath.exists():
         append_mode = AppendMode.none
 
-    with FileOpener(filepath, 'a', file_timeout) as f:
+    with FileOpener(filepath, "a", file_timeout) as f:
         if append_mode is AppendMode.none:
             init_file(f, groupname)
         assert groupname in f
@@ -179,7 +194,7 @@ def datadict_to_hdf5(datadict: DataDict,
             set_attr(grp, k, v)
 
         for k, v in datadict.data_items():
-            data = v['values']
+            data = v["values"]
             shp = data.shape
             nrows = shp[0]
 
@@ -191,10 +206,10 @@ def datadict_to_hdf5(datadict: DataDict,
                 # add meta data
                 add_cur_time_attr(ds)
 
-                if v.get('axes', []):
-                    set_attr(ds, 'axes', v['axes'])
-                if v.get('unit', "") != "":
-                    set_attr(ds, 'unit', v['unit'])
+                if v.get("axes", []):
+                    set_attr(ds, "axes", v["axes"])
+                if v.get("unit", "") != "":
+                    set_attr(ds, "unit", v["unit"])
 
                 for kk, vv in datadict.meta_items(k, clean_keys=False):
                     set_attr(ds, kk, vv)
@@ -217,9 +232,7 @@ def datadict_to_hdf5(datadict: DataDict,
                 ds.flush()
 
 
-def init_file(f: h5py.File,
-              groupname: str = 'data') -> None:
-
+def init_file(f: h5py.File, groupname: str = "data") -> None:
     if groupname in f:
         del f[groupname]
         f.flush()
@@ -232,13 +245,15 @@ def init_file(f: h5py.File,
         f.flush()
 
 
-def datadict_from_hdf5(path: Union[str, Path],
-                       groupname: str = 'data',
-                       startidx: Union[int, None] = None,
-                       stopidx: Union[int, None] = None,
-                       structure_only: bool = False,
-                       ignore_unequal_lengths: bool = True,
-                       file_timeout: Optional[float] = None) -> DataDict:
+def datadict_from_hdf5(
+    path: Union[str, Path],
+    groupname: str = "data",
+    startidx: Union[int, None] = None,
+    stopidx: Union[int, None] = None,
+    structure_only: bool = False,
+    ignore_unequal_lengths: bool = True,
+    file_timeout: Optional[float] = None,
+) -> DataDict:
     """Load a DataDict from file.
 
     :param path: Full filepath without the file extension.
@@ -260,9 +275,9 @@ def datadict_from_hdf5(path: Union[str, Path],
         startidx = 0
 
     res = {}
-    with FileOpener(filepath, 'r', file_timeout) as f:
+    with FileOpener(filepath, "r", file_timeout) as f:
         if groupname not in f:
-            raise ValueError('Group does not exist.')
+            raise ValueError("Group does not exist.")
 
         grp = f[groupname]
         keys = list(grp.keys())
@@ -270,7 +285,7 @@ def datadict_from_hdf5(path: Union[str, Path],
 
         if len(set(lens)) > 1:
             if not ignore_unequal_lengths:
-                raise RuntimeError('Unequal lengths in the datasets.')
+                raise RuntimeError("Unequal lengths in the datasets.")
 
             if stopidx is None or stopidx > min(lens):
                 stopidx = min(lens)
@@ -284,20 +299,22 @@ def datadict_from_hdf5(path: Union[str, Path],
 
         for k in keys:
             ds = grp[k]
-            entry: Dict[str, Union[Collection[Any], np.ndarray]] = dict(values=np.array([]), )
+            entry: Dict[str, Union[Collection[Any], np.ndarray]] = dict(
+                values=np.array([]),
+            )
 
-            if 'axes' in ds.attrs:
-                entry['axes'] = deh5ify(ds.attrs['axes']).tolist()
+            if "axes" in ds.attrs:
+                entry["axes"] = deh5ify(ds.attrs["axes"]).tolist()
             else:
-                entry['axes'] = []
+                entry["axes"] = []
 
-            if 'unit' in ds.attrs:
-                entry['unit'] = deh5ify(ds.attrs['unit'])
+            if "unit" in ds.attrs:
+                entry["unit"] = deh5ify(ds.attrs["unit"])
 
             if not structure_only:
-                entry['values'] = ds[startidx:stopidx]
+                entry["values"] = ds[startidx:stopidx]
 
-            entry['__shape__'] = ds[:].shape
+            entry["__shape__"] = ds[:].shape
 
             # and now the meta data
             for attr in ds.attrs:
@@ -312,7 +329,9 @@ def datadict_from_hdf5(path: Union[str, Path],
     return dd
 
 
-def all_datadicts_from_hdf5(path: Union[str, Path], file_timeout: Optional[float] = None, **kwargs: Any) -> Dict[str, Any]:
+def all_datadicts_from_hdf5(
+    path: Union[str, Path], file_timeout: Optional[float] = None, **kwargs: Any
+) -> Dict[str, Any]:
     """
     Loads all the DataDicts contained on a single HDF5 file. Returns a dictionary with the group names as keys and
     the DataDicts as the values of that key.
@@ -327,14 +346,17 @@ def all_datadicts_from_hdf5(path: Union[str, Path], file_timeout: Optional[float
         raise ValueError("Specified file does not exist.")
 
     ret = {}
-    with FileOpener(filepath, 'r', file_timeout) as f:
+    with FileOpener(filepath, "r", file_timeout) as f:
         keys = [k for k in f.keys()]
     for k in keys:
-        ret[k] = datadict_from_hdf5(path=path, groupname=k, file_timeout=file_timeout, **kwargs)
+        ret[k] = datadict_from_hdf5(
+            path=path, groupname=k, file_timeout=file_timeout, **kwargs
+        )
     return ret
 
 
 # File access with locking
+
 
 class FileOpener:
     """
@@ -346,18 +368,21 @@ class FileOpener:
     :param timeout: Time, in seconds, the context manager waits for the file to unlock. Defaults to 30.
     :param test_delay: Length of time in between checks. I.e. how long the FileOpener waits to see if a file got
         unlocked again
-   """
+    """
 
-    def __init__(self, path: Union[Path, str],
-                 mode: str = 'r',
-                 timeout: Optional[float] = None,
-                 test_delay: float = 0.1):
+    def __init__(
+        self,
+        path: Union[Path, str],
+        mode: str = "r",
+        timeout: Optional[float] = None,
+        test_delay: float = 0.1,
+    ):
         self.path = Path(path)
-        self.lock_path = self.path.parent.joinpath("~" + str(self.path.stem) + '.lock')
-        if mode not in ['r', 'w', 'w-', 'a']:
+        self.lock_path = self.path.parent.joinpath("~" + str(self.path.stem) + ".lock")
+        if mode not in ["r", "w", "w-", "a"]:
             raise ValueError("Only 'r', 'w', 'w-', 'a' modes are supported.")
         self.mode = mode
-        self.default_timeout = 30.
+        self.default_timeout = 30.0
         if timeout is None:
             self.timeout = self.default_timeout
         else:
@@ -370,10 +395,12 @@ class FileOpener:
         self.file = self.open_when_unlocked()
         return self.file
 
-    def __exit__(self,
-                 exc_type: Optional[Type[BaseException]],
-                 exc_value: Optional[BaseException],
-                 exc_traceback: Optional[TracebackType]) -> None:
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_value: Optional[BaseException],
+        exc_traceback: Optional[TracebackType],
+    ) -> None:
         try:
             assert self.file is not None
             self.file.close()
@@ -397,15 +424,19 @@ class FileOpener:
                         return f
                     except (OSError, PermissionError, RuntimeError):
                         pass
-                    time.sleep(self.test_delay)  # don't overwhelm the FS by very fast repeated calls.
+                    time.sleep(
+                        self.test_delay
+                    )  # don't overwhelm the FS by very fast repeated calls.
                     if time.time() - t0 > self.timeout:
-                        raise RuntimeError('Waiting or file unlock timeout')
+                        raise RuntimeError("Waiting or file unlock timeout")
 
-            time.sleep(self.test_delay)  # don't overwhelm the FS by very fast repeated calls.
+            time.sleep(
+                self.test_delay
+            )  # don't overwhelm the FS by very fast repeated calls.
             if time.time() - t0 > self.timeout:
-                raise RuntimeError('Lock file remained for longer than timeout time')
+                raise RuntimeError("Lock file remained for longer than timeout time")
 
-                
+
 class DDH5Writer(object):
     """Context manager for writing data to DDH5.
     Based on typical needs in taking data in an experimental physics lab.
@@ -432,21 +463,23 @@ class DDH5Writer(object):
     # TODO: need an operation mode for not keeping data in memory.
     # TODO: a mode for working with pre-allocated data
 
-    def __init__(self,
-                 datadict: DataDict,
-                 basedir: Union[str, Path] = '.',
-                 groupname: str = 'data',
-                 name: Optional[str] = None,
-                 filename: str = 'data',
-                 filepath: Optional[Union[str, Path]] = None,
-                 file_timeout: Optional[float] = None):
+    def __init__(
+        self,
+        datadict: DataDict,
+        basedir: Union[str, Path] = ".",
+        groupname: str = "data",
+        name: Optional[str] = None,
+        filename: str = "data",
+        filepath: Optional[Union[str, Path]] = None,
+        file_timeout: Optional[float] = None,
+    ):
         """Constructor for :class:`.DDH5Writer`"""
 
         self.basedir = Path(basedir)
         self.datadict = datadict
 
         if name is None:
-            name = ''
+            name = ""
         self.name = name
 
         self.groupname = groupname
@@ -456,37 +489,41 @@ class DDH5Writer(object):
         if filepath is not None:
             self.filepath = Path(filepath)
 
-        self.datadict.add_meta('dataset.name', name)
+        self.datadict.add_meta("dataset.name", name)
         self.file_timeout = file_timeout
         self.uuid = uuid.uuid1()
 
     def __enter__(self) -> "DDH5Writer":
         if self.filepath is None:
             self.filepath = _data_file_path(self.data_file_path(), True)
-        logger.info(f'Data location: {self.filepath}')
+        logger.info(f"Data location: {self.filepath}")
 
         nrecords: Optional[int] = self.datadict.nrecords()
         if nrecords is not None and nrecords > 0:
-            datadict_to_hdf5(self.datadict,
-                             str(self.filepath),
-                             groupname=self.groupname,
-                             append_mode=AppendMode.none,
-                             file_timeout=self.file_timeout)
+            datadict_to_hdf5(
+                self.datadict,
+                str(self.filepath),
+                groupname=self.groupname,
+                append_mode=AppendMode.none,
+                file_timeout=self.file_timeout,
+            )
         return self
 
-    def __exit__(self,
-                 exc_type: Optional[Type[BaseException]],
-                 exc_value: Optional[BaseException],
-                 exc_traceback: Optional[TracebackType]) -> None:
+    def __exit__(
+        self,
+        exc_type: Optional[Type[BaseException]],
+        exc_value: Optional[BaseException],
+        exc_traceback: Optional[TracebackType],
+    ) -> None:
         assert self.filepath is not None
-        with FileOpener(self.filepath, 'a', timeout=self.file_timeout) as f:
-            add_cur_time_attr(f.require_group(self.groupname), name='close')
+        with FileOpener(self.filepath, "a", timeout=self.file_timeout) as f:
+            add_cur_time_attr(f.require_group(self.groupname), name="close")
         if exc_type is None:
             # exiting because the measurement is complete
-            self.add_tag('__complete__')
+            self.add_tag("__complete__")
         else:
             # exiting because of an exception
-            self.add_tag('__interrupted__')
+            self.add_tag("__interrupted__")
 
     def data_folder(self) -> Path:
         """Return the folder, relative to the data root path, in which data will
@@ -498,10 +535,10 @@ class DDH5Writer(object):
 
         :returns: The folder path.
         """
-        ID = str(self.uuid).split('-')[0]
+        ID = str(self.uuid).split("-")[0]
         parent = f"{datetime.datetime.now().replace(microsecond=0).isoformat().replace(':', '')}_{ID}"
         if self.name:
-            parent += f'-{self.name}'
+            parent += f"-{self.name}"
         path = Path(time.strftime("%Y-%m-%d"), parent)
         return path
 
@@ -511,12 +548,11 @@ class DDH5Writer(object):
         :returns: The filepath of the data file.
         """
         data_folder_path = Path(self.basedir, self.data_folder())
-        appendix = ''
+        appendix = ""
         idx = 2
         while data_folder_path.exists():
-            appendix = f'-{idx}'
-            data_folder_path = Path(self.basedir,
-                                    str(self.data_folder())+appendix)
+            appendix = f"-{idx}"
+            data_folder_path = Path(self.basedir, str(self.data_folder()) + appendix)
             idx += 1
 
         return Path(data_folder_path, self.filename)
@@ -535,15 +571,17 @@ class DDH5Writer(object):
         self.datadict.add_data(**kwargs)
         nrecords = self.datadict.nrecords()
         if nrecords is not None and nrecords > 0:
-            datadict_to_hdf5(self.datadict, str(self.filepath),
-                             groupname=self.groupname,
-                             file_timeout=self.file_timeout)
+            datadict_to_hdf5(
+                self.datadict,
+                str(self.filepath),
+                groupname=self.groupname,
+                file_timeout=self.file_timeout,
+            )
 
             assert self.filepath is not None
-            with FileOpener(self.filepath, 'a', timeout=self.file_timeout) as f:
-                add_cur_time_attr(f, name='last_change')
-                add_cur_time_attr(f[self.groupname], name='last_change')
-
+            with FileOpener(self.filepath, "a", timeout=self.file_timeout) as f:
+                add_cur_time_attr(f, name="last_change")
+                add_cur_time_attr(f[self.groupname], name="last_change")
 
     # convenience methods for saving things in the same directory as the ddh5 file
 
@@ -572,7 +610,7 @@ class DDH5Writer(object):
             json.dump(d, f, indent=4, ensure_ascii=False, cls=NumpyJSONEncoder)
 
 
-def data_info(folder: str, fn: str = 'data.ddh5', do_print: bool = True):
+def data_info(folder: str, fn: str = "data.ddh5", do_print: bool = True):
     fn = Path(folder, fn)
     dataset = datadict_from_hdf5(fn)
     if do_print:
@@ -590,40 +628,45 @@ def timestamp_from_path(p: Path) -> datetime.datetime:
     return datetime.datetime.fromisoformat(timestring)
 
 
-def find_data(root, 
-              newer_than: Optional[datetime.datetime]=None, 
-              older_than: Optional[datetime.datetime]=None, 
-              folder_filter: Optional[str]=None) -> List[Path]:
-    
+def find_data(
+    root,
+    newer_than: Optional[datetime.datetime] = None,
+    older_than: Optional[datetime.datetime] = None,
+    folder_filter: Optional[str] = None,
+) -> List[Path]:
     if not isinstance(root, Path):
         root = Path(root)
-                  
+
     folders = {}
     for f, dirs, files in os.walk(root):
-        if 'data.ddh5' in files:
+        if "data.ddh5" in files:
             fp = Path(f)
             ts = timestamp_from_path(fp)
             if newer_than is not None and ts <= newer_than:
                 continue
             if older_than is not None and ts >= older_than:
-                continue            
+                continue
             if folder_filter is not None:
                 pattern = re.compile(folder_filter)
                 if not pattern.search(str(fp.stem)):
-                    continue               
-                
+                    continue
+
             folders[fp] = (dirs, files)
     return folders
 
+
 def most_recent_data_path(
-        root,
-        older_than: Optional[datetime.datetime]=None,
-        folder_filter: Optional[str]=None) -> Path:
+    root,
+    older_than: Optional[datetime.datetime] = None,
+    folder_filter: Optional[str] = None,
+) -> Path:
     folders = find_data(root, older_than=older_than, folder_filter=folder_filter)
     return sorted(folders.keys())[-1]
 
 
-def load_as_xr(folder: Path, fn='data.ddh5') -> xr.Dataset:
+def load_as_xr(
+    folder: Path, fn="data.ddh5", fields: Optional[List[str]] = None
+) -> xr.Dataset:
     """Load ddh5 data as xarray (only for gridable data).
 
     Parameters
@@ -640,17 +683,15 @@ def load_as_xr(folder: Path, fn='data.ddh5') -> xr.Dataset:
     """
     fn = folder / fn
     dd = datadict_from_hdf5(fn)
-    xrdata = split_complex(
-        dd2xr(datadict_to_meshgrid(dd))
-    )
-    xrdata.attrs['raw_data_folder'] = folder.resolve()
-    xrdata.attrs['raw_data_fn'] = fn
+    if fields is not None:
+        dd = dd.extract(fields)
+    xrdata = split_complex(dd2xr(datadict_to_meshgrid(dd)))
+    xrdata.attrs["raw_data_folder"] = folder.resolve()
+    xrdata.attrs["raw_data_fn"] = fn
     return xrdata
 
 
-def load_as_df(folder, fn='data.ddh5'):
+def load_as_df(folder, fn="data.ddh5"):
     fn = folder / fn
     dfdata = split_complex(dd2df(datadict_from_hdf5(fn)))
     return dfdata
-
-
