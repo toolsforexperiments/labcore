@@ -72,8 +72,8 @@ class RecordOPXdata(AsyncRecord):
             octave=config.octave
         )
         qmachine = qmachine_mgr.open_qm(config(), close_other_machines=True)
-        if config.octave is not None:
-            config.configure_octave(qmachine_mgr, qmachine)
+        # if config.octave is not None:
+        #     config.configure_octave(qmachine_mgr, qmachine)
 
         job = qmachine.execute(fun(*args, **kwargs))
         result_handles = job.result_handles
