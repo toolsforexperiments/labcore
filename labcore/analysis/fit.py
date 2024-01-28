@@ -149,6 +149,8 @@ def xr2fitinput(arr: xr.DataArray) -> Tuple[List[np.ndarray], np.ndarray]:
     shp = arr.shape
     coords1d = (arr[k].values for k in arr.dims)
     coords = [a.flatten() for a in np.meshgrid(*coords1d, indexing="ij")]
+    if len(coords) == 1:
+        coords = coords[0]
     vals = arr.values.flatten()
     return coords, vals
 
