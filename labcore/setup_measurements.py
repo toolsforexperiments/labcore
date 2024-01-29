@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from instrumentserver.client import Client, ProxyInstrument
+from instrumentserver.helpers import nestedAttributeFromString
 
 from .data.datadict import DataDict
 from .data.datadict_storage import data_info
@@ -23,8 +24,25 @@ DATADIR = os.path.join(WD, 'data')
 class Options:
     instrument_clients: Optional[Dict[str, Client]] = None
     parameters: Optional[ProxyInstrument] = None
+    qubit_defaults: Optional[callable]= lambda: None
+
 
 options = Options()
+
+
+def param_from_name(name: str, ):
+    return nestedAttributeFromString(options.parameters, name)
+
+
+def getp(name: str, default=None, raise_if_missing=False):
+    try: 
+        p = param_from_name(name)
+        return p()
+    except AttributeError:
+        if raise_if_missing:
+            raise
+        else:
+            return default
 
 
 # this function sets up our general logging
