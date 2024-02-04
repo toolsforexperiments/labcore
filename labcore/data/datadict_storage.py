@@ -24,8 +24,6 @@ import numpy as np
 import h5py
 import xarray as xr
 
-from qcodes.utils import NumpyJSONEncoder
-
 from labcore.analysis import Node, split_complex
 from .datadict import (
     DataDict,
@@ -45,6 +43,12 @@ TIMESTRFORMAT = "%Y-%m-%d %H:%M:%S"
 logger = logging.getLogger(__name__)
 
 # FIXME: need correct handling of dtypes and list/array conversion
+
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
 
 
 class AppendMode(Enum):
