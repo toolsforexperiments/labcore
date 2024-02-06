@@ -114,20 +114,24 @@ class DatasetAnalysis:
 
     # --- Saving analysis results --- #
     def save(self):
-        for f in self.savefolders:
-            if not f.exists():
-                f.mkdir(parents=True, exist_ok=True)
+        for folder in self.savefolders:
+            if not folder.exists():
+                folder.mkdir(parents=True, exist_ok=True)
 
             for name, element in self.entities.items():
                 if isinstance(element, Figure):
-                    fp = self.save_mpl_figure(element, name, f)
+                    fp = self.save_mpl_figure(element, name, folder)
 
-            # elif isinstance(element, AnalysisResult):
-            #     fp = self.save_add_dict_data(element.params_to_dict(), name + "_params")
-            #     if isinstance(element, FitResult):
-            #         fp = self.save_add_str(
-            #             element.lmfit_result.fit_report(), name + "_lmfit_report"
-            #         )
+                elif isinstance(element, AnalysisResult):
+                    fp = self.save_dict_data(element.params_to_dict(), 
+                                                 name + "_params",
+                                                 folder)
+                    if isinstance(element, FitResult):
+                        fp = self.save_str(
+                            element.lmfit_result.fit_report(), 
+                            name + "_lmfit_report",
+                            folder,
+                        )
 
             # elif isinstance(element, np.ndarray):
             #     fp = self.save_add_np(element, name)
@@ -171,18 +175,18 @@ class DatasetAnalysis:
 
         return fp
 
-    # def save_add_dict_data(self, data: dict, name: str):
-    #     fp = self._new_file_path(name, "json")
-    #     # d = dict_arrays_to_list(data)
-    #     with open(fp, "x") as f:
-    #         json.dump(data, f, cls=NumpyEncoder)
-    #     return fp
+    def save_dict_data(self, data: dict, name: str, folder: Path):
+        fp = self._new_file_path(folder, name, "json")
+        # d = dict_arrays_to_list(data)
+        with open(fp, "x") as f:
+            json.dump(data, f, cls=NumpyEncoder)
+        return fp
 
-    # def save_add_str(self, data: str, name: str):
-    #     fp = self._new_file_path(name, "txt")
-    #     with open(fp, "x") as f:
-    #         f.write(data)
-    #     return fp
+    def save_str(self, data: str, name: str, folder: Path):
+        fp = self._new_file_path(folder, name, "txt")
+        with open(fp, "x") as f:
+            f.write(data)
+        return fp
 
     # def save_add_np(self, data: np.ndarray, name: str):
     #     fp = self._new_file_path(name, "json")
