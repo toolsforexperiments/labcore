@@ -25,10 +25,11 @@ import param
 from param import Parameter, Parameterized
 import panel as pn
 from panel.widgets import RadioButtonGroup as RBG
-
 import holoviews as hv
 import hvplot.pandas
 import hvplot.xarray
+
+from ..data.tools import split_complex, data_dims
 
 
 Data = Union[xr.Dataset, pd.DataFrame]
@@ -138,15 +139,7 @@ class Node(pn.viewable.Viewer):
         NotImplementedError
             if data is not a pandas DataFrame or an xarray Dataset.
         """
-        if data is None:
-            return [], []
-
-        if isinstance(data, pd.DataFrame):
-            return list(data.index.names), data.columns.to_list()
-        elif isinstance(data, xr.Dataset):
-            return [str(c) for c in list(data.coords)], list(data.data_vars)
-        else:
-            raise NotImplementedError
+        return data_dims(data)
 
     @staticmethod
     def mean(data: Data, *dims: str) -> Data:
@@ -201,24 +194,8 @@ class Node(pn.viewable.Viewer):
         NotImplementedError
             if data is not a pandas DataFrame or an xarray Dataset.
         """
-        indep, dep = Node.data_dims(data)
-
-        if not isinstance(data, pd.DataFrame) and not isinstance(data, xr.Dataset):
-            raise NotImplementedError
-
-        dropped = []
-        for d in dep:
-            if np.iscomplexobj(data[d]):
-                data[f"{d}_Re"] = np.real(data[d])
-                data[f"{d}_Im"] = np.imag(data[d])
-                if isinstance(data, xr.Dataset):
-                    data[f"{d}_Re"].attrs = data[d].attrs
-                    data[f"{d}_Im"].attrs = data[d].attrs
-                dropped.append(d)
-        if isinstance(data, pd.DataFrame):
-            return data.drop(columns=dropped)
-        else:
-            return data.drop_vars(dropped)
+        return split_complex(data)
+    
 
     @staticmethod
     def complex_dependents(data: Optional[Data]) -> dict[str, dict[str, str]]:

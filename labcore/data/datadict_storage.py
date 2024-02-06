@@ -24,9 +24,7 @@ import numpy as np
 import h5py
 import xarray as xr
 
-from qcodes.utils import NumpyJSONEncoder
-
-from labcore.analysis import Node, split_complex
+from .tools import split_complex
 from .datadict import (
     DataDict,
     is_meta_key,
@@ -45,6 +43,12 @@ TIMESTRFORMAT = "%Y-%m-%d %H:%M:%S"
 logger = logging.getLogger(__name__)
 
 # FIXME: need correct handling of dtypes and list/array conversion
+
+class NumpyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return json.JSONEncoder.default(self, obj)
 
 
 class AppendMode(Enum):
@@ -607,7 +611,7 @@ class DDH5Writer(object):
     def save_dict(self, name: str, d: dict) -> None:
         assert self.filepath is not None
         with open(self.filepath.parent / name, "x") as f:
-            json.dump(d, f, indent=4, ensure_ascii=False, cls=NumpyJSONEncoder)
+            json.dump(d, f, indent=4, ensure_ascii=False, cls=NumpyEncoder)
 
 
 def data_info(folder: str, fn: str = "data.ddh5", do_print: bool = True):

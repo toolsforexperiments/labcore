@@ -180,9 +180,6 @@ def fit_and_add_to_ds(
         coords=arr.coords,
     )
     ds[fit_darr.name] = fit_darr
-    ds[fit_darr.name].attrs['fit_params_dict'] = result.params_to_dict()
-    ds[fit_darr.name].attrs['fit_params'] = result.params
-
     return ds, result
 
 
