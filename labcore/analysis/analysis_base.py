@@ -1,4 +1,4 @@
-from typing import Optional, Type, Any
+from typing import Optional, Type, Any, Dict
 from types import TracebackType
 from pathlib import Path
 from datetime import datetime
@@ -114,6 +114,39 @@ class DatasetAnalysis:
         return fig
 
     make_figure = add_figure
+
+
+
+    def to_table(self, name, data: Dict[str, Any]):
+        data.update({'data_loc': self.datafolder.name})
+        
+        def make_table(data):
+            row = {k: [v] for k, v in data.items()}
+            index = row.pop('data_loc')
+            return pd.DataFrame(row, index=index)
+        
+        def append_to_table(df, data, must_match=False):
+            row = make_table(data)
+            if must_match:
+                if not np.all(row.columns == df.columns):
+                    raise ValueError(f"existing table columns ({df.columns}) do not match"
+                                    f"data columns ({row.keys()})")
+            
+            if row.index[0] in df.index:
+                df.loc[row.index[0]] = row.loc[row.index[0]]
+            else:
+                df = pd.concat([df, row], axis=0)
+            return df
+
+
+        path = self.savefolders[0].parent / (name+'.csv')
+        if path.exists():
+            df = pd.read_csv(path, index_col=0)
+            df = append_to_table(df, data)
+        else:
+            df = make_table(data)
+        df.to_csv(path)
+
 
     # --- Saving analysis results --- #
     def save(self):
