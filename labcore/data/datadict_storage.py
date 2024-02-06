@@ -24,7 +24,7 @@ import numpy as np
 import h5py
 import xarray as xr
 
-from labcore.analysis import Node, split_complex
+from .tools import split_complex
 from .datadict import (
     DataDict,
     is_meta_key,
@@ -611,7 +611,7 @@ class DDH5Writer(object):
     def save_dict(self, name: str, d: dict) -> None:
         assert self.filepath is not None
         with open(self.filepath.parent / name, "x") as f:
-            json.dump(d, f, indent=4, ensure_ascii=False, cls=NumpyJSONEncoder)
+            json.dump(d, f, indent=4, ensure_ascii=False, cls=NumpyEncoder)
 
 
 def data_info(folder: str, fn: str = "data.ddh5", do_print: bool = True):
