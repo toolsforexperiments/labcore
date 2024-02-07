@@ -690,8 +690,8 @@ def load_as_xr(
     if fields is not None:
         dd = dd.extract(fields)
     xrdata = split_complex(dd2xr(datadict_to_meshgrid(dd)))
-    xrdata.attrs["raw_data_folder"] = folder.resolve()
-    xrdata.attrs["raw_data_fn"] = fn
+    xrdata.attrs["raw_data_folder"] = str(folder.resolve())
+    xrdata.attrs["raw_data_fn"] = str(fn)
     return xrdata
 
 
