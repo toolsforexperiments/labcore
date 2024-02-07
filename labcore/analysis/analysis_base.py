@@ -12,7 +12,7 @@ from matplotlib import pyplot as plt
 import xarray as xr
 import pandas as pd
 
-from ..data.datadict_storage import NumpyEncoder
+from ..data.datadict_storage import NumpyEncoder, timestamp_from_path
 from .fit import AnalysisResult, FitResult
 
 
@@ -116,9 +116,11 @@ class DatasetAnalysis:
     make_figure = add_figure
 
 
-
     def to_table(self, name, data: Dict[str, Any]):
-        data.update({'data_loc': self.datafolder.name})
+        data.update(
+            {'data_loc': self.datafolder.name,
+             'datetime': timestamp_from_path(self.datafolder),}
+        )
         
         def make_table(data):
             row = {k: [v] for k, v in data.items()}
@@ -140,12 +142,20 @@ class DatasetAnalysis:
 
 
         path = self.savefolders[0].parent / (name+'.csv')
+        if not path.parent.exists():
+            path.parent.mkdir(exist_ok=True, parents=True)
+
         if path.exists():
             df = pd.read_csv(path, index_col=0)
             df = append_to_table(df, data)
         else:
             df = make_table(data)
+
         df.to_csv(path)
+
+    @staticmethod
+    def load_table(path):
+        return pd.read_csv(path, index_col=0)
 
 
     # --- Saving analysis results --- #
