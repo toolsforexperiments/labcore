@@ -155,7 +155,9 @@ class DatasetAnalysis:
 
     @staticmethod
     def load_table(path):
-        return pd.read_csv(path, index_col=0)
+        df = pd.read_csv(path, index_col=0)
+        df['datetime'] = pd.to_datetime(df['datetime']) 
+        return df
 
 
     # --- Saving analysis results --- #
