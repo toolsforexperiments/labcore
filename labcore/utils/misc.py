@@ -3,11 +3,14 @@
 Various utility functions.
 """
 
-import subprocess
+
 from enum import Enum
 from pathlib import Path
+from importlib.metadata import distributions
 from typing import List, Tuple, TypeVar, Optional, Sequence, Any, Callable, Union
 import inspect
+
+from git import Repo, InvalidGitRepositoryError
 
 
 def reorder_indices(lst: Sequence[str], target: Sequence[str]) -> Tuple[int, ...]:
@@ -197,43 +200,30 @@ def indent_text(text: str, level: int = 0) -> str:
         return "\n".join([" " * level + line for line in text.split('\n')])
 
 
-def get_editable_packages():
-    editable_packages = {}
-    result = subprocess.run(['pip', 'list'], stdout=subprocess.PIPE, text=True)
-    if result.returncode == 0:
-        for line in result.stdout.splitlines():
-            parts = line.split()
-            if len(parts) >= 3:
-                package_name = parts[0]
-                try:
-                    package_path = Path(parts[-1])
-                    if package_path.is_dir():
-                        editable_packages[package_name] = package_path
-                except ValueError:
-                    pass
-
-    return editable_packages
-
-
-def get_current_commit(package_path: Path) -> str:
+def get_environment_packages():
     """
-    Checks if the given path is a git project and returns the current active commit hash.
-    If the path is not a git project or if there are uncommitted changes in tracked files, it raises an exception.
+    Generates a dictionary with the names of the installed packages and their current version.
+    It detects if a package was installed in development mode and places the current hash instead of the version.
     """
-    git_path = package_path / '.git'
-    if not git_path.exists():
-        raise ValueError(f"The path {package_path} is not a git repository.")
-    
-    # Check for uncommitted changes in tracked files
-    result = subprocess.run(['git', '-C', str(package_path), 'diff', '--name-only'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    if result.returncode != 0:
-        raise RuntimeError(f"Failed to check git status for {package_path}.")
-    if result.stdout.strip():
-        raise RuntimeError(f"There are uncommitted changes in tracked files in {package_path}.")
+    packages = {}
+    for dist in distributions():
+        package_name = dist.metadata['Name']
+        version = dist.version
+        location = Path(dist.locate_file(''))
 
-    # Get current commit hash
-    result = subprocess.run(['git', '-C', str(package_path), 'rev-parse', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    if result.returncode == 0:
-        return result.stdout.strip()
-    else:
-        raise RuntimeError(f"Failed to get current commit for {package_path}.")
+        try:
+            repo = Repo(location, search_parent_directories=True)
+            if repo.is_dirty():
+                raise RuntimeError(f"There are uncommitted changes in tracked files in {location}.")
+            commit = repo.head.commit.hexsha
+            packages[package_name] = commit
+        except (InvalidGitRepositoryError, RuntimeError) as e:
+            if isinstance(e, RuntimeError):
+                print('WARNING WARNING WARNING, THE PACKAGE:', package_name, 'HAS UNCOMITTED CHANGES')
+                packages[package_name] = 'uncommitted-changes'
+            elif isinstance(e, InvalidGitRepositoryError):
+                # Editable packages might appear twice in the list of distributions. If the one pointing to the repo appears second, it will get overwritten.
+                if package_name not in packages:
+                    packages[package_name] = version
+
+    return packages
