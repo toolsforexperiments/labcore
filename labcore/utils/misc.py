@@ -3,7 +3,7 @@
 Various utility functions.
 """
 
-
+import logging
 from enum import Enum
 from pathlib import Path
 from importlib.metadata import distributions
@@ -12,6 +12,7 @@ import inspect
 
 from git import Repo, InvalidGitRepositoryError
 
+logger = logging.getLogger(__name__)
 
 def reorder_indices(lst: Sequence[str], target: Sequence[str]) -> Tuple[int, ...]:
     """
@@ -219,7 +220,7 @@ def get_environment_packages():
             packages[package_name] = commit
         except (InvalidGitRepositoryError, RuntimeError) as e:
             if isinstance(e, RuntimeError):
-                print('WARNING WARNING WARNING, THE PACKAGE:', package_name, 'HAS UNCOMITTED CHANGES')
+                logger.warning(f"The package {package_name} has uncommitted changes. Will not be tracked. Please fix")
                 packages[package_name] = 'uncommitted-changes'
             elif isinstance(e, InvalidGitRepositoryError):
                 # Editable packages might appear twice in the list of distributions. If the one pointing to the repo appears second, it will get overwritten.
@@ -227,3 +228,21 @@ def get_environment_packages():
                     packages[package_name] = version
 
     return packages
+
+
+def commit_changes_in_repo(current_dir: Path) -> Optional[str]:
+    """
+    Commits the changes in the repository at the given directory and returns the commit hash.
+    If the directory is not a git repository, it returns None.
+    """
+    try:
+        repo = Repo(current_dir, search_parent_directories=True)
+        if repo.is_dirty(untracked_files=True):
+            repo.git.add(A=True)
+            repo.git.commit('-m', '[Auto-commit] Save changes before running measurement')
+            commit_hash = repo.head.commit.hexsha
+            return commit_hash
+        commit_hash = repo.head.commit.hexsha
+        return commit_hash
+    except InvalidGitRepositoryError:
+        return None
