@@ -3,7 +3,9 @@
 Various utility functions.
 """
 
+import subprocess
 from enum import Enum
+from pathlib import Path
 from typing import List, Tuple, TypeVar, Optional, Sequence, Any, Callable, Union
 import inspect
 
@@ -193,3 +195,45 @@ def map_input_to_signature(func: Union[Callable, inspect.Signature],
 def indent_text(text: str, level: int = 0) -> str:
         """Indent each line of ``text`` by ``level`` spaces."""
         return "\n".join([" " * level + line for line in text.split('\n')])
+
+
+def get_editable_packages():
+    editable_packages = {}
+    result = subprocess.run(['pip', 'list'], stdout=subprocess.PIPE, text=True)
+    if result.returncode == 0:
+        for line in result.stdout.splitlines():
+            parts = line.split()
+            if len(parts) >= 3:
+                package_name = parts[0]
+                try:
+                    package_path = Path(parts[-1])
+                    if package_path.is_dir():
+                        editable_packages[package_name] = package_path
+                except ValueError:
+                    pass
+
+    return editable_packages
+
+
+def get_current_commit(package_path: Path) -> str:
+    """
+    Checks if the given path is a git project and returns the current active commit hash.
+    If the path is not a git project or if there are uncommitted changes in tracked files, it raises an exception.
+    """
+    git_path = package_path / '.git'
+    if not git_path.exists():
+        raise ValueError(f"The path {package_path} is not a git repository.")
+    
+    # Check for uncommitted changes in tracked files
+    result = subprocess.run(['git', '-C', str(package_path), 'diff', '--name-only'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if result.returncode != 0:
+        raise RuntimeError(f"Failed to check git status for {package_path}.")
+    if result.stdout.strip():
+        raise RuntimeError(f"There are uncommitted changes in tracked files in {package_path}.")
+
+    # Get current commit hash
+    result = subprocess.run(['git', '-C', str(package_path), 'rev-parse', 'HEAD'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    if result.returncode == 0:
+        return result.stdout.strip()
+    else:
+        raise RuntimeError(f"Failed to get current commit for {package_path}.")
