@@ -204,7 +204,7 @@ def indent_text(text: str, level: int = 0) -> str:
 def get_environment_packages():
     """
     Generates a dictionary with the names of the installed packages and their current version.
-    It detects if a package was installed in development mode and places the current hash instead of the version.
+    It detects if a package was installed in development mode and places the current commit hash instead of the version.
     """
     packages = {}
     for dist in distributions():
