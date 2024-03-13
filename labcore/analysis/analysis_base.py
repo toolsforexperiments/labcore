@@ -1,4 +1,4 @@
-from typing import Optional, Type, Any, Dict
+from typing import Optional, Type, Any, Dict, List
 from types import TracebackType
 from pathlib import Path
 from datetime import datetime
@@ -248,8 +248,7 @@ class DatasetAnalysis:
                     else:
                         self.files.append(fp)
 
-
-    def save_mpl_figure(self, fig: Figure, name: str, folder: Path):
+    def save_mpl_figure(self, fig: Figure, name: str, folder: Path) -> List[Path]:
         """save a figure in a standard way to the dataset directory.
 
         Parameters
@@ -263,7 +262,7 @@ class DatasetAnalysis:
 
         Returns
         -------
-        ``None``
+        A list of file paths where the figure was saved.
 
         """
         fmts = self.figure_save_format
@@ -280,7 +279,7 @@ class DatasetAnalysis:
 
         return fps
 
-    def save_hv_plot(self, plot: hv.core.Dimensioned, name: str, folder: Path):
+    def save_hv_plot(self, plot: hv.core.Dimensioned, name: str, folder: Path) -> Path:
         """save a hvplot in a standard way to the dataset directory.
 
         Parameters
@@ -294,48 +293,48 @@ class DatasetAnalysis:
 
         Returns
         -------
-        ``None``
+            Path of the saved file.
 
         """
         fp = self._new_file_path(folder, name, "html")
         hv.save(plot, fp)
         return fp
 
-    def save_dict_data(self, data: dict, name: str, folder: Path):
+    def save_dict_data(self, data: dict, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "json")
         # d = dict_arrays_to_list(data)
         with open(fp, "x") as f:
             json.dump(data, f, cls=NumpyEncoder)
         return fp
 
-    def save_str(self, data: str, name: str, folder: Path):
+    def save_str(self, data: str, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "txt")
         with open(fp, "x") as f:
             f.write(data)
         return fp
 
-    def save_np(self, data: np.ndarray, name: str, folder: Path):
+    def save_np(self, data: np.ndarray, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "json")
         with open(fp, "x") as f:
             json.dump({name: data}, f, cls=NumpyEncoder)
         return fp
 
-    def save_ds(self, data: xr.Dataset, name: str, folder: Path):
+    def save_ds(self, data: xr.Dataset, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "nc")
         data.to_netcdf(fp)
         return fp
 
-    def save_da(self, data: xr.DataArray, name: str, folder: Path):
+    def save_da(self, data: xr.DataArray, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "nc")
         data.to_netcdf(fp)
         return fp
 
-    def save_df(self, data: pd.DataFrame, name: str, folder: Path):
+    def save_df(self, data: pd.DataFrame, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "csv")
         data.to_csv(fp)
         return fp
 
-    def save_pickle(self, data: Any, name: str, folder: Path):
+    def save_pickle(self, data: Any, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "pickle")
         with open(fp, 'wb') as f:
             pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
