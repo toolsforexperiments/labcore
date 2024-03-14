@@ -242,10 +242,10 @@ class DatasetAnalysis:
                     except:
                         logger.error(f'Could not pickle {name}.')
 
-                if fp is not None and fp not in self.files:
+                if fp is not None:
                     if isinstance(fp, list):
-                        self.files.extend(fp)
-                    else:
+                        self.files.extend(set(fp) - set(self.files))
+                    elif fp not in self.files:
                         self.files.append(fp)
 
     def save_mpl_figure(self, fig: Figure, name: str, folder: Path) -> List[Path]:
