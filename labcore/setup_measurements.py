@@ -13,7 +13,7 @@ from .data.datadict import DataDict
 from .data.datadict_storage import data_info
 from .measurement.storage import run_and_save_sweep
 from .measurement import Sweep
-
+from .utils.misc import get_environment_packages, commit_changes_in_repo
 
 # constants
 WD = os.getcwd()
@@ -128,15 +128,27 @@ def run_measurement(sweep: Sweep, name: str, **kwargs) -> Tuple[Union[str, Path]
     for n, c in options.instrument_clients.items():
         kwargs[n] = c.snapshot
     kwargs['parameters'] = options.parameters.toParamDict
+    
+    py_env = get_environment_packages()
 
-    data_location, data = run_and_save_sweep(
-        sweep=sweep,
-        data_dir=DATADIR,
-        name=name,
-        save_action_kwargs=True,
-        **kwargs)
+    current_dir = Path.cwd()
+    commit_hash = commit_changes_in_repo(current_dir)
+   
+    if commit_hash is None:
+        logger.warning("The current directory is not a git repository, your measurement code will not be tracked.")
+    
+    save_kwargs = {
+        'sweep': sweep,
+        'data_dir': DATADIR,
+        'name': name,
+        'save_action_kwargs': True,
+        'python_environment': py_env,
+        **kwargs
+    }
+    if commit_hash is not None:
+        save_kwargs['current_commit'] = {"measurement-hash": commit_hash}
 
-    info = data
+    data_location, data = run_and_save_sweep(**save_kwargs)
 
     logger.info(f"""
 ==========

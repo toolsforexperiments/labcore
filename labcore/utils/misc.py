@@ -3,10 +3,16 @@
 Various utility functions.
 """
 
+import logging
 from enum import Enum
+from pathlib import Path
+from importlib.metadata import distributions
 from typing import List, Tuple, TypeVar, Optional, Sequence, Any, Callable, Union
 import inspect
 
+from git import Repo, InvalidGitRepositoryError
+
+logger = logging.getLogger(__name__)
 
 def reorder_indices(lst: Sequence[str], target: Sequence[str]) -> Tuple[int, ...]:
     """
@@ -193,3 +199,50 @@ def map_input_to_signature(func: Union[Callable, inspect.Signature],
 def indent_text(text: str, level: int = 0) -> str:
         """Indent each line of ``text`` by ``level`` spaces."""
         return "\n".join([" " * level + line for line in text.split('\n')])
+
+
+def get_environment_packages():
+    """
+    Generates a dictionary with the names of the installed packages and their current version.
+    It detects if a package was installed in development mode and places the current commit hash instead of the version.
+    """
+    packages = {}
+    for dist in distributions():
+        package_name = dist.metadata['Name']
+        version = dist.version
+        location = Path(dist.locate_file(''))
+
+        try:
+            repo = Repo(location, search_parent_directories=True)
+            if repo.is_dirty():
+                raise RuntimeError(f"There are uncommitted changes in tracked files in {location}.")
+            commit = repo.head.commit.hexsha
+            packages[package_name] = commit
+        except (InvalidGitRepositoryError, RuntimeError) as e:
+            if isinstance(e, RuntimeError):
+                logger.warning(f"The package {package_name} has uncommitted changes. Will not be tracked. Please fix")
+                packages[package_name] = 'uncommitted-changes'
+            elif isinstance(e, InvalidGitRepositoryError):
+                # Editable packages might appear twice in the list of distributions. If the one pointing to the repo appears second, it will get overwritten.
+                if package_name not in packages:
+                    packages[package_name] = version
+
+    return packages
+
+
+def commit_changes_in_repo(current_dir: Path) -> Optional[str]:
+    """
+    Commits the changes in the repository at the given directory and returns the commit hash.
+    If the directory is not a git repository, it returns None.
+    """
+    try:
+        repo = Repo(current_dir, search_parent_directories=True)
+        if repo.is_dirty(untracked_files=True):
+            repo.git.add(A=True)
+            repo.git.commit('-m', '[Auto-commit] Save changes before running measurement')
+            commit_hash = repo.head.commit.hexsha
+            return commit_hash
+        commit_hash = repo.head.commit.hexsha
+        return commit_hash
+    except InvalidGitRepositoryError:
+        return None
