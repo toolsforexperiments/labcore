@@ -4,6 +4,7 @@ Required packages/hardware:
 - QM OPX incl python software
 - SignalHound USB SA124B + driver (comes with qcodes)
 """
+from dataclasses import dataclass
 from functools import partial
 from typing import List, Tuple, Optional, Any, Dict, Callable
 from time import sleep
