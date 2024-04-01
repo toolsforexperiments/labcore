@@ -1,4 +1,4 @@
-from typing import Optional, Type, Any, Dict
+from typing import Optional, Type, Any, Dict, List
 from types import TracebackType
 from pathlib import Path
 from datetime import datetime
@@ -11,6 +11,9 @@ from matplotlib.figure import Figure
 from matplotlib import pyplot as plt
 import xarray as xr
 import pandas as pd
+# Needed to generate hvplot from a script
+import hvplot.xarray
+import holoviews as hv
 
 from ..data.datadict_storage import NumpyEncoder, timestamp_from_path
 from .fit import AnalysisResult, FitResult
@@ -25,6 +28,7 @@ class DatasetAnalysis:
 
     def __init__(self, datafolder, name, analysisfolder="./analysis/"):
         self.name = name
+        # The folder that contains the data we are performing an analysis
         self.datafolder = datafolder
         if not isinstance(self.datafolder, Path):
             self.datafolder = Path(self.datafolder)
@@ -45,6 +49,7 @@ class DatasetAnalysis:
             self.savefolders.append(f)
 
         self.entities = {}
+        self.files = []
 
     def __enter__(self):
         return self
@@ -167,20 +172,21 @@ class DatasetAnalysis:
                 folder.mkdir(parents=True, exist_ok=True)
 
             for name, element in self.entities.items():
-                try: 
+                fp = None
+                try:
                     if isinstance(element, Figure):
                         fp = self.save_mpl_figure(element, name, folder)
 
                     elif isinstance(element, AnalysisResult):
-                        fp = self.save_dict_data(
+                        fp = [self.save_dict_data(
                             element.params_to_dict(), name + "_params", folder
-                        )
+                        )]
                         if isinstance(element, FitResult):
-                            fp = self.save_str(
+                            fp.append(self.save_str(
                                 element.lmfit_result.fit_report(),
                                 name + "_lmfit_report",
                                 folder,
-                            )
+                            ))
 
                     elif isinstance(element, xr.Dataset):
                         fp = self.save_ds(
@@ -193,6 +199,13 @@ class DatasetAnalysis:
                         fp = self.save_da(
                             element,
                             name + "_xrdataarray",
+                            folder,
+                        )
+
+                    elif isinstance(element, hv.core.Dimensioned):
+                        fp = self.save_hv_plot(
+                            element,
+                            name + "_hvplot",
                             folder,
                         )
 
@@ -229,8 +242,13 @@ class DatasetAnalysis:
                     except:
                         logger.error(f'Could not pickle {name}.')
 
+                if fp is not None:
+                    if isinstance(fp, list):
+                        self.files.extend(set(fp) - set(self.files))
+                    elif fp not in self.files:
+                        self.files.append(fp)
 
-    def save_mpl_figure(self, fig: Figure, name: str, folder: Path):
+    def save_mpl_figure(self, fig: Figure, name: str, folder: Path) -> List[Path]:
         """save a figure in a standard way to the dataset directory.
 
         Parameters
@@ -244,7 +262,7 @@ class DatasetAnalysis:
 
         Returns
         -------
-        ``None``
+        A list of file paths where the figure was saved.
 
         """
         fmts = self.figure_save_format
@@ -253,43 +271,71 @@ class DatasetAnalysis:
 
         fig.suptitle(f"{self.datafolder.name}: {name}", fontsize="small")
 
+        fps = []
         for f in fmts:
             fp = self._new_file_path(folder, name, f)
             fig.savefig(fp)
+            fps.append(fp)
 
+        return fps
+
+    def save_hv_plot(self, plot: hv.core.Dimensioned, name: str, folder: Path) -> Path:
+        """save a hvplot in a standard way to the dataset directory.
+
+        Parameters
+        ----------
+        plot
+            the hvplot instance
+        name
+            name to give the figure
+        fmt
+            file format (defaults to png)
+
+        Returns
+        -------
+            Path of the saved file.
+
+        """
+        fp = self._new_file_path(folder, name, "html")
+        hv.save(plot, fp)
         return fp
 
-    def save_dict_data(self, data: dict, name: str, folder: Path):
+    def save_dict_data(self, data: dict, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "json")
         # d = dict_arrays_to_list(data)
         with open(fp, "x") as f:
             json.dump(data, f, cls=NumpyEncoder)
         return fp
 
-    def save_str(self, data: str, name: str, folder: Path):
+    def save_str(self, data: str, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "txt")
         with open(fp, "x") as f:
             f.write(data)
         return fp
 
-    def save_np(self, data: np.ndarray, name: str, folder: Path):
+    def save_np(self, data: np.ndarray, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "json")
         with open(fp, "x") as f:
             json.dump({name: data}, f, cls=NumpyEncoder)
+        return fp
 
-    def save_ds(self, data: xr.Dataset, name: str, folder: Path):
+    def save_ds(self, data: xr.Dataset, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "nc")
         data.to_netcdf(fp)
+        return fp
 
-    def save_da(self, data: xr.DataArray, name: str, folder: Path):
+    def save_da(self, data: xr.DataArray, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "nc")
         data.to_netcdf(fp)
+        return fp
 
-    def save_df(self, data: pd.DataFrame, name: str, folder: Path):
+    def save_df(self, data: pd.DataFrame, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "csv")
         data.to_csv(fp)
+        return fp
 
-    def save_pickle(self, data: Any, name: str, folder: Path):
+    def save_pickle(self, data: Any, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "pickle")
         with open(fp, 'wb') as f:
             pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
+        return fp
