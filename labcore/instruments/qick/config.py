@@ -7,7 +7,6 @@ from qick import QickConfig
 
 logger = logging.getLogger(__name__)
 
-# TODO: Reps is a requirement for QBoardConfig. This should probably be automated to have it i n the config somehow
 class QBoardConfig:
 
 
@@ -51,6 +50,7 @@ class QBoardConfig:
         return soccfg
 
 
+    # TODO: See if there is a way of checking if there has to be some way of checking for the required parameters like reps and expts that some qick classes require.
     def config(self):
         """
         Generates the configuration and the updates configuration of the qick.
@@ -59,11 +59,10 @@ class QBoardConfig:
         Both are needed to start a measurement.
         """
         if self.soc is None or self.soccfg is None:
-            print("Generating soccfg")
             self.generate_soccfg()
 
         conf = self.config_()
-        # If you are using the avergaer program this needs to be a part of the config
+        # If you are using the averager program this needs to be a part of the config
         if "reps" not in conf:
             try:
                 conf["reps"] = self.params.reps()
