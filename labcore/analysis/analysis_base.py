@@ -26,7 +26,7 @@ class DatasetAnalysis:
 
     figure_save_format = ["png", "pdf"]
 
-    def __init__(self, datafolder, name, analysisfolder="./analysis/"):
+    def __init__(self, datafolder, name, analysisfolder="./analysis/", has_period_in_name=False):
         self.name = name
         # The folder that contains the data we are performing an analysis
         self.datafolder = datafolder
@@ -45,7 +45,12 @@ class DatasetAnalysis:
             for n in name.split("/"):
                 f = f / n
             if not i:
-                f = f / self.datafolder.stem
+                if not has_period_in_name:
+                    f = f / self.datafolder.stem
+                else:
+                    end = self.datafolder.suffix
+                    f = f / (self.datafolder.stem + end)
+
             self.savefolders.append(f)
 
         self.entities = {}
@@ -303,7 +308,8 @@ class DatasetAnalysis:
     def save_dict_data(self, data: dict, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "json")
         # d = dict_arrays_to_list(data)
-        with open(fp, "x") as f:
+        # with open(fp, "x") as f:
+        with open(fp, "w") as f:
             json.dump(data, f, cls=NumpyEncoder)
         return fp
 
@@ -339,3 +345,23 @@ class DatasetAnalysis:
         with open(fp, 'wb') as f:
             pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
         return fp
+    # --- loading (and managing) earlier analysis results --- #
+    def get_analysis_data_file(self, name: str, format=['json']):
+        files = list(self.glob(f"*{name}*"))
+        files = [f for f in files if f.suffix[1:] in format]
+        if len(files) == 0:
+            raise ValueError(f"no analysis data found for '{name}'")
+        return files[-1]
+
+    def has_analysis_data(self, name: str, format=['json']):
+        try:
+            self.get_analysis_data_file(name, format)
+            return True
+        except ValueError:
+            return False
+
+    def load_analysis_data(self, name: str, format=['json']):
+        fp = self.get_analysis_data_file(name, format)
+        with open(fp, 'r') as f:
+            data = json.load(f)
+        return data
