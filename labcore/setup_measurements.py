@@ -35,6 +35,10 @@ def param_from_name(name: str, ):
 
 
 def getp(name: str, default=None, raise_if_missing=False):
+    if options.parameters is None:
+        logger.error("No parameter manager defined. cannot get/set params!")
+        return None
+    
     try: 
         p = param_from_name(name)
         return p()
