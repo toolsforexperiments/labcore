@@ -105,6 +105,20 @@ class DatasetAnalysis:
             raise ValueError("this parameter was not found in the saved meta data.")
 
         return data[key]
+    
+    def load_saved_parameter(self, parameter_name,
+                             parameter_manager_name='parameter_manager',
+                             file_name='parameters.json'):
+        
+        fn = self.datafolder / file_name
+        with open(fn, 'r') as f:
+            data = json.load(f)
+
+        parameter_path = f"{parameter_manager_name}.{parameter_name}"
+        if parameter_path not in data:
+            raise ValueError('this parameter was not found in the saved meta data.')
+
+        return data[parameter_path]['value']
 
     # --- Adding analysis results --- #
     def add(self, **kwargs: Any) -> None:
