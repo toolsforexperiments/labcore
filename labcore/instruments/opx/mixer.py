@@ -23,6 +23,9 @@ from qm.qua import *
 
 from .config import QMConfig
 
+# MM: needed to add this import after the qm-qua version update.  Not sure why it did not require it til now
+from dataclasses import dataclass
+
 
 class MixerCalibration:
     """Class for performing IQ mixer calibration.
