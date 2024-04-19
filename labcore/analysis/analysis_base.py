@@ -11,6 +11,7 @@ from matplotlib.figure import Figure
 from matplotlib import pyplot as plt
 import xarray as xr
 import pandas as pd
+
 # Needed to generate hvplot from a script
 import hvplot.xarray
 import holoviews as hv
@@ -22,11 +23,22 @@ from .fit import AnalysisResult, FitResult
 logger = logging.getLogger(__name__)
 
 
+class AnalysisExistsError(Exception):
+    pass
+
+
 class DatasetAnalysis:
 
     figure_save_format = ["png", "pdf"]
+    raise_on_earlier_analysis = None
 
-    def __init__(self, datafolder, name, analysisfolder="./analysis/"):
+    def __init__(
+        self, datafolder, name, analysisfolder="./analysis/", has_period_in_name=False,
+        raise_on_earlier_analysis=None,
+    ):
+        if raise_on_earlier_analysis is not None:
+            self.raise_on_earlier_analysis = raise_on_earlier_analysis
+
         self.name = name
         # The folder that contains the data we are performing an analysis
         self.datafolder = datafolder
@@ -45,13 +57,27 @@ class DatasetAnalysis:
             for n in name.split("/"):
                 f = f / n
             if not i:
-                f = f / self.datafolder.stem
+                if not has_period_in_name:
+                    f = f / self.datafolder.stem
+                else:
+                    end = self.datafolder.suffix
+                    f = f / (self.datafolder.stem + end)
+
             self.savefolders.append(f)
 
         self.entities = {}
         self.files = []
 
     def __enter__(self):
+        earlier_exist = False
+        if self.raise_on_earlier_analysis is not None:
+            earlier_exist = True
+            for filename, suffix in self.raise_on_earlier_analysis:
+                if not self.has_analysis_data(filename, suffix):
+                    earlier_exist = False
+            if earlier_exist:
+                raise AnalysisExistsError
+
         return self
 
     def __exit__(
@@ -101,6 +127,23 @@ class DatasetAnalysis:
 
         return data[key]
 
+    def load_saved_parameter(
+        self,
+        parameter_name,
+        parameter_manager_name="parameter_manager",
+        file_name="parameters.json",
+    ):
+
+        fn = self.datafolder / file_name
+        with open(fn, "r") as f:
+            data = json.load(f)
+
+        parameter_path = f"{parameter_manager_name}.{parameter_name}"
+        if parameter_path not in data:
+            raise ValueError("this parameter was not found in the saved meta data.")
+
+        return data[parameter_path]["value"]
+
     # --- Adding analysis results --- #
     def add(self, **kwargs: Any) -> None:
         for k, v in kwargs.items():
@@ -120,33 +163,35 @@ class DatasetAnalysis:
 
     make_figure = add_figure
 
-
     def to_table(self, name, data: Dict[str, Any]):
         data.update(
-            {'data_loc': self.datafolder.name,
-             'datetime': timestamp_from_path(self.datafolder),}
+            {
+                "data_loc": self.datafolder.name,
+                "datetime": timestamp_from_path(self.datafolder),
+            }
         )
-        
+
         def make_table(data):
             row = {k: [v] for k, v in data.items()}
-            index = row.pop('data_loc')
+            index = row.pop("data_loc")
             return pd.DataFrame(row, index=index)
-        
+
         def append_to_table(df, data, must_match=False):
             row = make_table(data)
             if must_match:
                 if not np.all(row.columns == df.columns):
-                    raise ValueError(f"existing table columns ({df.columns}) do not match"
-                                    f"data columns ({row.keys()})")
-            
+                    raise ValueError(
+                        f"existing table columns ({df.columns}) do not match"
+                        f"data columns ({row.keys()})"
+                    )
+
             if row.index[0] in df.index:
                 df.loc[row.index[0]] = row.loc[row.index[0]]
             else:
                 df = pd.concat([df, row], axis=0)
             return df
 
-
-        path = self.savefolders[0].parent / (name+'.csv')
+        path = self.savefolders[0].parent / (name + ".csv")
         if not path.parent.exists():
             path.parent.mkdir(exist_ok=True, parents=True)
 
@@ -161,9 +206,8 @@ class DatasetAnalysis:
     @staticmethod
     def load_table(path):
         df = pd.read_csv(path, index_col=0)
-        df['datetime'] = pd.to_datetime(df['datetime']) 
+        df["datetime"] = pd.to_datetime(df["datetime"])
         return df
-
 
     # --- Saving analysis results --- #
     def save(self):
@@ -178,15 +222,19 @@ class DatasetAnalysis:
                         fp = self.save_mpl_figure(element, name, folder)
 
                     elif isinstance(element, AnalysisResult):
-                        fp = [self.save_dict_data(
-                            element.params_to_dict(), name + "_params", folder
-                        )]
+                        fp = [
+                            self.save_dict_data(
+                                element.params_to_dict(), name + "_params", folder
+                            )
+                        ]
                         if isinstance(element, FitResult):
-                            fp.append(self.save_str(
-                                element.lmfit_result.fit_report(),
-                                name + "_lmfit_report",
-                                folder,
-                            ))
+                            fp.append(
+                                self.save_str(
+                                    element.lmfit_result.fit_report(),
+                                    name + "_lmfit_report",
+                                    folder,
+                                )
+                            )
 
                     elif isinstance(element, xr.Dataset):
                         fp = self.save_ds(
@@ -230,7 +278,7 @@ class DatasetAnalysis:
                             n = name + f"_{str(type(element))}"
                             fp = self.save_pickle(element, n, folder)
                         except:
-                            logger.error(f'Could not pickle {name}.')
+                            logger.error(f"Could not pickle {name}.")
                 except:
                     logger.warning(
                         f"data '{name}', type {type(element)}"
@@ -240,7 +288,7 @@ class DatasetAnalysis:
                         n = name + f"_{str(type(element))}"
                         fp = self.save_pickle(element, n, folder)
                     except:
-                        logger.error(f'Could not pickle {name}.')
+                        logger.error(f"Could not pickle {name}.")
 
                 if fp is not None:
                     if isinstance(fp, list):
@@ -303,7 +351,8 @@ class DatasetAnalysis:
     def save_dict_data(self, data: dict, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "json")
         # d = dict_arrays_to_list(data)
-        with open(fp, "x") as f:
+        # with open(fp, "x") as f:
+        with open(fp, "w") as f:
             json.dump(data, f, cls=NumpyEncoder)
         return fp
 
@@ -336,6 +385,27 @@ class DatasetAnalysis:
 
     def save_pickle(self, data: Any, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "pickle")
-        with open(fp, 'wb') as f:
+        with open(fp, "wb") as f:
             pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
         return fp
+
+    # --- loading (and managing) earlier analysis results --- #
+    def get_analysis_data_file(self, name: str, format=["json"]):
+        files = list(self.savefolders[0].glob(f"*{name}*"))
+        files = [f for f in files if f.suffix[1:] in format]
+        if len(files) == 0:
+            raise ValueError(f"no analysis data found for '{name}'")
+        return files[-1]
+
+    def has_analysis_data(self, name: str, format=["json"]):
+        try:
+            self.get_analysis_data_file(name, format)
+            return True
+        except ValueError:
+            return False
+
+    def load_analysis_data(self, name: str, format=["json"]):
+        fp = self.get_analysis_data_file(name, format)
+        with open(fp, "r") as f:
+            data = json.load(f)
+        return data
