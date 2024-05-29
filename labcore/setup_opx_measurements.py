@@ -54,16 +54,29 @@ setup_measurements.options = options
 class Mixer:
     config: MixerConfig
     qm: Optional[QuantumMachine] = None
+    qmm: Optional[QuantumMachinesManager] = None
 
-    def run_constant_waveform(self):
-        with program() as const_pulse:
-            with infinite_loop_():
-                play('constant', self.config.element_name)
-        qmm = QuantumMachinesManager(host=self.config.qmconfig.opx_address,
-                                     port=self.config.qmconfig.opx_port)
-        qm = qmm.open_qm(self.config.qmconfig(), close_other_machines=False)
-        qm.execute(const_pulse)
-        self.qm = qm
+    def run_constant_waveform(self, **kwargs):
+        """
+        When using this with the octaves, the fields `cluster_name` and `octave` with their corresponding values need to be in the kwargs.
+        """
+        try:
+            with program() as const_pulse:
+                with infinite_loop_():
+                    play('constant', self.config.element_name)
+            qmm = QuantumMachinesManager(host=self.config.qmconfig.opx_address,
+                                        port=self.config.qmconfig.opx_port, **kwargs)
+            self.qmm = qmm
+            qm = qmm.open_qm(self.config.qmconfig(), close_other_machines=False)
+            qm.execute(const_pulse)
+            self.qm = qm
+        except KeyError as e:
+            message = None
+            if len(kwargs) < 2:
+                message = "Seems like no arguments were passed. " \
+                "If you are using the octaves you need to pass the arguments 'cluster_name' and 'octave', try passing them as keyqord arguments and try again."
+            raise AttributeError(message + f" Error raised was: {e}" )
+
 
     def step_of(self, di, dq):
         if self.qm is None:
