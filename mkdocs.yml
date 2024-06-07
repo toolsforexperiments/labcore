@@ -1,6 +1,6 @@
 site_name: Labcore documentation page.
 
-# site_url: https://james-willett.github.io/mkdocs-material-youtube-tutorial/
+site_url: https://toolsforexperiments.github.io.
 theme:
   name: material
   features:
