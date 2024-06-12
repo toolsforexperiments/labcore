@@ -1,8 +1,16 @@
 site_name: Labcore documentation page.
 
 site_url: https://toolsforexperiments.github.io.
+
+nav:
+  - Home: index.md
+  - Measurement:
+    - Sweeping: measurement/sweep.md
+  - About: about.md
+
 theme:
   name: material
+  custom_dir: docs/overrides
   features:
     - navigation.tabs
     - navigation.instant
