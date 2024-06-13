@@ -390,7 +390,7 @@ class FileOpener:
         if mode not in ["r", "w", "w-", "a"]:
             raise ValueError("Only 'r', 'w', 'w-', 'a' modes are supported.")
         self.mode = mode
-        self.default_timeout = 30.0
+        self.default_timeout = 300.0
         if timeout is None:
             self.timeout = self.default_timeout
         else:
