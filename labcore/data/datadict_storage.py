@@ -471,6 +471,9 @@ class DDH5Writer(object):
     # TODO: need an operation mode for not keeping data in memory.
     # TODO: a mode for working with pre-allocated data
 
+    # Sets how many files before the writer  creates a new folder in its safe writing mode
+    n_files_per_dir = 1000
+
     def __init__(
         self,
         datadict: DataDict,
@@ -480,7 +483,7 @@ class DDH5Writer(object):
         filename: str = "data",
         filepath: Optional[Union[str, Path]] = None,
         file_timeout: Optional[float] = None,
-        multiple_files_write: Optional[bool] = False,
+        safe_write_mode: Optional[bool] = False,
     ):
         """Constructor for :class:`.DDH5Writer`"""
 
@@ -502,7 +505,7 @@ class DDH5Writer(object):
         self.file_timeout = file_timeout
         self.uuid = uuid.uuid1()
 
-        self.multiple_files_write = multiple_files_write
+        self.safe_write_mode = safe_write_mode
 
     def __enter__(self) -> "DDH5Writer":
         if self.filepath is None:
@@ -581,7 +584,7 @@ class DDH5Writer(object):
         """
         self.datadict.add_data(**kwargs)
 
-        if self.multiple_files_write:
+        if self.safe_write_mode:
             now = datetime.datetime.now()
 
             clean_dd_copy = self.datadict.structure()
@@ -602,29 +605,29 @@ class DDH5Writer(object):
             minute_folder = hour_folder / now.strftime("%M")
             minute_folder.mkdir(exist_ok=True)
 
-            second_folders = [f for f in minute_folder.iterdir() if f.is_dir()]
+            n_secs = 0
+            second_folder = minute_folder / (now.strftime("%S") + f"_#{str(n_secs)}")
+            n_data_files = 0
+            if second_folder.exists():
+                n_data_files = len(list(second_folder.iterdir())) + 1
+                if n_data_files >= self.n_files_per_dir:
+                    keep_searching = True
+                    while keep_searching:
+                        n_secs += 1
+                        second_folder = minute_folder / (now.strftime("%S") + f"_#{str(n_secs)}")
+                        if not second_folder.exists():
+                            keep_searching = False
+                            second_folder.mkdir()
+                            n_data_files = 0
+                        else:
+                            n_data_files = len(list(second_folder.iterdir())) + 1
+                            if n_data_files < self.n_files_per_dir:
+                                keep_searching = False
 
-            if len(second_folders) == 0:
-                second_folder = minute_folder / (now.strftime("%S") + "_0")
-                n_secs = 0
-                second_folder.mkdir(exist_ok=True)
-            else:
-                # gets the second folder with the largest ending integer
-                second_folder = max(second_folders, key=lambda x: int(x.stem.split("_")[-1]))
-                n_secs = int(second_folder.stem.split("_")[-1])
-
-                # check if there are 1000 or more files in the folder
-                if len(list(second_folder.iterdir())) >= 1000:
-                    n_secs = int(second_folder.stem.split("_")[-1]) + 1
-                    second_folder = minute_folder / (now.strftime("%S") + "_" + str(n_secs))
-                    second_folder.mkdir(exist_ok=True)
-
-            number_of_sec_files = len(list(second_folder.iterdir())) + 1
-            # Creates new datadict file based on copy with just the **kwargs
             clean_dd_copy.add_data(**kwargs)
 
             # Creates the filename that follows the structure: yyyy-mm-dd-HHMM-SS#_#<number_of_files>.ddh5
-            filename = now.strftime("%Y-%m-%d-%H_%M_%S") + f"_{n_secs}_#{number_of_sec_files}.ddh5"
+            filename = now.strftime("%Y-%m-%d-%H_%M_%S") + f"_{n_secs}_#{n_data_files}.ddh5"
 
             datadict_to_hdf5(
                 clean_dd_copy,
