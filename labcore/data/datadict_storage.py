@@ -363,6 +363,33 @@ def all_datadicts_from_hdf5(
     return ret
 
 
+def unify_safe_write_data(path: Union[str, Path]) -> None:
+    """
+    Looks for a '.tmp' folder in the given path and reconstructs the datadict in 'data.ddh5 in the same folder.
+    """
+
+    path = Path(path)
+    if path.suffix != f".tmp":
+        path = path / ".tmp"
+
+    if not path.exists():
+        raise ValueError("Specified folder does not exist.")
+
+    files = []
+    for dirpath, dirnames, filenames in os.walk(str(path)):
+        files.extend([(Path(dirpath)/file) for file in filenames])
+
+    files = sorted(files, key=lambda x: int(x.stem.split("#")[-1]))
+
+    first = files.pop(0)
+    dd = datadict_from_hdf5(first)
+    for file in files:
+        d = datadict_from_hdf5(file)
+        # Create a dictionary with just the keys and values to add to the original one.
+        dd.add_data(**{x[0]: d.data_vals(x[0]) for x in d.data_items()})
+
+    datadict_to_hdf5(dd, str(path.parent / "data.ddh5"), append_mode=AppendMode.all)
+
 # File access with locking
 
 
@@ -506,6 +533,8 @@ class DDH5Writer(object):
         self.uuid = uuid.uuid1()
 
         self.safe_write_mode = safe_write_mode
+        # Stores how many individual data files have been written for safe_write_mode
+        self.n_files = 0
 
     def __enter__(self) -> "DDH5Writer":
         if self.filepath is None:
@@ -530,6 +559,10 @@ class DDH5Writer(object):
         exc_traceback: Optional[TracebackType],
     ) -> None:
         assert self.filepath is not None
+
+        if self.safe_write_mode:
+            unify_safe_write_data(self.filepath.parent)
+
         with FileOpener(self.filepath, "a", timeout=self.file_timeout) as f:
             add_cur_time_attr(f.require_group(self.groupname), name="close")
         if exc_type is None:
@@ -626,8 +659,9 @@ class DDH5Writer(object):
 
             clean_dd_copy.add_data(**kwargs)
 
-            # Creates the filename that follows the structure: yyyy-mm-dd-HHMM-SS#_#<number_of_files>.ddh5
-            filename = now.strftime("%Y-%m-%d-%H_%M_%S") + f"_{n_secs}_#{n_data_files}.ddh5"
+            # Creates the filename that follows the structure: yyyy-mm-dd-HHMM-SS#_#<total_number_of_files>.ddh5
+            filename = now.strftime("%Y-%m-%d-%H_%M_%S") + f"_{n_secs}_#{self.n_files}.ddh5"
+            self.n_files += 1
 
             datadict_to_hdf5(
                 clean_dd_copy,

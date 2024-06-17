@@ -1,8 +1,8 @@
 from pathlib import Path
 from datetime import datetime
 
-from labcore.data.datadict import DataDict
-from labcore.data.datadict_storage import DDH5Writer
+from labcore.data.datadict import DataDict, datasets_are_equal
+from labcore.data.datadict_storage import DDH5Writer, datadict_to_hdf5, datadict_from_hdf5
 
 
 def test_file_creation(tmp_path, n_files=500):
@@ -87,5 +87,33 @@ def test_number_of_files_per_folder(tmp_path):
     DDH5Writer.n_files_per_dir = default_n_files
 
 
+def test_basic_unification(tmp_path, n_files=500):
 
+    datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+
+    with DDH5Writer(datadict, str(tmp_path), safe_write_mode=True) as writer:
+        for i in range(n_files):
+            writer.add_data(x=i, y=i**2, z=i**3)
+
+        data_path = writer.filepath
+
+    datadict_correct = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+
+    x = []
+    y = []
+    z = []
+    for i in range(n_files):
+        x.append(i)
+        y.append(i ** 2)
+        z.append(i ** 3)
+
+    datadict_correct.add_data(x=x, y=y, z=z)
+
+    correct_path = data_path.parent/"correct.ddh5"
+    datadict_to_hdf5(datadict_correct, correct_path)
+
+    created_data = datadict_from_hdf5(data_path)
+    correct_data = datadict_from_hdf5(correct_path)
+
+    assert datasets_are_equal(created_data, correct_data, ignore_meta=True)
 
