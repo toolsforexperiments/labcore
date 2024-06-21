@@ -1,3 +1,5 @@
+import os
+import shutil
 from pathlib import Path
 from datetime import datetime
 
@@ -42,7 +44,7 @@ def test_number_of_files_per_folder(tmp_path):
         for dirpath in root.rglob('*'):
             if dirpath.is_dir():
                 items = list(dirpath.glob('*'))
-                file_count = sum(1 for item in items if item.is_file())
+                file_count = sum(1 for item in items if item.is_file() and item.name.endswith(".ddh5"))
                 dir_count = sum(1 for item in items if item.is_dir())
 
                 if file_count > 0 and dir_count > 0:
@@ -60,7 +62,7 @@ def test_number_of_files_per_folder(tmp_path):
     n_files = 5000
     DDH5Writer.n_files_per_dir = 34
 
-    with DDH5Writer(datadict, str(tmp_path), safe_write_mode=True) as writer:
+    with DDH5Writer(datadict, str(tmp_path), name="first", safe_write_mode=True) as writer:
         for i in range(n_files):
             writer.add_data(x=i, y=i ** 2, z=i ** 3)
 
@@ -74,7 +76,9 @@ def test_number_of_files_per_folder(tmp_path):
     n_files = 4206
     DDH5Writer.n_files_per_dir = 12
 
-    with DDH5Writer(datadict, str(tmp_path), safe_write_mode=True) as writer:
+    datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+
+    with DDH5Writer(datadict, str(tmp_path), name="second", safe_write_mode=True) as writer:
         for i in range(n_files):
             writer.add_data(x=i, y=i ** 2, z=i ** 3)
 
@@ -117,3 +121,72 @@ def test_basic_unification(tmp_path, n_files=500):
 
     assert datasets_are_equal(created_data, correct_data, ignore_meta=True)
 
+
+def test_live_unification(tmp_path):
+
+    holding_path = tmp_path/"holding"
+    holding_path.mkdir()
+
+    datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+    datadict_correct_mid = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+
+    x, y, z = [], [], []
+    for i in range(500):
+        x.append(i)
+        y.append(i ** 2)
+        z.append(i ** 3)
+    datadict_correct_mid.add_data(x=x, y=y, z=z)
+
+    default_n_files_per_reconstruction = DDH5Writer.n_files_per_reconstruction
+    DDH5Writer.n_files_per_reconstruction = 100
+
+    with DDH5Writer(datadict, str(tmp_path), safe_write_mode=True) as writer:
+        for i in range(500):
+            writer.add_data(x=i, y=i**2, z=i**3)
+
+        data_path = writer.filepath
+
+        mid_point_dd = datadict_from_hdf5(data_path)
+        assert datasets_are_equal(mid_point_dd, datadict_correct_mid, ignore_meta=True)
+        assert mid_point_dd.has_meta("last_reconstructed_file")
+
+        datadict_correct_end = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+        for i in range(500, 1000):
+            x.append(i)
+            y.append(i ** 2)
+            z.append(i ** 3)
+        datadict_correct_end.add_data(x=x, y=y, z=z)
+
+        # The .tmp inside of the data folder
+        tmp = data_path.parent/".tmp"
+
+        all_files = []
+        for root, dirs, files in os.walk(tmp):
+            for file in files:
+                all_files.append(Path(root) / file)
+        
+        # If you move the last file, the whole system crashes        
+        all_files = sorted(all_files, key=lambda x: int(x.stem.split("#")[-1]))
+        
+        # Store where the files come
+        file_index = {}
+        
+        for file in all_files[:len(all_files)-1]:
+            file_index[file.name] = file
+            shutil.move(file, holding_path)
+                
+        # End Generation
+        for i in range(500, 1000):
+            writer.add_data(x=i, y=i ** 2, z=i ** 3)
+
+        end_point_dd = datadict_from_hdf5(data_path)
+        assert datasets_are_equal(end_point_dd, datadict_correct_end, ignore_meta=True)
+        assert end_point_dd.has_meta("last_reconstructed_file")
+
+        for filename, original_path in file_index.items():
+            shutil.move(holding_path/filename, original_path)
+
+    DDH5Writer.n_files_per_reconstruction = default_n_files_per_reconstruction
+
+
+# TODO: Add a test to see what would happen if the tmp folder gets removed mid way
