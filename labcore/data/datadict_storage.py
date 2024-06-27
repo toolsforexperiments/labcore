@@ -363,7 +363,9 @@ def all_datadicts_from_hdf5(
     return ret
 
 
-def unify_safe_write_data(path: Union[str, Path], unification_from_scratch: bool = True) -> DataDictBase:
+def unify_safe_write_data(path: Union[str, Path],
+                          unification_from_scratch: bool = True,
+                          file_timeout: Optional[float] = None) -> DataDictBase:
     """
     data_path, should be the path to the data file itself. it will look for a .tmp folder in the parent directory of that file
     """
@@ -385,7 +387,7 @@ def unify_safe_write_data(path: Union[str, Path], unification_from_scratch: bool
     # Checks if data is already there.
     # If there is, loads it from the latest loaded file not to have to load unnecessary data
     if path.exists() and not unification_from_scratch:
-        dd = datadict_from_hdf5(path)
+        dd = datadict_from_hdf5(path, file_timeout=file_timeout)
         if not dd.has_meta("last_reconstructed_file"):
             raise ValueError("The file does not have the meta data 'last_reconstructed_file', "
                              "could not know where to reconstruct from.")
@@ -396,11 +398,11 @@ def unify_safe_write_data(path: Union[str, Path], unification_from_scratch: bool
         starting_index = files.index(last_reconstructed_file) + 1
     else:
         first = files.pop(0)
-        dd = datadict_from_hdf5(first)
+        dd = datadict_from_hdf5(first, file_timeout=file_timeout)
         starting_index = 0
 
     for file in files[starting_index:]:
-        d = datadict_from_hdf5(file)
+        d = datadict_from_hdf5(file, file_timeout=file_timeout)
         # Create a dictionary with just the keys and values to add to the original one.
         dd.add_data(**{x[0]: d.data_vals(x[0]) for x in d.data_items()})
 
@@ -589,7 +591,7 @@ class DDH5Writer(object):
 
         if self.safe_write_mode:
             try:
-                dd = unify_safe_write_data(self.filepath)
+                dd = unify_safe_write_data(self.filepath, file_timeout=self.file_timeout)
                 datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout)
             except Exception as e:
                 logger.error(f"Error while unifying data. Data should be located in the .tmp directory: {e}")
@@ -705,9 +707,13 @@ class DDH5Writer(object):
             # Reconstructs the data every n_files_per_reconstruction files or every n_seconds_per_reconstruction seconds
             if (self.n_files - self.last_update_n_files >= self.n_files_per_reconstruction or
                     delta_t > self.n_seconds_per_reconstruction):
+                try:
+                    dd = unify_safe_write_data(self.filepath, unification_from_scratch=False, file_timeout=self.file_timeout)
+                    datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout)
+                except RuntimeError as e:
+                    logger.warning(f"Error while unifying data: {e} \nData is still getting saved in .tmp directory.")
 
-                dd = unify_safe_write_data(self.filepath, unification_from_scratch=False)
-                datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout)
+                # Even if I fail at reconstruction, I want to wait the same amount as if it was successful to try again.
                 self.last_reconstruction_time = time.time()
                 self.last_update_n_files = self.n_files
 

@@ -6,6 +6,8 @@ from datetime import datetime
 from labcore.data.datadict import DataDict, datasets_are_equal
 from labcore.data.datadict_storage import DDH5Writer, datadict_to_hdf5, datadict_from_hdf5
 
+# TODO: Add a test to see what would happen if the tmp folder gets removed mid way
+
 
 def test_file_creation(tmp_path, n_files=500):
     datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
@@ -189,4 +191,26 @@ def test_live_unification(tmp_path):
     DDH5Writer.n_files_per_reconstruction = default_n_files_per_reconstruction
 
 
-# TODO: Add a test to see what would happen if the tmp folder gets removed mid way
+def test_locking_main_file(tmp_path):
+
+    datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+
+    with DDH5Writer(datadict, str(tmp_path), safe_write_mode=True, file_timeout=5) as writer:
+        for i in range(500):
+            writer.add_data(x=i, y=i**2, z=i**3)
+
+        data_path = writer.filepath
+
+        assert data_path.exists()
+
+        # Making the lock file
+        lock_file = data_path.parent/f"~{data_path.stem}.lock"
+        lock_file.touch()
+
+        for i in range(500, 1000):
+            writer.add_data(x=i, y=i ** 2, z=i ** 3)
+
+        assert lock_file.exists()
+
+        lock_file.unlink(missing_ok=False)
+
