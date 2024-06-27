@@ -32,6 +32,7 @@ from .datadict import (
     dd2xr,
     datadict_to_meshgrid,
     dd2df,
+    datasets_are_equal,
 )
 
 __author__ = "Wolfgang Pfaff"
@@ -591,10 +592,19 @@ class DDH5Writer(object):
 
         if self.safe_write_mode:
             try:
+                logger.debug("Starting reconstruction of data")
                 dd = unify_safe_write_data(self.filepath, file_timeout=self.file_timeout)
+
+                # Makes sure the reconstructed data matches the one in the .tmp folder
+                assert datasets_are_equal(dd, self.datadict, ignore_meta=True)
+
                 datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout)
+                shutil.rmtree(self.filepath.parent / ".tmp")
+
             except Exception as e:
                 logger.error(f"Error while unifying data. Data should be located in the .tmp directory: {e}")
+                self.add_tag("__not_reconstructed__")
+                raise e
 
         with FileOpener(self.filepath, "a", timeout=self.file_timeout) as f:
             add_cur_time_attr(f.require_group(self.groupname), name="close")

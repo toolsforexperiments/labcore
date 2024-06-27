@@ -166,17 +166,17 @@ def test_live_unification(tmp_path):
         for root, dirs, files in os.walk(tmp):
             for file in files:
                 all_files.append(Path(root) / file)
-        
-        # If you move the last file, the whole system crashes        
+
+        # If you move the last file, the whole system crashes
         all_files = sorted(all_files, key=lambda x: int(x.stem.split("#")[-1]))
-        
+
         # Store where the files come
         file_index = {}
-        
+
         for file in all_files[:len(all_files)-1]:
             file_index[file.name] = file
             shutil.move(file, holding_path)
-                
+
         # End Generation
         for i in range(500, 1000):
             writer.add_data(x=i, y=i ** 2, z=i ** 3)
@@ -214,3 +214,85 @@ def test_locking_main_file(tmp_path):
 
         lock_file.unlink(missing_ok=False)
 
+
+def test_deleting_files_when_done(tmp_path):
+
+    correct_datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+    for i in range(1000):
+        correct_datadict.add_data(x=i, y=i ** 2, z=i ** 3)
+
+    datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+
+    with DDH5Writer(datadict, str(tmp_path), safe_write_mode=True, file_timeout=5) as writer:
+        for i in range(1000):
+            writer.add_data(x=i, y=i ** 2, z=i ** 3)
+
+        data_path = writer.filepath
+        tmp_path = data_path.parent / ".tmp"
+
+        assert tmp_path.exists()
+
+    assert not tmp_path.exists()
+
+    loaded_datadict = datadict_from_hdf5(data_path)
+    assert datasets_are_equal(loaded_datadict, correct_datadict, ignore_meta=True)
+
+
+def test_deleting_files_when_done_with_lock_error(tmp_path):
+
+    correct_datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+    for i in range(1000):
+        correct_datadict.add_data(x=i, y=i**2, z=i**3)
+
+    datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+
+    with DDH5Writer(datadict, str(tmp_path), safe_write_mode=True, file_timeout=5) as writer:
+        for i in range(500):
+            writer.add_data(x=i, y=i**2, z=i**3)
+
+        data_path = writer.filepath
+        tmp_path = data_path.parent/".tmp"
+
+        lock_file = data_path.parent/f"~{data_path.stem}.lock"
+        lock_file.touch()
+
+        for i in range(500, 1000):
+            writer.add_data(x=i, y=i ** 2, z=i ** 3)
+
+        assert lock_file.exists()
+
+        lock_file.unlink(missing_ok=False)
+
+        assert tmp_path.exists()
+
+    assert not tmp_path.exists()
+
+    loaded_datadict = datadict_from_hdf5(data_path)
+    assert datasets_are_equal(loaded_datadict, correct_datadict, ignore_meta=True)
+
+
+def test_creation_of_not_reconstructed_error_due_to_error(tmp_path):
+
+    datadict = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x', 'y']))
+    exception_was_raised = False
+
+    try:
+        with DDH5Writer(datadict, str(tmp_path), safe_write_mode=True, file_timeout=5) as writer:
+            for i in range(500):
+                writer.add_data(x=i, y=i**2, z=i**3)
+
+            data_path = writer.filepath
+            tmp_path = data_path.parent/".tmp"
+
+            # Finds 10 files in tmp_path and deletes them
+            files = list(tmp_path.rglob("*.ddh5"))[:10]
+            for file in files:
+                file.unlink()
+
+    except AssertionError as e:
+        exception_was_raised = True
+
+    assert exception_was_raised
+    not_reconstructed_tag = data_path.parent/"__not_reconstructed__.tag"
+    assert not_reconstructed_tag.exists()
+    assert tmp_path.exists()
