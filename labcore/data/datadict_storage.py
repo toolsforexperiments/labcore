@@ -364,7 +364,7 @@ def all_datadicts_from_hdf5(
     return ret
 
 
-def unify_safe_write_data(path: Union[str, Path],
+def reconstruct_safe_write_data(path: Union[str, Path],
                           unification_from_scratch: bool = True,
                           file_timeout: Optional[float] = None) -> DataDictBase:
     """
@@ -600,7 +600,7 @@ class DDH5Writer(object):
         if self.safe_write_mode:
             try:
                 logger.debug("Starting reconstruction of data")
-                dd = unify_safe_write_data(self.filepath, file_timeout=self.file_timeout)
+                dd = reconstruct_safe_write_data(self.filepath, file_timeout=self.file_timeout)
 
                 # Makes sure the reconstructed data matches the one in the .tmp folder
                 assert datasets_are_equal(dd, self.datadict, ignore_meta=True)
@@ -732,7 +732,8 @@ class DDH5Writer(object):
             if (self.n_files - self.last_update_n_files >= self.n_files_per_reconstruction or
                     delta_t > self.n_seconds_per_reconstruction):
                 try:
-                    dd = unify_safe_write_data(self.filepath, unification_from_scratch=False, file_timeout=self.file_timeout)
+                    dd = reconstruct_safe_write_data(self.filepath, unification_from_scratch=False,
+                                                     file_timeout=self.file_timeout)
                     datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout)
                 except RuntimeError as e:
                     logger.warning(f"Error while unifying data: {e} \nData is still getting saved in .tmp directory.")
