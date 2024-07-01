@@ -121,7 +121,7 @@ class LabeledOptions(AutoEnum):
         return None
 
 
-    # FIXME: 'None' should never override a default!
+    # FIXME: 'None' should never overrides a default!
 def map_input_to_signature(func: Union[Callable, inspect.Signature],
                            *args: Any, **kwargs: Any):
     """Try to re-organize the positional arguments `args` and key word

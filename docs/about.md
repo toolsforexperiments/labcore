@@ -1,3 +1,6 @@
 # About page
 
-We are Pfafflab. (this is what github copilot thinks we are) We are a group of researchers at the University of Toronto. We are interested in understanding the molecular mechanisms that underlie the development of the brain. We are particularly interested in the role of RNA-binding proteins in this process. We use a combination of molecular biology, biochemistry, and bioinformatics to study these proteins. We are also interested in developing new tools and technologies to study RNA-binding proteins. Our goal is to understand how RNA-binding proteins regulate gene expression in the brain and how they contribute to brain development and function.
+Labcore and the whole [Tools For Experiments](https://github.com/toolsforexperiments) are the sofware efforts of [Pfaff-lab at the University of Illinois at Urbana-Champaign](https://pfaff.physics.illinois.edu/).
+
+We are an experimental physics research group at UIUC, where we are a part of the Physics department, IQUIST and MRL. Our work falls broadly into quantum optics and quantum information, with a lot of influences from AMO and condensed matter physics. 
+

@@ -1,8 +1,21 @@
 site_name: Labcore documentation page.
 
 site_url: https://toolsforexperiments.github.io.
+
+nav:
+  - Home: index.md
+  - Measurement:
+    - Sweeping: measurement/sweep.md
+  - Data:
+    - Data Formats: data/data_formats.md
+  - Examples:
+      - Intro to our Holoviz apps: examples/Intro to our Holoviz apps.ipynb
+      - Holoviz-based plotting in the lab: examples/Holoviz-based plotting in the lab - Primer.ipynb
+  - About: about.md
+
 theme:
   name: material
+  custom_dir: docs/overrides
   features:
     - navigation.tabs
     - navigation.instant
@@ -26,6 +39,7 @@ theme:
 plugins:
   - search
   - autorefs
+  - mkdocs-jupyter
   - mkdocstrings:
       handlers:
         python:
