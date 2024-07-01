@@ -500,6 +500,13 @@ class DDH5Writer(object):
 
     Creates lock file when writing data.
 
+    Can be used in safe_write_mode to make sure the experiment and data will be saved even if the ddh5 is being used by
+    other programs. In this mode, the data is individually saved in files in a .tmp folder. When the experiment is
+    finished, the data is unified and saved in the original file.
+    If the data is correctly reconstructed, the .tmp folder is deleted. If not you can use the function unify_safe_write_data
+    to reconstruct the data.
+
+
     :param basedir: The root directory in which data is stored.
         :meth:`.create_file_structure` is creating the structure inside this root and
         determines the file name of the data. The default structure implemented here is
@@ -526,7 +533,7 @@ class DDH5Writer(object):
     # Controls how often the writer reconstructs the data in its safe writing mode.
     # It will reconstruct the data every `n_files_per_reconstruction` files or every `n_seconds_per_reconstruction`
     # seconds, whichever comes first.
-    n_files_per_reconstruction = 100
+    n_files_per_reconstruction = 1000
     n_seconds_per_reconstruction = 60
 
     def __init__(
@@ -647,6 +654,52 @@ class DDH5Writer(object):
 
         return Path(data_folder_path, self.filename)
 
+    def _generate_next_safe_write_path(self):
+        """
+        Generates the next path for the data to be saved in the safe writing mode. Should not be used for other things.
+        """
+
+        now = datetime.datetime.now()
+
+        # Creates tmp folder
+        tmp_folder = self.filepath.parent / ".tmp"
+        tmp_folder.mkdir(exist_ok=True)
+
+        # Creates today folder
+        today_folder = tmp_folder / now.strftime("%Y-%m-%d")
+        today_folder.mkdir(exist_ok=True)
+
+        # Creates hour folder
+        hour_folder = today_folder / now.strftime("%H")
+        hour_folder.mkdir(exist_ok=True)
+
+        # Creates minute folder
+        minute_folder = hour_folder / now.strftime("%M")
+        minute_folder.mkdir(exist_ok=True)
+
+        n_secs = 0
+        second_folder = minute_folder / (now.strftime("%S") + f"_#{str(n_secs)}")
+        if second_folder.exists():
+            n_data_files = len(list(second_folder.iterdir())) + 1
+            if n_data_files >= self.n_files_per_dir:
+                keep_searching = True
+                while keep_searching:
+                    n_secs += 1
+                    second_folder = minute_folder / (now.strftime("%S") + f"_#{str(n_secs)}")
+                    if not second_folder.exists():
+                        keep_searching = False
+                        second_folder.mkdir()
+                    else:
+                        n_data_files = len(list(second_folder.iterdir())) + 1
+                        if n_data_files < self.n_files_per_dir:
+                            keep_searching = False
+
+        # Creates the filename that follows the structure: yyyy-mm-dd-HHMM-SS#_#<total_number_of_files>.ddh5
+        filename = now.strftime("%Y-%m-%d-%H_%M_%S") + f"_{n_secs}_#{self.n_files}.ddh5"
+        self.n_files += 1
+
+        return second_folder/filename
+
     def add_data(self, **kwargs: Any) -> None:
         """Add data to the file (and the internal `DataDict`).
 
@@ -661,52 +714,13 @@ class DDH5Writer(object):
         self.datadict.add_data(**kwargs)
 
         if self.safe_write_mode:
-            now = datetime.datetime.now()
-
             clean_dd_copy = self.datadict.structure()
-
-            # Creates tmp folder
-            tmp_folder = self.filepath.parent / ".tmp"
-            tmp_folder.mkdir(exist_ok=True)
-
-            # Creates today folder
-            today_folder = tmp_folder / now.strftime("%Y-%m-%d")
-            today_folder.mkdir(exist_ok=True)
-
-            # Creates hour folder
-            hour_folder = today_folder / now.strftime("%H")
-            hour_folder.mkdir(exist_ok=True)
-
-            # Creates minute folder
-            minute_folder = hour_folder / now.strftime("%M")
-            minute_folder.mkdir(exist_ok=True)
-
-            n_secs = 0
-            second_folder = minute_folder / (now.strftime("%S") + f"_#{str(n_secs)}")
-            if second_folder.exists():
-                n_data_files = len(list(second_folder.iterdir())) + 1
-                if n_data_files >= self.n_files_per_dir:
-                    keep_searching = True
-                    while keep_searching:
-                        n_secs += 1
-                        second_folder = minute_folder / (now.strftime("%S") + f"_#{str(n_secs)}")
-                        if not second_folder.exists():
-                            keep_searching = False
-                            second_folder.mkdir()
-                        else:
-                            n_data_files = len(list(second_folder.iterdir())) + 1
-                            if n_data_files < self.n_files_per_dir:
-                                keep_searching = False
-
             clean_dd_copy.add_data(**kwargs)
-
-            # Creates the filename that follows the structure: yyyy-mm-dd-HHMM-SS#_#<total_number_of_files>.ddh5
-            filename = now.strftime("%Y-%m-%d-%H_%M_%S") + f"_{n_secs}_#{self.n_files}.ddh5"
-            self.n_files += 1
+            filepath = self._generate_next_safe_write_path()
 
             datadict_to_hdf5(
                 clean_dd_copy,
-                second_folder/filename,
+                filepath,
                 groupname=self.groupname,
                 append_mode=AppendMode.new,
                 file_timeout=self.file_timeout,
