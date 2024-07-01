@@ -368,7 +368,14 @@ def reconstruct_safe_write_data(path: Union[str, Path],
                           unification_from_scratch: bool = True,
                           file_timeout: Optional[float] = None) -> DataDictBase:
     """
-    data_path, should be the path to the data file itself. it will look for a .tmp folder in the parent directory of that file
+    Creates a new DataDict from the data saved in the .tmp folder. This is used when the data is saved in the safe
+    writing mode. The data is saved in individual files in the .tmp folder. This function reconstructs the data from
+    these files and returns a DataDict with the data.
+
+    :param path: The path to the folder containing the .tmp path
+    :param unification_from_scratch: If True, will reconstruct the data from scratch. If False, will try to load the
+        data from the last reconstructed file.
+    :param file_timeout: How long the function will wait for the ddh5 file to unlock. If none uses the default value
     """
 
     path = Path(path)
@@ -522,6 +529,7 @@ class DDH5Writer(object):
     :param filename: Filename to use. Defaults to 'data.ddh5'.
     :param file_timeout: How long the function will wait for the ddh5 file to unlock. If none uses the default
         value from the :class:`FileOpener`.
+    :param safe_write_mode: If True, will save the data in the safe writing mode. Defaults to False.
     """
 
     # TODO: need an operation mode for not keeping data in memory.
