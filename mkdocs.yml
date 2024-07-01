@@ -6,6 +6,8 @@ nav:
   - Home: index.md
   - Measurement:
     - Sweeping: measurement/sweep.md
+  - Data:
+    - Data Formats: data/data_formats.md
   - About: about.md
 
 theme:
