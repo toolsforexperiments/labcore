@@ -13,7 +13,7 @@ from .data.datadict import DataDict
 from .data.datadict_storage import data_info
 from .measurement.storage import run_and_save_sweep
 from .measurement import Sweep
-
+from .utils.misc import get_environment_packages, commit_changes_in_repo
 
 # constants
 WD = os.getcwd()
@@ -35,6 +35,10 @@ def param_from_name(name: str, ):
 
 
 def getp(name: str, default=None, raise_if_missing=False):
+    if options.parameters is None:
+        logger.error("No parameter manager defined. cannot get/set params!")
+        return None
+    
     try: 
         p = param_from_name(name)
         return p()
@@ -120,6 +124,35 @@ def find_or_create_remote_instrument(cli: Client, ins_name: str, ins_class: Opti
 
 
 def run_measurement(sweep: Sweep, name: str, **kwargs) -> Tuple[Union[str, Path], Optional[DataDict]]:
+    """
+    Wrapper function around run_and_save_sweep that makes sure you are saving your measurement with all the necessary
+    metadata around it.
+    This includes the current git commit hash, the python environment, and the snapshot of all
+    instruments and parameters.
+    It is considered bad practice to have uncommitted changes in a repository that is installed locally.
+    If you have to change something from a repo, please open up a PR, this usually means that something is wrong there.
+
+    Assumptions
+    -----------
+
+    To use this function, you need:
+    * Have an instrumentserver instance running with an instantiated client in options.instrument_clients
+    * Have a parameter manager proxy instrument in options.parameters. You get this simply
+      by passing the usually called params variable to options.
+
+    How-to set up auto-committing
+    ---------------------------
+
+    To get this function to commit your measurement code before running the measurement,
+    you need to follow the following steps:
+
+    * Run `git init` in the directory where you are running your measurements.
+      If you are getting an error saying "could not set core.filemode to 'false'", run `sudo git init` instead.
+    * In your measurement folder copy the file :doc:`../doc/example.gitignore` and rename it to '.gitignore'.
+    * Commit all the files in your measurement folder running the command `git add -a -m "Initial commit"`.
+
+    After those 3 steps have been taken, every time a measurement is run, the folder should autocommit before any measurement.
+    """
     if options.instrument_clients is None:
         raise RuntimeError('it looks like options.instrument_clients is not configured.')
     if options.parameters is None:
@@ -128,15 +161,27 @@ def run_measurement(sweep: Sweep, name: str, **kwargs) -> Tuple[Union[str, Path]
     for n, c in options.instrument_clients.items():
         kwargs[n] = c.snapshot
     kwargs['parameters'] = options.parameters.toParamDict
+    
+    py_env = get_environment_packages()
 
-    data_location, data = run_and_save_sweep(
-        sweep=sweep,
-        data_dir=DATADIR,
-        name=name,
-        save_action_kwargs=True,
-        **kwargs)
+    current_dir = Path.cwd()
+    commit_hash = commit_changes_in_repo(current_dir)
+   
+    if commit_hash is None:
+        logger.warning("The current directory is not a git repository, your measurement code will not be tracked.")
+    
+    save_kwargs = {
+        'sweep': sweep,
+        'data_dir': DATADIR,
+        'name': name,
+        'save_action_kwargs': True,
+        'python_environment': py_env,
+        **kwargs
+    }
+    if commit_hash is not None:
+        save_kwargs['current_commit'] = {"measurement-hash": commit_hash}
 
-    info = data
+    data_location, data = run_and_save_sweep(**save_kwargs)
 
     logger.info(f"""
 ==========

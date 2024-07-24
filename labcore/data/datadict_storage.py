@@ -48,6 +48,10 @@ class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
         return json.JSONEncoder.default(self, obj)
 
 
@@ -386,7 +390,7 @@ class FileOpener:
         if mode not in ["r", "w", "w-", "a"]:
             raise ValueError("Only 'r', 'w', 'w-', 'a' modes are supported.")
         self.mode = mode
-        self.default_timeout = 30.0
+        self.default_timeout = 300.0
         if timeout is None:
             self.timeout = self.default_timeout
         else:
