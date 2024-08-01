@@ -25,8 +25,11 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material mkdocstrings griffe-fieldz mkdocstrings-python
+      - run: pip install mkdocs mkdocs-material mkdocstrings griffe-fieldz mkdocstrings-python mkdocs-jupyter
       - run: |
           pip install -e .  # Assuming your setup.py is in the root and correctly configured
           echo "PYTHONPATH=${{ github.workspace }}" >> $GITHUB_ENV
-      - run: mkdocs gh-deploy --force
+      - name: Deploy to GitHub Pages
+        run: mkdocs gh-deploy --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
