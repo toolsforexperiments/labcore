@@ -123,7 +123,7 @@ def find_or_create_remote_instrument(cli: Client, ins_name: str, ins_class: Opti
     return ins
 
 
-def run_measurement(sweep: Sweep, name: str, **kwargs) -> Tuple[Union[str, Path], Optional[DataDict]]:
+def run_measurement(sweep: Sweep, name: str, safe_write_mode: bool = False, **kwargs) -> Tuple[Union[str, Path], Optional[DataDict]]:
     """
     Wrapper function around run_and_save_sweep that makes sure you are saving your measurement with all the necessary
     metadata around it.
@@ -176,6 +176,7 @@ def run_measurement(sweep: Sweep, name: str, **kwargs) -> Tuple[Union[str, Path]
         'name': name,
         'save_action_kwargs': True,
         'python_environment': py_env,
+        'safe_write_mode': safe_write_mode,
         **kwargs
     }
     if commit_hash is not None:

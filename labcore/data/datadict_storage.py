@@ -414,8 +414,16 @@ def reconstruct_safe_write_data(path: Union[str, Path],
         # Create a dictionary with just the keys and values to add to the original one.
         dd.add_data(**{x[0]: d.data_vals(x[0]) for x in d.data_items()})
 
-    # Adds the meta data of the last file loaded
-    dd.add_meta("last_reconstructed_file", str(files[-1]))
+    # Add shape to axes
+    for name, datavals in dd.data_items():
+        datavals["__shape__"] = tuple(np.array(datavals["values"][:]).shape,)
+
+    # Catches the edge case where there is a single file in the .tmp folder.
+    # This will not happen other than the first time, so it is ok to have that first variable there.
+    if len(files) > 0:
+        dd.add_meta("last_reconstructed_file", str(files[-1]))
+    else:
+        dd.add_meta("last_reconstructed_file", str(first))
 
     return dd
 
@@ -535,14 +543,14 @@ class DDH5Writer(object):
     # TODO: need an operation mode for not keeping data in memory.
     # TODO: a mode for working with pre-allocated data
 
-    # Sets how many files before the writer  creates a new folder in its safe writing mode
+    # Sets how many files before the writer creates a new folder in its safe writing mode
     n_files_per_dir = 1000
 
     # Controls how often the writer reconstructs the data in its safe writing mode.
     # It will reconstruct the data every `n_files_per_reconstruction` files or every `n_seconds_per_reconstruction`
     # seconds, whichever comes first.
     n_files_per_reconstruction = 1000
-    n_seconds_per_reconstruction = 60
+    n_seconds_per_reconstruction = 10
 
     def __init__(
         self,
@@ -613,7 +621,7 @@ class DDH5Writer(object):
                 # Makes sure the reconstructed data matches the one in the .tmp folder
                 assert datasets_are_equal(dd, self.datadict, ignore_meta=True)
 
-                datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout)
+                datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout, append_mode=AppendMode.none)
                 shutil.rmtree(self.filepath.parent / ".tmp")
 
             except Exception as e:
@@ -742,9 +750,13 @@ class DDH5Writer(object):
                 try:
                     dd = reconstruct_safe_write_data(self.filepath, unification_from_scratch=False,
                                                      file_timeout=self.file_timeout)
-                    datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout)
+                    datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout, append_mode=AppendMode.none)
                 except RuntimeError as e:
                     logger.warning(f"Error while unifying data: {e} \nData is still getting saved in .tmp directory.")
+
+                with FileOpener(self.filepath, "a", timeout=self.file_timeout) as f:
+                    add_cur_time_attr(f, name="last_change")
+                    add_cur_time_attr(f[self.groupname], name="last_change")
 
                 # Even if I fail at reconstruction, I want to wait the same amount as if it was successful to try again.
                 self.last_reconstruction_time = time.time()
