@@ -120,6 +120,7 @@ def run_and_save_sweep(sweep: Sweep,
                        add_timestamps = False,
                        archive_files: Optional[List[str]] = None,
                        return_data: bool = False,
+                       safe_write_mode: bool = False,
                        **extra_saving_items) -> Tuple[Union[str, Path], Optional[DataDict]]:
     """
     Iterates through a sweep, saving the data coming through it into a file called <name> at <data_dir> directory.
@@ -144,13 +145,15 @@ def run_and_save_sweep(sweep: Sweep,
     :param extra_saving_items: Kwargs for extra objects that should be saved. If the kwarg is a dictionary, the function
         will try and save it as a JSON file. If the dictionary contains objects that are not JSON serializable it will
         be pickled. Any other kind of object will be pickled too. The files will have their keys as names.
+    :param safe_write_mode: Indicates if the data should be written in safe mode or not. Look into ddh5 writer for more
+        info.
 
     :raises TypeError: A Typerror is raised if the object passed for archive_files is not correct
     """
     data_dict = _create_datadict_structure(sweep)
 
     # Creates a file even when it fails.
-    with DDH5Writer(data_dict, data_dir, name=name) as writer:
+    with DDH5Writer(data_dict, data_dir, name=name, safe_write_mode=safe_write_mode) as writer:
 
         # Saving meta-data
         dir: Path = writer.filepath.parent
