@@ -128,8 +128,7 @@ class MixerCalibration:
                                        (1 - g) * s, (1 + g) * c]]
 
     def _optimize2d(self, func, initial_guess, initial_ranges,
-                    title='', xtitle='', ytitle='', ztitle='Power',
-                    nm_options=None, maxit=200):
+                    nm_options=None, maxit=200, phi0=0.0):
 
         """
         Performs minimization through Nelder-Mead algorithm.
@@ -158,6 +157,8 @@ class MixerCalibration:
         if nm_options is None:
             nm_options = dict()
 
+        nit = 0
+
         x, y, z = [], [], []
 
         def cb(vec):
@@ -168,21 +169,26 @@ class MixerCalibration:
 
             print(f'vector: {vec}, result: {val}, iteration: {len(y)}')
 
-        initial_simplex = np.zeros((3, 2))
-        initial_simplex[0, :] = initial_guess + np.array([0.0, 2 * initial_ranges[0]/2]) # initial_guess
-        initial_simplex[1, :] = initial_guess + np.array([-np.round(np.sqrt(3), 2) * initial_ranges[0]/2, -initial_ranges[0]/2]) # initial_guess + np.array([initial_ranges[0], 0.])
-        initial_simplex[2, :] = initial_guess + np.array([np.round(np.sqrt(3), 2) * initial_ranges[0]/2, -initial_ranges[0]/2]) # initial_guess + np.array([0., initial_ranges[1]])
+        # initial_simplex = np.zeros((3, 2))
+        # initial_simplex[0, :] = initial_guess + np.array([0.0, 2 * initial_ranges[0]/2]) # initial_guess
+        # initial_simplex[1, :] = initial_guess + np.array([-np.round(np.sqrt(3), 2) * initial_ranges[0]/2, -initial_ranges[0]/2]) # initial_guess + np.array([initial_ranges[0], 0.])
+        # initial_simplex[2, :] = initial_guess + np.array([np.round(np.sqrt(3), 2) * initial_ranges[0]/2, -initial_ranges[0]/2]) # initial_guess + np.array([0., initial_ranges[1]])
 
         try:
-            res = minimize(func, initial_guess,  # bounds=((-0.5, 0.5), (-0.5, 0.5)),
-                           method='Nelder-Mead', callback=cb,
-                           options=dict(initial_simplex=initial_simplex, **nm_options, maxiter=maxit))
+            # res = minimize(func, initial_guess,  # bounds=((-0.5, 0.5), (-0.5, 0.5)),
+            #                method='Nelder-Mead', callback=cb,
+            #                options=dict(initial_simplex=initial_simplex, **nm_options, maxiter=maxit))
+            res = minimize(func, initial_guess, bounds=((-0.5, 0.5), (-0.5 + phi0, 0.5 + phi0)),
+                           method='COBYLA', callback=cb, options=dict(**nm_options, maxiter=maxit))
+            nit = len(y)
+             
+            
 
         except KeyboardInterrupt:
             res = np.array([x[-1], y[-1]])
             print('optimization stopped by user')
 
-        return res
+        return res, nit
 
     def _scan2d(self, func, center, ranges, steps,
                 title='', xtitle='', ytitle='', ztitle='Power'):
@@ -280,14 +286,11 @@ class MixerCalibration:
         """
 
         self.setup_analyzer(self.lo_frq)
-        res = self._optimize2d(self.lo_leakage,
+        res, nit = self._optimize2d(self.lo_leakage,
                                initial_guess,
                                initial_ranges=ranges,
-                               title='Leakage optimization',
-                               xtitle='I offset',
-                               ytitle='Q offset',
                                nm_options=nm_options)
-        return res
+        return res, nit
 
     def sb_imbalance(self, imbalance: np.ndarray) -> float:
         """Set mixer imbalance and measure the upper SB power.
@@ -327,9 +330,9 @@ class MixerCalibration:
         Returns
         -------
         np.ndarray
-            the imbalance coordinate at which the smallest leakage was found
+            the imbalance coordinate at which the smallest leakage was found for the lower sideband
         """
-        self.setup_analyzer(self.lo_frq + np.abs(self.if_frq))
+        self.setup_analyzer(self.lo_frq - np.abs(self.if_frq)) # LO - IF to calibrate out the lower sideband
         res = self._scan2d(self.sb_imbalance,
                            center=center, ranges=ranges, steps=steps,
                            title='SB imbalance scan',
@@ -338,7 +341,8 @@ class MixerCalibration:
 
     def optimize_sb_imbalance(self, initial_guess: np.ndarray = np.array([0., 0.]),
                               ranges: Tuple[float, float] = (0.05, 0.05),
-                              nm_options: Optional[Dict[str, Any]] = None) -> np.ndarray:
+                              nm_options: Optional[Dict[str, Any]] = None,
+                              phi0: float = 0.0) -> np.ndarray:
         """Optimize the mixer imbalances using Nelder-Mead.
 
         The initial guess and ranges are used to specify the initial simplex
@@ -356,15 +360,13 @@ class MixerCalibration:
             Options to pass to the `scipy.optimize.minimize(method='Nelder-Mead')`.
             Will be passed via the `options` dictionary.
         """
-        self.setup_analyzer(self.lo_frq + np.abs(self.if_frq))
-        res = self._optimize2d(self.sb_imbalance,
+        self.setup_analyzer(self.lo_frq - np.abs(self.if_frq)) # LO - IF to calibrate out the lower sideband
+        res, nit = self._optimize2d(self.sb_imbalance,
                                initial_guess,
                                initial_ranges=ranges,
-                               title='SB imbalance optimization',
-                               xtitle='g',
-                               ytitle='phi',
-                               nm_options=nm_options)
-        return res
+                               nm_options=nm_options,
+                               phi0=phi0)
+        return res, nit
 
 
 @dataclass
@@ -421,7 +423,9 @@ def calibrate_mixer(config: MixerConfig,
                     imbalance_scan_ranges=None,
                     imbalance_scan_steps=None,
                     calibrate_offsets=True,
-                    calibrate_imbalance=True):
+                    calibrate_imbalance=True,
+                    max_step_size=0.05,
+                    phi0=0.0):
     """
     Runs the entire mixer calibration for any mixer
     """
@@ -432,14 +436,14 @@ def calibrate_mixer(config: MixerConfig,
     config.analyzer.zs_ref_level(-20)
     config.analyzer.zs_sweep_time(0.01)
     config.analyzer.zs_ifbw_auto(0)
-    config.analyzer.zs_ifbw(1e4)
+    config.analyzer.zs_ifbw(1e5)
 
     # setup the generator frequency and its power
     if config.lo_param is not None:
         mixer_lo_freq = config.lo_param()
         config.generator.frequency(mixer_lo_freq)
     elif config.frequency_param is not None:
-        mixer_lo_freq = config.frequency_param() + config.if_param()
+        mixer_lo_freq = config.frequency_param() - config.if_param() #RF - IF when measuring on the upper sideband
         config.generator.frequency(mixer_lo_freq)
     else:
         mixer_lo_freq = config.generator.frequency()
@@ -487,7 +491,9 @@ def calibrate_mixer(config: MixerConfig,
                 )
                 offsets = res_offsets.tolist()
             else:
-                print("\nOffset calibration through: Nelder-Mead optimization \n")
+                # print("\nOffset calibration through: Nelder-Mead optimization \n")
+                print("\nOffset calibration through: COBYLA \n")
+
                 if config.opt2D_of_custom_init is True:
                     pass
                 else:
@@ -504,17 +510,18 @@ def calibrate_mixer(config: MixerConfig,
 
                 print(f'Offsets: {offsets} Ranges: {custom_of_range} \n')
 
-                # for i in np.arange(1, 4, 1):
-                res_offsets = cal.optimize_lo_leakage(
+                res_offsets, nit = cal.optimize_lo_leakage(
                     offsets,
                     ranges=custom_of_range,
-                    nm_options=dict(xatol=0.0001, fatol=1.0)
+                    nm_options=dict(rhobeg=max_step_size, tol=1e-6, 
+                                    disp=True, catol=1e-10)
+                    #dict(xatol=0.0001, fatol=1.0)
                 )
                 # print(res_offsets)
 
                 if isinstance(res_offsets, np.ndarray):
                     offsets = res_offsets.tolist()
-                elif res_offsets.success and res_offsets.nit < 200:
+                elif res_offsets.success and nit < 200: #res_offsets.nit < 200:
                     offsets = res_offsets.x.tolist()
                     # custom_of_range = (0.001, 0.001)
                 else:
@@ -545,7 +552,9 @@ def calibrate_mixer(config: MixerConfig,
                 )
                 imbalances = res_imbalances.tolist()
             else:
-                print("\nImbalance calibration through: Nelder-Mead optimization \n")
+                # print("\nImbalance calibration through: Nelder-Mead optimization \n")
+                print("\nOffset calibration through: COBYLA \n")
+
                 if config.opt2D_imb_custom_init is True:
                     pass
                 else:
@@ -563,20 +572,21 @@ def calibrate_mixer(config: MixerConfig,
                 elif config.opt2D_imb_dia == 'custom':
                     pass
 
-                # for i in np.arange(1, 4, 1):
-
                 print(f'Imbalances: {imbalances} Ranges: {custom_imb_range} \n')
 
-                res_imbalances = cal.optimize_sb_imbalance(
+                res_imbalances, nit = cal.optimize_sb_imbalance(
                     imbalances,
                     ranges=custom_imb_range,
-                    nm_options=dict(xatol=0.0001, fatol=1.0)
+                    nm_options=dict(rhobeg=max_step_size, tol=1e-6, 
+                                    disp=True, catol=1e-10),
+                    phi0=phi0
+                    #dict(xatol=0.0001, fatol=1.0)
                 )
                 # print(res_imbalances)
 
                 if isinstance(res_imbalances, np.ndarray):
                     imbalances = res_imbalances.tolist()
-                elif res_imbalances.success and res_imbalances.nit < 200:
+                elif res_imbalances.success and nit < 200: #res_imbalances.nit < 200:
                     imbalances = res_imbalances.x.tolist()
                     # custom_imb_range = (0.001, 0.001)
                 else:
