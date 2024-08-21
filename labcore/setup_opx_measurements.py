@@ -88,14 +88,31 @@ class Mixer:
             raise RuntimeError('No active QuantumMachine.')
         mixer_imb_step(self.config, self.qm, dg, dp)
 
-def add_mixer_config(element_name, analyzer, generator, element_to_param_map=None, **config_kwargs):
+def add_mixer_config(qubit_name, analyzer, generator, readout=False, element_to_param_map=None, **config_kwargs):
     """
     FIXME: add docu (@wpfff)
     TODO: make sure we document the meaning of `element_to_param_map`.
-    """
-    if element_to_param_map is None:
-        element_to_param_map = element_name
 
+    contributor(s): Michael Mollenhaur
+
+    arguments:
+      qubit_name - string; name of the qubit listed in the parameter manager you are going to work with
+      analyzer - instrument; instrument module for the spectrum analyzer used for the mixer
+      generator - instrument; instrument module for the LO generator used for the mixer
+      readout - boolean; whether you are calibrating the readout mixer for the specified qubit
+      element_to_param_map - string; specifies whether to call the qubit or readout parameter manager values
+
+    """
+    element_name = qubit_name
+    if readout is True:
+        element_name += '_readout'
+
+    if element_to_param_map is None:
+        element_to_param_map = qubit_name
+
+        if readout is True:
+            element_to_param_map += '.readout'
+    
     cfg = MixerConfig(
         qmconfig=options.qm_config,
         opx_address=options.qm_config.opx_address,
