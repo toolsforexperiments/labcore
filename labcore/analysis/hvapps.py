@@ -91,6 +91,19 @@ class DataSelect(pn.viewable.Viewer):
         )
         self.layout.append(self.info_panel)
 
+        # a basic text input panel
+        self.text_input = pn.widgets.TextInput(
+            name='Data Text Input', 
+            placeholder='Enter a string here...'
+        )
+        self.layout.append(self.text_input)
+
+        self.typed_value = pn.widgets.StaticText(
+            stylesheets=[selector_stylesheet], 
+            css_classes=['ttlabel'],
+        )
+        self.layout.append(self.text_input_repeater)
+
         opts = OrderedDict()
         for k in sorted(self.data_sets.keys())[::-1]:
             lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
@@ -124,6 +137,11 @@ class DataSelect(pn.viewable.Viewer):
         self.lbl.value = f"Path: {path}"
         self.selected_path = path
         return self.lbl
+    
+    @pn.depends("text_input.value")
+    def text_input_repeater(self):
+        self.typed_value.value = f"You searched: {self.text_input.value}"
+        return self.typed_value
 
 
 selector_stylesheet = """
@@ -215,6 +233,10 @@ class LoaderNodeBase(Node):
         t0 = datetime.now()
         dd = self.load_data()  # this is simply a datadict now.
 
+        # if there wasn't data selected, we can't process it
+        if dd is None:
+            return
+
         # this is the case for making a pandas DataFrame
         if not self.grid_on_load_toggle.value:
             data = self.split_complex(dd2df(dd))
@@ -300,4 +322,9 @@ class DDH5LoaderNode(LoaderNodeBase):
         """
         Load data from the file location specified
         """
+        #Check in case no data is selected
+        if str(self.file_path) == "":
+            self.info_label.value = "Please select data to load. If there is no data, trying running in a higher directory."
+            return None
+
         return datadict_from_hdf5(self.file_path.absolute())
