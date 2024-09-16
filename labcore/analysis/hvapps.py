@@ -11,6 +11,7 @@ import param
 import panel as pn
 from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
 
+import re
 
 from ..data.datadict_storage import find_data, timestamp_from_path, datadict_from_hdf5
 from ..data.datadict import (
@@ -33,6 +34,7 @@ class DataSelect(pn.viewable.Viewer):
     DATAFILE = 'data.ddh5'
 
     selected_path = param.Parameter(None)
+    search_term = param.Parameter(None)
 
     @staticmethod
     def date2label(date_tuple):
@@ -113,8 +115,23 @@ class DataSelect(pn.viewable.Viewer):
     @pn.depends("_group_select_widget.value")
     def data_select(self):
         opts = OrderedDict()
+
+        # setup global variables for search function
+        ActiveSearch = False
+        r = re.compile(".*")
+        if hasattr(self, "text_input"): 
+            if self.text_input.value_input is not None and self.text_input.value_input != "":
+                # Make the Regex expression for the searched string
+                r = re.compile(".*" + str(self.text_input.value_input) + ".*")
+                print("Filter Term: " + str(self.text_input.value_input))
+                ActiveSearch = True
+
         for d in self._group_select_widget.value:
             for dset in sorted(self.data_sets[d].keys())[::-1]:
+                if ActiveSearch and not r.match(str(dset)):
+                    # If Active serach and this term doesn't match it, don't show
+                    continue
+                print("Dset values: " + str(dset))
                 (dirs, files) = self.data_sets[d][dset]
                 ts = timestamp_from_path(dset)
                 time = f"{ts.hour:02d}:{ts.minute:02d}:{ts.second:02d}"
@@ -125,6 +142,7 @@ class DataSelect(pn.viewable.Viewer):
                     if f'__{k}__.tag' in files:
                         lbl += self.SYM[k]             
                 opts[lbl] = dset
+            print("-")
 
         self._data_select_widget.options = opts
         return self._data_select_widget
@@ -138,9 +156,10 @@ class DataSelect(pn.viewable.Viewer):
         self.selected_path = path
         return self.lbl
     
-    @pn.depends("text_input.value")
+    @pn.depends("text_input.value_input")
     def text_input_repeater(self):
-        self.typed_value.value = f"You searched: {self.text_input.value}"
+        self.typed_value.value = f"You searched: {self.text_input.value_input}"
+        self.search_term = self.text_input.value_input
         return self.typed_value
 
 
