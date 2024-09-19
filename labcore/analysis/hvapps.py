@@ -71,6 +71,20 @@ class DataSelect(pn.viewable.Viewer):
 
         self.layout = pn.Column()
 
+        # a search bar for data
+        self.text_input = pn.widgets.TextInput(
+            name='Search', 
+            placeholder='Enter a search term here...'
+        )
+        self.layout.append(self.text_input)
+
+        # Display the current search term
+        self.typed_value = pn.widgets.StaticText(
+            stylesheets=[selector_stylesheet], 
+            css_classes=['ttlabel'],
+        )
+        self.layout.append(self.text_input_repeater)
+
         # two selectors for data selection
         self._group_select_widget = MultiSelect(
             name='Date', 
@@ -84,27 +98,14 @@ class DataSelect(pn.viewable.Viewer):
             width=800,
             stylesheets = [selector_stylesheet]
         )
-        self.layout.append(pn.Row(self._group_select_widget, self.data_select))
 
         # a simple info panel about the selection
         self.lbl = pn.widgets.StaticText(
             stylesheets=[selector_stylesheet], 
             css_classes=['ttlabel'],
         )
-        self.layout.append(self.info_panel)
-
-        # a basic text input panel
-        self.text_input = pn.widgets.TextInput(
-            name='Data Text Input', 
-            placeholder='Enter a string here...'
-        )
-        self.layout.append(self.text_input)
-
-        self.typed_value = pn.widgets.StaticText(
-            stylesheets=[selector_stylesheet], 
-            css_classes=['ttlabel'],
-        )
-        self.layout.append(self.text_input_repeater)
+        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.info_panel))
+        #self.layout.append(self.info_panel)
 
         opts = OrderedDict()
         for k in sorted(self.data_sets.keys())[::-1]:
@@ -128,7 +129,7 @@ class DataSelect(pn.viewable.Viewer):
 
         for d in self._group_select_widget.value:
             for dset in sorted(self.data_sets[d].keys())[::-1]:
-                if ActiveSearch and not r.match(str(dset)):
+                if ActiveSearch and not r.match(str(dset) + " " + str(timestamp_from_path(dset))):
                     # If Active serach and this term doesn't match it, don't show
                     continue
                 print("Dset values: " + str(dset))
@@ -158,7 +159,7 @@ class DataSelect(pn.viewable.Viewer):
     
     @pn.depends("text_input.value_input")
     def text_input_repeater(self):
-        self.typed_value.value = f"You searched: {self.text_input.value_input}"
+        self.typed_value.value = f"Current Search: {self.text_input.value_input}"
         self.search_term = self.text_input.value_input
         return self.typed_value
 
