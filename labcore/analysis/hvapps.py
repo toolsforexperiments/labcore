@@ -11,6 +11,7 @@ import param
 import panel as pn
 from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
 
+import os
 
 from ..data.datadict_storage import find_data, timestamp_from_path, datadict_from_hdf5
 from ..data.datadict import (
@@ -82,7 +83,15 @@ class DataSelect(pn.viewable.Viewer):
             width=800,
             stylesheets = [selector_stylesheet]
         )
-        self.layout.append(pn.Row(self._group_select_widget, self.data_select))
+        
+        # an image of this data
+        self.data_image = pn.pane.Image('https://assets.holoviz.org/panel/samples/png_sample2.png', sizing_mode = 'scale_width')
+
+        self.data_info = pn.widgets.StaticText(
+            stylesheets=[selector_stylesheet], 
+            css_classes=['ttlabel'],
+        )
+        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.data_info, self.data_image))
 
         # a simple info panel about the selection
         self.lbl = pn.widgets.StaticText(
@@ -90,6 +99,7 @@ class DataSelect(pn.viewable.Viewer):
             css_classes=['ttlabel'],
         )
         self.layout.append(self.info_panel)
+
 
         opts = OrderedDict()
         for k in sorted(self.data_sets.keys())[::-1]:
@@ -119,11 +129,37 @@ class DataSelect(pn.viewable.Viewer):
     @pn.depends("_data_select_widget.value")
     def info_panel(self):
         path = self._data_select_widget.value
+        #Add image if one exists
+        if path is not None:
+            abs = path.absolute()
+            for file in os.listdir(abs):
+                # check if the file ends with png
+                if (file.endswith(".png")):
+                    self.data_image.object = str(path) + "/" + file
+                    break
+            #Print datadict keys
+            dd = self.load_data(str(abs) + "/data")
+            for key in dd.keys():
+                if len(key) < 2 or key[0:2] != "__":
+                    print(str(key)) # + ":   " + str(type(dd[key]['__shape__'])))
+                    print(">   " + str(dd[key].keys()))
+                    print(dd[key]["__shape__"])
+            print("- - -")
+            print(dd.keys())
+            print(str(dd) + "\n")
+            self.data_info.value = str(dd)
+        #Get the datafile
         if isinstance(path, Path):
             path = path / self.DATAFILE
         self.lbl.value = f"Path: {path}"
         self.selected_path = path
         return self.lbl
+    
+    def load_data(self, path) -> DataDict:
+        """
+        Load data from the file location specified
+        """
+        return datadict_from_hdf5(path)
 
 
 selector_stylesheet = """
