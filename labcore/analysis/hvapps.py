@@ -105,7 +105,6 @@ class DataSelect(pn.viewable.Viewer):
             css_classes=['ttlabel'],
         )
         self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.info_panel))
-        #self.layout.append(self.info_panel)
 
         opts = OrderedDict()
         for k in sorted(self.data_sets.keys())[::-1]:
@@ -118,21 +117,20 @@ class DataSelect(pn.viewable.Viewer):
         opts = OrderedDict()
 
         # setup global variables for search function
-        ActiveSearch = False
+        active_search = False
         r = re.compile(".*")
         if hasattr(self, "text_input"): 
             if self.text_input.value_input is not None and self.text_input.value_input != "":
                 # Make the Regex expression for the searched string
                 r = re.compile(".*" + str(self.text_input.value_input) + ".*")
                 print("Filter Term: " + str(self.text_input.value_input))
-                ActiveSearch = True
+                active_search = True
 
         for d in self._group_select_widget.value:
             for dset in sorted(self.data_sets[d].keys())[::-1]:
-                if ActiveSearch and not r.match(str(dset) + " " + str(timestamp_from_path(dset))):
-                    # If Active serach and this term doesn't match it, don't show
+                if active_search and not r.match(str(dset) + " " + str(timestamp_from_path(dset))):
+                    # If Active search and this term doesn't match it, don't show
                     continue
-                print("Dset values: " + str(dset))
                 (dirs, files) = self.data_sets[d][dset]
                 ts = timestamp_from_path(dset)
                 time = f"{ts.hour:02d}:{ts.minute:02d}:{ts.second:02d}"
@@ -143,7 +141,6 @@ class DataSelect(pn.viewable.Viewer):
                     if f'__{k}__.tag' in files:
                         lbl += self.SYM[k]             
                 opts[lbl] = dset
-            print("-")
 
         self._data_select_widget.options = opts
         return self._data_select_widget
@@ -342,7 +339,7 @@ class DDH5LoaderNode(LoaderNodeBase):
         """
         Load data from the file location specified
         """
-        #Check in case no data is selected
+        # Check in case no data is selected
         if str(self.file_path) == "":
             self.info_label.value = "Please select data to load. If there is no data, trying running in a higher directory."
             return None
