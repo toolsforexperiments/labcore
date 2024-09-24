@@ -123,7 +123,36 @@ def find_or_create_remote_instrument(cli: Client, ins_name: str, ins_class: Opti
     return ins
 
 
-def run_measurement(sweep: Sweep, name: str, **kwargs) -> Tuple[Union[str, Path], Optional[DataDict]]:
+def run_measurement(sweep: Sweep, name: str, safe_write_mode: bool = False, **kwargs) -> Tuple[Union[str, Path], Optional[DataDict]]:
+    """
+    Wrapper function around run_and_save_sweep that makes sure you are saving your measurement with all the necessary
+    metadata around it.
+    This includes the current git commit hash, the python environment, and the snapshot of all
+    instruments and parameters.
+    It is considered bad practice to have uncommitted changes in a repository that is installed locally.
+    If you have to change something from a repo, please open up a PR, this usually means that something is wrong there.
+
+    Assumptions
+    -----------
+
+    To use this function, you need:
+    * Have an instrumentserver instance running with an instantiated client in options.instrument_clients
+    * Have a parameter manager proxy instrument in options.parameters. You get this simply
+      by passing the usually called params variable to options.
+
+    How-to set up auto-committing
+    ---------------------------
+
+    To get this function to commit your measurement code before running the measurement,
+    you need to follow the following steps:
+
+    * Run `git init` in the directory where you are running your measurements.
+      If you are getting an error saying "could not set core.filemode to 'false'", run `sudo git init` instead.
+    * In your measurement folder copy the file :doc:`../doc/example.gitignore` and rename it to '.gitignore'.
+    * Commit all the files in your measurement folder running the command `git add -a -m "Initial commit"`.
+
+    After those 3 steps have been taken, every time a measurement is run, the folder should autocommit before any measurement.
+    """
     if options.instrument_clients is None:
         raise RuntimeError('it looks like options.instrument_clients is not configured.')
     if options.parameters is None:
@@ -147,6 +176,7 @@ def run_measurement(sweep: Sweep, name: str, **kwargs) -> Tuple[Union[str, Path]
         'name': name,
         'save_action_kwargs': True,
         'python_environment': py_env,
+        'safe_write_mode': safe_write_mode,
         **kwargs
     }
     if commit_hash is not None:

@@ -54,16 +54,29 @@ setup_measurements.options = options
 class Mixer:
     config: MixerConfig
     qm: Optional[QuantumMachine] = None
+    qmm: Optional[QuantumMachinesManager] = None
 
-    def run_constant_waveform(self):
-        with program() as const_pulse:
-            with infinite_loop_():
-                play('constant', self.config.element_name)
-        qmm = QuantumMachinesManager(host=self.config.qmconfig.opx_address,
-                                     port=self.config.qmconfig.opx_port)
-        qm = qmm.open_qm(self.config.qmconfig(), close_other_machines=False)
-        qm.execute(const_pulse)
-        self.qm = qm
+    def run_constant_waveform(self, **kwargs):
+        """
+        When using this with the octaves, the fields `cluster_name` and `octave` with their corresponding values need to be in the kwargs.
+        """
+        try:
+            with program() as const_pulse:
+                with infinite_loop_():
+                    play('constant', self.config.element_name)
+            qmm = QuantumMachinesManager(host=self.config.qmconfig.opx_address,
+                                        port=self.config.qmconfig.opx_port, **kwargs)
+            self.qmm = qmm
+            qm = qmm.open_qm(self.config.qmconfig(), close_other_machines=False)
+            qm.execute(const_pulse)
+            self.qm = qm
+        except KeyError as e:
+            message = None
+            if len(kwargs) < 2:
+                message = "Seems like no arguments were passed. " \
+                "If you are using the octaves you need to pass the arguments 'cluster_name' and 'octave', try passing them as keyqord arguments and try again."
+            raise AttributeError(message + f" Error raised was: {e}" )
+
 
     def step_of(self, di, dq):
         if self.qm is None:
@@ -75,14 +88,31 @@ class Mixer:
             raise RuntimeError('No active QuantumMachine.')
         mixer_imb_step(self.config, self.qm, dg, dp)
 
-def add_mixer_config(element_name, analyzer, generator, element_to_param_map=None, **config_kwargs):
+def add_mixer_config(qubit_name, analyzer, generator, readout=False, element_to_param_map=None, **config_kwargs):
     """
     FIXME: add docu (@wpfff)
     TODO: make sure we document the meaning of `element_to_param_map`.
-    """
-    if element_to_param_map is None:
-        element_to_param_map = element_name
 
+    contributor(s): Michael Mollenhaur
+
+    arguments:
+      qubit_name - string; name of the qubit listed in the parameter manager you are going to work with
+      analyzer - instrument; instrument module for the spectrum analyzer used for the mixer
+      generator - instrument; instrument module for the LO generator used for the mixer
+      readout - boolean; whether you are calibrating the readout mixer for the specified qubit
+      element_to_param_map - string; specifies whether to call the qubit or readout parameter manager values
+
+    """
+    element_name = qubit_name
+    if readout is True:
+        element_name += '_readout'
+
+    if element_to_param_map is None:
+        element_to_param_map = qubit_name
+
+        if readout is True:
+            element_to_param_map += '.readout'
+    
     cfg = MixerConfig(
         qmconfig=options.qm_config,
         opx_address=options.qm_config.opx_address,
