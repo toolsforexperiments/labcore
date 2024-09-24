@@ -193,3 +193,6 @@ def mixer_tuning_tool(mixer):
 
     box = widgets.HBox([ofbox, imbbox])
     display(box)
+
+
+run_measurement = partial(run_measurement, qmconfig=lambda: options.qm_config() if options.qm_config is not None else None)
