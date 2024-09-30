@@ -11,6 +11,8 @@ import param
 import panel as pn
 from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
 
+import pandas
+
 import os
 
 from ..data.datadict_storage import find_data, timestamp_from_path, datadict_from_hdf5
@@ -84,14 +86,13 @@ class DataSelect(pn.viewable.Viewer):
             stylesheets = [selector_stylesheet]
         )
         
-        # an image of this data
-        self.data_image = pn.pane.Image('https://assets.holoviz.org/panel/samples/png_sample2.png', sizing_mode = 'scale_width')
+        # Scrollable feed of images stored with this data
+        #self.data_images_grid= pn.GridBox([], ncols = 1, sizing_mode = 'scale_width')
+        self.data_images_feed = pn.layout.Feed(None, sizing_mode = "fixed") #layout.Feed
 
-        self.data_info = pn.widgets.StaticText(
-            stylesheets=[selector_stylesheet], 
-            css_classes=['ttlabel'],
-        )
-        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.data_info, self.data_image))
+        self.data_info = pn.pane.DataFrame(None)
+        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.data_info, self.data_images_feed))
+        #self.layout.append(self.data_images_feed)
 
         # a simple info panel about the selection
         self.lbl = pn.widgets.StaticText(
@@ -129,25 +130,30 @@ class DataSelect(pn.viewable.Viewer):
     @pn.depends("_data_select_widget.value")
     def info_panel(self):
         path = self._data_select_widget.value
-        #Add image if one exists
+        # Setup data preview panel
         if path is not None:
             abs = path.absolute()
+            # Add all/any images to a scrolling feed
+            images = []
             for file in os.listdir(abs):
                 # check if the file ends with png
                 if (file.endswith(".png")):
-                    self.data_image.object = str(path) + "/" + file
-                    break
-            #Print datadict keys
+                    images.append( pn.pane.PNG(str(path) + "/" + file, sizing_mode = "scale_width") ) 
+                    images.append( pn.layout.VSpacer())
+                    # break
+            self.data_images_feed.objects = images 
+            self.data_images_feed.width = 400
+            # Print datadict keys
             dd = self.load_data(str(abs) + "/data")
+            dict_for_dataframe = {}
             for key in dd.keys():
                 if len(key) < 2 or key[0:2] != "__":
-                    print(str(key)) # + ":   " + str(type(dd[key]['__shape__'])))
-                    print(">   " + str(dd[key].keys()))
-                    print(dd[key]["__shape__"])
-            print("- - -")
-            print(dd.keys())
-            print(str(dd) + "\n")
-            self.data_info.value = str(dd)
+                    depends_on = dd[key]["axes"] if dd[key]["axes"] != [] else "Independent"
+                    dict_for_dataframe[key] = [dd[key]["__shape__"], depends_on]
+                    print(dd[key].keys())
+            # Convert to data frame and display
+            df = pandas.DataFrame.from_dict(data = dict_for_dataframe, orient = "index", columns = ['Shape', 'Depends on'])
+            self.data_info.object = df
         #Get the datafile
         if isinstance(path, Path):
             path = path / self.DATAFILE
