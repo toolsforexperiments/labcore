@@ -12,8 +12,8 @@ import panel as pn
 from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
 
 import pandas
-
 import os
+import re
 
 from ..data.datadict_storage import find_data, timestamp_from_path, datadict_from_hdf5
 from ..data.datadict import (
@@ -36,6 +36,7 @@ class DataSelect(pn.viewable.Viewer):
     DATAFILE = 'data.ddh5'
 
     selected_path = param.Parameter(None)
+    search_term = param.Parameter(None)
 
     @staticmethod
     def date2label(date_tuple):
@@ -72,6 +73,20 @@ class DataSelect(pn.viewable.Viewer):
 
         self.layout = pn.Column()
 
+        # a search bar for data
+        self.text_input = pn.widgets.TextInput(
+            name='Search', 
+            placeholder='Enter a search term here...'
+        )
+        self.layout.append(self.text_input)
+
+        # Display the current search term
+        self.typed_value = pn.widgets.StaticText(
+            stylesheets=[selector_stylesheet], 
+            css_classes=['ttlabel'],
+        )
+        self.layout.append(self.text_input_repeater)
+
         # two selectors for data selection
         self._group_select_widget = MultiSelect(
             name='Date', 
@@ -99,7 +114,7 @@ class DataSelect(pn.viewable.Viewer):
             stylesheets=[selector_stylesheet], 
             css_classes=['ttlabel'],
         )
-        self.layout.append(self.info_panel)
+        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.info_panel))
 
 
         opts = OrderedDict()
@@ -111,8 +126,22 @@ class DataSelect(pn.viewable.Viewer):
     @pn.depends("_group_select_widget.value")
     def data_select(self):
         opts = OrderedDict()
+
+        # setup global variables for search function
+        active_search = False
+        r = re.compile(".*")
+        if hasattr(self, "text_input"): 
+            if self.text_input.value_input is not None and self.text_input.value_input != "":
+                # Make the Regex expression for the searched string
+                r = re.compile(".*" + str(self.text_input.value_input) + ".*")
+                print("Filter Term: " + str(self.text_input.value_input))
+                active_search = True
+
         for d in self._group_select_widget.value:
             for dset in sorted(self.data_sets[d].keys())[::-1]:
+                if active_search and not r.match(str(dset) + " " + str(timestamp_from_path(dset))):
+                    # If Active search and this term doesn't match it, don't show
+                    continue
                 (dirs, files) = self.data_sets[d][dset]
                 ts = timestamp_from_path(dset)
                 time = f"{ts.hour:02d}:{ts.minute:02d}:{ts.second:02d}"
@@ -166,6 +195,12 @@ class DataSelect(pn.viewable.Viewer):
         Load data from the file location specified
         """
         return datadict_from_hdf5(path)
+    
+    @pn.depends("text_input.value_input")
+    def text_input_repeater(self):
+        self.typed_value.value = f"Current Search: {self.text_input.value_input}"
+        self.search_term = self.text_input.value_input
+        return self.typed_value
 
 
 selector_stylesheet = """
@@ -257,6 +292,10 @@ class LoaderNodeBase(Node):
         t0 = datetime.now()
         dd = self.load_data()  # this is simply a datadict now.
 
+        # if there wasn't data selected, we can't process it
+        if dd is None:
+            return
+
         # this is the case for making a pandas DataFrame
         if not self.grid_on_load_toggle.value:
             data = self.split_complex(dd2df(dd))
@@ -342,4 +381,9 @@ class DDH5LoaderNode(LoaderNodeBase):
         """
         Load data from the file location specified
         """
+        # Check in case no data is selected
+        if str(self.file_path) == "":
+            self.info_label.value = "Please select data to load. If there is no data, trying running in a higher directory."
+            return None
+
         return datadict_from_hdf5(self.file_path.absolute())
