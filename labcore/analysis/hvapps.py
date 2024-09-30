@@ -102,19 +102,17 @@ class DataSelect(pn.viewable.Viewer):
         )
         
         # Scrollable feed of images stored with this data
-        #self.data_images_grid= pn.GridBox([], ncols = 1, sizing_mode = 'scale_width')
         self.data_images_feed = pn.layout.Feed(None, sizing_mode = "fixed") #layout.Feed
 
         self.data_info = pn.pane.DataFrame(None)
         self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.data_info, self.data_images_feed))
-        #self.layout.append(self.data_images_feed)
 
         # a simple info panel about the selection
         self.lbl = pn.widgets.StaticText(
             stylesheets=[selector_stylesheet], 
             css_classes=['ttlabel'],
         )
-        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.info_panel))
+        self.layout.append(pn.Row(self.info_panel))
 
 
         opts = OrderedDict()
@@ -134,7 +132,6 @@ class DataSelect(pn.viewable.Viewer):
             if self.text_input.value_input is not None and self.text_input.value_input != "":
                 # Make the Regex expression for the searched string
                 r = re.compile(".*" + str(self.text_input.value_input) + ".*")
-                print("Filter Term: " + str(self.text_input.value_input))
                 active_search = True
 
         for d in self._group_select_widget.value:
