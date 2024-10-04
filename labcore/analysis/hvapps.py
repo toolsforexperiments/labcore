@@ -103,9 +103,10 @@ class DataSelect(pn.viewable.Viewer):
         
         self.image_feed_width = 400 # The width of images in the feed
         self.image_feed_scroll_width = 40 # Extra width of the feed itself for the scroll bar
+        
         # Scrollable feed of images stored with this data
         self.data_images_feed = pn.layout.Feed(None, sizing_mode = "fixed") #layout.Feed
-
+        # Data frame showing axes & dependencies
         self.data_info = pn.pane.DataFrame(None)
         self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.data_info, self.data_images_feed))
 
@@ -169,7 +170,6 @@ class DataSelect(pn.viewable.Viewer):
                     img = pn.pane.PNG(str(path) + "/" + file, sizing_mode = "fixed", width = self.image_feed_width)
                     images.append(img)
                     images.append( pn.Spacer(height = img.height))
-                    # break
             self.data_images_feed.objects = images 
             self.data_images_feed.width = self.image_feed_width + self.image_feed_scroll_width
             # load datadict into dictionary/list
