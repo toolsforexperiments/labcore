@@ -26,3 +26,29 @@ pn.template.BootstrapTemplate(
     sidebar=[],
     main=[ds, loader, loader.plot],
 ).servable()
+
+
+#--- Watchdog Test
+
+import time
+
+from watchdog.events import FileSystemEvent, FileSystemEventHandler
+from watchdog.observers import Observer
+
+
+class MyEventHandler(FileSystemEventHandler):
+    def on_created(self, event) -> None:
+        print(event)
+
+
+event_handler = MyEventHandler()
+observer = Observer()
+observer.schedule(event_handler, path=".", recursive=True)
+observer.start()
+
+def watchdog_check():
+    observer.stop()
+    observer.join()
+
+
+pn.state.add_periodic_callback(watchdog_check, 1000)
