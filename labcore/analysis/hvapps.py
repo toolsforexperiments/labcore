@@ -101,6 +101,8 @@ class DataSelect(pn.viewable.Viewer):
             stylesheets = [selector_stylesheet]
         )
         
+        self.image_feed_width = 400 # The width of images in the feed
+        self.image_feed_scroll_width = 40 # Extra width of the feed itself for the scroll bar
         # Scrollable feed of images stored with this data
         self.data_images_feed = pn.layout.Feed(None, sizing_mode = "fixed") #layout.Feed
 
@@ -164,25 +166,26 @@ class DataSelect(pn.viewable.Viewer):
             for file in os.listdir(abs):
                 # check if the file ends with png
                 if (file.endswith(".png")):
-                    images.append( pn.pane.PNG(str(path) + "/" + file, sizing_mode = "scale_width") ) 
-                    images.append( pn.layout.VSpacer())
+                    img = pn.pane.PNG(str(path) + "/" + file, sizing_mode = "fixed", width = self.image_feed_width)
+                    images.append(img)
+                    images.append( pn.Spacer(height = img.height))
                     # break
             self.data_images_feed.objects = images 
-            self.data_images_feed.width = 400
-            # Print datadict keys
+            self.data_images_feed.width = self.image_feed_width + self.image_feed_scroll_width
+            # load datadict into dictionary/list
             dd = self.load_data(str(abs) + "/data")
             dict_for_dataframe = {}
             for key in dd.keys():
                 if len(key) < 2 or key[0:2] != "__":
-                    depends_on = dd[key]["axes"] if dd[key]["axes"] != [] else "Independent"
+                    depends_on = dd[key]["axes"]  if dd[key]["axes"] != []  else "Independent"
                     dict_for_dataframe[key] = [dd[key]["__shape__"], depends_on]
-                    print(dd[key].keys())
             # Convert to data frame and display
             df = pandas.DataFrame.from_dict(data = dict_for_dataframe, orient = "index", columns = ['Shape', 'Depends on'])
             self.data_info.object = df
-        #Get the datafile
+        # Get the path
         if isinstance(path, Path):
             path = path / self.DATAFILE
+        # Display path under the dataframe
         self.lbl.value = f"Path: {path}"
         self.selected_path = path
         return self.lbl
