@@ -67,6 +67,7 @@ class DataSelect(pn.viewable.Viewer):
         # { date (as tuple): 
         #    { path of the dataset folder : (list of subdirs, list of files) }
         # }
+        self.data_root = data_root
         self.data_sets = self.group_data(find_data(root=data_root))
 
         self.layout = pn.Column()
@@ -160,6 +161,15 @@ class DataSelect(pn.viewable.Viewer):
         self.search_term = self.text_input.value_input
         return self.typed_value
 
+    def update_data_options(self):
+        # Refresh self.data_sets
+        self.data_sets = self.group_data(find_data(root=self.data_root))
+        # Repull data group options
+        opts = OrderedDict()
+        for k in sorted(self.data_sets.keys())[::-1]:
+            lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
+            opts[lbl] = k
+        self._group_select_widget.options = opts
 
 selector_stylesheet = """
 :host .bk-input {
