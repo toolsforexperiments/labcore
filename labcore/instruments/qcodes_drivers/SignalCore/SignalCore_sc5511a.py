@@ -9,6 +9,7 @@ A simple driver for SignalCore SC5511A to be used with QCoDes, transferred from 
 
 import ctypes
 import logging
+import platform
 from typing import Any, Dict, Optional, List
 
 from qcodes import (Instrument, validators as vals)
@@ -90,7 +91,10 @@ class Device_info_t(ctypes.Structure):
 # End of Structures------------------------------------------------------------
 class SignalCore_SC5511A(Instrument):
 
-    dllpath = r"/home/pfafflab/Documents/signalCore_drivers/Linux/lib/libsc5511a.so.1.0"
+    if platform.system() == 'Windows':
+        dllpath = r"C:\Program Files\SignalCore\SC5511A\api\c\x64\sc5511a.dll"
+    else:
+        dllpath = r"/home/pfafflab/Documents/drivers/Linux/libusb/lib/libsc55511a.so.1.0"
 
     def __init__(self, name: str, serial_number: str,
                  dllpath: Optional[str] = None, debug=False, **kwargs: Any):
