@@ -35,6 +35,7 @@ class DataSelect(pn.viewable.Viewer):
 
     selected_path = param.Parameter(None)
     search_term = param.Parameter(None)
+    new_file = param.Parameter(None)
 
     @staticmethod
     def date2label(date_tuple):
@@ -105,7 +106,7 @@ class DataSelect(pn.viewable.Viewer):
             stylesheets=[selector_stylesheet], 
             css_classes=['ttlabel'],
         )
-        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.info_panel))
+        self.layout.append(pn.Row(self.group_select, self.data_select, self.info_panel))
 
         opts = OrderedDict()
         for k in sorted(self.data_sets.keys())[::-1]:
@@ -145,6 +146,22 @@ class DataSelect(pn.viewable.Viewer):
 
         self._data_select_widget.options = opts
         return self._data_select_widget
+    
+    def group_select(self):
+        print("Updating Data Options...\n")
+        # Refresh self.data_sets
+        self.data_sets = self.group_data(find_data(root=self.data_root))
+        # Repull data group options
+        opts = OrderedDict()
+        for k in sorted(self.data_sets.keys())[::-1]:
+            lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
+            opts[lbl] = k
+        # Set and check values
+        self._group_select_widget.options = opts
+        print(f"New Data options: {opts} =?= {self._group_select_widget.options}")
+        self.data_select()
+        return self._group_select_widget
+
 
     @pn.depends("_data_select_widget.value")
     def info_panel(self):
@@ -160,16 +177,6 @@ class DataSelect(pn.viewable.Viewer):
         self.typed_value.value = f"Current Search: {self.text_input.value_input}"
         self.search_term = self.text_input.value_input
         return self.typed_value
-
-    def update_data_options(self):
-        # Refresh self.data_sets
-        self.data_sets = self.group_data(find_data(root=self.data_root))
-        # Repull data group options
-        opts = OrderedDict()
-        for k in sorted(self.data_sets.keys())[::-1]:
-            lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
-            opts[lbl] = k
-        self._group_select_widget.options = opts
 
 selector_stylesheet = """
 :host .bk-input {

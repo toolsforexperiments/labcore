@@ -30,16 +30,13 @@ pn.template.BootstrapTemplate(
 
 #--- Watchdog Test
 
-import time
-
-from watchdog.events import FileSystemEvent, FileSystemEventHandler
+from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
 
 class MyEventHandler(FileSystemEventHandler):
     def on_created(self, event) -> None:
-        print(event)
-
+        ds.group_select()
 
 event_handler = MyEventHandler()
 observer = Observer()
@@ -49,6 +46,5 @@ observer.start()
 def watchdog_check():
     observer.stop()
     observer.join()
-
 
 pn.state.add_periodic_callback(watchdog_check, 1000)
