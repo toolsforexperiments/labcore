@@ -140,7 +140,7 @@ class DataSelect(pn.viewable.Viewer):
 
     @pn.depends("_group_select_widget.value")
     def data_select(self):
-        opts = OrderedDict()
+        #opts = OrderedDict()
 
         # setup global variables for search function
         active_search = False
@@ -152,6 +152,15 @@ class DataSelect(pn.viewable.Viewer):
                 print("Filter Term: " + str(self.text_input.value_input))
                 active_search = True
 
+        opts = self.get_data_options(active_search, r)
+
+        self._data_select_widget.options = opts
+        return self._data_select_widget
+    
+    def get_data_options(self, active_search=True, r=re.compile('.*')):
+        if isinstance(r, str):
+            r = re.compile(r)
+        opts = OrderedDict()
         for d in self._group_select_widget.value:
             for dset in sorted(self.data_sets[d].keys())[::-1]:
                 if active_search and not r.match(str(dset) + " " + str(timestamp_from_path(dset))):
@@ -167,9 +176,7 @@ class DataSelect(pn.viewable.Viewer):
                     if f'__{k}__.tag' in files:
                         lbl += self.SYM[k]             
                 opts[lbl] = dset
-
-        self._data_select_widget.options = opts
-        return self._data_select_widget
+        return opts
 
     @pn.depends("_data_select_widget.value")
     def info_panel(self):
@@ -187,16 +194,28 @@ class DataSelect(pn.viewable.Viewer):
         return self.typed_value
     
     def update_group_options(self, event):
+        was_selected = self._group_select_widget.value
+        selected_dates = []
+        for date_num in was_selected:
+            selected_dates.append(str(date_num).split('[')[0])
         print(event)
+        print("Was Selected: " + str(was_selected))
         # Refresh self.data_sets
         self.data_sets = self.group_data(find_data(root=self.data_root))
         # Repull data group options
         new_opts = OrderedDict()
+        new_selecteds = []
         for k in sorted(self.data_sets.keys())[::-1]:
             lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
             new_opts[lbl] = k
-        # Set and check values
+            # Check if the date was previously selected
+            print("check: " + str(self.date2label(k)))
+            if k in selected_dates:
+                new_selecteds.append(k)
+        print(new_opts)
+        # Set the group and data options
         self._group_select_widget.options = new_opts
+        self._data_select_widget.options = self.get_data_options()
 
 selector_stylesheet = """
 :host .bk-input {
