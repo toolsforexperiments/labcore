@@ -2,6 +2,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Union
 from collections import OrderedDict
+import sys #REMOVE
 
 import asyncio
 import nest_asyncio
@@ -10,6 +11,8 @@ nest_asyncio.apply()
 import param
 import panel as pn
 from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
 import re
 
@@ -22,6 +25,14 @@ from ..data.datadict import (
 )
 from .hvplotting import Node, labeled_widget
 
+class Handler(FileSystemEventHandler):
+    def __init__(self, update_callback):
+        self.update_callback = update_callback
+
+    def on_created(self, event):
+        if event.is_directory:
+            print('File Directory Created')
+            self.update_callback(event)
 
 class DataSelect(pn.viewable.Viewer):
 
@@ -35,7 +46,8 @@ class DataSelect(pn.viewable.Viewer):
 
     selected_path = param.Parameter(None)
     search_term = param.Parameter(None)
-    new_file = param.Parameter(None)
+    group_options = param.Parameter(None)
+    
 
     @staticmethod
     def date2label(date_tuple):
@@ -106,13 +118,25 @@ class DataSelect(pn.viewable.Viewer):
             stylesheets=[selector_stylesheet], 
             css_classes=['ttlabel'],
         )
-        self.layout.append(pn.Row(self.group_select, self.data_select, self.info_panel))
+        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.info_panel))
 
         opts = OrderedDict()
         for k in sorted(self.data_sets.keys())[::-1]:
             lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
             opts[lbl] = k
         self._group_select_widget.options = opts
+
+        # WATCHDOG INCORPORATION
+        # This allows for monitoring when files are created
+        self.DIRECTORY_TO_WATCH = r"C:/Users/Legod\Documents/GitHub/labcore/docs/examples/data"
+        self.observer = Observer()
+        self.handler = Handler(self.update_group_options)
+        self.start()
+
+    def start(self):
+        self.observer.schedule(self.handler, self.DIRECTORY_TO_WATCH, recursive=True)
+        self.observer.start()
+
 
     @pn.depends("_group_select_widget.value")
     def data_select(self):
@@ -146,22 +170,6 @@ class DataSelect(pn.viewable.Viewer):
 
         self._data_select_widget.options = opts
         return self._data_select_widget
-    
-    def group_select(self):
-        print("Updating Data Options...\n")
-        # Refresh self.data_sets
-        self.data_sets = self.group_data(find_data(root=self.data_root))
-        # Repull data group options
-        opts = OrderedDict()
-        for k in sorted(self.data_sets.keys())[::-1]:
-            lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
-            opts[lbl] = k
-        # Set and check values
-        self._group_select_widget.options = opts
-        print(f"New Data options: {opts} =?= {self._group_select_widget.options}")
-        self.data_select()
-        return self._group_select_widget
-
 
     @pn.depends("_data_select_widget.value")
     def info_panel(self):
@@ -177,6 +185,18 @@ class DataSelect(pn.viewable.Viewer):
         self.typed_value.value = f"Current Search: {self.text_input.value_input}"
         self.search_term = self.text_input.value_input
         return self.typed_value
+    
+    def update_group_options(self, event):
+        print(event)
+        # Refresh self.data_sets
+        self.data_sets = self.group_data(find_data(root=self.data_root))
+        # Repull data group options
+        new_opts = OrderedDict()
+        for k in sorted(self.data_sets.keys())[::-1]:
+            lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
+            new_opts[lbl] = k
+        # Set and check values
+        self._group_select_widget.options = new_opts
 
 selector_stylesheet = """
 :host .bk-input {
