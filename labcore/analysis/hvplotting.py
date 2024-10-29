@@ -643,7 +643,11 @@ def plot_xr_as_2d(ds, x, y, dim_labels={}):
                     ylabel=dim_labels.get(y, y),
                     clabel=f"Mean {dim_labels.get(d, d)}",
                 )
-        return plot.cols(1)
+        # FIXME: QuadMesh object has no attribute 'cols' error for longsweep
+        try:
+            return plot.cols(1)
+        except:
+            return "*Not a valid plot*"
 
     else:
         return "*Not a valid plot*"

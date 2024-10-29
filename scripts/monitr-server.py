@@ -26,28 +26,3 @@ pn.template.BootstrapTemplate(
     sidebar=[],
     main=[ds, loader, loader.plot],
 ).servable()
-
-
-#--- Watchdog Test
-'''
-from watchdog.events import FileSystemEventHandler
-from watchdog.observers import Observer
-
-
-class MyEventHandler(FileSystemEventHandler):
-    def on_created(self, event) -> None:
-        
-        if event.is_directory:
-            ds.group_select()
-            ds.UpdateWidgets()
-
-event_handler = MyEventHandler()
-observer = Observer()
-observer.schedule(event_handler, path=".", recursive=True)
-observer.start()
-
-def watchdog_check():
-    observer.stop()
-    observer.join()
-
-pn.state.add_periodic_callback(watchdog_check, 1000)'''

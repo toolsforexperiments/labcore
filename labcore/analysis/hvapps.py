@@ -48,6 +48,8 @@ class DataSelect(pn.viewable.Viewer):
     search_term = param.Parameter(None)
     group_options = param.Parameter(None)
     
+    # Used to combat Watchdogs duplicate calling events
+    event_lock = False
 
     @staticmethod
     def date2label(date_tuple):
@@ -100,11 +102,17 @@ class DataSelect(pn.viewable.Viewer):
         self.layout.append(self.text_input_repeater)
 
         # two selectors for data selection
-        self._group_select_widget = MultiSelect(
+        self._group_select_widget = pn.widgets.CheckBoxGroup(
             name='Date', 
-            size=self.size,
+            height=self.size,
             width=200,
             stylesheets = [selector_stylesheet]
+        )
+        # Wrap the CheckBoxGroup in a feed so that it can't get too long
+        self._group_select_feed = pn.layout.Feed(
+            objects=[self._group_select_widget],
+            height=self.size * 20,
+            width=200
         )
         self._data_select_widget = Select(
             name='Data set', 
@@ -118,7 +126,7 @@ class DataSelect(pn.viewable.Viewer):
             stylesheets=[selector_stylesheet], 
             css_classes=['ttlabel'],
         )
-        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.info_panel))
+        self.layout.append(pn.Row(self._group_select_feed, self.data_select, self.info_panel))
 
         opts = OrderedDict()
         for k in sorted(self.data_sets.keys())[::-1]:
@@ -128,7 +136,7 @@ class DataSelect(pn.viewable.Viewer):
 
         # WATCHDOG INCORPORATION
         # This allows for monitoring when files are created
-        self.DIRECTORY_TO_WATCH = r"C:/Users/Legod\Documents/GitHub/labcore/docs/examples/data"
+        self.DIRECTORY_TO_WATCH = r"."
         self.observer = Observer()
         self.handler = Handler(self.update_group_options)
         self.start()
@@ -140,8 +148,6 @@ class DataSelect(pn.viewable.Viewer):
 
     @pn.depends("_group_select_widget.value")
     def data_select(self):
-        #opts = OrderedDict()
-
         # setup global variables for search function
         active_search = False
         r = re.compile(".*")
@@ -149,7 +155,6 @@ class DataSelect(pn.viewable.Viewer):
             if self.text_input.value_input is not None and self.text_input.value_input != "":
                 # Make the Regex expression for the searched string
                 r = re.compile(".*" + str(self.text_input.value_input) + ".*")
-                print("Filter Term: " + str(self.text_input.value_input))
                 active_search = True
 
         opts = self.get_data_options(active_search, r)
@@ -194,28 +199,19 @@ class DataSelect(pn.viewable.Viewer):
         return self.typed_value
     
     def update_group_options(self, event):
-        was_selected = self._group_select_widget.value
-        selected_dates = []
-        for date_num in was_selected:
-            selected_dates.append(str(date_num).split('[')[0])
-        print(event)
-        print("Was Selected: " + str(was_selected))
         # Refresh self.data_sets
-        self.data_sets = self.group_data(find_data(root=self.data_root))
+        new_data_set = self.group_data(find_data(root=self.data_root))
         # Repull data group options
         new_opts = OrderedDict()
-        new_selecteds = []
-        for k in sorted(self.data_sets.keys())[::-1]:
-            lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
+        for k in sorted(new_data_set.keys())[::-1]:
+            lbl = self.date2label(k) + f' [{len(new_data_set[k])}]'
             new_opts[lbl] = k
-            # Check if the date was previously selected
-            print("check: " + str(self.date2label(k)))
-            if k in selected_dates:
-                new_selecteds.append(k)
-        print(new_opts)
+        print("> " + str(self._group_select_widget.value))
         # Set the group and data options
+        self.data_sets = new_data_set
         self._group_select_widget.options = new_opts
         self._data_select_widget.options = self.get_data_options()
+        self._group_select_feed.objects = [self._group_select_widget]
 
 selector_stylesheet = """
 :host .bk-input {
@@ -298,46 +294,52 @@ class LoaderNodeBase(Node):
             self.display_info,
         )
 
-    def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
+        self.lock = asyncio.Lock()
+
+    async def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
         """Call load data and perform pre-processing.
 
         Function is triggered by clicking the "Load data" button.
         """
-        t0 = datetime.now()
-        dd = self.load_data()  # this is simply a datadict now.
+        async with self.lock:
+            print("Load and preprocess 1")
+            t0 = datetime.now()
+            dd = self.load_data()  # this is simply a datadict now.
 
-        # if there wasn't data selected, we can't process it
-        if dd is None:
-            return
+            # if there wasn't data selected, we can't process it
+            if dd is None:
+                return
 
-        # this is the case for making a pandas DataFrame
-        if not self.grid_on_load_toggle.value:
-            data = self.split_complex(dd2df(dd))
-            indep, dep = self.data_dims(data)
+            # this is the case for making a pandas DataFrame
+            if not self.grid_on_load_toggle.value:
+                data = self.split_complex(dd2df(dd))
+                indep, dep = self.data_dims(data)
 
-            if self.pre_process_dim_input.value in indep:
-                if self.pre_process_opts.value == "Average":
-                    data = self.mean(data, self.pre_process_dim_input.value)
-                    indep.pop(indep.index(self.pre_process_dim_input.value))
+                if self.pre_process_dim_input.value in indep:
+                    if self.pre_process_opts.value == "Average":
+                        data = self.mean(data, self.pre_process_dim_input.value)
+                        indep.pop(indep.index(self.pre_process_dim_input.value))
 
-        # when making gridded data, can do things slightly differently
-        # TODO: what if gridding goes wrong?
-        else:
-            mdd = datadict_to_meshgrid(dd)
+            # when making gridded data, can do things slightly differently
+            # TODO: what if gridding goes wrong?
+            else:
+                mdd = datadict_to_meshgrid(dd)
 
-            if self.pre_process_dim_input.value in mdd.axes():
-                if self.pre_process_opts.value == "Average":
-                    mdd = mdd.mean(self.pre_process_dim_input.value)
+                if self.pre_process_dim_input.value in mdd.axes():
+                    if self.pre_process_opts.value == "Average":
+                        mdd = mdd.mean(self.pre_process_dim_input.value)
 
-            data = self.split_complex(dd2xr(mdd))
-            indep, dep = self.data_dims(data)
+                data = self.split_complex(dd2xr(mdd))
+                indep, dep = self.data_dims(data)
+            print("load and preprocess 2")
 
-        for dim in indep + dep:
-            self.units_out[dim] = dd.get(dim, {}).get("unit", None)
+            for dim in indep + dep:
+                self.units_out[dim] = dd.get(dim, {}).get("unit", None)
 
-        self.data_out = data
-        t1 = datetime.now()
-        self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
+            self.data_out = data
+            t1 = datetime.now()
+            self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
+            print("load and preprocess 3")
 
     @pn.depends("info_label.value")
     def display_info(self):
@@ -345,6 +347,14 @@ class LoaderNodeBase(Node):
     
     @pn.depends("refresh.value", watch=True)
     def on_refresh_changed(self):
+        # try:
+        #     # Remove the existing callback if it exists
+        #     pn.state.remove_periodic_callback(self.load_and_preprocess)
+        # except:
+        #     pass
+        # if self.refresh.value is not None:
+        #     # Add a new callback with different frequency
+        #     pn.state.add_periodic_callback(self.load_and_preprocess, self.refresh.value * 1000)
         if self.refresh.value is None:
             self.task = None
         
@@ -355,8 +365,16 @@ class LoaderNodeBase(Node):
     async def run_auto_refresh(self):
         while self.refresh.value is not None:
             await asyncio.sleep(self.refresh.value)
-            self.load_and_preprocess()
+            print("Refreshing!")
+            asyncio.run(self.load_and_preprocess())
         return
+
+    # def auto_refresh(self):
+    #     if self.refresh.value is not None:
+    #         self.load_and_preprocess()
+    #         pn.state.
+            
+        
 
     def load_data(self) -> DataDict:
         """Load data. Needs to be implemented by subclasses.
