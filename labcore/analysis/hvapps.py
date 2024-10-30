@@ -101,20 +101,34 @@ class DataSelect(pn.viewable.Viewer):
             css_classes=['ttlabel'],
         )
         self.layout.append(self.text_input_repeater)
+        
+        
+        self.image_feed_width = 400  # The width of images in the feed
+        self.feed_scroll_width = 40  # Extra width of the feed itself for the scroll bar
 
         # two selectors for data selection
         self._group_select_widget = pn.widgets.CheckBoxGroup(
             name='Date', 
-            height=self.size,
-            width=200,
+            # height=self.size,
+            width=200-self.feed_scroll_width,
             stylesheets = [selector_stylesheet]
         )
         # Wrap the CheckBoxGroup in a feed so that it can't get too long
         self._group_select_feed = pn.layout.Feed(
             objects=[self._group_select_widget],
-            height=self.size * 20,
+            height=(self.size - 1) * 20,
             width=200
         )
+        # Add a title to match the multiselect widget style
+        self._group_select = pn.Column(
+            pn.widgets.StaticText(
+                stylesheets=[selector_stylesheet], 
+                css_classes=['ttlabel'],
+                value="Date"
+                ),
+            self._group_select_feed
+        )
+        # Data select panel
         self._data_select_widget = Select(
             name='Data set', 
             size=self.size,
@@ -122,21 +136,20 @@ class DataSelect(pn.viewable.Viewer):
             stylesheets = [selector_stylesheet]
         )
         
-        self.image_feed_width = 400  # The width of images in the feed
-        self.image_feed_scroll_width = 40  # Extra width of the feed itself for the scroll bar
-        
         # Scrollable feed of images stored with this data
         self.data_images_feed = pn.layout.Feed(None, sizing_mode="fixed")
         # Data frame showing axes & dependencies
         self.data_info = pn.pane.DataFrame(None)
-        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.data_info, self.data_images_feed))
+
+        self.layout.append(pn.Row(self._group_select, self.data_select, self.data_info, self.data_images_feed))
 
         # a simple info panel about the selection
         self.lbl = pn.widgets.StaticText(
             stylesheets=[selector_stylesheet], 
             css_classes=['ttlabel'],
         )
-        self.layout.append(pn.Row(self._group_select_feed, self.data_select, self.info_panel))
+
+        #Idk what this'll do
         self.layout.append(pn.Row(self.info_panel))
 
         opts = OrderedDict()
@@ -215,7 +228,7 @@ class DataSelect(pn.viewable.Viewer):
                 images.append(img)
                 images.append( pn.Spacer(height=img.height))
             self.data_images_feed.objects = images 
-            self.data_images_feed.width = self.image_feed_width + self.image_feed_scroll_width
+            self.data_images_feed.width = self.image_feed_width + self.feed_scroll_width
             # Load datadict into dictionary/list
             # FIXME: Assumes a file named 'data' exists in the desired directory. Should be generalized.
             # FIXME: Only works for ddh5 for now. Should allow the user to specify what datatype is being loaded.
