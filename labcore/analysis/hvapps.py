@@ -200,10 +200,11 @@ class DataSelect(pn.viewable.Viewer):
                 time = f"{ts.hour:02d}:{ts.minute:02d}:{ts.second:02d}"
                 uuid = f"{dset.stem[18:26]}"
                 name = f"{dset.stem[27:]}"
-                lbl = f" {time} - {uuid} - {name} "
+                date = f"{ts.date()}"
+                lbl = f"{date} - {time} - {uuid} - {name} "
                 for k in ['complete', 'star', 'trash']:
                     if f'__{k}__.tag' in files:
-                        lbl += self.SYM[k]             
+                        lbl += self.SYM[k]     
                 opts[lbl] = dset
         return opts
 
