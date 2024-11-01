@@ -2,11 +2,13 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Union
 from collections import OrderedDict
+import os
 
 import asyncio
 import nest_asyncio
 nest_asyncio.apply()
 
+import pandas
 import param
 import panel as pn
 from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
@@ -98,13 +100,22 @@ class DataSelect(pn.viewable.Viewer):
             width=800,
             stylesheets = [selector_stylesheet]
         )
+        
+        self.image_feed_width = 400  # The width of images in the feed
+        self.image_feed_scroll_width = 40  # Extra width of the feed itself for the scroll bar
+        
+        # Scrollable feed of images stored with this data
+        self.data_images_feed = pn.layout.Feed(None, sizing_mode="fixed")
+        # Data frame showing axes & dependencies
+        self.data_info = pn.pane.DataFrame(None)
+        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.data_info, self.data_images_feed))
 
         # a simple info panel about the selection
         self.lbl = pn.widgets.StaticText(
             stylesheets=[selector_stylesheet], 
             css_classes=['ttlabel'],
         )
-        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.info_panel))
+        self.layout.append(pn.Row(self.info_panel))
 
         opts = OrderedDict()
         for k in sorted(self.data_sets.keys())[::-1]:
@@ -123,7 +134,6 @@ class DataSelect(pn.viewable.Viewer):
             if self.text_input.value_input is not None and self.text_input.value_input != "":
                 # Make the Regex expression for the searched string
                 r = re.compile(".*" + str(self.text_input.value_input) + ".*")
-                print("Filter Term: " + str(self.text_input.value_input))
                 active_search = True
 
         for d in self._group_select_widget.value:
@@ -148,8 +158,41 @@ class DataSelect(pn.viewable.Viewer):
     @pn.depends("_data_select_widget.value")
     def info_panel(self):
         path = self._data_select_widget.value
+        # Setup data preview panel
+        if path is not None:
+            abs_path = path.absolute()
+            # Add all/any images to a scrolling feed
+            images = []
+            for file in Path.iterdir(abs_path):
+                # Check if the file ends with png, jpg, or jpeg
+                file = str(file)
+                img = ''
+                if file.endswith(".png"):
+                    img = pn.pane.PNG(file, sizing_mode="fixed", width=self.image_feed_width)
+                elif file.endswith(".jpg") or file.endswith(".jpeg"):
+                    img = pn.pane.JPG(file, sizing_mode="fixed", width=self.image_feed_width)
+                else:
+                    continue
+                images.append(img)
+                images.append( pn.Spacer(height=img.height))
+            self.data_images_feed.objects = images 
+            self.data_images_feed.width = self.image_feed_width + self.image_feed_scroll_width
+            # Load datadict into dictionary/list
+            # FIXME: Assumes a file named 'data' exists in the desired directory. Should be generalized.
+            # FIXME: Only works for ddh5 for now. Should allow the user to specify what datatype is being loaded.
+            dd = datadict_from_hdf5(str(abs_path) + "/data")
+            dict_for_dataframe = {}
+            for key in dd.keys():
+                if len(key) < 2 or key[0:2] != "__":
+                    depends_on = dd[key]["axes"]  if dd[key]["axes"] != []  else "Independent"
+                    dict_for_dataframe[key] = [dd[key]["__shape__"], depends_on]
+            # Convert to data frame and display
+            df = pandas.DataFrame.from_dict(data=dict_for_dataframe, orient="index", columns=['Shape', 'Depends on'])
+            self.data_info.object = df
+        # Get the path
         if isinstance(path, Path):
             path = path / self.DATAFILE
+        # Display path under the dataframe
         self.lbl.value = f"Path: {path}"
         self.selected_path = path
         return self.lbl
