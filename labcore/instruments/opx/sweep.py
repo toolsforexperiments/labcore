@@ -71,7 +71,11 @@ class RecordOPXdata(AsyncRecord):
             cluster_name=config.cluster_name,
             octave=config.octave
         )
-        qmachine = qmachine_mgr.open_qm(config(), close_other_machines=True)
+
+        qmachine = qmachine_mgr.open_qm(config(), close_other_machines=False)
+        logger.info(f"current QM: {qmachine}, {qmachine.id}")
+
+        
         # if config.octave is not None:
         #     config.configure_octave(qmachine_mgr, qmachine)
 
@@ -149,10 +153,6 @@ class RecordOPXdata(AsyncRecord):
             qmachine.close()
             logger.info(f"QM with ID {qm_id} closed.")
         
-        manager.close()
-        logger.info(f"QMM closed.")
-        del self.communicator['qmachine']
-        del self.communicator['manager']
 
 
     def collect(self, batchsize: int = 100) -> Generator[Dict, None, None]:
