@@ -32,7 +32,6 @@ class Handler(FileSystemEventHandler):
 
     def on_created(self, event):
         if event.is_directory:
-            print('File Directory Created')
             self.update_callback(event)
 
 class DataSelect(pn.viewable.Viewer):
@@ -264,7 +263,6 @@ class DataSelect(pn.viewable.Viewer):
         for k in sorted(new_data_set.keys())[::-1]:
             lbl = self.date2label(k) + f' [{len(new_data_set[k])}]'
             new_opts[lbl] = k
-        print("> " + str(self._group_select_widget.value))
         # Set the group and data options
         self.data_sets = new_data_set
         self._group_select_widget.options = new_opts
@@ -360,7 +358,6 @@ class LoaderNodeBase(Node):
         Function is triggered by clicking the "Load data" button.
         """
         async with self.lock:
-            print("Load and preprocess 1")
             t0 = datetime.now()
             dd = self.load_data()  # this is simply a datadict now.
 
@@ -389,7 +386,6 @@ class LoaderNodeBase(Node):
 
                 data = self.split_complex(dd2xr(mdd))
                 indep, dep = self.data_dims(data)
-            print("load and preprocess 2")
 
             for dim in indep + dep:
                 self.units_out[dim] = dd.get(dim, {}).get("unit", None)
@@ -397,7 +393,6 @@ class LoaderNodeBase(Node):
             self.data_out = data
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
-            print("load and preprocess 3")
 
     @pn.depends("info_label.value")
     def display_info(self):
@@ -423,7 +418,6 @@ class LoaderNodeBase(Node):
     async def run_auto_refresh(self):
         while self.refresh.value is not None:
             await asyncio.sleep(self.refresh.value)
-            print("Refreshing!")
             asyncio.run(self.load_and_preprocess())
         return
 
