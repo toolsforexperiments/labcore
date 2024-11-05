@@ -26,3 +26,4 @@ dependencies:
   - qtpy
   - pip
   - gitpython
+  - watchdog

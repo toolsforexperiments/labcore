@@ -646,8 +646,8 @@ def plot_xr_as_2d(ds, x, y, dim_labels={}):
         # FIXME: QuadMesh object has no attribute 'cols' error for longsweep
         try:
             return plot.cols(1)
-        except:
-            return "*Not a valid plot*"
+        except AttributeError:
+            return "*Not a valid plot* Attribute Error occurred"
 
     else:
         return "*Not a valid plot*"

@@ -26,6 +26,7 @@ from ..data.datadict import (
 )
 from .hvplotting import Node, labeled_widget
 
+
 class Handler(FileSystemEventHandler):
     def __init__(self, update_callback):
         self.update_callback = update_callback
@@ -33,6 +34,7 @@ class Handler(FileSystemEventHandler):
     def on_created(self, event):
         if event.is_directory:
             self.update_callback(event)
+
 
 class DataSelect(pn.viewable.Viewer):
 
@@ -101,16 +103,14 @@ class DataSelect(pn.viewable.Viewer):
         )
         self.layout.append(self.text_input_repeater)
         
-        
         self.image_feed_width = 400  # The width of images in the feed
         self.feed_scroll_width = 40  # Extra width of the feed itself for the scroll bar
 
         # two selectors for data selection
         self._group_select_widget = pn.widgets.CheckBoxGroup(
             name='Date', 
-            # height=self.size,
             width=200-self.feed_scroll_width,
-            stylesheets = [selector_stylesheet]
+            stylesheets=[selector_stylesheet]
         )
         # Wrap the CheckBoxGroup in a feed so that it can't get too long
         self._group_select_feed = pn.layout.Feed(
@@ -148,7 +148,6 @@ class DataSelect(pn.viewable.Viewer):
             css_classes=['ttlabel'],
         )
 
-        #Idk what this'll do
         self.layout.append(pn.Row(self.info_panel))
 
         opts = OrderedDict()
@@ -167,7 +166,6 @@ class DataSelect(pn.viewable.Viewer):
     def start(self):
         self.observer.schedule(self.handler, self.DIRECTORY_TO_WATCH, recursive=True)
         self.observer.start()
-
 
     @pn.depends("_group_select_widget.value")
     def data_select(self):
@@ -400,14 +398,6 @@ class LoaderNodeBase(Node):
     
     @pn.depends("refresh.value", watch=True)
     def on_refresh_changed(self):
-        # try:
-        #     # Remove the existing callback if it exists
-        #     pn.state.remove_periodic_callback(self.load_and_preprocess)
-        # except:
-        #     pass
-        # if self.refresh.value is not None:
-        #     # Add a new callback with different frequency
-        #     pn.state.add_periodic_callback(self.load_and_preprocess, self.refresh.value * 1000)
         if self.refresh.value is None:
             self.task = None
         
@@ -419,14 +409,7 @@ class LoaderNodeBase(Node):
         while self.refresh.value is not None:
             await asyncio.sleep(self.refresh.value)
             asyncio.run(self.load_and_preprocess())
-        return
-
-    # def auto_refresh(self):
-    #     if self.refresh.value is not None:
-    #         self.load_and_preprocess()
-    #         pn.state.
-            
-        
+        return      
 
     def load_data(self) -> DataDict:
         """Load data. Needs to be implemented by subclasses.
