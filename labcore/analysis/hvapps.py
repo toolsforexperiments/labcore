@@ -12,6 +12,8 @@ import pandas
 import param
 import panel as pn
 from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
 import re
 
@@ -23,6 +25,15 @@ from ..data.datadict import (
     dd2xr,
 )
 from .hvplotting import Node, labeled_widget
+
+
+class Handler(FileSystemEventHandler):
+    def __init__(self, update_callback):
+        self.update_callback = update_callback
+
+    def on_created(self, event):
+        if event.is_directory:
+            self.update_callback(event)
 
 
 class DataSelect(pn.viewable.Viewer):
@@ -37,6 +48,10 @@ class DataSelect(pn.viewable.Viewer):
 
     selected_path = param.Parameter(None)
     search_term = param.Parameter(None)
+    group_options = param.Parameter(None)
+    
+    # Used to combat Watchdogs duplicate calling events
+    event_lock = False
 
     @staticmethod
     def date2label(date_tuple):
@@ -69,6 +84,7 @@ class DataSelect(pn.viewable.Viewer):
         # { date (as tuple): 
         #    { path of the dataset folder : (list of subdirs, list of files) }
         # }
+        self.data_root = data_root
         self.data_sets = self.group_data(find_data(root=data_root))
 
         self.layout = pn.Column()
@@ -86,14 +102,32 @@ class DataSelect(pn.viewable.Viewer):
             css_classes=['ttlabel'],
         )
         self.layout.append(self.text_input_repeater)
+        
+        self.image_feed_width = 400  # The width of images in the feed
+        self.feed_scroll_width = 40  # Extra width of the feed itself for the scroll bar
 
         # two selectors for data selection
-        self._group_select_widget = MultiSelect(
+        self._group_select_widget = pn.widgets.CheckBoxGroup(
             name='Date', 
-            size=self.size,
-            width=200,
-            stylesheets = [selector_stylesheet]
+            width=200-self.feed_scroll_width,
+            stylesheets=[selector_stylesheet]
         )
+        # Wrap the CheckBoxGroup in a feed so that it can't get too long
+        self._group_select_feed = pn.layout.Feed(
+            objects=[self._group_select_widget],
+            height=(self.size - 1) * 20,
+            width=200
+        )
+        # Add a title to match the multiselect widget style
+        self._group_select = pn.Column(
+            pn.widgets.StaticText(
+                stylesheets=[selector_stylesheet], 
+                css_classes=['ttlabel'],
+                value="Date"
+                ),
+            self._group_select_feed
+        )
+        # Data select panel
         self._data_select_widget = Select(
             name='Data set', 
             size=self.size,
@@ -101,20 +135,19 @@ class DataSelect(pn.viewable.Viewer):
             stylesheets = [selector_stylesheet]
         )
         
-        self.image_feed_width = 400  # The width of images in the feed
-        self.image_feed_scroll_width = 40  # Extra width of the feed itself for the scroll bar
-        
         # Scrollable feed of images stored with this data
         self.data_images_feed = pn.layout.Feed(None, sizing_mode="fixed")
         # Data frame showing axes & dependencies
         self.data_info = pn.pane.DataFrame(None)
-        self.layout.append(pn.Row(self._group_select_widget, self.data_select, self.data_info, self.data_images_feed))
+
+        self.layout.append(pn.Row(self._group_select, self.data_select, self.data_info, self.data_images_feed))
 
         # a simple info panel about the selection
         self.lbl = pn.widgets.StaticText(
             stylesheets=[selector_stylesheet], 
             css_classes=['ttlabel'],
         )
+
         self.layout.append(pn.Row(self.info_panel))
 
         opts = OrderedDict()
@@ -123,10 +156,19 @@ class DataSelect(pn.viewable.Viewer):
             opts[lbl] = k
         self._group_select_widget.options = opts
 
+        # WATCHDOG INCORPORATION
+        # This allows for monitoring when files are created
+        self.DIRECTORY_TO_WATCH = r"."
+        self.observer = Observer()
+        self.handler = Handler(self.update_group_options)
+        self.start()
+
+    def start(self):
+        self.observer.schedule(self.handler, self.DIRECTORY_TO_WATCH, recursive=True)
+        self.observer.start()
+
     @pn.depends("_group_select_widget.value")
     def data_select(self):
-        opts = OrderedDict()
-
         # setup global variables for search function
         active_search = False
         r = re.compile(".*")
@@ -136,6 +178,15 @@ class DataSelect(pn.viewable.Viewer):
                 r = re.compile(".*" + str(self.text_input.value_input) + ".*")
                 active_search = True
 
+        opts = self.get_data_options(active_search, r)
+
+        self._data_select_widget.options = opts
+        return self._data_select_widget
+    
+    def get_data_options(self, active_search=True, r=re.compile('.*')):
+        if isinstance(r, str):
+            r = re.compile(r)
+        opts = OrderedDict()
         for d in self._group_select_widget.value:
             for dset in sorted(self.data_sets[d].keys())[::-1]:
                 if active_search and not r.match(str(dset) + " " + str(timestamp_from_path(dset))):
@@ -146,14 +197,13 @@ class DataSelect(pn.viewable.Viewer):
                 time = f"{ts.hour:02d}:{ts.minute:02d}:{ts.second:02d}"
                 uuid = f"{dset.stem[18:26]}"
                 name = f"{dset.stem[27:]}"
-                lbl = f" {time} - {uuid} - {name} "
+                date = f"{ts.date()}"
+                lbl = f"{date} - {time} - {uuid} - {name} "
                 for k in ['complete', 'star', 'trash']:
                     if f'__{k}__.tag' in files:
-                        lbl += self.SYM[k]             
+                        lbl += self.SYM[k]     
                 opts[lbl] = dset
-
-        self._data_select_widget.options = opts
-        return self._data_select_widget
+        return opts
 
     @pn.depends("_data_select_widget.value")
     def info_panel(self):
@@ -176,7 +226,7 @@ class DataSelect(pn.viewable.Viewer):
                 images.append(img)
                 images.append( pn.Spacer(height=img.height))
             self.data_images_feed.objects = images 
-            self.data_images_feed.width = self.image_feed_width + self.image_feed_scroll_width
+            self.data_images_feed.width = self.image_feed_width + self.feed_scroll_width
             # Load datadict into dictionary/list
             # FIXME: Assumes a file named 'data' exists in the desired directory. Should be generalized.
             # FIXME: Only works for ddh5 for now. Should allow the user to specify what datatype is being loaded.
@@ -202,7 +252,20 @@ class DataSelect(pn.viewable.Viewer):
         self.typed_value.value = f"Current Search: {self.text_input.value_input}"
         self.search_term = self.text_input.value_input
         return self.typed_value
-
+    
+    def update_group_options(self, event):
+        # Refresh self.data_sets
+        new_data_set = self.group_data(find_data(root=self.data_root))
+        # Repull data group options
+        new_opts = OrderedDict()
+        for k in sorted(new_data_set.keys())[::-1]:
+            lbl = self.date2label(k) + f' [{len(new_data_set[k])}]'
+            new_opts[lbl] = k
+        # Set the group and data options
+        self.data_sets = new_data_set
+        self._group_select_widget.options = new_opts
+        self._data_select_widget.options = self.get_data_options()
+        self._group_select_feed.objects = [self._group_select_widget]
 
 selector_stylesheet = """
 :host .bk-input {
@@ -285,46 +348,49 @@ class LoaderNodeBase(Node):
             self.display_info,
         )
 
-    def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
+        self.lock = asyncio.Lock()
+
+    async def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
         """Call load data and perform pre-processing.
 
         Function is triggered by clicking the "Load data" button.
         """
-        t0 = datetime.now()
-        dd = self.load_data()  # this is simply a datadict now.
+        async with self.lock:
+            t0 = datetime.now()
+            dd = self.load_data()  # this is simply a datadict now.
 
-        # if there wasn't data selected, we can't process it
-        if dd is None:
-            return
+            # if there wasn't data selected, we can't process it
+            if dd is None:
+                return
 
-        # this is the case for making a pandas DataFrame
-        if not self.grid_on_load_toggle.value:
-            data = self.split_complex(dd2df(dd))
-            indep, dep = self.data_dims(data)
+            # this is the case for making a pandas DataFrame
+            if not self.grid_on_load_toggle.value:
+                data = self.split_complex(dd2df(dd))
+                indep, dep = self.data_dims(data)
 
-            if self.pre_process_dim_input.value in indep:
-                if self.pre_process_opts.value == "Average":
-                    data = self.mean(data, self.pre_process_dim_input.value)
-                    indep.pop(indep.index(self.pre_process_dim_input.value))
+                if self.pre_process_dim_input.value in indep:
+                    if self.pre_process_opts.value == "Average":
+                        data = self.mean(data, self.pre_process_dim_input.value)
+                        indep.pop(indep.index(self.pre_process_dim_input.value))
 
-        # when making gridded data, can do things slightly differently
-        # TODO: what if gridding goes wrong?
-        else:
-            mdd = datadict_to_meshgrid(dd)
+            # when making gridded data, can do things slightly differently
+            # TODO: what if gridding goes wrong?
+            else:
+                mdd = datadict_to_meshgrid(dd)
 
-            if self.pre_process_dim_input.value in mdd.axes():
-                if self.pre_process_opts.value == "Average":
-                    mdd = mdd.mean(self.pre_process_dim_input.value)
+                if self.pre_process_dim_input.value in mdd.axes():
+                    if self.pre_process_opts.value == "Average":
+                        mdd = mdd.mean(self.pre_process_dim_input.value)
 
-            data = self.split_complex(dd2xr(mdd))
-            indep, dep = self.data_dims(data)
+                data = self.split_complex(dd2xr(mdd))
+                indep, dep = self.data_dims(data)
 
-        for dim in indep + dep:
-            self.units_out[dim] = dd.get(dim, {}).get("unit", None)
+            for dim in indep + dep:
+                self.units_out[dim] = dd.get(dim, {}).get("unit", None)
 
-        self.data_out = data
-        t1 = datetime.now()
-        self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
+            self.data_out = data
+            t1 = datetime.now()
+            self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
 
     @pn.depends("info_label.value")
     def display_info(self):
@@ -342,8 +408,8 @@ class LoaderNodeBase(Node):
     async def run_auto_refresh(self):
         while self.refresh.value is not None:
             await asyncio.sleep(self.refresh.value)
-            self.load_and_preprocess()
-        return
+            asyncio.run(self.load_and_preprocess())
+        return      
 
     def load_data(self) -> DataDict:
         """Load data. Needs to be implemented by subclasses.
