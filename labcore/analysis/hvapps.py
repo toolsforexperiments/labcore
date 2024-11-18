@@ -8,6 +8,9 @@ import asyncio
 import nest_asyncio
 nest_asyncio.apply()
 
+#TODO: ROCKY - remove
+import threading
+
 import pandas
 import param
 import panel as pn
@@ -32,9 +35,12 @@ class Handler(FileSystemEventHandler):
         self.update_callback = update_callback
 
     def on_created(self, event):
-        if event.is_directory:
-            self.update_callback(event)
-
+        if not event.is_directory:
+            # Get file extension and compare to data file type, ddh5
+            file_type = os.path.splitext(event.src_path)[1].lower()
+            #TODO: Generalize to other data file types
+            if file_type == '.ddh5':
+                self.update_callback(event)
 
 class DataSelect(pn.viewable.Viewer):
 
@@ -355,6 +361,7 @@ class LoaderNodeBase(Node):
 
         Function is triggered by clicking the "Load data" button.
         """
+        print(f"Load and preprocess in thread {threading.get_ident()}")
         async with self.lock:
             t0 = datetime.now()
             dd = self.load_data()  # this is simply a datadict now.
@@ -391,6 +398,8 @@ class LoaderNodeBase(Node):
             self.data_out = data
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
+        print("Loaded and Preprocessed")
+        return
 
     @pn.depends("info_label.value")
     def display_info(self):

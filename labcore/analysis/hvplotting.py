@@ -31,6 +31,10 @@ import hvplot.xarray
 
 from ..data.tools import split_complex, data_dims
 
+#TODO: ROCKY REMOVE!
+import threading
+import sys
+import inspect
 
 Data = Union[xr.Dataset, pd.DataFrame]
 """Type alias for valid data. Can be either a pandas DataFrame or an xarray Dataset."""
@@ -300,6 +304,7 @@ class Node(pn.viewable.Viewer):
 
         Updates on change of ``data_out``.
         """
+        print("data_out_view reached")
         return self.render_data(self.data_out)
 
     @pn.depends("data_out")
@@ -308,6 +313,7 @@ class Node(pn.viewable.Viewer):
 
         Updates on change of ``data_out``.
         """
+        print("plot reached")
         return pn.Column(
             labeled_widget(self.plot_type_select),
             self.plot_obj,
@@ -323,10 +329,15 @@ class Node(pn.viewable.Viewer):
         -------
         A dedicated plotting node.
         """
+        print(f"plot_obj reached in thread {threading.get_ident()} of {len(threading.enumerate())}")
+        print(f"Called from: \n> {str(inspect.getouterframes(inspect.currentframe())[1])}")
+        # for t in threading.enumerate():
+        #     print(f"Thread: {t.name} - {t.is_alive()}")
         if self.plot_type_select.value == "Value":
             if not isinstance(self._plot_obj, ValuePlot):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
+                print("Value --")
                 self._plot_obj = ValuePlot(name="plot")
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
@@ -335,19 +346,23 @@ class Node(pn.viewable.Viewer):
             if not isinstance(self._plot_obj, ComplexHist):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
+                print("Readout --")
                 self._plot_obj = ComplexHist(name="plot")
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
         else:
+            print("else --")
             if self._plot_obj is not None:
                 self.detach(self._plot_obj)
             self._plot_obj = self.data_out_view
 
+        print(f"plot_obj finished")
         return self._plot_obj
 
     def append(self, other: "Node") -> None:
         watcher = self.param.watch(other.update, ["data_out", "units_out", "meta_out"])
+        print(f"Set watcher in thread {threading.get_ident()} of {len(threading.enumerate())}")
         self._watchers[other] = watcher
 
     def detach(self, other: "Node") -> None:
