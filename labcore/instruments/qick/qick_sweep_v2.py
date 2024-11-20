@@ -12,6 +12,12 @@ Example usage of this module:
 >>>                     i_data_stream='I', q_data_stream='Q'),
 >>> )
 >>> class SingleToneSpecstroscopyProgram(RAveragerProgram):
+
+To run any measurement, you would need the followign parameters in your config
+n_echoes
+steps
+reps
+final_delay
 """ 
 
 import numpy as np
