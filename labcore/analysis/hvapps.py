@@ -8,9 +8,6 @@ import asyncio
 import nest_asyncio
 nest_asyncio.apply()
 
-#TODO: ROCKY - remove
-import threading
-
 import pandas
 import param
 import panel as pn
@@ -342,6 +339,8 @@ class LoaderNodeBase(Node):
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
+        self.buffer_col = pn.Column(height=300, width=0)
+        self.plot_col = pn.Column(objects = self.plot)
 
         self.layout = pn.Column(
             pn.Row(
@@ -352,6 +351,10 @@ class LoaderNodeBase(Node):
                 self.refresh,
             ),
             self.display_info,
+            pn.Row(
+                self.buffer_col,
+                self.plot_col
+            )
         )
 
         self.lock = asyncio.Lock()
@@ -361,7 +364,6 @@ class LoaderNodeBase(Node):
 
         Function is triggered by clicking the "Load data" button.
         """
-        print(f"Load and preprocess in thread {threading.get_ident()}")
         async with self.lock:
             t0 = datetime.now()
             dd = self.load_data()  # this is simply a datadict now.
@@ -398,7 +400,6 @@ class LoaderNodeBase(Node):
             self.data_out = data
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
-        print("Loaded and Preprocessed")
         return
 
     @pn.depends("info_label.value")

@@ -6,9 +6,6 @@ pn.extension()
 
 from labcore.analysis.hvapps import DataSelect, DDH5LoaderNode
 
-#TODO: ROCKY remove after debugging
-import threading
-
 ds = DataSelect('.')
 loader = DDH5LoaderNode()
 
@@ -23,11 +20,9 @@ def refilter_data_select(*events):
 
 search_data_typed = ds.param.watch(refilter_data_select, ['search_term'])
 
-print(f"Started in thread {threading.get_ident()}")
-
 pn.template.BootstrapTemplate(
     site="labcore",
     title="data explorer",
     sidebar=[],
-    main=[ds, loader, loader.plot],
+    main=[ds, loader],
 ).servable()
