@@ -34,7 +34,7 @@ class Handler(FileSystemEventHandler):
     def on_created(self, event):
         if not event.is_directory:
             # Get file extension and compare to data file type, ddh5
-            file_type = os.path.splitext(event.src_path)[1].lower()
+            file_type = Path(event.src_path).suffix
             #TODO: Generalize to other data file types
             if file_type == '.ddh5':
                 self.update_callback(event)
@@ -340,7 +340,7 @@ class LoaderNodeBase(Node):
         self.info_label.value = "No data loaded."
 
         self.buffer_col = pn.Column(height=300, width=0)
-        self.plot_col = pn.Column(objects = self.plot)
+        self.plot_col = pn.Column(objects=self.plot)
 
         self.layout = pn.Column(
             pn.Row(
@@ -400,7 +400,6 @@ class LoaderNodeBase(Node):
             self.data_out = data
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
-        return
 
     @pn.depends("info_label.value")
     def display_info(self):
