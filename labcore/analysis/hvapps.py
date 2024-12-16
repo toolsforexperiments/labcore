@@ -32,9 +32,12 @@ class Handler(FileSystemEventHandler):
         self.update_callback = update_callback
 
     def on_created(self, event):
-        if event.is_directory:
-            self.update_callback(event)
-
+        if not event.is_directory:
+            # Get file extension and compare to data file type, ddh5
+            file_type = Path(event.src_path).suffix
+            #TODO: Generalize to other data file types
+            if file_type == '.ddh5':
+                self.update_callback(event)
 
 class DataSelect(pn.viewable.Viewer):
 
@@ -336,6 +339,8 @@ class LoaderNodeBase(Node):
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
+        self.buffer_col = pn.Column(height=300, width=0)
+        self.plot_col = pn.Column(objects=self.plot)
 
         self.layout = pn.Column(
             pn.Row(
@@ -346,6 +351,10 @@ class LoaderNodeBase(Node):
                 self.refresh,
             ),
             self.display_info,
+            pn.Row(
+                self.buffer_col,
+                self.plot_col
+            )
         )
 
         self.lock = asyncio.Lock()
