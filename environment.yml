@@ -6,17 +6,17 @@ dependencies:
   - python=3.10
   - jupyterlab
   - jupyter_bokeh
-  - qcodes
+  - qcodes=0.44.1
   - bokeh
   - pandas
   - xarray
   - matplotlib
-  - numpy
+  - numpy=1.26.4
   - scipy
   - scikit-learn
   - seaborn
   - lmfit
-  - h5py
+  - h5py=3.10.0
   - xhistogram
   - holoviews
   - panel
@@ -26,3 +26,4 @@ dependencies:
   - qtpy
   - pip
   - gitpython
+  - watchdog

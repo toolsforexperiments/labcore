@@ -4,6 +4,9 @@ site_url: https://toolsforexperiments.github.io.
 
 nav:
   - Home: index.md
+  - Instruments:
+    - Instrumentserver: instruments/instrumentserver.md
+    - Our QCoDeS drivers: instruments/qcodes_instruments/instruments.md
   - Measurement:
     - Sweeping: measurement/sweep.md
   - Data:
