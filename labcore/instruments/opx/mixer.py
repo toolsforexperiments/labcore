@@ -21,8 +21,6 @@ from qm import QuantumMachine, QuantumMachinesManager
 from qm.qua import *
 
 from .config import QMConfig
-
-# MM: needed to add this import after the qm-qua version update.  Not sure why it did not require it til now
 from dataclasses import dataclass
 
 
@@ -94,19 +92,16 @@ class MixerCalibration:
 
     def measure_leakage(self) -> float:
         """Measure max. signal power at the LO frequency."""
-        # self.setup_analyzer(self.lo_frq)
         sleep(0.1)
         return self.analyzer.zs_power()
 
     def measure_upper_sb(self) -> float:
         """Measure max. signal power at LO frequency + IF frequency"""
-        # self.setup_analyzer(self.lo_frq + np.abs(self.if_frq))
         sleep(0.1)
         return self.analyzer.zs_power()
 
     def measure_lower_sb(self) -> float:
         """Measure max. signal power at LO frequency - IF frequency"""
-        # self.setup_analyzer(self.lo_frq - np.abs(self.if_frq))
         sleep(0.1)
         return self.analyzer.zs_power()
 
@@ -127,11 +122,11 @@ class MixerCalibration:
         return [float(N * x) for x in [(1 - g) * c, (1 + g) * s,
                                        (1 - g) * s, (1 + g) * c]]
 
-    def _optimize2d(self, func, initial_guess, initial_ranges,
-                    nm_options=None, maxit=200, phi0=0.0):
+    def _optimize2d(self, func, initial_guess,
+                    cb_options=None, maxit=200):
 
         """
-        Performs minimization through Nelder-Mead algorithm.
+        Performs minimization through COBYLA algorithm.
         It starts with an initial simplex (triangle in current 2D case).
         The initial simplex is a regular triangle centered around 'initial_guess'.
         The 'initial_ranges[0]' (which is side of square for 'scan2D') is the diameter of the circumscribing circle.
@@ -141,11 +136,7 @@ class MixerCalibration:
         func
         initial_guess
         initial_ranges
-        title
-        xtitle
-        ytitle
-        ztitle
-        nm_options
+        cb_options
         maxit
 
         Returns
@@ -154,8 +145,8 @@ class MixerCalibration:
 
         """
 
-        if nm_options is None:
-            nm_options = dict()
+        if cb_options is None:
+            cb_options = dict()
 
         nit = 0
 
@@ -169,21 +160,11 @@ class MixerCalibration:
 
             print(f'vector: {vec}, result: {val}, iteration: {len(y)}')
 
-        # initial_simplex = np.zeros((3, 2))
-        # initial_simplex[0, :] = initial_guess + np.array([0.0, 2 * initial_ranges[0]/2]) # initial_guess
-        # initial_simplex[1, :] = initial_guess + np.array([-np.round(np.sqrt(3), 2) * initial_ranges[0]/2, -initial_ranges[0]/2]) # initial_guess + np.array([initial_ranges[0], 0.])
-        # initial_simplex[2, :] = initial_guess + np.array([np.round(np.sqrt(3), 2) * initial_ranges[0]/2, -initial_ranges[0]/2]) # initial_guess + np.array([0., initial_ranges[1]])
-
         try:
-            # res = minimize(func, initial_guess,  # bounds=((-0.5, 0.5), (-0.5, 0.5)),
-            #                method='Nelder-Mead', callback=cb,
-            #                options=dict(initial_simplex=initial_simplex, **nm_options, maxiter=maxit))
-            res = minimize(func, initial_guess, bounds=((-0.5, 0.5), (-0.5 + phi0, 0.5 + phi0)),
-                           method='COBYLA', callback=cb, options=dict(**nm_options, maxiter=maxit))
+            res = minimize(func, initial_guess, method='COBYLA',
+            callback=cb, options=dict(**cb_options, maxiter=maxit))
             nit = len(y)
              
-            
-
         except KeyboardInterrupt:
             res = np.array([x[-1], y[-1]])
             print('optimization stopped by user')
@@ -266,30 +247,29 @@ class MixerCalibration:
 
     def optimize_lo_leakage(self, initial_guess: np.ndarray = np.array([0., 0.]),
                             ranges: Tuple[float, float] = (0.1, 0.1),
-                            nm_options: Optional[Dict[str, Any]] = None):
-        """Optimize the IQ DC offsets using Nelder-Mead.
+                            cb_options: Optional[Dict[str, Any]] = None):
+        """Optimize the IQ DC offsets using COBYLA.
 
         The initial guess and ranges are used to specify the initial simplex
-        for the NM algorithm.
+        for the COBYLA algorithm.
         initial guess is the starting point, and initial ranges are the distances
         along the two coordinates for the remaining two vertices of the initial simplex.
 
         Parameters
         ----------
         initial_guess
-            x0 of the NM algorithm, an array with two elements, for I and Q offset
+            x0 of the COBYLA algorithm, an array with two elements, for I and Q offset
         ranges
             distance for I and Q vectors to complete the initial simplex
-        nm_options
-            Options to pass to the `scipy.optimize.minimize(method='Nelder-Mead')`.
+        cb_options
+            Options to pass to the `scipy.optimize.minimize(method='COBYLA')`.
             Will be passed via the `options` dictionary.
         """
 
         self.setup_analyzer(self.lo_frq)
         res, nit = self._optimize2d(self.lo_leakage,
                                initial_guess,
-                               initial_ranges=ranges,
-                               nm_options=nm_options)
+                               cb_options=cb_options)
         return res, nit
 
     def sb_imbalance(self, imbalance: np.ndarray) -> float:
@@ -341,31 +321,28 @@ class MixerCalibration:
 
     def optimize_sb_imbalance(self, initial_guess: np.ndarray = np.array([0., 0.]),
                               ranges: Tuple[float, float] = (0.05, 0.05),
-                              nm_options: Optional[Dict[str, Any]] = None,
-                              phi0: float = 0.0) -> np.ndarray:
-        """Optimize the mixer imbalances using Nelder-Mead.
+                              cb_options: Optional[Dict[str, Any]] = None) -> np.ndarray:
+        """Optimize the mixer imbalances using COBYLA.
 
         The initial guess and ranges are used to specify the initial simplex
-        for the NM algorithm.
+        for the COBYLA algorithm.
         initial guess is the starting point, and initial ranges are the distances
         along the two coordinates for the remaining two vertices of the initial simplex.
 
         Parameters
         ----------
         initial_guess
-            x0 of the NM algorithm, an array with two elements, for rel. amp and phase imbalance
+            x0 of the COBYLA algorithm, an array with two elements, for rel. amp and phase imbalance
         ranges
             distance for amp/phase imbalance vectors to complete the initial simplex
-        nm_options
-            Options to pass to the `scipy.optimize.minimize(method='Nelder-Mead')`.
+        cb_options
+            Options to pass to the `scipy.optimize.minimize(method='COBYLA')`.
             Will be passed via the `options` dictionary.
         """
         self.setup_analyzer(self.lo_frq - np.abs(self.if_frq)) # LO - IF to calibrate out the lower sideband
         res, nit = self._optimize2d(self.sb_imbalance,
                                initial_guess,
-                               initial_ranges=ranges,
-                               nm_options=nm_options,
-                               phi0=phi0)
+                               cb_options=cb_options)
         return res, nit
 
 
@@ -424,8 +401,7 @@ def calibrate_mixer(config: MixerConfig,
                     imbalance_scan_steps=None,
                     calibrate_offsets=True,
                     calibrate_imbalance=True,
-                    max_step_size=0.05,
-                    phi0=0.0):
+                    max_step_size=0.05):
     """
     Runs the entire mixer calibration for any mixer
     """
@@ -471,7 +447,7 @@ def calibrate_mixer(config: MixerConfig,
                                )
 
         # Call the appropriate calibration functions
-        # offsets part
+        # calibrate voltage offsets for LO leakage
         if calibrate_offsets:
             offsets = config.offsets_param()
             cal.play_wf()
@@ -491,7 +467,6 @@ def calibrate_mixer(config: MixerConfig,
                 )
                 offsets = res_offsets.tolist()
             else:
-                # print("\nOffset calibration through: Nelder-Mead optimization \n")
                 print("\nOffset calibration through: COBYLA \n")
 
                 if config.opt2D_of_custom_init is True:
@@ -513,17 +488,14 @@ def calibrate_mixer(config: MixerConfig,
                 res_offsets, nit = cal.optimize_lo_leakage(
                     offsets,
                     ranges=custom_of_range,
-                    nm_options=dict(rhobeg=max_step_size, tol=1e-6, 
+                    cb_options=dict(rhobeg=max_step_size, tol=1e-6, 
                                     disp=True, catol=1e-10)
-                    #dict(xatol=0.0001, fatol=1.0)
                 )
-                # print(res_offsets)
 
                 if isinstance(res_offsets, np.ndarray):
                     offsets = res_offsets.tolist()
-                elif res_offsets.success and nit < 200: #res_offsets.nit < 200:
+                elif res_offsets.success and nit < 200:
                     offsets = res_offsets.x.tolist()
-                    # custom_of_range = (0.001, 0.001)
                 else:
                     print('Failed to converge. Use different initial values. \n')
                     return
@@ -532,7 +504,7 @@ def calibrate_mixer(config: MixerConfig,
             config.offsets_param(offsets)
             print(f'verifying: {cal.lo_leakage(offsets)} \n')
 
-        # imbalances part
+        # calibrate imbalances for sideband suppression
         if calibrate_imbalance:
             imbalances = config.imbalances_param()
             cal.play_wf()
@@ -552,13 +524,12 @@ def calibrate_mixer(config: MixerConfig,
                 )
                 imbalances = res_imbalances.tolist()
             else:
-                # print("\nImbalance calibration through: Nelder-Mead optimization \n")
                 print("\nOffset calibration through: COBYLA \n")
 
                 if config.opt2D_imb_custom_init is True:
                     pass
                 else:
-                    if config.generator.IDN().get('vendor') == 'Rohde&Schwarz': # type(config.generator).__name__ == 'RohdeSchwarz_SGS100A':
+                    if config.generator.IDN().get('vendor') == 'Rohde&Schwarz':
                         imbalances = [0, 1.57]
                     else:
                         imbalances = [0, 0]
@@ -577,18 +548,15 @@ def calibrate_mixer(config: MixerConfig,
                 res_imbalances, nit = cal.optimize_sb_imbalance(
                     imbalances,
                     ranges=custom_imb_range,
-                    nm_options=dict(rhobeg=max_step_size, tol=1e-6, 
+                    cb_options=dict(rhobeg=max_step_size, tol=1e-6, 
                                     disp=True, catol=1e-10),
-                    phi0=phi0
-                    #dict(xatol=0.0001, fatol=1.0)
                 )
-                # print(res_imbalances)
 
                 if isinstance(res_imbalances, np.ndarray):
                     imbalances = res_imbalances.tolist()
-                elif res_imbalances.success and nit < 200: #res_imbalances.nit < 200:
+                elif res_imbalances.success and nit < 200:
                     imbalances = res_imbalances.x.tolist()
-                    # custom_imb_range = (0.001, 0.001)
+
                 else:
                     print('Failed to converge. Use different initial values. \n')
                     return
