@@ -122,7 +122,8 @@ class MixerCalibration:
         return [float(N * x) for x in [(1 - g) * c, (1 + g) * s,
                                        (1 - g) * s, (1 + g) * c]]
 
-    def _optimize2d(self, func, initial_guess,
+    # TODO: properly implement the range for the COBYLA function to be bounded in
+    def _optimize2d(self, func, initial_guess, ranges,
                     cb_options=None, maxit=200):
 
         """
@@ -269,6 +270,7 @@ class MixerCalibration:
         self.setup_analyzer(self.lo_frq)
         res, nit = self._optimize2d(self.lo_leakage,
                                initial_guess,
+                               ranges=ranges,
                                cb_options=cb_options)
         return res, nit
 
@@ -342,6 +344,7 @@ class MixerCalibration:
         self.setup_analyzer(self.lo_frq - np.abs(self.if_frq)) # LO - IF to calibrate out the lower sideband
         res, nit = self._optimize2d(self.sb_imbalance,
                                initial_guess,
+                               ranges=ranges,
                                cb_options=cb_options)
         return res, nit
 
@@ -386,8 +389,8 @@ class MixerConfig:
     frequency_param: Optional[Callable] = None
     # do you want to provide custom initial point?
     # (doesn't affect scan2D)
-    opt2D_of_custom_init: bool = False
-    opt2D_imb_custom_init: bool = False
+    opt2D_of_custom_init: bool = True
+    opt2D_imb_custom_init: bool = True
     # do you want to do a larger scan (typically first calibration) or smaller scan (around already found point)?
     # (doesn't affect scan2D)
     opt2D_of_dia: str = 'large'
