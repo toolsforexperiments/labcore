@@ -339,7 +339,7 @@ class LoaderNodeBase(Node):
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
-        self.buffer_col = pn.Column(height=300, width=0)
+        self.buffer_col = pn.Column(height=600, width=10)
         self.plot_col = pn.Column(objects=self.plot)
 
         self.layout = pn.Column(
