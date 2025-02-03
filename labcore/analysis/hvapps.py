@@ -339,6 +339,9 @@ class LoaderNodeBase(Node):
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
+        # This is needed to tell the site that it needs more vertical space.
+        # If there's no buffer column, the screen will jitter up and down 
+        # when it auto refreshes.
         self.buffer_col = pn.Column(height=600, width=10)
         self.plot_col = pn.Column(objects=self.plot)
 
