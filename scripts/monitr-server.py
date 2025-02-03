@@ -24,5 +24,5 @@ pn.template.BootstrapTemplate(
     site="labcore",
     title="data explorer",
     sidebar=[],
-    main=[ds, loader, loader.plot],
+    main=[ds, loader],
 ).servable()
