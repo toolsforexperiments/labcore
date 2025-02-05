@@ -343,13 +343,13 @@ class LoaderNodeBase(Node):
         # Button to save graph as html
         self.generate_button.on_click(self.load_and_preprocess)
         self.html_button = pn.widgets.Button(
-            name="Make HTML", align="end", button_type="default"
+            name="Make HTML", align="end", button_type="default", disabled=True
         )
         self.html_button.on_click(self.save_html)
 
         # Button to save graph as png
         self.png_button = pn.widgets.Button(
-            name="Make PNG", align="end", button_type="default"
+            name="Make PNG", align="end", button_type="default", disabled=True
         )
         self.png_button.on_click(self.save_png)
 
@@ -414,16 +414,22 @@ class LoaderNodeBase(Node):
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
 
+            # Now that there's data we can save it
+            self.html_button.disabled = False
+            self.png_button.disabled = False
+
     #FIXME for these two func; having the 'plot_panel()' func isn't gauranteed
     def save_html(self, *events: param.parameterized.Event):
         # Save the plot to an html file
         if isinstance(self._plot_obj, Node):
-            hvplot.save(self._plot_obj.plot_panel(), 'html_test.html')
+            file_name = os.path.join(self.file_path.parent, 'Plottr_generated.html')
+            hvplot.save(self._plot_obj.plot_panel(), file_name)
 
     def save_png(self, *events: param.parameterized.Event):
         # Save the plot to a png file
         if isinstance(self._plot_obj, Node):
-            hv.renderer('matplotlib').save(self._plot_obj.plot_panel(), 'png_test.png')
+            file_name = os.path.join(self.file_path.parent, 'Plottr_generated')
+            hv.renderer('matplotlib').save(self._plot_obj.plot_panel(), file_name)
 
     @pn.depends("info_label.value")
     def display_info(self):
