@@ -8,6 +8,8 @@ import asyncio
 import nest_asyncio
 nest_asyncio.apply()
 
+import hvplot
+
 import pandas
 import param
 import panel as pn
@@ -333,6 +335,10 @@ class LoaderNodeBase(Node):
             name="Load data", align="end", button_type="primary"
         )
         self.generate_button.on_click(self.load_and_preprocess)
+        self.html_button = pn.widgets.Button(
+            name="Make HTML", align="end", button_type="primary"
+        )
+        self.html_button.on_click(self.save_html)
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
@@ -344,6 +350,7 @@ class LoaderNodeBase(Node):
                 self.grid_on_load_toggle,
                 self.generate_button,
                 self.refresh,
+                self.html_button,
             ),
             self.display_info,
         )
@@ -391,6 +398,11 @@ class LoaderNodeBase(Node):
             self.data_out = data
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
+
+    def save_html(self, *events: param.parameterized.Event):
+        # Save the plot to 'test.html' file
+        if isinstance(self._plot_obj, Node):
+            hvplot.save(self._plot_obj.plot_panel(), 'test.html')
 
     @pn.depends("info_label.value")
     def display_info(self):
