@@ -36,9 +36,12 @@ class Handler(FileSystemEventHandler):
         self.update_callback = update_callback
 
     def on_created(self, event):
-        if event.is_directory:
-            self.update_callback(event)
-
+        if not event.is_directory:
+            # Get file extension and compare to data file type, ddh5
+            file_type = Path(event.src_path).suffix
+            #TODO: Generalize to other data file types
+            if file_type == '.ddh5':
+                self.update_callback(event)
 
 class DataSelect(pn.viewable.Viewer):
 
@@ -356,6 +359,11 @@ class LoaderNodeBase(Node):
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
+        # This is needed to tell the site that it needs more vertical space.
+        # If there's no buffer column, the screen will jitter up and down 
+        # when it auto refreshes.
+        self.buffer_col = pn.Column(height=600, width=10)
+        self.plot_col = pn.Column(objects=self.plot)
 
         self.layout = pn.Column(
             pn.Row(
@@ -368,6 +376,10 @@ class LoaderNodeBase(Node):
                 self.png_button,
             ),
             self.display_info,
+            pn.Row(
+                self.buffer_col,
+                self.plot_col
+            )
         )
 
         self.lock = asyncio.Lock()
