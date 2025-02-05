@@ -9,6 +9,7 @@ import nest_asyncio
 nest_asyncio.apply()
 
 import hvplot
+from selenium import webdriver
 
 import pandas
 import param
@@ -339,6 +340,12 @@ class LoaderNodeBase(Node):
             name="Make HTML", align="end", button_type="primary"
         )
         self.html_button.on_click(self.save_html)
+
+        self.png_button = pn.widgets.Button(
+            name="Make PNG", align="end", button_type="primary"
+        )
+        self.html_button.on_click(self.save_png)
+
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
@@ -351,6 +358,7 @@ class LoaderNodeBase(Node):
                 self.generate_button,
                 self.refresh,
                 self.html_button,
+                self.png_button,
             ),
             self.display_info,
         )
@@ -403,6 +411,13 @@ class LoaderNodeBase(Node):
         # Save the plot to 'test.html' file
         if isinstance(self._plot_obj, Node):
             hvplot.save(self._plot_obj.plot_panel(), 'test.html')
+
+    def save_png(self, *events: param.parameterized.Event):
+        # Save the plot to 'test.html' file
+        if isinstance(self._plot_obj, Node):
+            # This doesn't do anything?
+            print("Saving the png")
+            hvplot.save(self._plot_obj.plot_panel(), 'test.png')
 
     @pn.depends("info_label.value")
     def display_info(self):
