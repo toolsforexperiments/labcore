@@ -290,7 +290,7 @@ class LoaderNodeBase(Node):
     Each subclass must implement ``LoaderNodeBase.load_data``.
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, path, *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNode``.
 
         Parameters
@@ -300,6 +300,9 @@ class LoaderNodeBase(Node):
         **kwargs:
             passed to ``Node``.
         """
+        # LoaderNodes need a datapath- this lets the super access said path
+        self.file_path = path
+
         # to be able to watch, this needs to be defined before super().__init__
         self.refresh = pn.widgets.Select(
             name="Auto-refresh",
@@ -336,16 +339,19 @@ class LoaderNodeBase(Node):
         self.generate_button = pn.widgets.Button(
             name="Load data", align="end", button_type="primary"
         )
+
+        # Button to save graph as html
         self.generate_button.on_click(self.load_and_preprocess)
         self.html_button = pn.widgets.Button(
-            name="Make HTML", align="end", button_type="primary"
+            name="Make HTML", align="end", button_type="default"
         )
         self.html_button.on_click(self.save_html)
 
+        # Button to save graph as png
         self.png_button = pn.widgets.Button(
-            name="Make PNG", align="end", button_type="primary"
+            name="Make PNG", align="end", button_type="default"
         )
-        self.html_button.on_click(self.save_png)
+        self.png_button.on_click(self.save_png)
 
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
@@ -410,15 +416,13 @@ class LoaderNodeBase(Node):
 
     #FIXME for these two func; having the 'plot_panel()' func isn't gauranteed
     def save_html(self, *events: param.parameterized.Event):
-        # Save the plot to 'test.html' file
+        # Save the plot to an html file
         if isinstance(self._plot_obj, Node):
             hvplot.save(self._plot_obj.plot_panel(), 'html_test.html')
 
     def save_png(self, *events: param.parameterized.Event):
-        # Save the plot to 'test.html' file
+        # Save the plot to a png file
         if isinstance(self._plot_obj, Node):
-            # This doesn't do anything?
-            print("Saving the png")
             hv.renderer('matplotlib').save(self._plot_obj.plot_panel(), 'png_test.png')
 
     @pn.depends("info_label.value")
@@ -470,7 +474,7 @@ class DDH5LoaderNode(LoaderNodeBase):
         **kwargs:
             passed to ``Node``.
         """
-        super().__init__(*args, **kwargs)
+        super().__init__(path, *args, **kwargs)
         self.file_path = path
 
     def load_data(self) -> DataDict:
