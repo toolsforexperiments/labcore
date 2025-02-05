@@ -5,6 +5,7 @@ import collections
 import logging
 from functools import wraps, update_wrapper, partial
 import copy
+from tqdm import tqdm
 
 try:
     from qcodes import Parameter as QCParameter
@@ -371,7 +372,7 @@ class SweepIterator:
         elif isinstance(self.sweep.pointer, collections.abc.Iterator):
             self.pointer = self.sweep.pointer
         elif isinstance(self.sweep.pointer, collections.abc.Iterable):
-            self.pointer = iter(self.sweep.pointer)
+            self.pointer = iter(tqdm(self.sweep.pointer, desc="Sweeping", leave=True, ncols=100, total = 100))
         else:
             raise TypeError('pointer needs to be iterable.')
 
