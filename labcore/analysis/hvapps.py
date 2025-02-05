@@ -9,7 +9,8 @@ import nest_asyncio
 nest_asyncio.apply()
 
 import hvplot
-from selenium import webdriver
+import holoviews as hv
+import matplotlib
 
 import pandas
 import param
@@ -407,17 +408,18 @@ class LoaderNodeBase(Node):
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
 
+    #FIXME for these two func; having the 'plot_panel()' func isn't gauranteed
     def save_html(self, *events: param.parameterized.Event):
         # Save the plot to 'test.html' file
         if isinstance(self._plot_obj, Node):
-            hvplot.save(self._plot_obj.plot_panel(), 'test.html')
+            hvplot.save(self._plot_obj.plot_panel(), 'html_test.html')
 
     def save_png(self, *events: param.parameterized.Event):
         # Save the plot to 'test.html' file
         if isinstance(self._plot_obj, Node):
             # This doesn't do anything?
             print("Saving the png")
-            hvplot.save(self._plot_obj.plot_panel(), 'test.png')
+            hv.renderer('matplotlib').save(self._plot_obj.plot_panel(), 'png_test.png')
 
     @pn.depends("info_label.value")
     def display_info(self):
