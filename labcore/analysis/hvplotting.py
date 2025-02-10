@@ -312,10 +312,8 @@ class Node(pn.viewable.Viewer):
 
         Updates on change of ``data_out``.
         """
-        return pn.Column(
-            labeled_widget(self.plot_type_select),
-            self.plot_obj,
-        )
+        return [labeled_widget(self.plot_type_select),
+                self.plot_obj]
 
     @pn.depends("data_out", "plot_type_select.value")
     def plot_obj(self) -> Optional["Node"]:
