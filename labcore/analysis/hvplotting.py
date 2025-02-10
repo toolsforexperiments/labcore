@@ -49,6 +49,10 @@ class Node(pn.viewable.Viewer):
     anything else.
     Pipelines are formed by appending nodes to each other using ``Node.append``.
 
+    Nodes with graphs must implement a ``plot_panel()`` function that returns
+    a holoviews graph object in order for that graph to be able to be saved
+    as either an html or png file.
+
     Params
     ------
     data_in

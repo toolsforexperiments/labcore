@@ -290,7 +290,7 @@ class LoaderNodeBase(Node):
     Each subclass must implement ``LoaderNodeBase.load_data``.
     """
 
-    def __init__(self, path, *args: Any, **kwargs: Any):
+    def __init__(self, path=Path('.'), *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNode``.
 
         Parameters
@@ -418,18 +418,40 @@ class LoaderNodeBase(Node):
             self.html_button.disabled = False
             self.png_button.disabled = False
 
-    #FIXME for these two func; having the 'plot_panel()' func isn't gauranteed
+    #FIXME for these two func; having the 'plot_panel()' func isn't guaranteed
     def save_html(self, *events: param.parameterized.Event):
         # Save the plot to an html file
         if isinstance(self._plot_obj, Node):
-            file_name = os.path.join(self.file_path.parent, 'Plottr_generated.html')
+            file_name = self.file_path.parent.name
+            file_name = os.path.join(self.file_path.parent, file_name)
+            # Check if file_name exists & add suffix
+            file_name = self.add_file_suffix(file_name, '.html')
             hvplot.save(self._plot_obj.plot_panel(), file_name)
 
     def save_png(self, *events: param.parameterized.Event):
         # Save the plot to a png file
         if isinstance(self._plot_obj, Node):
-            file_name = os.path.join(self.file_path.parent, 'Plottr_generated')
-            hv.renderer('matplotlib').save(self._plot_obj.plot_panel(), file_name)
+            file_name = self.file_path.parent.name
+            file_name = os.path.join(self.file_path.parent, file_name)
+            # Check if file_name exists & add suffix
+            file_name = self.add_file_suffix(file_name, '.png')
+            file_name = file_name[:-4] #Remove .png from filename- renderer adds this
+            # Make matplotlib renderer with 200% size
+            renderer = hv.renderer('matplotlib')
+            renderer.size = 200
+            renderer.save(self._plot_obj.plot_panel(), file_name)
+
+    def add_file_suffix(self, file_name, ext):
+        # Given a file name, check if file already exists and, if so,
+        # added a (#) suffix to it. Return the lowest unused file name.
+        print('Adding Suffix to file name')
+        count = 0
+        new_name = file_name + ext
+        while os.path.exists(new_name):
+            new_name = file_name + "(" + str(count) + ")" + ext
+            count += 1
+        print('Creating ' + str(new_name))
+        return new_name
 
     @pn.depends("info_label.value")
     def display_info(self):
