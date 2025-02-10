@@ -382,6 +382,11 @@ class LoaderNodeBase(Node):
             )
         )
 
+        # Store whether or not each graph type can be saved as html/png
+        self.graph_type_savable = {}
+        for k in self.graph_types:
+            self.graph_type_savable[k] = hasattr(self.graph_types[k], 'plot_panel')
+
         self.lock = asyncio.Lock()
 
     async def load_and_preprocess(self, *events: param.parameterized.Event) -> None:
@@ -390,6 +395,12 @@ class LoaderNodeBase(Node):
         Function is triggered by clicking the "Load data" button.
         """
         async with self.lock:
+            # Select None so that save buttons disabled/enabled works
+            # I have no clue why but there's a bug if this doesn't happen
+            save_val = self.plot_type_select.value
+            self.plot_type_select.value = 'None'
+            self.plot_type_select.value = save_val
+
             t0 = datetime.now()
             dd = self.load_data()  # this is simply a datadict now.
 
@@ -426,9 +437,17 @@ class LoaderNodeBase(Node):
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
 
-            # Now that there's data we can save it
-            self.html_button.disabled = False
-            self.png_button.disabled = False
+    @pn.depends("data_out", "plot_type_select.value")
+    def plot_obj(self):
+        ret = super().plot_obj()
+        self.toggle_save_buttons()
+        return ret
+
+    def toggle_save_buttons(self):
+        # Checks if the graphs can be saved and disables buttons accordingly
+        _disabled = not self.graph_type_savable[self.plot_type_select.value]
+        self.html_button.disabled = _disabled
+        self.png_button.disabled = _disabled
 
     #FIXME for these two func; having the 'plot_panel()' func isn't guaranteed
     def save_html(self, *events: param.parameterized.Event):
@@ -451,18 +470,20 @@ class LoaderNodeBase(Node):
             # Make matplotlib renderer with 200% size
             renderer = hv.renderer('matplotlib')
             renderer.size = 200
-            renderer.save(self._plot_obj.plot_panel(), file_name)
+            # Get the plot to save
+            plot = self._plot_obj.plot_panel()
+            if self.plot_type_select.value == "Readout hist.":
+                plot = plot[0] # ComplexHist returns a column with plot inside it for some reason
+            renderer.save(plot, file_name)
 
     def add_file_suffix(self, file_name, ext):
         # Given a file name, check if file already exists and, if so,
         # added a (#) suffix to it. Return the lowest unused file name.
-        print('Adding Suffix to file name')
         count = 0
         new_name = file_name + ext
         while os.path.exists(new_name):
             new_name = file_name + "(" + str(count) + ")" + ext
             count += 1
-        print('Creating ' + str(new_name))
         return new_name
 
     @pn.depends("info_label.value")
