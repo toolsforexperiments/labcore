@@ -11,6 +11,9 @@ nest_asyncio.apply()
 import hvplot
 import holoviews as hv
 import matplotlib
+from io import BytesIO
+import win32clipboard
+from PIL import Image
 
 import pandas
 import param
@@ -356,6 +359,12 @@ class LoaderNodeBase(Node):
         )
         self.png_button.on_click(self.save_png)
 
+        # Button to save image to clipboard
+        self.clipboard_button = pn.widgets.Button(
+            name="Save to Clipboard", align="end", button_type="default", disabled=True
+        )
+        self.clipboard_button.on_click(self.save_to_clipboard)
+
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
@@ -374,6 +383,7 @@ class LoaderNodeBase(Node):
                 self.refresh,
                 self.html_button,
                 self.png_button,
+                self.clipboard_button,
             ),
             self.display_info,
             pn.Row(
@@ -395,12 +405,6 @@ class LoaderNodeBase(Node):
         Function is triggered by clicking the "Load data" button.
         """
         async with self.lock:
-            # Select None so that save buttons disabled/enabled works
-            # I have no clue why but there's a bug if this doesn't happen
-            save_val = self.plot_type_select.value
-            self.plot_type_select.value = 'None'
-            self.plot_type_select.value = save_val
-
             t0 = datetime.now()
             dd = self.load_data()  # this is simply a datadict now.
 
@@ -436,6 +440,12 @@ class LoaderNodeBase(Node):
             self.data_out = data
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
+            
+            # Select None so that save buttons disabled/enabled works
+            # I have no clue why but there's a bug if this doesn't happen
+            save_val = self.plot_type_select.value
+            self.plot_type_select.value = 'None'
+            self.plot_type_select.value = save_val
 
     @pn.depends("data_out", "plot_type_select.value")
     def plot_obj(self):
@@ -448,8 +458,8 @@ class LoaderNodeBase(Node):
         _disabled = not self.graph_type_savable[self.plot_type_select.value]
         self.html_button.disabled = _disabled
         self.png_button.disabled = _disabled
+        self.clipboard_button.disabled = _disabled
 
-    #FIXME for these two func; having the 'plot_panel()' func isn't guaranteed
     def save_html(self, *events: param.parameterized.Event):
         # Save the plot to an html file
         if isinstance(self._plot_obj, Node):
@@ -459,11 +469,13 @@ class LoaderNodeBase(Node):
             file_name = self.add_file_suffix(file_name, '.html')
             hvplot.save(self._plot_obj.plot_panel(), file_name)
 
-    def save_png(self, *events: param.parameterized.Event):
+    def save_png(self, *events: param.parameterized.Event, name=None):
         # Save the plot to a png file
         if isinstance(self._plot_obj, Node):
-            file_name = self.file_path.parent.name
-            file_name = os.path.join(self.file_path.parent, file_name)
+            file_name = name
+            if name is None:
+                file_name = self.file_path.parent.name
+                file_name = os.path.join(self.file_path.parent, file_name)
             # Check if file_name exists & add suffix
             file_name = self.add_file_suffix(file_name, '.png')
             file_name = file_name[:-4] #Remove .png from filename- renderer adds this
@@ -475,6 +487,29 @@ class LoaderNodeBase(Node):
             if self.plot_type_select.value == "Readout hist.":
                 plot = plot[0] # ComplexHist returns a column with plot inside it for some reason
             renderer.save(plot, file_name)
+            return file_name
+
+    def save_to_clipboard(self, *events: param.parameterized.Event):
+        if isinstance(self._plot_obj, Node):
+            # Save image
+            name = self.save_png("temp.png")
+            image = Image.open(name + ".png")
+
+            # Load image and convert to bytes
+            output = BytesIO()
+            image.convert("RGB").save(output, "BMP")
+            data = output.getvalue()[14:]
+            output.close()
+
+            # Save bytes to clipboard
+            self.save_to_OS_clipboard(data)
+    
+    def save_to_OS_clipboard(self, data):
+        win32clipboard.OpenClipboard()
+        win32clipboard.EmptyClipboard()
+        win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
+        win32clipboard.CloseClipboard()
+    
 
     def add_file_suffix(self, file_name, ext):
         # Given a file name, check if file already exists and, if so,
