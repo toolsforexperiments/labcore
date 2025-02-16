@@ -14,6 +14,8 @@ import matplotlib
 from io import BytesIO
 import win32clipboard
 from PIL import Image
+import subprocess
+import platform
 
 import pandas
 import param
@@ -458,7 +460,7 @@ class LoaderNodeBase(Node):
         _disabled = not self.graph_type_savable[self.plot_type_select.value]
         self.html_button.disabled = _disabled
         self.png_button.disabled = _disabled
-        self.clipboard_button.disabled = _disabled
+        self.clipboard_button.disabled = _disabled and platform.system() in ["Windows", "Darwin", "Linux"]
 
     def save_html(self, *events: param.parameterized.Event):
         # Save the plot to an html file
@@ -505,11 +507,23 @@ class LoaderNodeBase(Node):
             self.save_to_OS_clipboard(data)
     
     def save_to_OS_clipboard(self, data):
-        win32clipboard.OpenClipboard()
-        win32clipboard.EmptyClipboard()
-        win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
-        win32clipboard.CloseClipboard()
-    
+        Op_sys = platform.system()
+        if Op_sys == "Windows":
+            win32clipboard.OpenClipboard()
+            win32clipboard.EmptyClipboard()
+            win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
+            win32clipboard.CloseClipboard()
+        elif Op_sys == "Darwin":
+            # WARNING! THIS HAS NOT BEEN TESTED
+            subprocess.run(['pbcopy', '-pboard', 'general', '-Prefer', 'png', '-dataType', 'public.png'], input=data)
+        elif Op_sys == "Linux":
+            # WARNING! THIS HAS NOT BEEN TESTED
+            process = subprocess.Popen(
+                ['xclip', '-selection', 'clipboard', '-t', 'image/png'],
+                stdin=subprocess.PIPE
+            )
+            process.communicate(input=data)
+        
 
     def add_file_suffix(self, file_name, ext):
         # Given a file name, check if file already exists and, if so,
