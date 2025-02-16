@@ -49,6 +49,10 @@ class Node(pn.viewable.Viewer):
     anything else.
     Pipelines are formed by appending nodes to each other using ``Node.append``.
 
+    Nodes with graphs must implement a ``plot_panel()`` function that returns
+    a holoviews graph object in order for that graph to be able to be saved
+    as either an html or png file.
+
     Params
     ------
     data_in
@@ -76,6 +80,8 @@ class Node(pn.viewable.Viewer):
     meta_in = param.Parameter({})
     meta_out = param.Parameter({})
 
+    
+
     def __panel__(self) -> pn.viewable.Viewable:
         return self.layout
 
@@ -98,8 +104,10 @@ class Node(pn.viewable.Viewer):
         self.layout = pn.Column()
 
         # -- options for plotting
+        self.graph_types = {"None":None, "Value":ValuePlot, "Readout hist.":ComplexHist}
+        
         self.plot_type_select = RBG(
-            options=["None", "Value", "Readout hist."],
+            options=list(self.graph_types.keys()), 
             value="Value",
             name="View as",
         )
@@ -352,6 +360,7 @@ class Node(pn.viewable.Viewer):
         if other in self._watchers:
             self.param.unwatch(self._watchers[other])
             del self._watchers[other]
+
 
 class ReduxNode(Node):
     OPTS = ["None", "Mean"]

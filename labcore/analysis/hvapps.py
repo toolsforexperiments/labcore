@@ -8,6 +8,15 @@ import asyncio
 import nest_asyncio
 nest_asyncio.apply()
 
+import hvplot
+import holoviews as hv
+import matplotlib
+from io import BytesIO
+import win32clipboard
+from PIL import Image
+import subprocess
+import platform
+
 import pandas
 import param
 import panel as pn
@@ -289,7 +298,7 @@ class LoaderNodeBase(Node):
     Each subclass must implement ``LoaderNodeBase.load_data``.
     """
 
-    def __init__(self, *args: Any, **kwargs: Any):
+    def __init__(self, path=Path('.'), *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNode``.
 
         Parameters
@@ -299,6 +308,9 @@ class LoaderNodeBase(Node):
         **kwargs:
             passed to ``Node``.
         """
+        # LoaderNodes need a datapath- this lets the super access said path
+        self.file_path = path
+
         # to be able to watch, this needs to be defined before super().__init__
         self.refresh = pn.widgets.Select(
             name="Auto-refresh",
@@ -335,7 +347,26 @@ class LoaderNodeBase(Node):
         self.generate_button = pn.widgets.Button(
             name="Load data", align="end", button_type="primary"
         )
+
+        # Button to save graph as html
         self.generate_button.on_click(self.load_and_preprocess)
+        self.html_button = pn.widgets.Button(
+            name="Make HTML", align="end", button_type="default", disabled=True
+        )
+        self.html_button.on_click(self.save_html)
+
+        # Button to save graph as png
+        self.png_button = pn.widgets.Button(
+            name="Make PNG", align="end", button_type="default", disabled=True
+        )
+        self.png_button.on_click(self.save_png)
+
+        # Button to save image to clipboard
+        self.clipboard_button = pn.widgets.Button(
+            name="Save to Clipboard", align="end", button_type="default", disabled=True
+        )
+        self.clipboard_button.on_click(self.save_to_clipboard)
+
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
@@ -352,6 +383,9 @@ class LoaderNodeBase(Node):
                 self.grid_on_load_toggle,
                 self.generate_button,
                 self.refresh,
+                self.html_button,
+                self.png_button,
+                self.clipboard_button,
             ),
             self.display_info,
             pn.Row(
@@ -359,6 +393,11 @@ class LoaderNodeBase(Node):
                 self.plot_col
             )
         )
+
+        # Store whether or not each graph type can be saved as html/png
+        self.graph_type_savable = {}
+        for k in self.graph_types:
+            self.graph_type_savable[k] = hasattr(self.graph_types[k], 'plot_panel')
 
         self.lock = asyncio.Lock()
 
@@ -403,6 +442,98 @@ class LoaderNodeBase(Node):
             self.data_out = data
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
+            
+            # Select None so that save buttons disabled/enabled works
+            # I have no clue why but there's a bug if this doesn't happen
+            save_val = self.plot_type_select.value
+            self.plot_type_select.value = 'None'
+            self.plot_type_select.value = save_val
+
+    @pn.depends("data_out", "plot_type_select.value")
+    def plot_obj(self):
+        ret = super().plot_obj()
+        self.toggle_save_buttons()
+        return ret
+
+    def toggle_save_buttons(self):
+        # Checks if the graphs can be saved and disables buttons accordingly
+        _disabled = not self.graph_type_savable[self.plot_type_select.value]
+        self.html_button.disabled = _disabled
+        self.png_button.disabled = _disabled
+        self.clipboard_button.disabled = _disabled and platform.system() in ["Windows", "Darwin", "Linux"]
+
+    def save_html(self, *events: param.parameterized.Event):
+        # Save the plot to an html file
+        if isinstance(self._plot_obj, Node):
+            file_name = self.file_path.parent.name
+            file_name = os.path.join(self.file_path.parent, file_name)
+            # Check if file_name exists & add suffix
+            file_name = self.add_file_suffix(file_name, '.html')
+            hvplot.save(self._plot_obj.plot_panel(), file_name)
+
+    def save_png(self, *events: param.parameterized.Event, name=None):
+        # Save the plot to a png file
+        if isinstance(self._plot_obj, Node):
+            file_name = name
+            if name is None:
+                file_name = self.file_path.parent.name
+                file_name = os.path.join(self.file_path.parent, file_name)
+            # Check if file_name exists & add suffix
+            file_name = self.add_file_suffix(file_name, '.png')
+            file_name = file_name[:-4] #Remove .png from filename- renderer adds this
+            # Make matplotlib renderer with 200% size
+            renderer = hv.renderer('matplotlib')
+            renderer.size = 200
+            # Get the plot to save
+            plot = self._plot_obj.plot_panel()
+            if self.plot_type_select.value == "Readout hist.":
+                plot = plot[0] # ComplexHist returns a column with plot inside it for some reason
+            renderer.save(plot, file_name)
+            return file_name
+
+    def save_to_clipboard(self, *events: param.parameterized.Event):
+        if isinstance(self._plot_obj, Node):
+            # Save image
+            name = self.save_png("temp.png")
+            image = Image.open(name + ".png")
+
+            # Load image and convert to bytes
+            output = BytesIO()
+            image.convert("RGB").save(output, "BMP")
+            data = output.getvalue()[14:]
+            output.close()
+
+            # Save bytes to clipboard
+            self.save_to_OS_clipboard(data)
+    
+    def save_to_OS_clipboard(self, data):
+        Op_sys = platform.system()
+        if Op_sys == "Windows":
+            win32clipboard.OpenClipboard()
+            win32clipboard.EmptyClipboard()
+            win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
+            win32clipboard.CloseClipboard()
+        elif Op_sys == "Darwin":
+            # WARNING! THIS HAS NOT BEEN TESTED
+            subprocess.run(['pbcopy', '-pboard', 'general', '-Prefer', 'png', '-dataType', 'public.png'], input=data)
+        elif Op_sys == "Linux":
+            # WARNING! THIS HAS NOT BEEN TESTED
+            process = subprocess.Popen(
+                ['xclip', '-selection', 'clipboard', '-t', 'image/png'],
+                stdin=subprocess.PIPE
+            )
+            process.communicate(input=data)
+        
+
+    def add_file_suffix(self, file_name, ext):
+        # Given a file name, check if file already exists and, if so,
+        # added a (#) suffix to it. Return the lowest unused file name.
+        count = 0
+        new_name = file_name + ext
+        while os.path.exists(new_name):
+            new_name = file_name + "(" + str(count) + ")" + ext
+            count += 1
+        return new_name
 
     @pn.depends("info_label.value")
     def display_info(self):
@@ -453,7 +584,7 @@ class DDH5LoaderNode(LoaderNodeBase):
         **kwargs:
             passed to ``Node``.
         """
-        super().__init__(*args, **kwargs)
+        super().__init__(path, *args, **kwargs)
         self.file_path = path
 
     def load_data(self) -> DataDict:
