@@ -11,11 +11,6 @@ nest_asyncio.apply()
 import hvplot
 import holoviews as hv
 import matplotlib
-from io import BytesIO
-import win32clipboard
-from PIL import Image
-import subprocess
-import platform
 
 import pandas
 import param
@@ -329,6 +324,12 @@ class LoaderNodeBase(Node):
 
         super().__init__(*args, **kwargs)
 
+        # Store whether or not each graph type can be saved as html/png.
+        # Must be created before plot_col column
+        self.graph_type_savable = {}
+        for k in self.graph_types:
+            self.graph_type_savable[k] = hasattr(self.graph_types[k], 'plot_panel')
+
         self.pre_process_opts = RBG(
             options=[None, "Average"],
             value="Average",
@@ -361,12 +362,6 @@ class LoaderNodeBase(Node):
         )
         self.png_button.on_click(self.save_png)
 
-        # Button to save image to clipboard
-        self.clipboard_button = pn.widgets.Button(
-            name="Save to Clipboard", align="end", button_type="default", disabled=True
-        )
-        self.clipboard_button.on_click(self.save_to_clipboard)
-
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
@@ -385,7 +380,6 @@ class LoaderNodeBase(Node):
                 self.refresh,
                 self.html_button,
                 self.png_button,
-                self.clipboard_button,
             ),
             self.display_info,
             pn.Row(
@@ -393,11 +387,6 @@ class LoaderNodeBase(Node):
                 self.plot_col
             )
         )
-
-        # Store whether or not each graph type can be saved as html/png
-        self.graph_type_savable = {}
-        for k in self.graph_types:
-            self.graph_type_savable[k] = hasattr(self.graph_types[k], 'plot_panel')
 
         self.lock = asyncio.Lock()
 
@@ -456,11 +445,13 @@ class LoaderNodeBase(Node):
         return ret
 
     def toggle_save_buttons(self):
+        if self.file_path == "":
+            #if no file is selected, keep button disabled
+            return
         # Checks if the graphs can be saved and disables buttons accordingly
         _disabled = not self.graph_type_savable[self.plot_type_select.value]
         self.html_button.disabled = _disabled
         self.png_button.disabled = _disabled
-        self.clipboard_button.disabled = _disabled and platform.system() in ["Windows", "Darwin", "Linux"]
 
     def save_html(self, *events: param.parameterized.Event):
         # Save the plot to an html file
@@ -490,40 +481,6 @@ class LoaderNodeBase(Node):
                 plot = plot[0] # ComplexHist returns a column with plot inside it for some reason
             renderer.save(plot, file_name)
             return file_name
-
-    def save_to_clipboard(self, *events: param.parameterized.Event):
-        if isinstance(self._plot_obj, Node):
-            # Save image
-            name = self.save_png("temp.png")
-            image = Image.open(name + ".png")
-
-            # Load image and convert to bytes
-            output = BytesIO()
-            image.convert("RGB").save(output, "BMP")
-            data = output.getvalue()[14:]
-            output.close()
-
-            # Save bytes to clipboard
-            self.save_to_OS_clipboard(data)
-    
-    def save_to_OS_clipboard(self, data):
-        Op_sys = platform.system()
-        if Op_sys == "Windows":
-            win32clipboard.OpenClipboard()
-            win32clipboard.EmptyClipboard()
-            win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
-            win32clipboard.CloseClipboard()
-        elif Op_sys == "Darwin":
-            # WARNING! THIS HAS NOT BEEN TESTED
-            subprocess.run(['pbcopy', '-pboard', 'general', '-Prefer', 'png', '-dataType', 'public.png'], input=data)
-        elif Op_sys == "Linux":
-            # WARNING! THIS HAS NOT BEEN TESTED
-            process = subprocess.Popen(
-                ['xclip', '-selection', 'clipboard', '-t', 'image/png'],
-                stdin=subprocess.PIPE
-            )
-            process.communicate(input=data)
-        
 
     def add_file_suffix(self, file_name, ext):
         # Given a file name, check if file already exists and, if so,
