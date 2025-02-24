@@ -18,7 +18,7 @@ import ipywidgets as widgets
 try: 
     from qm.QuantumMachinesManager import QuantumMachinesManager, QuantumMachine
 except:
-    from qm.QuantumMachinesManager import QuantumMachinesManager
+    from qm.quantum_machines_manager import QuantumMachinesManager
     from qm import QuantumMachine
 
 from qm.qua import *

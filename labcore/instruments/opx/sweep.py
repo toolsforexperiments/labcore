@@ -7,7 +7,10 @@ import logging
 import numpy as np
 
 from qm.qua import *
-from qm.QuantumMachinesManager import QuantumMachinesManager
+try:
+    from qm.QuantumMachinesManager import QuantumMachinesManager
+except:
+    from qm.quantum_machines_manager import QuantumMachinesManager
 
 from labcore.measurement import *
 from labcore.measurement.record import make_data_spec
