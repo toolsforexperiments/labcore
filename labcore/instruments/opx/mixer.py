@@ -36,7 +36,7 @@ class MixerCalibration:
     lo_frq
         LO frequency in Hz
     if_frq
-        IF frequency in Hz (we're taking the absolute)
+        IF frequency in Hz (can be positive or negative, depending on the sideband you want)
     analyzer
         SignalHound qcodes driver instance
     qm
@@ -314,7 +314,7 @@ class MixerCalibration:
         np.ndarray
             the imbalance coordinate at which the smallest leakage was found for the lower sideband
         """
-        self.setup_analyzer(self.lo_frq - np.abs(self.if_frq)) # LO - IF to calibrate out the lower sideband
+        self.setup_analyzer(self.lo_frq - self.if_frq) # LO - IF
         res = self._scan2d(self.sb_imbalance,
                            center=center, ranges=ranges, steps=steps,
                            title='SB imbalance scan',
@@ -341,7 +341,7 @@ class MixerCalibration:
             Options to pass to the `scipy.optimize.minimize(method='COBYLA')`.
             Will be passed via the `options` dictionary.
         """
-        self.setup_analyzer(self.lo_frq - np.abs(self.if_frq)) # LO - IF to calibrate out the lower sideband
+        self.setup_analyzer(self.lo_frq - self.if_frq) # LO - IF 
         res, nit = self._optimize2d(self.sb_imbalance,
                                initial_guess,
                                ranges=ranges,
