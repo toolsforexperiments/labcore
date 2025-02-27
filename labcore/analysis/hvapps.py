@@ -11,6 +11,7 @@ nest_asyncio.apply()
 import hvplot
 import holoviews as hv
 import matplotlib
+matplotlib.use('Agg')
 
 import pandas
 import param
@@ -456,6 +457,7 @@ class LoaderNodeBase(Node):
     def save_html(self, *events: param.parameterized.Event):
         # Save the plot to an html file
         if isinstance(self._plot_obj, Node):
+            print("Saving HTML")
             file_name = self.file_path.parent.name
             file_name = os.path.join(self.file_path.parent, file_name)
             # Check if file_name exists & add suffix
@@ -465,6 +467,7 @@ class LoaderNodeBase(Node):
     def save_png(self, *events: param.parameterized.Event, name=None):
         # Save the plot to a png file
         if isinstance(self._plot_obj, Node):
+            print("Saving png")
             file_name = name
             if name is None:
                 file_name = self.file_path.parent.name
@@ -479,7 +482,11 @@ class LoaderNodeBase(Node):
             plot = self._plot_obj.plot_panel()
             if self.plot_type_select.value == "Readout hist.":
                 plot = plot[0] # ComplexHist returns a column with plot inside it for some reason
-            renderer.save(plot, file_name)
+                plot = plot.object
+            print(type(plot))
+            #hv.save(plot, file_name)
+            renderer.save(plot, file_name, fmt='png')
+            print(f'saved: {file_name}, a png (hopefully)')
             return file_name
 
     def add_file_suffix(self, file_name, ext):
