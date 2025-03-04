@@ -49,7 +49,7 @@ class Node(pn.viewable.Viewer):
     anything else.
     Pipelines are formed by appending nodes to each other using ``Node.append``.
 
-    Nodes with graphs must implement a ``plot_panel()`` function that returns
+    Nodes with graphs must implement a ``get_plot()`` function that returns
     a holoviews graph object in order for that graph to be able to be saved
     as either an html or png file.
 
@@ -102,10 +102,12 @@ class Node(pn.viewable.Viewer):
         self.layout = pn.Column()
 
         # -- options for plotting
-        self.graph_types = {"None": None, "Value": ValuePlot, "Readout hist.": ComplexHist}
+        self.graph_types = {"None": None, 
+                            "Value": ValuePlot, 
+                            "Readout hist.": ComplexHist}
         
         self.plot_type_select = RBG(
-            options=list(self.graph_types.keys()), 
+            options=list(self.graph_types.keys()),
             value="Value",
             name="View as",
         )
@@ -201,7 +203,6 @@ class Node(pn.viewable.Viewer):
             if data is not a pandas DataFrame or an xarray Dataset.
         """
         return split_complex(data)
-    
 
     @staticmethod
     def complex_dependents(data: Optional[Data]) -> dict[str, dict[str, str]]:
@@ -531,12 +532,17 @@ class ValuePlot(Node):
         # case: if x and y are selected, we make a 2d plot of some sort
         else:
             if isinstance(self.data_out, pd.DataFrame):
-                plot = plot_df_as_2d(self.data_out, x, y, dim_labels=self.dim_labels())
+                plot = plot_df_as_2d(self.data_out, x, y, 
+                                     dim_labels=self.dim_labels())
             elif isinstance(self.data_out, xr.Dataset):
-                plot = plot_xr_as_2d(self.data_out, x, y, dim_labels=self.dim_labels())
+                plot = plot_xr_as_2d(self.data_out, x, y, 
+                                     dim_labels=self.dim_labels())
             else:
                 raise NotImplementedError
         return plot
+    
+    def get_plot(self):
+        return self.plot_panel()
 
 
 class ComplexHist(Node):
@@ -591,6 +597,10 @@ class ComplexHist(Node):
             plot = layout
 
         return plot
+    
+    def get_plot(self):
+        plt = self.plot_panel()
+        return plt[0].object
 
 
 def plot_df_as_2d(df, x, y, dim_labels={}):

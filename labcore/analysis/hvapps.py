@@ -10,15 +10,8 @@ nest_asyncio.apply()
 
 import hvplot
 import holoviews as hv
-import matplotlib
-matplotlib.use('Agg')
-import numpy as np
 
-from bokeh.io import show
 from bokeh.io.export import export_png
-from bokeh.plotting import figure
-from bokeh.models import ColorBar
-from bokeh.transform import linear_cmap
 import pandas
 import param
 import panel as pn
@@ -46,9 +39,10 @@ class Handler(FileSystemEventHandler):
         if not event.is_directory:
             # Get file extension and compare to data file type, ddh5
             file_type = Path(event.src_path).suffix
-            #TODO: Generalize to other data file types
+            # TODO: Generalize to other data file types
             if file_type == '.ddh5':
                 self.update_callback(event)
+
 
 class DataSelect(pn.viewable.Viewer):
 
@@ -63,7 +57,7 @@ class DataSelect(pn.viewable.Viewer):
     selected_path = param.Parameter(None)
     search_term = param.Parameter(None)
     group_options = param.Parameter(None)
-    
+
     # Used to combat Watchdogs duplicate calling events
     event_lock = False
 
@@ -95,7 +89,7 @@ class DataSelect(pn.viewable.Viewer):
         self.size = size
 
         # this contains a dict with the structure:
-        # { date (as tuple): 
+        # { date (as tuple):
         #    { path of the dataset folder : (list of subdirs, list of files) }
         # }
         self.data_root = data_root
@@ -105,24 +99,24 @@ class DataSelect(pn.viewable.Viewer):
 
         # a search bar for data
         self.text_input = pn.widgets.TextInput(
-            name='Search', 
+            name='Search',
             placeholder='Enter a search term here...'
         )
         self.layout.append(self.text_input)
 
         # Display the current search term
         self.typed_value = pn.widgets.StaticText(
-            stylesheets=[selector_stylesheet], 
+            stylesheets=[selector_stylesheet],
             css_classes=['ttlabel'],
         )
         self.layout.append(self.text_input_repeater)
-        
+
         self.image_feed_width = 400  # The width of images in the feed
         self.feed_scroll_width = 40  # Extra width of the feed itself for the scroll bar
 
         # two selectors for data selection
         self._group_select_widget = pn.widgets.CheckBoxGroup(
-            name='Date', 
+            name='Date',
             width=200-self.feed_scroll_width,
             stylesheets=[selector_stylesheet]
         )
@@ -135,30 +129,31 @@ class DataSelect(pn.viewable.Viewer):
         # Add a title to match the multiselect widget style
         self._group_select = pn.Column(
             pn.widgets.StaticText(
-                stylesheets=[selector_stylesheet], 
+                stylesheets=[selector_stylesheet],
                 css_classes=['ttlabel'],
                 value="Date"
-                ),
+            ),
             self._group_select_feed
         )
         # Data select panel
         self._data_select_widget = Select(
-            name='Data set', 
+            name='Data set',
             size=self.size,
             width=800,
-            stylesheets = [selector_stylesheet]
+            stylesheets=[selector_stylesheet]
         )
-        
+
         # Scrollable feed of images stored with this data
         self.data_images_feed = pn.layout.Feed(None, sizing_mode="fixed")
         # Data frame showing axes & dependencies
         self.data_info = pn.pane.DataFrame(None)
 
-        self.layout.append(pn.Row(self._group_select, self.data_select, self.data_info, self.data_images_feed))
+        self.layout.append(pn.Row(
+            self._group_select, self.data_select, self.data_info, self.data_images_feed))
 
         # a simple info panel about the selection
         self.lbl = pn.widgets.StaticText(
-            stylesheets=[selector_stylesheet], 
+            stylesheets=[selector_stylesheet],
             css_classes=['ttlabel'],
         )
 
@@ -178,7 +173,8 @@ class DataSelect(pn.viewable.Viewer):
         self.start()
 
     def start(self):
-        self.observer.schedule(self.handler, self.DIRECTORY_TO_WATCH, recursive=True)
+        self.observer.schedule(
+            self.handler, self.DIRECTORY_TO_WATCH, recursive=True)
         self.observer.start()
 
     @pn.depends("_group_select_widget.value")
@@ -186,7 +182,7 @@ class DataSelect(pn.viewable.Viewer):
         # setup global variables for search function
         active_search = False
         r = re.compile(".*")
-        if hasattr(self, "text_input"): 
+        if hasattr(self, "text_input"):
             if self.text_input.value_input is not None and self.text_input.value_input != "":
                 # Make the Regex expression for the searched string
                 r = re.compile(".*" + str(self.text_input.value_input) + ".*")
@@ -196,7 +192,7 @@ class DataSelect(pn.viewable.Viewer):
 
         self._data_select_widget.options = opts
         return self._data_select_widget
-    
+
     def get_data_options(self, active_search=True, r=re.compile('.*')):
         if isinstance(r, str):
             r = re.compile(r)
@@ -215,7 +211,7 @@ class DataSelect(pn.viewable.Viewer):
                 lbl = f"{date} - {time} - {uuid} - {name} "
                 for k in ['complete', 'star', 'trash']:
                     if f'__{k}__.tag' in files:
-                        lbl += self.SYM[k]     
+                        lbl += self.SYM[k]
                 opts[lbl] = dset
         return opts
 
@@ -232,14 +228,16 @@ class DataSelect(pn.viewable.Viewer):
                 file = str(file)
                 img = ''
                 if file.endswith(".png"):
-                    img = pn.pane.PNG(file, sizing_mode="fixed", width=self.image_feed_width)
+                    img = pn.pane.PNG(file, sizing_mode="fixed",
+                                      width=self.image_feed_width)
                 elif file.endswith(".jpg") or file.endswith(".jpeg"):
-                    img = pn.pane.JPG(file, sizing_mode="fixed", width=self.image_feed_width)
+                    img = pn.pane.JPG(file, sizing_mode="fixed",
+                                      width=self.image_feed_width)
                 else:
                     continue
                 images.append(img)
-                images.append( pn.Spacer(height=img.height))
-            self.data_images_feed.objects = images 
+                images.append(pn.Spacer(height=img.height))
+            self.data_images_feed.objects = images
             self.data_images_feed.width = self.image_feed_width + self.feed_scroll_width
             # Load datadict into dictionary/list
             # FIXME: Assumes a file named 'data' exists in the desired directory. Should be generalized.
@@ -248,10 +246,13 @@ class DataSelect(pn.viewable.Viewer):
             dict_for_dataframe = {}
             for key in dd.keys():
                 if len(key) < 2 or key[0:2] != "__":
-                    depends_on = dd[key]["axes"]  if dd[key]["axes"] != []  else "Independent"
-                    dict_for_dataframe[key] = [dd[key]["__shape__"], depends_on]
+                    depends_on = dd[key]["axes"] if dd[key]["axes"] != [
+                    ] else "Independent"
+                    dict_for_dataframe[key] = [
+                        dd[key]["__shape__"], depends_on]
             # Convert to data frame and display
-            df = pandas.DataFrame.from_dict(data=dict_for_dataframe, orient="index", columns=['Shape', 'Depends on'])
+            df = pandas.DataFrame.from_dict(
+                data=dict_for_dataframe, orient="index", columns=['Shape', 'Depends on'])
             self.data_info.object = df
         # Get the path
         if isinstance(path, Path):
@@ -260,13 +261,13 @@ class DataSelect(pn.viewable.Viewer):
         self.lbl.value = f"Path: {path}"
         self.selected_path = path
         return self.lbl
-    
+
     @pn.depends("text_input.value_input")
     def text_input_repeater(self):
         self.typed_value.value = f"Current Search: {self.text_input.value_input}"
         self.search_term = self.text_input.value_input
         return self.typed_value
-    
+
     def update_group_options(self, event):
         # Refresh self.data_sets
         new_data_set = self.group_data(find_data(root=self.data_root))
@@ -280,6 +281,7 @@ class DataSelect(pn.viewable.Viewer):
         self._group_select_widget.options = new_opts
         self._data_select_widget.options = self.get_data_options()
         self._group_select_feed.objects = [self._group_select_widget]
+
 
 selector_stylesheet = """
 :host .bk-input {
@@ -335,7 +337,8 @@ class LoaderNodeBase(Node):
         # Must be created before plot_col column
         self.graph_type_savable = {}
         for k in self.graph_types:
-            self.graph_type_savable[k] = hasattr(self.graph_types[k], 'plot_panel')
+            self.graph_type_savable[k] = hasattr(
+                self.graph_types[k], 'get_plot')
 
         self.pre_process_opts = RBG(
             options=[None, "Average"],
@@ -373,7 +376,7 @@ class LoaderNodeBase(Node):
         self.info_label.value = "No data loaded."
 
         # This is needed to tell the site that it needs more vertical space.
-        # If there's no buffer column, the screen will jitter up and down 
+        # If there's no buffer column, the screen will jitter up and down
         # when it auto refreshes.
         self.buffer_col = pn.Column(height=600, width=10)
         self.plot_col = pn.Column(objects=self.plot)
@@ -417,8 +420,10 @@ class LoaderNodeBase(Node):
 
                 if self.pre_process_dim_input.value in indep:
                     if self.pre_process_opts.value == "Average":
-                        data = self.mean(data, self.pre_process_dim_input.value)
-                        indep.pop(indep.index(self.pre_process_dim_input.value))
+                        data = self.mean(
+                            data, self.pre_process_dim_input.value)
+                        indep.pop(indep.index(
+                            self.pre_process_dim_input.value))
 
             # when making gridded data, can do things slightly differently
             # TODO: what if gridding goes wrong?
@@ -438,7 +443,7 @@ class LoaderNodeBase(Node):
             self.data_out = data
             t1 = datetime.now()
             self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
-            
+
             # Select None so that save buttons disabled/enabled works
             # I have no clue why but there's a bug if this doesn't happen
             save_val = self.plot_type_select.value
@@ -453,7 +458,7 @@ class LoaderNodeBase(Node):
 
     def toggle_save_buttons(self):
         if self.file_path == "":
-            #if no file is selected, keep button disabled
+            # If no file is selected, keep button disabled
             return
         # Checks if the graphs can be saved and disables buttons accordingly
         _disabled = not self.graph_type_savable[self.plot_type_select.value]
@@ -463,12 +468,11 @@ class LoaderNodeBase(Node):
     def save_html(self, *events: param.parameterized.Event):
         # Save the plot to an html file
         if isinstance(self._plot_obj, Node):
-            print("Saving HTML")
             file_name = self.file_path.parent.name
             file_name = os.path.join(self.file_path.parent, file_name)
             # Check if file_name exists & add suffix
             file_name = self.add_file_suffix(file_name, '.html')
-            hvplot.save(self._plot_obj.plot_panel(), file_name)
+            hvplot.save(self._plot_obj.get_plot(), file_name)
 
     def save_png(self, *events: param.parameterized.Event, name=None):
         # Save the plot to a png file
@@ -481,15 +485,10 @@ class LoaderNodeBase(Node):
             # Check if file_name exists & add suffix
             file_name = self.add_file_suffix(file_name, '.png')
             # Get the plot to save
-            plot = self._plot_obj.plot_panel()
-            if self.plot_type_select.value == "Readout hist.":
-                plot = plot[0] # ComplexHist returns a column with plot inside it for some reason
-                plot = plot.object
+            plot = self._plot_obj.get_plot() 
             # Render the Holoviews plot to a Bokeh plot
             bokeh_plot = hv.render(plot)
             export_png(bokeh_plot, filename=file_name)
-            print(f'Saved figure to {file_name}')
-        
             return file_name
 
     def add_file_suffix(self, file_name, ext):
@@ -505,12 +504,12 @@ class LoaderNodeBase(Node):
     @pn.depends("info_label.value")
     def display_info(self):
         return self.info_label
-    
+
     @pn.depends("refresh.value", watch=True)
     def on_refresh_changed(self):
         if self.refresh.value is None:
             self.task = None
-        
+
         if self.refresh.value is not None:
             if self.task is None:
                 self.task = asyncio.ensure_future(self.run_auto_refresh())
@@ -519,7 +518,7 @@ class LoaderNodeBase(Node):
         while self.refresh.value is not None:
             await asyncio.sleep(self.refresh.value)
             asyncio.run(self.load_and_preprocess())
-        return      
+        return
 
     def load_data(self) -> DataDict:
         """Load data. Needs to be implemented by subclasses.
