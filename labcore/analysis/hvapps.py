@@ -12,7 +12,13 @@ import hvplot
 import holoviews as hv
 import matplotlib
 matplotlib.use('Agg')
+import numpy as np
 
+from bokeh.io import show
+from bokeh.io.export import export_png
+from bokeh.plotting import figure
+from bokeh.models import ColorBar
+from bokeh.transform import linear_cmap
 import pandas
 import param
 import panel as pn
@@ -467,26 +473,23 @@ class LoaderNodeBase(Node):
     def save_png(self, *events: param.parameterized.Event, name=None):
         # Save the plot to a png file
         if isinstance(self._plot_obj, Node):
-            print("Saving png")
+            # Create the file name
             file_name = name
             if name is None:
                 file_name = self.file_path.parent.name
                 file_name = os.path.join(self.file_path.parent, file_name)
             # Check if file_name exists & add suffix
             file_name = self.add_file_suffix(file_name, '.png')
-            file_name = file_name[:-4] #Remove .png from filename- renderer adds this
-            # Make matplotlib renderer with 200% size
-            renderer = hv.renderer('matplotlib')
-            renderer.size = 200
             # Get the plot to save
             plot = self._plot_obj.plot_panel()
             if self.plot_type_select.value == "Readout hist.":
                 plot = plot[0] # ComplexHist returns a column with plot inside it for some reason
                 plot = plot.object
-            print(type(plot))
-            #hv.save(plot, file_name)
-            renderer.save(plot, file_name, fmt='png')
-            print(f'saved: {file_name}, a png (hopefully)')
+            # Render the Holoviews plot to a Bokeh plot
+            bokeh_plot = hv.render(plot)
+            export_png(bokeh_plot, filename=file_name)
+            print(f'Saved figure to {file_name}')
+        
             return file_name
 
     def add_file_suffix(self, file_name, ext):

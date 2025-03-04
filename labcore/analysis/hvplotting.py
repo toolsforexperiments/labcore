@@ -80,8 +80,6 @@ class Node(pn.viewable.Viewer):
     meta_in = param.Parameter({})
     meta_out = param.Parameter({})
 
-    
-
     def __panel__(self) -> pn.viewable.Viewable:
         return self.layout
 
@@ -104,7 +102,7 @@ class Node(pn.viewable.Viewer):
         self.layout = pn.Column()
 
         # -- options for plotting
-        self.graph_types = {"None":None, "Value":ValuePlot, "Readout hist.":ComplexHist}
+        self.graph_types = {"None": None, "Value": ValuePlot, "Readout hist.": ComplexHist}
         
         self.plot_type_select = RBG(
             options=list(self.graph_types.keys()), 
@@ -538,7 +536,6 @@ class ValuePlot(Node):
                 plot = plot_xr_as_2d(self.data_out, x, y, dim_labels=self.dim_labels())
             else:
                 raise NotImplementedError
-
         return plot
 
 
