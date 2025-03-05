@@ -259,39 +259,68 @@ class OxfordTriton(IPInstrument):
         )
         """Parameter turb1_speed"""
 
-        self.COOL: Parameter = self.add_parameter(
-            name="COOL",
+        self.COLD_PLATE: Parameter = self.add_parameter(
+            name="COLD_PLATE",
             label="Cold Plate Temperature",
             unit="K",
             get_cmd=partial(self._get_plate_temp_param, "COOL"),
         )
-        '''Parameter COOL'''
+        '''Parameter COLD_PLATE'''
 
-        self.STIL: Parameter = self.add_parameter(
-            name="STIL",
+        self.STILL_PLATE: Parameter = self.add_parameter(
+            name="STILL_PLATE",
             label="Still Plate Temperature",
             unit="K",
             get_cmd=partial(self._get_plate_temp_param, "COOL"),
         )
-        '''Parameter STIL'''
+        '''Parameter STILL_PLATE'''
 
-        self.MC: Parameter = self.add_parameter(
-            name="MC",
+        self.PT1_PLATE: Parameter = self.add_parameter(
+            name="PT1_PLATE",
+            label="Pulse Tube Stage 1 Plate Temperature",
+            unit="K",
+            get_cmd=partial(self._get_plate_temp_param, "PT1"),
+        )
+        '''Parameter PT1_PLATE'''
+        
+        self.PT1_HEAD: Parameter = self.add_parameter(
+            name="PT1_HEAD",
+            label="Pulse Tube Stage 1 Head Temperature",
+            unit="K",
+            get_cmd=partial(self._get_plate_temp_uid, "T6"),
+        )
+        '''Parameter PT1_HEAD'''
+
+        self.PT2_PLATE: Parameter = self.add_parameter(
+            name="PT2_PLATE",
+            label="Pulse Tube Stage 2 Plate Temperature",
+            unit="K",
+            get_cmd=partial(self._get_plate_temp_param, "PT2"),
+        )
+        '''Parameter PT2_PLATE'''
+
+        self.PT2_HEAD: Parameter = self.add_parameter(
+            name="PT2_HEAD",
+            label="Pulse Tube Stage 2 Head Temperature",
+            unit="K",
+            get_cmd=partial(self._get_plate_temp_uid, "T1"),
+        )
+        '''Parameter PT2_HEAD'''
+
+        self.MC_PLATE_RUO2: Parameter = self.add_parameter(
+            name="MC_PLATE_RUO2",
             label="Mixing Chamber Temperature",
             unit="K",
-           get_cmd=partial(self._get_plate_temp_param, "COOL"),
+           get_cmd=partial(self._get_plate_temp_uid, "T8"),
         )
-        '''Parameter MC'''
+        '''Parameter MC_PLATE_RUO2'''
 
-        self.pulse_tube_cooler_state: Parameter = self.add_parameter(
-            name="pulse_tube_cooler_state",
-            label="Pulse Tube Cooler state",
-            get_cmd="READ:DEV:UID:PTC:SIG:STATE",
-            get_parser=partial(self._get_parser_state, "STATE"),
-            val_mapping={"on": "ON", "off": "OFF"},
-
-        )
-        '''Parameter pulse_tube_cooler_state'''
+        # self.pulse_tube_cooler_state: Parameter = self.add_parameter(
+        #     name="pulse_tube_cooler_state",
+        #     label="Pulse Tube Cooler state",
+        #     get_cmd="",
+        # )
+        # '''Parameter pulse_tube_cooler_state'''
 
         self._add_pump_state()
         self._add_temp_state()
@@ -336,7 +365,13 @@ class OxfordTriton(IPInstrument):
         return self._get_response_value(self.ask(cmd))
 
     def _get_plate_temp_param(self, param: str) -> float | str | list[float] | None:
-        cmd = f"READ:SYS:DR:CHAN:{param}"
+        getuid = f"READ:SYS:DR:CHAN:{param}"
+        uid = "T"+str(int(self._get_response_value(self.ask(getuid))))
+        cmd = f"READ:DEV:{uid}:TEMP:SIG:TEMP"
+        return self._get_response_value(self.ask(cmd))
+
+    def _get_plate_temp_uid(self, uid: str) -> float | str | list[float] | None:
+        cmd = f"READ:DEV:{uid}:TEMP:SIG:TEMP"
         return self._get_response_value(self.ask(cmd))
 
     def _get_control_Bcomp_param(self, param: str) -> float | str | list[float] | None:
