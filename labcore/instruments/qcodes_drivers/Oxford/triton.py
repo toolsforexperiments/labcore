@@ -315,13 +315,6 @@ class OxfordTriton(IPInstrument):
         )
         '''Parameter MC_PLATE_RUO2'''
 
-        # self.pulse_tube_cooler_state: Parameter = self.add_parameter(
-        #     name="pulse_tube_cooler_state",
-        #     label="Pulse Tube Cooler state",
-        #     get_cmd="",
-        # )
-        # '''Parameter pulse_tube_cooler_state'''
-
         self._add_pump_state()
         self._add_temp_state()
         self.chan_alias: dict[str, str] = {}
