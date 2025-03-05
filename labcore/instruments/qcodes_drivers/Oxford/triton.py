@@ -293,15 +293,6 @@ class OxfordTriton(IPInstrument):
         )
         '''Parameter pulse_tube_cooler_state'''
 
-        self.turb1_state: Parameter = self.add_parameter(
-            name="turb1_state",
-            label="Turbo 1 state",
-            get_cmd="READ:DEV:TURB1:PUMP:SIG:STATE",
-            get_parser=partial(self._get_parser_state, "STATE"),
-            val_mapping={"on": "ON", "off": "OFF"},
-        )
-        '''Parameter turb1_state'''
-
         self._add_pump_state()
         self._add_temp_state()
         self.chan_alias: dict[str, str] = {}
