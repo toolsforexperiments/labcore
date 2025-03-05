@@ -263,7 +263,7 @@ class OxfordTriton(IPInstrument):
             name="COLD_PLATE",
             label="Cold Plate Temperature",
             unit="K",
-            get_cmd=partial(self._get_plate_temp_param, "COOL"),
+            get_cmd=partial(self._get_plate_temp_param, "T3"),
         )
         '''Parameter COLD_PLATE'''
 
@@ -271,7 +271,7 @@ class OxfordTriton(IPInstrument):
             name="STILL_PLATE",
             label="Still Plate Temperature",
             unit="K",
-            get_cmd=partial(self._get_plate_temp_param, "COOL"),
+            get_cmd=partial(self._get_plate_temp_param, "T2"),
         )
         '''Parameter STILL_PLATE'''
 
