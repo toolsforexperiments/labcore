@@ -20,6 +20,7 @@ import time
 import numpy as np
 import pandas as pd
 import xarray as xr
+from bokeh.models import GlyphRenderer, LinearAxis, LinearScale, Range1d
 
 import param
 from param import Parameter, Parameterized
@@ -623,6 +624,9 @@ class MagnitudePhasePlot(Node):
             self.plot_panel,
         )
 
+        self.right_min = -1
+        self.right_max = 1
+
     def __panel__(self):
         return self.layout
 
@@ -652,9 +656,6 @@ class MagnitudePhasePlot(Node):
         plot = "*No valid options chosen.*"
         x, y = self.xy_select.value
         indep, dep = self.data_dims(self.data_out)
-        
-        print(f"d_out: {self.data_out}")
-        print(f"d_in: {self.data_in}")
 
         if x in ["None", None]:
             pass
@@ -667,16 +668,9 @@ class MagnitudePhasePlot(Node):
                 converted_df = self.data_out.to_pandas()
             elif not isinstance(self.data_out, pd.DataFrame):
                 raise NotImplementedError
-            
-           
-            print(f"Labels? {converted_df.index} or columns: {converted_df.columns.tolist()}")
-            print(f'Row 0: {converted_df.iloc[0]}')
-            print(f"{converted_df.index[0]}-[{converted_df.iloc[0].iloc[0]}, {converted_df.iloc[0].iloc[1]}]")
-
             # Assign labels. This assumes the first column is the real coefficients.
             real = converted_df.columns.tolist()[0]
             imaginary = converted_df.columns.tolist()[1]
-
             # Create a new dataframe holding the magnitude and phase
             MPdf = pd.DataFrame(
                 {"Magnitude": np.sqrt(np.square(converted_df[real]) + np.square(converted_df[imaginary])),
@@ -689,13 +683,30 @@ class MagnitudePhasePlot(Node):
                 x=x, y="Magnitude", yaxis='left')
             plot_p = MPdf.hvplot.line(
                 x=x, y="Phase", yaxis='right')
-            plot = plot_m*plot_p
+            
+            self.right_max = MPdf['Magnitude'].max()
+            self.right_min = MPdf['Magnitude'].min()
+
+            print(f'Max; {self.right_max} and min; {self.right_min}')
+
+            plot = plot_p.opts(ylim=(-np.pi/2,np.pi/2)) * plot_m.opts(color="k").opts(hooks=[self.overlay_hook])
 
             # plot = MPdf.hvplot.line(
             #     x=x, xlabel=self.dim_label(x)
             # ) * MPdf.hvplot.scatter(x=x)
 
         return plot
+    
+    def overlay_hook(self, plot, elements):
+        # Adds right y-axis
+        p = plot.handles["plot"]
+        p.extra_y_scales = {"right": LinearScale()}
+        p.extra_y_ranges = {"right": Range1d(self.right_min, self.right_max)}
+        p.add_layout(LinearAxis(y_range_name="right"), "right")
+
+        # find the last line and set it to right
+        lines = [p for p in p.renderers if isinstance(p, GlyphRenderer)]
+        lines[-1].y_range_name = "right"
     
     def get_plot(self):
         return self.plot_panel()
@@ -765,6 +776,7 @@ def plot_xr_as_2d(ds, x, y, dim_labels={}):
 
 
 # -- specific plot functions
+
 
 
 # -- various tool functions
