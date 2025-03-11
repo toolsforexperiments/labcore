@@ -315,6 +315,10 @@ class LoaderNodeBase(Node):
         # LoaderNodes need a datapath- this lets the super access said path
         self.file_path = path
 
+        # Determines if save_buttons need to be disabled. Must be run early
+        # to avoid an 'attribute does not exist' error.
+        self.disable_buttons = not self.can_save()
+
         # to be able to watch, this needs to be defined before super().__init__
         self.refresh = pn.widgets.Select(
             name="Auto-refresh",
@@ -456,8 +460,20 @@ class LoaderNodeBase(Node):
         self.toggle_save_buttons()
         return ret
 
+    def can_save(self):
+        # Returns TRUE is the necessary packages for saving html and images are installed
+        # Returns FALSE and prints a notice about the uninstalled packages otherwise
+        has_packages = False
+        
+        if not has_packages:
+            print("ATTENTION! \n You have not installed the necessary packages to allow for the saving of images."\
+                  " To install these packages (Selenium, PhantomJS, Firefox, Geckodriver), please run this command _____________")
+
+        return has_packages
+
     def toggle_save_buttons(self):
-        if self.file_path == "":
+        if (self.disable_buttons) or (self.file_path == ""):
+            # If the packages aren't installed, keep button disabled
             # If no file is selected, keep button disabled
             return
         # Checks if the graphs can be saved and disables buttons accordingly
