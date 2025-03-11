@@ -660,14 +660,14 @@ class MagnitudePhasePlot(Node):
         if x in ["None", None]:
             pass
 
-        # case: a line or scatter plot (or multiple of these)
-        elif y in ["None", None]:
+        else:
             # Convert to a pandas dataframe
             converted_df = self.data_out
             if isinstance(self.data_out, xr.Dataset):
-                converted_df = self.data_out.to_pandas()
+                converted_df = self.data_out.to_dataframe() 
             elif not isinstance(self.data_out, pd.DataFrame):
                 raise NotImplementedError
+            
             # Assign labels. This assumes the first column is the real coefficients.
             real = converted_df.columns.tolist()[0]
             imaginary = converted_df.columns.tolist()[1]
@@ -677,23 +677,16 @@ class MagnitudePhasePlot(Node):
                  "Phase": np.arctan( converted_df[imaginary] / converted_df[real] ) },
                 index=converted_df.index
             ) 
+            # case: a line or scatter plot (or multiple of these)
+            if y in ["None", None]:
+                plot = MPdf.hvplot.line(
+                    x=x, xlabel=self.dim_label(x)
+                ) #* MPdf.scatter(x=x)
 
-            # Make a plot from the dataframe
-            plot_m = MPdf.hvplot.line(
-                x=x, y="Magnitude", yaxis='left')
-            plot_p = MPdf.hvplot.line(
-                x=x, y="Phase", yaxis='right')
-            
-            self.right_max = MPdf['Magnitude'].max()
-            self.right_min = MPdf['Magnitude'].min()
-
-            print(f'Max; {self.right_max} and min; {self.right_min}')
-
-            plot = plot_p.opts(ylim=(-np.pi/2,np.pi/2)) * plot_m.opts(color="k").opts(hooks=[self.overlay_hook])
-
-            # plot = MPdf.hvplot.line(
-            #     x=x, xlabel=self.dim_label(x)
-            # ) * MPdf.hvplot.scatter(x=x)
+            # case: if x and y are selected, we make a 2d plot of some sort
+            else:
+                plot = plot_df_as_2d(MPdf, x, y, 
+                                     dim_labels=self.dim_labels())
 
         return plot
     
