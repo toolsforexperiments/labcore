@@ -25,6 +25,8 @@ from ..data.datadict import (
     dd2xr,
 )
 from .hvplotting import Node, labeled_widget
+from .fit import Fit, FitResult
+from .fitfuncs.generic import Cosine, Exponential
 
 
 class Handler(FileSystemEventHandler):
@@ -336,16 +338,24 @@ class LoaderNodeBase(Node):
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
+        fit_options = ['Cosine', 'Exponential', 'None']
+        self.fit_button = pn.widgets.MenuButton(
+            name="Fit", align="end", items=fit_options, button_type='success', width=100
+        )
+        self.fit_button.on_click(self.set_fit_box)
 
-        self.layout = pn.Column(
-            pn.Row(
-                labeled_widget(self.pre_process_opts),
-                self.pre_process_dim_input,
-                self.grid_on_load_toggle,
-                self.generate_button,
-                self.refresh,
-            ),
-            self.display_info,
+        self.layout = pn.Row(
+            pn.Column(
+                pn.Row(
+                    labeled_widget(self.pre_process_opts),
+                    self.pre_process_dim_input,
+                    self.grid_on_load_toggle,
+                    self.generate_button,
+                    self.refresh,
+                    self.fit_button,
+                ),
+                self.display_info,
+            )
         )
 
         self.lock = asyncio.Lock()
@@ -420,6 +430,31 @@ class LoaderNodeBase(Node):
             if not implemented by subclass.
         """
         raise NotImplementedError
+    
+    def set_fit_box(self, *events: param.parameterized.Event):
+        #Check if fit_box exists & get fit_box
+        fit_box = self.layout.objects[len(self.layout.objects)-1]
+        if fit_box.name is not "fit_box":
+            fit_box = self.add_fit_box()
+        else:
+            pass
+
+        print(self.layout)
+
+    def add_fit_box(self):
+        item = pn.widgets.Toggle(
+                    value=True, name="fit_box_item"
+                )
+        self.layout.append(
+            pn.Column(
+                objects=[item],
+                name="fit_box"
+            )
+        )
+        return item
+    
+    def remove_fit_box(self):
+        pass
 
 
 class DDH5LoaderNode(LoaderNodeBase):
