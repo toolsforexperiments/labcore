@@ -677,11 +677,16 @@ class MagnitudePhasePlot(Node):
                  "Phase": np.arctan( converted_df[imaginary] / converted_df[real] ) },
                 index=converted_df.index
             ) 
+
             # case: a line or scatter plot (or multiple of these)
             if y in ["None", None]:
-                plot = MPdf.hvplot.line(
-                    x=x, xlabel=self.dim_label(x)
-                ) #* MPdf.scatter(x=x)
+                plot_m = MPdf.hvplot.line(
+                    x=x, xlabel=self.dim_label(x), y="Magnitude"
+                ) 
+                plot_p = MPdf.hvplot.line(
+                    x=x, xlabel=self.dim_label(x), y="Phase"
+                ) 
+                plot = (plot_m + plot_p).cols(1)
 
             # case: if x and y are selected, we make a 2d plot of some sort
             else:
@@ -689,17 +694,6 @@ class MagnitudePhasePlot(Node):
                                      dim_labels=self.dim_labels())
 
         return plot
-    
-    def overlay_hook(self, plot, elements):
-        # Adds right y-axis
-        p = plot.handles["plot"]
-        p.extra_y_scales = {"right": LinearScale()}
-        p.extra_y_ranges = {"right": Range1d(self.right_min, self.right_max)}
-        p.add_layout(LinearAxis(y_range_name="right"), "right")
-
-        # find the last line and set it to right
-        lines = [p for p in p.renderers if isinstance(p, GlyphRenderer)]
-        lines[-1].y_range_name = "right"
     
     def get_plot(self):
         return self.plot_panel()
