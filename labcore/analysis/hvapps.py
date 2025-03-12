@@ -315,10 +315,6 @@ class LoaderNodeBase(Node):
         # LoaderNodes need a datapath- this lets the super access said path
         self.file_path = path
 
-        # Determines if save_buttons need to be disabled. Must be run early
-        # to avoid an 'attribute does not exist' error.
-        self.disable_buttons = not self.can_save()
-
         # to be able to watch, this needs to be defined before super().__init__
         self.refresh = pn.widgets.Select(
             name="Auto-refresh",
@@ -334,6 +330,10 @@ class LoaderNodeBase(Node):
             width=80,
         )
         self.task = None
+
+        # Determines if save_buttons need to be disabled. Must be run early
+        # to avoid an 'attribute does not exist' error.
+        self.disable_buttons = not self.can_save()
 
         super().__init__(*args, **kwargs)
 
@@ -464,9 +464,21 @@ class LoaderNodeBase(Node):
         # Returns TRUE is the necessary packages for saving html and images are installed
         # Returns FALSE and prints a notice about the uninstalled packages otherwise
         has_packages = False
+
+        # Try and save an image to check packages
+        try:
+            save_as = self.add_file_suffix('SAVETEST', '.png')
+            self.refresh.save(save_as)
+            os.remove(save_as)
+            has_packages = True
+        except:
+            has_packages = False
+
+        # Reset Plot object
+        self._plot_obj = None
         
         if not has_packages:
-            print("ATTENTION! \n You have not installed the necessary packages to allow for the saving of images."\
+            print("ATTENTION! \nYou have not installed the necessary packages to allow for the saving of images."\
                   " To install these packages (Selenium, PhantomJS, Firefox, Geckodriver), please run this command _____________")
 
         return has_packages
