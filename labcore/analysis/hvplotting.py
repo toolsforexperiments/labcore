@@ -20,6 +20,7 @@ import time
 import numpy as np
 import pandas as pd
 import xarray as xr
+from bokeh.models import GlyphRenderer, LinearAxis, LinearScale, Range1d
 
 import param
 from param import Parameter, Parameterized
@@ -104,7 +105,8 @@ class Node(pn.viewable.Viewer):
         # -- options for plotting
         self.graph_types = {"None": None, 
                             "Value": ValuePlot, 
-                            "Readout hist.": ComplexHist}
+                            "Readout hist.": ComplexHist,
+                            "Magnitude & Phase": MagnitudePhasePlot}
         
         self.plot_type_select = RBG(
             options=list(self.graph_types.keys()),
@@ -333,6 +335,14 @@ class Node(pn.viewable.Viewer):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
                 self._plot_obj = ValuePlot(name="plot")
+                self.append(self._plot_obj)
+                self._plot_obj.data_in = self.data_out
+
+        elif self.plot_type_select.value == "Magnitude & Phase":
+            if not isinstance(self._plot_obj, MagnitudePhasePlot):
+                if self._plot_obj is not None:
+                    self.detach(self._plot_obj)
+                self._plot_obj = MagnitudePhasePlot(name="plot")
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
@@ -602,6 +612,91 @@ class ComplexHist(Node):
         plt = self.plot_panel()
         return plt[0].object
 
+class MagnitudePhasePlot(Node):
+    def __init__(self, *args, **kwargs):
+        self.xy_select = XYSelect()
+        self._old_indep = []
+        
+        super().__init__(*args, **kwargs)
+
+        self.layout = pn.Column(
+            self.plot_options_panel,
+            self.plot_panel,
+        )
+
+        self.right_min = -1
+        self.right_max = 1
+
+    def __panel__(self):
+        return self.layout
+
+    @pn.depends("data_out")
+    def plot_options_panel(self):
+        indep, dep = self.data_dims(self.data_out)
+
+        opts = ["None"]
+        if indep is not None:
+            opts += indep
+        self.xy_select.options = opts
+
+        if indep != self._old_indep:
+            if len(opts) > 2:
+                self.xy_select.value = (opts[-2], opts[-1])
+            elif len(opts) > 1:
+                self.xy_select.value = (opts[-1], "None")
+        self._old_indep = indep
+
+        return self.xy_select
+
+    @pn.depends("data_out", "xy_select.value")
+    def plot_panel(self):
+
+        t0 = time.perf_counter()
+
+        plot = "*No valid options chosen.*"
+        x, y = self.xy_select.value
+        indep, dep = self.data_dims(self.data_out)
+
+        if x in ["None", None]:
+            pass
+
+        else:
+            # Convert to a pandas dataframe
+            converted_df = self.data_out
+            if isinstance(self.data_out, xr.Dataset):
+                converted_df = self.data_out.to_dataframe() 
+            elif not isinstance(self.data_out, pd.DataFrame):
+                raise NotImplementedError
+            
+            # Assign labels. This assumes the first column is the real coefficients.
+            real = converted_df.columns.tolist()[0]
+            imaginary = converted_df.columns.tolist()[1]
+            # Create a new dataframe holding the magnitude and phase
+            MPdf = pd.DataFrame(
+                {"Magnitude": np.sqrt(np.square(converted_df[real]) + np.square(converted_df[imaginary])),
+                 "Phase": np.arctan( converted_df[imaginary] / converted_df[real] ) },
+                index=converted_df.index
+            ) 
+
+            # case: a line or scatter plot (or multiple of these)
+            if y in ["None", None]:
+                plot_m = MPdf.hvplot.line(
+                    x=x, xlabel=self.dim_label(x), y="Magnitude"
+                ) 
+                plot_p = MPdf.hvplot.line(
+                    x=x, xlabel=self.dim_label(x), y="Phase"
+                ) 
+                plot = (plot_m + plot_p).cols(1)
+
+            # case: if x and y are selected, we make a 2d plot of some sort
+            else:
+                plot = plot_df_as_2d(MPdf, x, y, 
+                                     dim_labels=self.dim_labels())
+
+        return plot
+    
+    def get_plot(self):
+        return self.plot_panel()
 
 def plot_df_as_2d(df, x, y, dim_labels={}):
     indeps, deps = Node.data_dims(df)
@@ -668,6 +763,7 @@ def plot_xr_as_2d(ds, x, y, dim_labels={}):
 
 
 # -- specific plot functions
+
 
 
 # -- various tool functions
