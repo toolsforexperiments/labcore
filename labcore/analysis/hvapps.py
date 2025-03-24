@@ -7,6 +7,7 @@ import os
 import asyncio
 import nest_asyncio
 nest_asyncio.apply()
+import inspect
 
 import pandas
 import param
@@ -28,6 +29,7 @@ from .hvplotting import Node, labeled_widget
 from .fit import Fit, FitResult
 from .fitfuncs.generic import Cosine, Exponential
 
+FITS = {'Cosine':Cosine, 'Exponential':Exponential}
 
 class Handler(FileSystemEventHandler):
     def __init__(self, update_callback):
@@ -338,7 +340,7 @@ class LoaderNodeBase(Node):
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
-        fit_options = ['Cosine', 'Exponential', 'None']
+        fit_options = list(FITS.keys())
         self.fit_button = pn.widgets.MenuButton(
             name="Fit", align="end", items=fit_options, button_type='success', width=100
         )
@@ -434,27 +436,47 @@ class LoaderNodeBase(Node):
     def set_fit_box(self, *events: param.parameterized.Event):
         #Check if fit_box exists & get fit_box
         fit_box = self.layout.objects[len(self.layout.objects)-1]
-        if fit_box.name is not "fit_box":
+        if fit_box.name != "fit_box":
             fit_box = self.add_fit_box()
         else:
-            pass
-
-        print(self.layout)
+            self.remove_fit_box()
+            fit_box = self.add_fit_box()
 
     def add_fit_box(self):
-        item = pn.widgets.Toggle(
-                    value=True, name="fit_box_item"
-                )
+        #Make the inputs for every variable
+        selected = self.fit_button.clicked
+        objs = [pn.widgets.StaticText(
+            name=selected, 
+            value='')
+            ]
+        fit_func = FITS[selected]
+        # ansatz = fit_func.guess(self.data_out) #I don't know what coordinate and/or data is
+        for var in inspect.signature(fit_func.model).parameters.keys():
+            if(var== "coordinates"):
+                # User wont input coords
+                continue
+            objs.append(pn.widgets.FloatInput(
+                            name=var,
+                            #value=ansatz[var] # This Will set Ansatz values
+                        )
+            )
+
+        item = pn.WidgetBox(name=selected,
+                    objects=objs
+        )
         self.layout.append(
             pn.Column(
                 objects=[item],
                 name="fit_box"
             )
         )
+
+        print(self.layout)
         return item
     
     def remove_fit_box(self):
-        pass
+        no_fit_objects = self.layout.objects[:-1]
+        self.layout.objects = no_fit_objects
 
 
 class DDH5LoaderNode(LoaderNodeBase):
