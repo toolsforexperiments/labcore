@@ -1,3 +1,4 @@
+from labcore.analysis.hvapps import DataSelect, DDH5LoaderNode
 from datetime import datetime
 from pathlib import Path
 
@@ -5,7 +6,6 @@ import argparse
 import panel as pn
 pn.extension()
 
-from labcore.analysis.hvapps import DataSelect, DDH5LoaderNode
 
 def MakeTemplate(data_root='.'):
     ds = DataSelect(data_root)
@@ -15,7 +15,6 @@ def MakeTemplate(data_root='.'):
         loader.file_path = events[0].new
 
     watch_data_selected = ds.param.watch(data_selected_cb, ['selected_path'])
-
 
     def refilter_data_select(*events):
         ds.data_select()
@@ -31,23 +30,28 @@ def MakeTemplate(data_root='.'):
 
     return temp
 
+
 def Run_Show():
-    parser = argparse.ArgumentParser(description="Data monitored program made for Pfaff lab by Rocky Daehler, building on Plottr made by Wolfgang Pfaff. Run command on it's own to start the application, and pass an (optional) path to the data directory as a second argument.")
+    parser = argparse.ArgumentParser(
+        description="Data monitored program made for Pfaff lab by Rocky Daehler, building"
+                    " on Plottr made by Wolfgang Pfaff. Run command on it's own to start the"
+                    " application, and pass an (optional) path to the data directory as a"
+                    " second argument.")
     parser.add_argument('Datapath', nargs='?', default='.')
 
     args = parser.parse_args()
 
     data_root = Path(args.Datapath)
-    if(not data_root.is_dir()):
+    if (not data_root.is_dir()):
         print("Provided Path was invalid.\nPlease provide a path to an existing directory housing your data.")
         return
-    else:
-        print(f"Running data monitoring application on data from {data_root}")
+
+    print(f"Running data monitoring application on data from {data_root}")
 
     template = MakeTemplate(data_root)
     template.show()
 
-if(__name__ == "main"):
-    template = MakeTemplate()
-    template.servable()
 
+if __name__ == "__main__":
+    template = MakeTemplate()
+    template.show()
