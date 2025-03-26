@@ -23,9 +23,9 @@ def MakeTemplate(data_root='.'):
 
     temp = pn.template.BootstrapTemplate(
         site="labcore",
-        title="data explorer",
+        title="autoplot",
         sidebar=[],
-        main=[ds, loader, loader.plot],
+        main=[ds, loader] 
     )
 
     return temp
@@ -46,12 +46,13 @@ def Run_Show():
         print("Provided Path was invalid.\nPlease provide a path to an existing directory housing your data.")
         return
 
-    print(f"Running data monitoring application on data from {data_root}")
+    print(f"Running Labcore.Autoplot on data from {data_root}")
 
     template = MakeTemplate(data_root)
     template.show()
 
 
 if __name__ == "__main__":
+    print("Running Labcore.Autoplot from python command")
     template = MakeTemplate()
     template.show()
