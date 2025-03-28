@@ -7,7 +7,7 @@ import panel as pn
 pn.extension()
 
 
-def MakeTemplate(data_root='.'):
+def makeTemplate(data_root='.'):
     ds = DataSelect(data_root)
     loader = DDH5LoaderNode()
 
@@ -31,7 +31,7 @@ def MakeTemplate(data_root='.'):
     return temp
 
 
-def Run_Show():
+def runAutoplot():
     parser = argparse.ArgumentParser(
         description="Data monitored program made for Pfaff lab by Rocky Daehler, building"
                     " on Plottr made by Wolfgang Pfaff. Run command on it's own to start the"
@@ -48,11 +48,11 @@ def Run_Show():
 
     print(f"Running Labcore.Autoplot on data from {data_root}")
 
-    template = MakeTemplate(data_root)
+    template = makeTemplate(data_root)
     template.show()
 
 
 if __name__ == "__main__":
     print("Running Labcore.Autoplot from python command")
-    template = MakeTemplate()
+    template = makeTemplate()
     template.show()
