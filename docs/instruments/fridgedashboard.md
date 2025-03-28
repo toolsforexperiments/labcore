@@ -1,13 +1,54 @@
-# Fridge Dashboard
+# Instrument Monitoring
 
+The following is a guide to set up instrument montioring for various parameters associated with instrument(s). It contains capabilities for data storage, data visualization, and real-time alerts. More information on the tool is provided in the next section.
 
-The fridge dashboard is designed to have an easy way to view the status and history of temperatures, pressures, and other parameters taken from the fridge computers. It also has capabilities for sending alerts to different messaging services, such as Slack based on parameter status.
+!!! Note
+    The following guide assumes the user has:
+    - instrumentserver installed and has basic familiarity with it and using config files
+    - labcore installed
+    - basic familiarity with Docker
+    - a basic understanding of what Grafana and InfluxDB are
+
+## Overview
+
+This tool is designed to be able to facilitate the monitoring of instruments. It consists of multiple parts that must be set up:
+
+[Docker](#docker)
+
+Docker is the service used to host Grafana and InfluxDB locally. Both services have a server that runs inside of a Docker container on your internet-connected device, and will be accessible through the network the computer is connected to.
+
+[Grafana](#grafana)
+
+Grafana is the service used to visualize the data gathered from your instrument(s) of choice. It has functionality to both have visualization through dashboards, and also alerting capabilities through Slack integration and more. Below is an example of what a Grafana dashboard may look like.
+
+Grafana is hosted locally on a internet-connected device, and can then be viewed while connected to the network and logging in to your Grafana account. It will live in a Docker container.
+
+![Example Dashboard](img/dashboard.png)
+
+Below is a sample alert send out by Grafana on Slack. The alert notifies that a parameter (in this case MC) has passed a threshold.
+
+![Example Alert](img/sample_alert.png)
+
+[InfluxDB](#influxdb)
+
+InfluxDB is the database used to store data fetched from instruments. It stores the data in time-series format. It can then be accessed by Grafana in order to construct time-series plots of the various parameters in the database.
+
+InfluxDB should be hosted on the same device as Grafana. It will also be in a Docker container.
+
+[The Instrumentserver](#the-instrumentserver)
+
+The instrumentserver is ran on a computer that can talk with your instrument through a network connection. Based on a user-generated configuration file, the instrumentserver is able to fetch data from the instrument and broadcast it to the internet.
+
+In the instrumentserver, for each instrument, the user provides a list of parameters and their respective polling rates. This will be how often the instrumentserver will fetch the value of the parameter and broadcast it to the internet.
+
+[The Listener](#the-listener)
+
+The listener is ran on the same computer that is running the Docker containers for Grafana and InfluxDB. It listens for the internet broadcasts from the instrumentserver, and then writes the data to the InfluxDB database. The listener can also be configured to write to a CSV file, however InfluxDB is recommended.
 
 !!! Note
     The following portion assumes the user has:
     - instrumentserver installed and has basic familiarity with it and using config files
     - labcore installed
-
 
 ## The Instrumentserver
 
@@ -64,7 +105,7 @@ labcore.instruments.qcodes_drivers.Oxford.triton.OxfordTriton
 
 `temp_channel_mapping`: Create a dictionary containing the mapping between name and temperature channel for each channel you would like a named parameter for. In the provided config, 7 Temperature Channels are used to create named parameters. Channels can be found on the Lakeshore thermometry dialog on the fridge computer.
 
-`pollingRate`: provide a dictionary for how often to poll each parameter given. The dictionary is constructed with the name of the parameter, and the interval to poll (in seconds)
+`pollingRate`: provide a dictionary for how often to poll each parameter given. For each parameter that you wish to fetch data for, add it as a new line in the dictionary, followed by the interval (in seconds) to fetch it.
 
 `networking`: For the dashboard, only one field is required, `externalBroadcast`. Locate the IPv4 address of the computer you are running the instrumentserver on for the internet network you wish to broadcast the data to. Include the port to broadcast to as well.
 
@@ -84,9 +125,13 @@ You should start the instrumentserver using the above commmand in no GUI mode fi
 $ instrumentserver-detached
 ```
 
+!!! Note
+    The following portion assumes the user has:
+    - instrumentserver installed
+
 ## The Listener
 
-To use the dashboard, we will also need to run an instance of the listener on whichever computer you wish to host the dashboard on. (The computer with the listener and the computer with the instrumentserver must be on the same network). The listener can be used for storing data either in a CSV file or the InfluxDB database.
+To use the dashboard, we will also need to run an instance of the listener on whichever computer you wish to host the dashboard on. (The computer with the listener and the computer with the instrumentserver must be on the same network). The listener can be used for writing data either in a CSV file or the InfluxDB database.
 
 ### Config File
 
@@ -175,3 +220,20 @@ You can then find the ID number of the process and kill it with:
 ```bash
 $ kill -15 {INSERT ID}
 ```
+
+!!! Note
+    The following portion assumes the user has:
+    - Docker Engine installed
+    - Basic familiarity with Docker
+
+## Docker
+
+docker
+
+## InfluxDB
+
+data
+
+## Grafana
+
+grafana
