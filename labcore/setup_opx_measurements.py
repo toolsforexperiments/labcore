@@ -18,7 +18,7 @@ import ipywidgets as widgets
 try: 
     from qm.QuantumMachinesManager import QuantumMachinesManager, QuantumMachine
 except:
-    from qm.QuantumMachinesManager import QuantumMachinesManager
+    from qm.quantum_machines_manager import QuantumMachinesManager
     from qm import QuantumMachine
 
 from qm.qua import *
@@ -64,7 +64,13 @@ class Mixer:
             with program() as const_pulse:
                 with infinite_loop_():
                     play('constant', self.config.element_name)
-            qmm = QuantumMachinesManager(host=self.config.qmconfig.opx_address,
+            if self.config.qmconfig.cluster_name is not None:
+                qmm = QuantumMachinesManager(host=self.config.qmconfig.opx_address,
+                                        port=None, 
+                                        cluster_name=self.config.qmconfig.cluster_name,
+                                        **kwargs)
+            else:
+                qmm = QuantumMachinesManager(host=self.config.qmconfig.opx_address,
                                         port=self.config.qmconfig.opx_port, **kwargs)
             self.qmm = qmm
             qm = qmm.open_qm(self.config.qmconfig(), close_other_machines=False)
@@ -117,6 +123,7 @@ def add_mixer_config(qubit_name, analyzer, generator, readout=False, element_to_
         qmconfig=options.qm_config,
         opx_address=options.qm_config.opx_address,
         opx_port=options.qm_config.opx_port,
+        opx_cluster_name=options.qm_config.cluster_name,
         analyzer=analyzer,
         generator=generator,
         if_param=nestedAttributeFromString(options.parameters, f"{element_to_param_map}.IF"),
