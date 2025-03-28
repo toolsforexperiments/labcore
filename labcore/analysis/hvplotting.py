@@ -624,9 +624,6 @@ class MagnitudePhasePlot(Node):
             self.plot_panel,
         )
 
-        self.right_min = -1
-        self.right_max = 1
-
     def __panel__(self):
         return self.layout
 
@@ -651,11 +648,8 @@ class MagnitudePhasePlot(Node):
     @pn.depends("data_out", "xy_select.value")
     def plot_panel(self):
 
-        t0 = time.perf_counter()
-
         plot = "*No valid options chosen.*"
         x, y = self.xy_select.value
-        indep, dep = self.data_dims(self.data_out)
 
         if x in ["None", None]:
             pass
