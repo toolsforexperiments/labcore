@@ -395,7 +395,8 @@ class LoaderNodeBase(Node):
         self.buffer_col = pn.Column(height=600, width=10)
         self.plot_col = pn.Column(objects=self.plot)
 
-        self.layout = pn.Column(
+        # The Leading pn.Row is used to make the fit box appear at right
+        self.layout = pn.Row( pn.Column(
             pn.Row(
                 labeled_widget(self.pre_process_opts),
                 self.pre_process_dim_input,
@@ -404,13 +405,14 @@ class LoaderNodeBase(Node):
                 self.refresh,
                 self.html_button,
                 self.png_button,
+                self.fit_button,
             ),
             self.display_info,
             pn.Row(
                 self.buffer_col,
                 self.plot_col
             )
-        )
+        ))
 
         self.lock = asyncio.Lock()
 
