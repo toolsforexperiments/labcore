@@ -6,7 +6,7 @@ if __name__ == "__main__":
         cmdclass=get_cmdclasses(),
         entry_points={
             'console_scripts': [
-                'autoplot = scripts.monitr_server:runAutoplot',
+                'autoplot = scripts.monitr_server:run_autoplot',
             ],
         },
     )

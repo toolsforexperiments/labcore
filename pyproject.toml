@@ -38,5 +38,13 @@ ignore_missing_imports = true
 testpaths = ["test"]
 log_cli = true
 
+[project]
+name = "labcore"
+version = "0.0.0"
+description = "toolkit for acquiring, processing, and analyzing data in a CM/QI physics lab."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+
 [project.scripts]
-autoplot = "scripts.monitr_server:runAutoplot"
+autoplot = "scripts.monitr_server:run_autoplot"
