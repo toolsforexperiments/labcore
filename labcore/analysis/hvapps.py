@@ -384,6 +384,7 @@ class LoaderNodeBase(Node):
         self.info_label.value = "No data loaded."
 
         fit_options = list(FITS.keys())
+        fit_options.append('None')
         self.fit_button = pn.widgets.MenuButton(
             name="Fit", align="end", items=fit_options, button_type='success', width=100
         )
@@ -413,6 +414,9 @@ class LoaderNodeBase(Node):
                 self.plot_col
             )
         ))
+
+        #Create var to collect the fitfunc inputs
+        self.fit_inputs = None
 
         self.lock = asyncio.Lock()
 
@@ -574,18 +578,23 @@ class LoaderNodeBase(Node):
         #Check if fit_box exists & get fit_box
         fit_box = self.layout.objects[len(self.layout.objects)-1]
         if fit_box.name != "fit_box":
+            if self.fit_button.clicked == 'None':
+                return
             fit_box = self.add_fit_box()
         else:
             self.remove_fit_box()
-            fit_box = self.add_fit_box()
+            if self.fit_button.clicked != 'None':
+                fit_box = self.add_fit_box()
 
     def add_fit_box(self):
         #Make the inputs for every variable
         selected = self.fit_button.clicked
         objs = [pn.widgets.StaticText(
-            name=selected, 
-            value='')
-            ]
+            name='', 
+            value=selected,
+            align="center",
+            stylesheets=[Label_stylesheet]
+            ) ]
         fit_func = FITS[selected]
         # ansatz = fit_func.guess(self.data_out) #I don't know what coordinate and/or data is
         for var in inspect.signature(fit_func.model).parameters.keys():
@@ -593,28 +602,46 @@ class LoaderNodeBase(Node):
                 # User wont input coords
                 continue
             objs.append(pn.widgets.FloatInput(
-                            name=var,
-                            #value=ansatz[var] # This Will set Ansatz values
-                        )
+                    name=var,
+                    #value=ansatz[var] # This Will set Ansatz values
+                )
             )
-
-        item = pn.WidgetBox(name=selected,
+        # Add button to save the fit
+        save_fit_button = pn.widgets.Button(
+            name="Save Fit", align="center", button_type="default", disabled=False
+        )
+        save_fit_button.on_click(self.save_fit)
+        objs.append(save_fit_button)
+        # Add to tehe layout
+        self.fit_inputs = pn.WidgetBox(name=selected,
                     objects=objs
         )
         self.layout.append(
             pn.Column(
-                objects=[item],
+                objects=[self.fit_inputs],
                 name="fit_box"
             )
         )
-
-        print(self.layout)
-        return item
+        return self.fit_inputs
     
     def remove_fit_box(self):
+        fit_box = self.layout.objects[len(self.layout.objects)-1]
         no_fit_objects = self.layout.objects[:-1]
         self.layout.objects = no_fit_objects
+        self.fit_inputs = None
 
+    def save_fit(self, *events: param.parameterized.Event):
+        for item in self.fit_inputs.objects:
+            if isinstance(item, pn.widgets.FloatInput):
+                print(item.value)
+
+
+Label_stylesheet = """
+:host {
+    font-family: monospace;
+    font-size: 20px;
+}
+"""
 
 class DDH5LoaderNode(LoaderNodeBase):
     """A node that loads data from a specified file location.
