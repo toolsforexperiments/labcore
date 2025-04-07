@@ -19,6 +19,7 @@ import panel as pn
 from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+import xarray as xr
 
 import re
 
@@ -30,7 +31,7 @@ from ..data.datadict import (
     dd2xr,
 )
 from .hvplotting import Node, labeled_widget
-from .fit import Fit, FitResult
+from .fit import Fit, FitResult, fit_and_add_to_ds
 from .fitfuncs.generic import Cosine, Exponential
 
 FITS = {'Cosine':Cosine, 'Exponential':Exponential}
@@ -596,14 +597,19 @@ class LoaderNodeBase(Node):
             stylesheets=[Label_stylesheet]
             ) ]
         fit_func = FITS[selected]
-        # ansatz = fit_func.guess(self.data_out) #I don't know what coordinate and/or data is
+        # Get the guess for this data and x 
+        # dim_name = ""
+        # if self._plot_obj is not None:
+        #     x, y = self._plot_obj.xy_select.value
+        #     dim_name = x
+        # ansatz = fit_func.guess(self.data_out, self.data_out[dim_name]) #I don't know what coordinate and/or data is
         for var in inspect.signature(fit_func.model).parameters.keys():
             if(var== "coordinates"):
                 # User wont input coords
                 continue
             objs.append(pn.widgets.FloatInput(
                     name=var,
-                    #value=ansatz[var] # This Will set Ansatz values
+                    #value=ansatz[var] if var in list(ansatz.keys()) else 0 # Set value to the Ansatz or to 0
                 )
             )
         # Add button to save the fit
@@ -631,9 +637,22 @@ class LoaderNodeBase(Node):
         self.fit_inputs = None
 
     def save_fit(self, *events: param.parameterized.Event):
+        args = {}
         for item in self.fit_inputs.objects:
             if isinstance(item, pn.widgets.FloatInput):
                 print(item.value)
+                args[item.name] = item.value
+        if isinstance(self.data_out, xr.Dataset):
+            dim_name = ""
+            if self._plot_obj is not None:
+                x, y = self._plot_obj.xy_select.value
+                dim_name = x
+            fit_and_add_to_ds(self.data_out, dim_name, FITS[self.fit_button.clicked], None, **args)
+        else:
+            print("not an xarray Dataset")
+            print(type(self.data_out))
+            print(type(self.data_in))
+
 
 
 Label_stylesheet = """

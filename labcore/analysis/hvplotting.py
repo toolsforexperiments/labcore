@@ -31,6 +31,7 @@ import hvplot.pandas
 import hvplot.xarray
 
 from ..data.tools import split_complex, data_dims
+from .fit import plot_ds_2d_with_fit
 
 
 Data = Union[xr.Dataset, pd.DataFrame]
@@ -514,6 +515,7 @@ class ValuePlot(Node):
 
     @pn.depends("data_out", "xy_select.value")
     def plot_panel(self):
+        print(f"In Plot_panel func of ValuePlot. Type:{type(self.data_out)}")
 
         t0 = time.perf_counter()
 
@@ -732,6 +734,11 @@ def plot_xr_as_2d(ds, x, y, dim_labels={}):
 
     indeps, deps = Node.data_dims(ds)
     plot = None
+
+    if x + '_fit' in ds:
+        print("Plotting with fit")
+        return plot_ds_2d_with_fit(ds, dim_labels.get(x,x), x, y)
+    print(f"Plotted without fit. No {x}_fit found.")
 
     # plotting stuff vs two independent -- heatmap
     if x in indeps and y in indeps:
