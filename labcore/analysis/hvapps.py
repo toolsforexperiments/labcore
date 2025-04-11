@@ -652,6 +652,11 @@ class LoaderNodeBase(Node):
             print("not an xarray Dataset")
             print(type(self.data_out))
             print(type(self.data_in))
+        self.redraw_plot()
+
+    def redraw_plot(self):
+        if self._plot_obj is not None:
+            self._plot_obj.plot_panel()
 
 
 

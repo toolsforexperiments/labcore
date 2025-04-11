@@ -31,7 +31,8 @@ import hvplot.pandas
 import hvplot.xarray
 
 from ..data.tools import split_complex, data_dims
-from .fit import plot_ds_2d_with_fit
+from .fit import plot_ds_2d_with_fit, Fit
+from .fitfuncs.generic import Cosine
 
 
 Data = Union[xr.Dataset, pd.DataFrame]
@@ -479,8 +480,50 @@ class XYSelect(pn.viewable.Viewer):
 
 # -- generic plot functions
 
+class PlotNode(Node):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-class ValuePlot(Node):
+    def plot_panel(self):
+        """Creates and returns a panel with the class's plot
+
+        Should be overridden by subclasses to return the desired plot.
+        """
+        return NotImplementedError
+
+    def get_plot(self):
+        """Returns the plot as a holoviews object
+
+        Used for saving the plot as html or png.
+
+        Can/Should be overridden by subclasses to return the appropriate object.
+        """
+        return self.plot_panel()
+    
+    def add_fit_to_plot(self, plot, x):
+        self.create_fit(Cosine, x)
+        return plot
+
+    # def get_indep_dep(self):
+    #     plot = "*No valid options chosen.*"
+    #     x, y = self.xy_select.value
+    #     indep, dep = self.data_dims(self.data_out)
+
+    def create_fit(self, fitClass:Fit, x_val):
+        #Save x, y (in coords), data (in data_vars)
+        if(self.data_in is not None):
+            # print(f"{self.data_in}\nwith x: {x_val}")
+            # print(f"::{self.data_in.coords.keys()}")
+            # print(f"::{self.data_in.data_vars.keys()}")
+            data_ix = list(self.data_in.data_vars.keys())[0]
+            # print(type(self.data_in.data_vars[data_ix]))
+            np_data = [self.data_in[var].values for var in self.data_in.coords][0]
+            Ansatz = fitClass.guess(np_data, self.data_in.data_vars[data_ix].to_numpy())
+            print(Ansatz)
+        #fit = fitClass.Guess()
+
+
+class ValuePlot(PlotNode):
     def __init__(self, *args, **kwargs):
         self.xy_select = XYSelect()
         self._old_indep = []
@@ -515,8 +558,6 @@ class ValuePlot(Node):
 
     @pn.depends("data_out", "xy_select.value")
     def plot_panel(self):
-        print(f"In Plot_panel func of ValuePlot. Type:{type(self.data_out)}")
-
         t0 = time.perf_counter()
 
         plot = "*No valid options chosen.*"
@@ -551,13 +592,13 @@ class ValuePlot(Node):
                                      dim_labels=self.dim_labels())
             else:
                 raise NotImplementedError
-        return plot
+        return self.add_fit_to_plot(plot, x)
     
     def get_plot(self):
         return self.plot_panel()
 
 
-class ComplexHist(Node):
+class ComplexHist(PlotNode):
     def __init__(self, *args, **kwargs):
         self.gb_select = pn.widgets.CheckButtonGroup(
             name="Group by",
@@ -614,7 +655,7 @@ class ComplexHist(Node):
         plt = self.plot_panel()
         return plt[0].object
 
-class MagnitudePhasePlot(Node):
+class MagnitudePhasePlot(PlotNode):
     def __init__(self, *args, **kwargs):
         self.xy_select = XYSelect()
         self._old_indep = []
@@ -699,6 +740,7 @@ class MagnitudePhasePlot(Node):
     
     def get_plot(self):
         return self.plot_panel()
+    
 
 def plot_df_as_2d(df, x, y, dim_labels={}):
     indeps, deps = Node.data_dims(df)
