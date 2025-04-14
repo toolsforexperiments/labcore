@@ -13,33 +13,38 @@ The following is a guide to set up instrument montioring for various parameters 
 
 This tool is designed to be able to facilitate the monitoring of instruments. It consists of multiple parts that must be set up:
 
+![Overview](img/instrumentmonitoring.png)
+
 [Docker](#docker)
 
-Docker is the service used to host Grafana and InfluxDB locally. Both services have a server that runs inside of a Docker container on your internet-connected device, and will be accessible through the network the computer is connected to.
+Docker is the service used to host Grafana and InfluxDB locally. Both services have a server that runs inside of a Docker container on your internet-connected device, and will be accessible through the network the computer is connected to. Both Influx and Grafana will be accessible with an internet connection to the computer running Docker.
 
 [Grafana](#grafana)
 
 Grafana is the service used to visualize the data gathered from your instrument(s) of choice. It has functionality to both have visualization through dashboards, and also alerting capabilities through Slack integration and more. Below is an example of what a Grafana dashboard may look like.
 
-Grafana is hosted locally on a internet-connected device, and can then be viewed while connected to the network and logging in to your Grafana account. It will live in a Docker container.
+Grafana is hosted locally on a internet-connected device, and can then be viewed while connected to the network and logging in to your Grafana account. It will live in a Docker container. (More on that later)
 
 ![Example Dashboard](img/dashboard.png)
 
-Below is a sample alert send out by Grafana on Slack. The alert notifies that a parameter (in this case MC) has passed a threshold.
+Below is a sample alert send out by Grafana on Slack. The alert notifies that a parameter (in this case MC) has passed a threshold. This is for a dilution refrigerator, and the parameter in this case is a value from a temperature sensor. This one, MC, is in the mixing chamber.
 
 ![Example Alert](img/sample_alert.png)
 
 [InfluxDB](#influxdb)
 
-InfluxDB is the database used to store data fetched from instruments. It stores the data in time-series format. It can then be accessed by Grafana in order to construct time-series plots of the various parameters in the database.
+InfluxDB is the database used to store data fetched from instruments. It stores the data in time-series format (data with a time). It can then be accessed by Grafana in order to construct time-series plots of the various parameters in the database (as shown above).
 
-InfluxDB should be hosted on the same device as Grafana. It will also be in a Docker container.
+InfluxDB should be hosted on the same device as Grafana. It will also be in a Docker container. (again, more on that later)
 
 [The Instrumentserver](#the-instrumentserver)
 
-The instrumentserver is ran on a computer that can talk with your instrument through a network connection. Based on a user-generated configuration file, the instrumentserver is able to fetch data from the instrument and broadcast it to the internet.
+The instrumentserver is ran on a computer that can talk with your instrument through a network connection. The instrumentserver will ask your instrument for the data you specify, which will then be sent back to the instrumentserver by the instrument.
 
-In the instrumentserver, for each instrument, the user provides a list of parameters and their respective polling rates. This will be how often the instrumentserver will fetch the value of the parameter and broadcast it to the internet.
+Based on a yaml file, the instrumentserver can then ask for the correct data from the instrument and broadcast it to the internet (to be used for visualizations).
+
+How to set up the instrumentserver to get the data you want:
+In the instrumentserver, for each instrument, the user provides a list of parameters to get values or states from, and a secondary field - polling rates. The polling rate for each parameter is how often the instrument server will ask for the value or state of the paramter.
 
 [The Listener](#the-listener)
 
@@ -228,12 +233,140 @@ $ kill -15 {INSERT ID}
 
 ## Docker
 
-docker
+Docker is the service that will be used to host both Influx and Grafana.
+
+```yaml
+services:
+
+  grafana:
+
+    image: grafana
+    container_name: grafana
+    restart: unless-stopped
+
+    ports:
+     - '1000:1000'
+
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./data:/etc/grafana/data
+
+    entrypoint: ["/bin/sh", "-c", "export GF_SECURITY_ADMIN_USER=$(cat /run/secrets/.env.grafana-username) && /run.sh"]
+    entrypoint: ["/bin/sh", "-c", "export GF_SECURITY_ADMIN_PASSWORD=$(cat /run/secrets/.env.grafana-password) && /run.sh"]
+
+    secrets:
+      - grafana-username
+      - grafana-password
+
+  influxdb2:
+
+    image: influxdb:2
+
+    ports:
+      - 8080:8080
+
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME_FILE: /run/secrets/influxdb2-admin-username
+      DOCKER_INFLUXDB_INIT_PASSWORD_FILE: /run/secrets/influxdb2-admin-password
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE: /run/secrets/influxdb2-admin-token
+      DOCKER_INFLUXDB_INIT_ORG: org
+      DOCKER_INFLUXDB_INIT_BUCKET: bucket1
+
+    secrets:
+      - influxdb2-admin-username
+      - influxdb2-admin-password
+      - influxdb2-admin-token
+
+    volumes:
+      - type: volume
+        source: influxdb2-data
+        target: /var/lib/influxdb2
+      - type: volume
+        source: influxdb2-config
+        target: /etc/influxdb2
+
+volumes:
+  grafana-storage: {}
+  influxdb2-data:
+  influxdb2-config:
+
+secrets:
+  grafana-username:
+    file: .env.grafana-username
+  grafana-password:
+    file: .env.grafana-password
+  influxdb2-admin-username:
+    file: .env.influxdb2-admin-username
+  influxdb2-admin-password:
+    file: .env.influxdb2-admin-password
+  influxdb2-admin-token:
+    file: .env.influxdb2-admin-token
+```
+
+Above is a sample Docker Compose file. This is what is used to start the instances of Grafana and InfluxDB. Most of it should not be modified.
+
+To use the above file, provide 5 files:
+```
+ .env.grafana-username
+ .env.grafana-password
+ .env.influxdb2-admin-username
+ .env.influxdb2-admin-password
+ .env.influxdb2-admin-token
+```
+These will be the respective usernames and passwords for each service, and then a token for the database, which is used by the entity writing to the database. These files should be in the same directory as the docker compose file.
+
+If you wish to add more plugins, modify a few things:
+
+1. Modify the Dockerfile. On the line including, "GF_INSTALL_PLUGINS", include your wanted plugins in a comma-separated list.
+
+2. Run the following command:
+```bash
+$ sudo docker build -t (insert-image-name) .
+```
+Replace (insert-image-name) with your desired name and directory location.
+
+3. Modify the docker compose file:
+Under the grafana section, under "image", replace the default image "grafana" with your newly created image.
+
+Now that your Docker compose is fully set up, you can start both services with the following command (run in the directory of the docker compose file)
+```bash
+$ sudo docker compose up -d
+```
+
+You can then close both with the following:
+```bash
+$ sudo docker compose down
+```
+!!! Note
+    Closing will take ~ 10 seconds
 
 ## InfluxDB
 
-data
+Now that you have the instances of Grafana and Influx working, there is a bit more setup necessary to put it all together.
+
+First, you must create a bucket where you wish to store your data.
+
+Now, you should have all of the necessary information to fill out the config file for the listener (section is above). As long as everything is set up correctly, if the listener is running and receiving data, it should be writing the data it receives to Influx.
 
 ## Grafana
 
-grafana
+Now that you have an Influx database being populated by your data, you are ready to set up a dashboard. To create a dashboard, please follow the documentation for grafana https://grafana.com/docs/grafana/latest/dashboards/.
+
+To use the data from Influx, you must add it as a source: https://grafana.com/docs/grafana/latest/datasources/
+
+Then, within each panel of the dashboard, you must write a query to get the correct data from the database.
+
+Here is an example query that may be helpful (or a good starting point):
+```
+from(bucket: "bucket1")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "measurement1")
+  |> filter(fn: (r) => r["_field"] == "value")
+  |> filter(fn: (r) => r["name"] == "bucket1.param1" or r["name"] == "bucket1.param2")
+  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+  |> yield(name: "mean")
+```
+The above query will display parameters in bucket1 with fields "measurement" being "measurement1", "field" being "value", and name being "param1" or "param2".
+
+When creating your panel, select "Time Series" in Grafana.
