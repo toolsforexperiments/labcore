@@ -115,6 +115,7 @@ class Fit(Analysis):
         *args: Any,
         **fit_kwargs: Any
     ) -> FitResult:
+        print(f"Analyze run with {fit_kwargs}")
         model = lmfit.model.Model(self.model)
 
         _params = lmfit.Parameters()

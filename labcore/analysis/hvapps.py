@@ -31,10 +31,6 @@ from ..data.datadict import (
     dd2xr,
 )
 from .hvplotting import Node, labeled_widget
-from .fit import Fit, FitResult, fit_and_add_to_ds
-from .fitfuncs.generic import Cosine, Exponential
-
-FITS = {'Cosine':Cosine, 'Exponential':Exponential}
 
 class Handler(FileSystemEventHandler):
     def __init__(self, update_callback):
@@ -384,13 +380,6 @@ class LoaderNodeBase(Node):
         self.info_label = pn.widgets.StaticText(name="Info", align="start")
         self.info_label.value = "No data loaded."
 
-        fit_options = list(FITS.keys())
-        fit_options.append('None')
-        self.fit_button = pn.widgets.MenuButton(
-            name="Fit", align="end", items=fit_options, button_type='success', width=100
-        )
-        self.fit_button.on_click(self.set_fit_box)
-
         # This is needed to tell the site that it needs more vertical space.
         # If there's no buffer column, the screen will jitter up and down
         # when it auto refreshes.
@@ -398,23 +387,25 @@ class LoaderNodeBase(Node):
         self.plot_col = pn.Column(objects=self.plot)
 
         # The Leading pn.Row is used to make the fit box appear at right
-        self.layout = pn.Row( pn.Column(
-            pn.Row(
-                labeled_widget(self.pre_process_opts),
-                self.pre_process_dim_input,
-                self.grid_on_load_toggle,
-                self.generate_button,
-                self.refresh,
-                self.html_button,
-                self.png_button,
-                self.fit_button,
+        self.layout = pn.Row( 
+            pn.Column(
+                pn.Row(
+                    labeled_widget(self.pre_process_opts),
+                    self.pre_process_dim_input,
+                    self.grid_on_load_toggle,
+                    self.generate_button,
+                    self.refresh,
+                    self.html_button,
+                    self.png_button,
+                ),
+                self.display_info,
+                pn.Row(
+                    self.buffer_col,
+                    self.plot_col
+                )
             ),
-            self.display_info,
-            pn.Row(
-                self.buffer_col,
-                self.plot_col
-            )
-        ))
+            self.fit_obj,
+        )
 
         #Create var to collect the fitfunc inputs
         self.fit_inputs = None
@@ -574,91 +565,6 @@ class LoaderNodeBase(Node):
             if not implemented by subclass.
         """
         raise NotImplementedError
-    
-    def set_fit_box(self, *events: param.parameterized.Event):
-        #Check if fit_box exists & get fit_box
-        fit_box = self.layout.objects[len(self.layout.objects)-1]
-        if fit_box.name != "fit_box":
-            if self.fit_button.clicked == 'None':
-                return
-            fit_box = self.add_fit_box()
-        else:
-            self.remove_fit_box()
-            if self.fit_button.clicked != 'None':
-                fit_box = self.add_fit_box()
-
-    def add_fit_box(self):
-        #Make the inputs for every variable
-        selected = self.fit_button.clicked
-        objs = [pn.widgets.StaticText(
-            name='', 
-            value=selected,
-            align="center",
-            stylesheets=[Label_stylesheet]
-            ) ]
-        fit_func = FITS[selected]
-        # Get the guess for this data and x 
-        # dim_name = ""
-        # if self._plot_obj is not None:
-        #     x, y = self._plot_obj.xy_select.value
-        #     dim_name = x
-        # ansatz = fit_func.guess(self.data_out, self.data_out[dim_name]) #I don't know what coordinate and/or data is
-        for var in inspect.signature(fit_func.model).parameters.keys():
-            if(var== "coordinates"):
-                # User wont input coords
-                continue
-            objs.append(pn.widgets.FloatInput(
-                    name=var,
-                    #value=ansatz[var] if var in list(ansatz.keys()) else 0 # Set value to the Ansatz or to 0
-                )
-            )
-        # Add button to save the fit
-        save_fit_button = pn.widgets.Button(
-            name="Save Fit", align="center", button_type="default", disabled=False
-        )
-        save_fit_button.on_click(self.save_fit)
-        objs.append(save_fit_button)
-        # Add to tehe layout
-        self.fit_inputs = pn.WidgetBox(name=selected,
-                    objects=objs
-        )
-        self.layout.append(
-            pn.Column(
-                objects=[self.fit_inputs],
-                name="fit_box"
-            )
-        )
-        return self.fit_inputs
-    
-    def remove_fit_box(self):
-        fit_box = self.layout.objects[len(self.layout.objects)-1]
-        no_fit_objects = self.layout.objects[:-1]
-        self.layout.objects = no_fit_objects
-        self.fit_inputs = None
-
-    def save_fit(self, *events: param.parameterized.Event):
-        args = {}
-        for item in self.fit_inputs.objects:
-            if isinstance(item, pn.widgets.FloatInput):
-                print(item.value)
-                args[item.name] = item.value
-        if isinstance(self.data_out, xr.Dataset):
-            dim_name = ""
-            if self._plot_obj is not None:
-                x, y = self._plot_obj.xy_select.value
-                dim_name = x
-            fit_and_add_to_ds(self.data_out, dim_name, FITS[self.fit_button.clicked], None, **args)
-        else:
-            print("not an xarray Dataset")
-            print(type(self.data_out))
-            print(type(self.data_in))
-        self.redraw_plot()
-
-    def redraw_plot(self):
-        if self._plot_obj is not None:
-            self._plot_obj.plot_panel()
-
-
 
 Label_stylesheet = """
 :host {

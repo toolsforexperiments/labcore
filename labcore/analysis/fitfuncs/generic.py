@@ -12,6 +12,7 @@ class Cosine(Fit):
         coordinates: np.ndarray, A: float, f: float, phi: float, of: float
     ) -> np.ndarray:
         """$A \cos(2 \pi f x + \phi) + of$"""
+        print(f"Modeling Cosine Fit: A{A}, f{f}, phi{phi}, of{of}")
         return A * np.cos(2 * np.pi * coordinates * f + phi) + of
 
     @staticmethod
