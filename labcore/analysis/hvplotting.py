@@ -516,6 +516,7 @@ class PlotNode(Node):
             name='Fit Axis', 
             options=self._fit_axis_options,
         )
+        self.select_fit_axis.param.watch(self.update_fit_ansatz, 'value')
 
         self.fit_layout = pn.Column(
             pn.Row(self.fit_button, 
@@ -606,7 +607,7 @@ class PlotNode(Node):
             )
         )
         self.fit_args = Ansatz
-        self.refresh_graph = True
+        self.update_fit_args(None)
         return self.fit_inputs
     
     def get_ansatz(self):
@@ -625,14 +626,27 @@ class PlotNode(Node):
             if isinstance(obj, pn.widgets.FloatInput):
                 if obj.name in Ansatz.keys():
                     obj.value = Ansatz[obj.name]
+
+    def update_fit_ansatz(self, event):
+        'Helper function to update all args to the new ansatz'
+        fit_name = self.select_fit_axis.value + "_fit"
+        if fit_name not in self.data_out.data_vars.keys():
+            self.update_fit_args(event, True)
     
-    def update_fit_args(self, event):
+    def update_fit_args(self, event, set_ansatz=False):
         'Function called when a fit_arg value is changed'
+        Ansatz = {}
+        if set_ansatz:
+            Ansatz = self.get_ansatz()
         for i, obj in enumerate(self.fit_inputs.objects):
             if isinstance(obj, pn.widgets.FloatInput):
                 self.fit_args[obj.name] = self.fit_inputs[i].value
+                if set_ansatz:
+                    self.fit_args[obj.name] = Ansatz[obj.name]
+                    obj.value = Ansatz[obj.name]
         print(self.fit_args)
         self.update_fit_in_dataset()
+        print("SHOULD refresh graph")
         self.refresh_graph = True
     
     def remove_fit_box(self):
@@ -784,7 +798,7 @@ class ComplexHist(PlotNode):
         if isinstance(indep, list):
             self.gb_select.options = indep
 
-    @pn.depends("data_out", "gb_select.value")
+    @pn.depends("data_out", "gb_select.value", "refresh_graph")
     def plot_panel(self):
 
         t0 = time.perf_counter()
@@ -870,7 +884,7 @@ class MagnitudePhasePlot(PlotNode):
 
         return self.xy_select
 
-    @pn.depends("data_out", "xy_select.value")
+    @pn.depends("data_out", "xy_select.value", "refresh_graph")
     def plot_panel(self):
 
         t0 = time.perf_counter()
