@@ -18,6 +18,7 @@ from typing import Optional, Union, Any, Dict
 import time
 import inspect
 import json
+import os
 
 import numpy as np
 import pandas as pd
@@ -32,6 +33,7 @@ import holoviews as hv
 import hvplot.pandas
 import hvplot.xarray
 import copy
+from pathlib import Path
 
 from ..data.tools import split_complex, data_dims
 from .fit import plot_ds_2d_with_fit, Fit
@@ -127,6 +129,7 @@ class Node(pn.viewable.Viewer):
 
         # file_path is needed here so it can be passed to plots for fit saving
         self.file_path = path
+        print(f"Node got path:{path}")
 
     @staticmethod
     def render_data(data: Optional[Data]) -> DataDisplay:
@@ -343,7 +346,7 @@ class Node(pn.viewable.Viewer):
             if not isinstance(self._plot_obj, ValuePlot):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
-                self._plot_obj = ValuePlot(name="plot", data_in=self.data_out)
+                self._plot_obj = ValuePlot(name="plot", data_in=self.data_out, path=self.file_path)
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
@@ -352,7 +355,7 @@ class Node(pn.viewable.Viewer):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
                 self._plot_obj = MagnitudePhasePlot(
-                    name="plot", data_in=self.data_out)
+                    name="plot", data_in=self.data_out, path=self.file_path)
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
@@ -361,7 +364,7 @@ class Node(pn.viewable.Viewer):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
                 self._plot_obj = ComplexHist(
-                    name="plot", data_in=self.data_out)
+                    name="plot", data_in=self.data_out, path=self.file_path)
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
@@ -507,18 +510,28 @@ class PlotNode(Node):
     refresh_graph = param.Parameter(None)
     _fit_axis_options = param.Parameter(None)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, path=None, *args, **kwargs):
         # Update _fit_axis_options - happens before Node init
         # so this can determine fits in process()
         self._fit_axis_options = self.fit_axis_options()
 
-        # Read and store fit data from the json
-        self.json_dict = {}
-        with open('sample.json', 'r') as openfile:
-            self.json_dict = json.load(openfile)
+        if path == '.' or path == '':
+            self.json_name = None
+            self.json_dict = {}
+        else:
+            _dir = Path(path).parent
+            self.json_name = str(_dir)+"\\fit_data.json"
+            # Read and store fit data from the json
+            self.json_dict = {}
+            if os.path.exists(self.json_name):
+                with open(self.json_name, 'r') as openfile:
+                    self.json_dict = json.load(openfile)
+                    print("Loaded data")
+                    print(self.json_dict)
+        print(f"saving to {self.json_name}")
 
         # Make a dictionary of the arguments for the current fit
-        self.fit_args = {}
+        # self.fit_args = {}
         # A toggle variable to refresh the graph
         self.refresh_graph = True
 
@@ -632,7 +645,12 @@ class PlotNode(Node):
                 name="fit_box"
             )
         )
-        self.fit_args = saved_args
+        # Save to json_dict
+        if self.select_fit_axis.value not in self.json_dict.keys():
+            self.json_dict[self.select_fit_axis.value] = {'fit_function': self.fit_button.clicked, 'args':{}}
+        elif self.json_dict[self.select_fit_axis.value]['fit_function'] != self.fit_button.clicked:
+            self.json_dict[self.select_fit_axis.value]['fit_function'] = self.fit_button.clicked
+        self.json_dict[self.select_fit_axis.value]['args'] = saved_args
         self.update_fit_args(None)
         return self.fit_inputs
     
@@ -668,6 +686,8 @@ class PlotNode(Node):
         '''Removes the current axis' fit from the json'''
         if self.select_fit_axis.value in self.json_dict.keys():
             del self.json_dict[self.select_fit_axis.value]
+            print('Deleted data:')
+            print(self.json_dict)
             self.save_fit(None)
 
     def reset_fit_values(self, event):
@@ -684,15 +704,18 @@ class PlotNode(Node):
         for i, obj in enumerate(self.fit_inputs.objects):
             if isinstance(obj, pn.widgets.FloatInput):
                 obj.value = new_args[obj.name]
-        self.refresh_graph = True
+        self.update_fit_args(None)
 
     def update_fit_args(self, event): #, set_ansatz=False):
         '''Updates the saved value for all of the fit's arguments.
         If set_ansatz=True, this will set all these values to the 
         fit functions guess.'''
+        if self.select_fit_axis.value not in self.json_dict.keys():
+            self.json_dict[self.select_fit_axis.value] = {'fit_function':self.fit_button.clicked, 'args':{}}
         for i, obj in enumerate(self.fit_inputs.objects):
             if isinstance(obj, pn.widgets.FloatInput):
-                self.fit_args[obj.name] = self.fit_inputs[i].value
+                self.select_fit_axis.value
+                self.json_dict[self.select_fit_axis.value]['args'][obj.name] = self.fit_inputs[i].value
         self.update_fit_in_dataset()
         self.refresh_graph = True
 
@@ -708,7 +731,7 @@ class PlotNode(Node):
         based on current selection'''
         # Get fitClass and pass current args and axis
         fitClass = FITS[self.fit_button.clicked]
-        self.update_fit_in_dataset_helper(fitClass, self.fit_args, self.select_fit_axis.value)
+        self.update_fit_in_dataset_helper(fitClass, self.json_dict[self.select_fit_axis.value]['args'], self.select_fit_axis.value)
     
     def update_fit_in_dataset_helper(self, fitClass, model_args, model_axis_name):
         '''Updates the data for fit in the self.data_out dataset'''
@@ -722,16 +745,10 @@ class PlotNode(Node):
         self.data_out[fit_name] = (indep, fit_data)
 
     def save_fit(self, *events: param.parameterized.Event):
-        # print("FIT (would be) SAVED! This functionality is currently being worked on.")
-        # self.json_dict[self.select_fit_axis.value] = {}
-        # self.json_dict[self.select_fit_axis.value]['fit_function'] = self.fit_button.clicked
-        # self.json_dict[self.select_fit_axis.value]['args'] = self.fit_args
-        print(self.file_path)
-
-        with open("sample.json", "w") as outfile:
+        print('SAVING...')
+        print(self.json_dict)
+        with open(self.json_name, "w") as outfile:
             json.dump(self.json_dict, outfile, indent=4)
-            #json.dump(json_dict, outfile)
-
 
     def get_fit_panel(self):
         return self.fit_layout
