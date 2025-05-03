@@ -904,11 +904,8 @@ class MagnitudePhasePlot(PlotNode):
     def plot_panel(self):
         self.refresh_graph = False
 
-        t0 = time.perf_counter()
-
         plot = "*No valid options chosen.*"
         x, y = self.xy_select.value
-        indep, dep = self.data_dims(self.data_out)
 
         if x in ["None", None]:
             pass
