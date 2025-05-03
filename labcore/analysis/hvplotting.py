@@ -36,7 +36,7 @@ from ..data.tools import split_complex, data_dims
 from .fit import plot_ds_2d_with_fit, Fit
 from .fitfuncs.generic import Cosine, Exponential
 
-FITS = {'Cosine':Cosine, 'Exponential':Exponential}
+FITS = {'Cosine': Cosine, 'Exponential': Exponential}
 
 Data = Union[xr.Dataset, pd.DataFrame]
 """Type alias for valid data. Can be either a pandas DataFrame or an xarray Dataset."""
@@ -108,11 +108,11 @@ class Node(pn.viewable.Viewer):
         self.layout = pn.Column()
 
         # -- options for plotting
-        self.graph_types = {"None": None, 
-                            "Value": ValuePlot, 
+        self.graph_types = {"None": None,
+                            "Value": ValuePlot,
                             "Readout hist.": ComplexHist,
                             "Magnitude & Phase": MagnitudePhasePlot}
-        
+
         self.plot_type_select = RBG(
             options=list(self.graph_types.keys()),
             value="Value",
@@ -347,7 +347,8 @@ class Node(pn.viewable.Viewer):
             if not isinstance(self._plot_obj, MagnitudePhasePlot):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
-                self._plot_obj = MagnitudePhasePlot(name="plot", data_in=self.data_out)
+                self._plot_obj = MagnitudePhasePlot(
+                    name="plot", data_in=self.data_out)
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
@@ -355,7 +356,8 @@ class Node(pn.viewable.Viewer):
             if not isinstance(self._plot_obj, ComplexHist):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
-                self._plot_obj = ComplexHist(name="plot", data_in=self.data_out)
+                self._plot_obj = ComplexHist(
+                    name="plot", data_in=self.data_out)
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
@@ -367,7 +369,8 @@ class Node(pn.viewable.Viewer):
         return self._plot_obj
 
     def append(self, other: "Node") -> None:
-        watcher = self.param.watch(other.update, ["data_out", "units_out", "meta_out"])
+        watcher = self.param.watch(
+            other.update, ["data_out", "units_out", "meta_out"])
         self._watchers[other] = watcher
 
     def detach(self, other: "Node") -> None:
@@ -424,7 +427,8 @@ class ReduxNode(Node):
             self._widgets[c].value = o
 
     def on_widget_change(self, *events):
-        self.operations = [self._widgets[c]["widget"].value for c in self.coords]
+        self.operations = [self._widgets[c]
+                           ["widget"].value for c in self.coords]
 
     @pn.depends("data_in", "operations", watch=True)
     def process(self):
@@ -513,17 +517,17 @@ class PlotNode(Node):
         self._fit_axis_options = self.fit_axis_options()
 
         self.select_fit_axis = pn.widgets.Select(
-            name='Fit Axis', 
+            name='Fit Axis',
             options=self._fit_axis_options,
         )
         self.select_fit_axis.param.watch(self.update_fit_ansatz, 'value')
 
         self.fit_layout = pn.Column(
-            pn.Row(self.fit_button, 
+            pn.Row(self.fit_button,
                    self.select_fit_axis),
-            )
-        
-        #Make a dictionary of the arguments for the current fit
+        )
+
+        # Make a dictionary of the arguments for the current fit
         self.fit_args = {}
         self.refresh_graph = True
 
@@ -557,7 +561,7 @@ class PlotNode(Node):
         self.data_out = copy.copy(self.data_in)
 
     def set_fit_box(self, *events: param.parameterized.Event):
-        #Check if fit_box exists & get fit_box
+        # Check if fit_box exists & get fit_box
         fit_box = self.fit_layout.objects[len(self.fit_layout.objects)-1]
         if fit_box.name != "fit_box":
             if self.fit_button.clicked == 'None':
@@ -570,24 +574,25 @@ class PlotNode(Node):
 
     def add_fit_box(self):
         '''Create a widget box for creating a fit.'''
-        #Make the inputs for every variable
+        # Make the inputs for every variable
         selected = self.fit_button.clicked
         objs = [pn.widgets.StaticText(
-            name='', 
+            name='',
             value=selected,
             align="center",
-            ) ]
+        )]
         fitClass = FITS[selected]
-        #Get guesses for all variables and make inputs
+        # Get guesses for all variables and make inputs
         Ansatz = self.get_ansatz()
         for i, var in enumerate(inspect.signature(fitClass.model).parameters.keys()):
-            if(var== "coordinates"):
+            if (var == "coordinates"):
                 # User wont input coords
                 continue
             objs.append(pn.widgets.FloatInput(
-                    name=var,
-                    value=Ansatz[var] if var in list(Ansatz.keys()) else 0, # Set value to the Ansatz or to 0
-                )
+                name=var,
+                # Set value to the Ansatz or to 0
+                value=Ansatz[var] if var in list(Ansatz.keys()) else 0,
+            )
             )
             objs[i].param.watch(self.update_fit_args, 'value')
         # Add button to save the fit
@@ -598,8 +603,8 @@ class PlotNode(Node):
         objs.append(save_fit_button)
         # Add to the layout
         self.fit_inputs = pn.WidgetBox(name=selected,
-                    objects=objs
-        )
+                                       objects=objs
+                                       )
         self.fit_layout.append(
             pn.Column(
                 objects=[self.fit_inputs],
@@ -609,12 +614,12 @@ class PlotNode(Node):
         self.fit_args = Ansatz
         self.update_fit_args(None)
         return self.fit_inputs
-    
+
     def get_ansatz(self):
         fitClass = FITS[self.fit_button.clicked]
-        # Get the guess for this data and x 
+        # Get the guess for this data and x
         # Set data_key to first data key & make numpy data
-        data_key = self.select_fit_axis.value 
+        data_key = self.select_fit_axis.value
         np_data = [self.data_out[var].values for var in self.data_out.coords]
         # Get Ansatz using fit's 'guess' function
         return fitClass.guess(np_data[0], self.data_out.data_vars[data_key].to_numpy())
@@ -632,7 +637,7 @@ class PlotNode(Node):
         fit_name = self.select_fit_axis.value + "_fit"
         if fit_name not in self.data_out.data_vars.keys():
             self.update_fit_args(event, True)
-    
+
     def update_fit_args(self, event, set_ansatz=False):
         'Function called when a fit_arg value is changed'
         Ansatz = {}
@@ -649,7 +654,7 @@ class PlotNode(Node):
         print("SHOULD refresh graph")
         self.refresh_graph = True
         print(self.data_out)
-    
+
     def remove_fit_box(self):
         fit_box = self.fit_layout.objects[len(self.fit_layout.objects)-1]
         # Get all fit objects other than layout and set as the current objects
@@ -675,9 +680,9 @@ class PlotNode(Node):
         return self.fit_layout
 
     def get_data_fit_names(self, axis_name, omit_axes=['Magnitude', 'Phase']):
-        #Check if a fit axis exists. Return list of axis and fit axis (if it exists)
+        # Check if a fit axis exists. Return list of axis and fit axis (if it exists)
         print(f"Getting fit names for: {axis_name}")
-        if(isinstance(axis_name, list)):
+        if (isinstance(axis_name, list)):
             # If given name is a list, loop through all names in list
             ret = []
             for name in axis_name:
@@ -699,7 +704,7 @@ class ValuePlot(PlotNode):
     def __init__(self, *args, **kwargs):
         self.xy_select = XYSelect()
         self._old_indep = []
-    
+
         super().__init__(*args, **kwargs)
 
         self.layout = pn.Column(
@@ -760,18 +765,18 @@ class ValuePlot(PlotNode):
         # case: if x and y are selected, we make a 2d plot of some sort
         else:
             if isinstance(self.data_out, pd.DataFrame):
-                plot = plot_df_as_2d(self.data_out, x, y, 
+                plot = plot_df_as_2d(self.data_out, x, y,
                                      dim_labels=self.dim_labels())
             elif isinstance(self.data_out, xr.Dataset):
-                plot = plot_xr_as_2d(self.data_out, x, y, 
+                plot = plot_xr_as_2d(self.data_out, x, y,
                                      dim_labels=self.dim_labels())
             else:
                 raise NotImplementedError
-        return plot 
-    
+        return plot
+
     def get_plot(self):
         return self.plot_panel()
-    
+
     def fit_axis_options(self):
         indep, dep = self.data_dims(self.data_out)
         return dep
@@ -830,22 +835,23 @@ class ComplexHist(PlotNode):
             plot = layout
 
         return plot
-    
+
     def get_plot(self):
         plt = self.plot_panel()
         return plt[0].object
-    
+
     def fit_axis_options(self):
         _dict = self.complex_dependents(self.data_out).items()
         if not isinstance(_dict, dict):
             _dict = dict(_dict)
         return list(_dict.keys())
 
+
 class MagnitudePhasePlot(PlotNode):
     def __init__(self, *args, **kwargs):
         self.xy_select = XYSelect()
         self._old_indep = []
-        
+
         super().__init__(*args, **kwargs)
 
         self.layout = pn.Column(
@@ -857,7 +863,8 @@ class MagnitudePhasePlot(PlotNode):
         self.right_max = 1
 
     def process(self):
-        assert isinstance(self.data_in, xr.Dataset), "MagnitudePhasePlot needs an xr.Dataset, did not receive one."
+        assert isinstance(
+            self.data_in, xr.Dataset), "MagnitudePhasePlot needs an xr.Dataset, did not receive one."
         # Convert the current dataset to one that has Magnitude and Phase columns
         indep, dep = self.data_dims(self.data_in)
         # Assign labels. This assumes the first column is the real coefficients.
@@ -869,7 +876,7 @@ class MagnitudePhasePlot(PlotNode):
         phase = np.arctan(imaginary / real)
         super().process()
         # Add magnitude and phase data (don't effect self.data_in)
-        self.data_out['Magnitude'] = (indep, magnitude)  
+        self.data_out['Magnitude'] = (indep, magnitude)
         self.data_out['Phase'] = (indep, phase)
 
     def __panel__(self):
@@ -909,40 +916,40 @@ class MagnitudePhasePlot(PlotNode):
         else:
             # case: a line or scatter plot (or multiple of these)
             # NOTE: if these have shared_axes=True, then both graphs cannot
-            # simultaneously have fits without one graph being unreadable due to 
+            # simultaneously have fits without one graph being unreadable due to
             # it's axis dimensions.
             if y in ["None", None]:
                 plot_m = self.data_out.hvplot.line(
-                    x=x, 
-                    xlabel=self.dim_label(x), 
+                    x=x,
+                    xlabel=self.dim_label(x),
                     y=self.get_data_fit_names("Magnitude"),
                     shared_axes=False,
-                ) 
+                )
                 plot_p = self.data_out.hvplot.line(
-                    x=x, 
-                    xlabel=self.dim_label(x), 
+                    x=x,
+                    xlabel=self.dim_label(x),
                     y=self.get_data_fit_names("Phase"),
                     shared_axes=False,
-                ) 
+                )
                 plot = pn.Column(plot_m, plot_p)
-                #hv.Layout([plot_m] + [plot_p]).cols(1)
+                # hv.Layout([plot_m] + [plot_p]).cols(1)
 
             # case: if x and y are selected, we make a 2d plot of some sort
             else:
-                plot = plot_df_as_2d(self.data_out, x, y, 
+                plot = plot_df_as_2d(self.data_out, x, y,
                                      dim_labels=self.dim_labels())
 
         return plot
-    
+
     def get_plot(self):
         return self.plot_panel()
-    
+
     def fit_axis_options(self):
         return ['Magnitude', 'Phase']
-    
+
     def get_data_fit_names(self, axis_name):
         return super().get_data_fit_names(axis_name, [])
-    
+
 
 def plot_df_as_2d(df, x, y, dim_labels={}):
     indeps, deps = Node.data_dims(df)
@@ -981,7 +988,7 @@ def plot_xr_as_2d(ds, x, y, dim_labels={}):
 
     if x + '_fit' in ds:
         print("Plotting with fit")
-        return plot_ds_2d_with_fit(ds, dim_labels.get(x,x), x, y)
+        return plot_ds_2d_with_fit(ds, dim_labels.get(x, x), x, y)
     print(f"Plotted without fit. No {x}_fit found.")
 
     # plotting stuff vs two independent -- heatmap
@@ -1014,7 +1021,6 @@ def plot_xr_as_2d(ds, x, y, dim_labels={}):
 
 
 # -- specific plot functions
-
 
 
 # -- various tool functions
