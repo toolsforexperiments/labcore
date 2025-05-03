@@ -487,7 +487,7 @@ class LoaderNodeBase(Node):
         
         if not has_packages:
             print("ATTENTION! \nYou have not installed the necessary packages to allow for the saving of images."\
-                  " To install these packages (Selenium, PhantomJS, Firefox, Geckodriver), please run this command _____________")
+                  " To allow this functionality, please install Selenium, PhantomJS, Firefox, and Geckodriver")
 
         return has_packages
 

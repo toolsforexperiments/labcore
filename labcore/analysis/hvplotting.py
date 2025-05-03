@@ -649,11 +649,8 @@ class PlotNode(Node):
                 if set_ansatz:
                     self.fit_args[obj.name] = Ansatz[obj.name]
                     obj.value = Ansatz[obj.name]
-        print(self.fit_args)
         self.update_fit_in_dataset()
-        print("SHOULD refresh graph")
         self.refresh_graph = True
-        print(self.data_out)
 
     def remove_fit_box(self):
         fit_box = self.fit_layout.objects[len(self.fit_layout.objects)-1]
@@ -674,14 +671,13 @@ class PlotNode(Node):
         self.data_out[fit_name] = (indep, fit_data)
 
     def save_fit(self, *events: param.parameterized.Event):
-        print("FIT (would be) SAVED!")
+        print("FIT (would be) SAVED! This functionality is currently being worked on.")
 
     def get_fit_panel(self):
         return self.fit_layout
 
     def get_data_fit_names(self, axis_name, omit_axes=['Magnitude', 'Phase']):
         # Check if a fit axis exists. Return list of axis and fit axis (if it exists)
-        print(f"Getting fit names for: {axis_name}")
         if (isinstance(axis_name, list)):
             # If given name is a list, loop through all names in list
             ret = []
