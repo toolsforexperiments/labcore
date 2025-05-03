@@ -648,6 +648,7 @@ class PlotNode(Node):
         self.update_fit_in_dataset()
         print("SHOULD refresh graph")
         self.refresh_graph = True
+        print(self.data_out)
     
     def remove_fit_box(self):
         fit_box = self.fit_layout.objects[len(self.fit_layout.objects)-1]
@@ -675,6 +676,7 @@ class PlotNode(Node):
 
     def get_data_fit_names(self, axis_name, omit_axes=['Magnitude', 'Phase']):
         #Check if a fit axis exists. Return list of axis and fit axis (if it exists)
+        print(f"Getting fit names for: {axis_name}")
         if(isinstance(axis_name, list)):
             # If given name is a list, loop through all names in list
             ret = []
@@ -800,6 +802,7 @@ class ComplexHist(PlotNode):
 
     @pn.depends("data_out", "gb_select.value", "refresh_graph")
     def plot_panel(self):
+        self.refresh_graph = False
 
         t0 = time.perf_counter()
 
@@ -831,6 +834,12 @@ class ComplexHist(PlotNode):
     def get_plot(self):
         plt = self.plot_panel()
         return plt[0].object
+    
+    def fit_axis_options(self):
+        _dict = self.complex_dependents(self.data_out).items()
+        if not isinstance(_dict, dict):
+            _dict = dict(_dict)
+        return list(_dict.keys())
 
 class MagnitudePhasePlot(PlotNode):
     def __init__(self, *args, **kwargs):
@@ -886,6 +895,7 @@ class MagnitudePhasePlot(PlotNode):
 
     @pn.depends("data_out", "xy_select.value", "refresh_graph")
     def plot_panel(self):
+        self.refresh_graph = False
 
         t0 = time.perf_counter()
 
@@ -898,12 +908,21 @@ class MagnitudePhasePlot(PlotNode):
 
         else:
             # case: a line or scatter plot (or multiple of these)
+            # NOTE: if these have shared_axes=True, then both graphs cannot
+            # simultaneously have fits without one graph being unreadable due to 
+            # it's axis dimensions.
             if y in ["None", None]:
                 plot_m = self.data_out.hvplot.line(
-                    x=x, xlabel=self.dim_label(x), y=self.get_data_fit_names("Magnitude")
+                    x=x, 
+                    xlabel=self.dim_label(x), 
+                    y=self.get_data_fit_names("Magnitude"),
+                    shared_axes=False,
                 ) 
                 plot_p = self.data_out.hvplot.line(
-                    x=x, xlabel=self.dim_label(x), y=self.get_data_fit_names("Phase")
+                    x=x, 
+                    xlabel=self.dim_label(x), 
+                    y=self.get_data_fit_names("Phase"),
+                    shared_axes=False,
                 ) 
                 plot = pn.Column(plot_m, plot_p)
                 #hv.Layout([plot_m] + [plot_p]).cols(1)
