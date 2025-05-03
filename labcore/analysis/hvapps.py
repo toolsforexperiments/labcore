@@ -336,7 +336,7 @@ class LoaderNodeBase(Node):
         # to avoid an 'attribute does not exist' error.
         self.disable_buttons = not self.can_save()
 
-        super().__init__(*args, **kwargs)
+        super().__init__(path=path, *args, **kwargs)
 
         # Store whether or not each graph type can be saved as html/png.
         # Must be created before plot_col column

@@ -17,6 +17,7 @@ Important Classes:
 from typing import Optional, Union, Any, Dict
 import time
 import inspect
+import json
 
 import numpy as np
 import pandas as pd
@@ -89,7 +90,7 @@ class Node(pn.viewable.Viewer):
     def __panel__(self) -> pn.viewable.Viewable:
         return self.layout
 
-    def __init__(self, data_in: Optional[Data] = None, *args: Any, **kwargs: Any):
+    def __init__(self, path=None, data_in: Optional[Data] = None, *args: Any, **kwargs: Any):
         """Constructor for ``Node``.
 
         Parameters
@@ -123,6 +124,9 @@ class Node(pn.viewable.Viewer):
         if data_in is not None:
             self.data_in = data_in
             self.process()
+
+        # file_path is needed here so it can be passed to plots for fit saving
+        self.file_path = path
 
     @staticmethod
     def render_data(data: Optional[Data]) -> DataDisplay:
@@ -520,12 +524,17 @@ class PlotNode(Node):
             name='Fit Axis',
             options=self._fit_axis_options,
         )
-        self.select_fit_axis.param.watch(self.update_fit_ansatz, 'value')
+        self.select_fit_axis.param.watch(self.update_fit_from_axis, 'value')
 
         self.fit_layout = pn.Column(
             pn.Row(self.fit_button,
                    self.select_fit_axis),
         )
+
+        # Read and store fit data from the json
+        self.json_dict = {}
+        with open('sample.json', 'r') as openfile:
+            self.json_dict = json.load(openfile)
 
         # Make a dictionary of the arguments for the current fit
         self.fit_args = {}
@@ -582,16 +591,16 @@ class PlotNode(Node):
             align="center",
         )]
         fitClass = FITS[selected]
-        # Get guesses for all variables and make inputs
-        Ansatz = self.get_ansatz()
+        # Get guesses or saved values for all variables and make inputs
+        saved_args = self.get_arguments()
         for i, var in enumerate(inspect.signature(fitClass.model).parameters.keys()):
             if (var == "coordinates"):
                 # User wont input coords
                 continue
             objs.append(pn.widgets.FloatInput(
                 name=var,
-                # Set value to the Ansatz or to 0
-                value=Ansatz[var] if var in list(Ansatz.keys()) else 0,
+                # Set value to the saved_args (or Ansatz) or to 0
+                value=saved_args[var] if var in list(saved_args.keys()) else 0,
             )
             )
             objs[i].param.watch(self.update_fit_args, 'value')
@@ -611,9 +620,23 @@ class PlotNode(Node):
                 name="fit_box"
             )
         )
-        self.fit_args = Ansatz
+        self.fit_args = saved_args
         self.update_fit_args(None)
         return self.fit_inputs
+    
+    def get_arguments(self):
+        '''Gets argument values for the currently selected fit and
+        fit axis. Pulls data from the json if one exists, otherwise
+        runs fit.guess and takes those values.'''
+        axis = self.select_fit_axis.value
+        fit_name = self.fit_button.clicked
+        if axis in self.json_dict.keys() and self.json_dict[axis]['fit_function'] == fit_name:
+            print("should use data from json")
+            print(self.json_dict[axis]['args'])
+            return self.json_dict[axis]['args']
+        else:
+            print("should use ansatz")
+            return self.get_ansatz()
 
     def get_ansatz(self):
         fitClass = FITS[self.fit_button.clicked]
@@ -632,23 +655,31 @@ class PlotNode(Node):
                 if obj.name in Ansatz.keys():
                     obj.value = Ansatz[obj.name]
 
-    def update_fit_ansatz(self, event):
-        'Helper function to update all args to the new ansatz'
+    def update_fit_from_axis(self, event):
+        '''Helper function to update all args to the new ansatz. 
+        Called whenever a new fit_axis is selected.'''
         fit_name = self.select_fit_axis.value + "_fit"
-        if fit_name not in self.data_out.data_vars.keys():
-            self.update_fit_args(event, True)
+        new_args = self.get_arguments()
+        for i, obj in enumerate(self.fit_inputs.objects):
+            if isinstance(obj, pn.widgets.FloatInput):
+                obj.value = new_args[obj.name]
+        self.refresh_graph = True
+        # if fit_name not in self.data_out.data_vars.keys():
+        #     self.update_fit_args(event, True)
 
-    def update_fit_args(self, event, set_ansatz=False):
-        'Function called when a fit_arg value is changed'
-        Ansatz = {}
-        if set_ansatz:
-            Ansatz = self.get_ansatz()
+    def update_fit_args(self, event): #, set_ansatz=False):
+        '''Updates the saved value for all of the fit's arguments.
+        If set_ansatz=True, this will set all these values to the 
+        fit functions guess.'''
+        # Ansatz = {}
+        # if set_ansatz:
+        #     Ansatz = self.get_ansatz()
         for i, obj in enumerate(self.fit_inputs.objects):
             if isinstance(obj, pn.widgets.FloatInput):
                 self.fit_args[obj.name] = self.fit_inputs[i].value
-                if set_ansatz:
-                    self.fit_args[obj.name] = Ansatz[obj.name]
-                    obj.value = Ansatz[obj.name]
+                # if set_ansatz:
+                #     self.fit_args[obj.name] = Ansatz[obj.name]
+                #     obj.value = Ansatz[obj.name]
         self.update_fit_in_dataset()
         self.refresh_graph = True
 
@@ -660,6 +691,7 @@ class PlotNode(Node):
         self.fit_inputs = None
 
     def update_fit_in_dataset(self):
+        '''Updates the data for fit in the self.data_out dataset'''
         # Get independent variable(s) and fit class
         indep, dep = self.data_dims(self.data_out)
         fitClass = FITS[self.fit_button.clicked]
@@ -672,6 +704,15 @@ class PlotNode(Node):
 
     def save_fit(self, *events: param.parameterized.Event):
         print("FIT (would be) SAVED! This functionality is currently being worked on.")
+        self.json_dict[self.select_fit_axis.value] = {}
+        self.json_dict[self.select_fit_axis.value]['fit_function'] = self.fit_button.clicked
+        self.json_dict[self.select_fit_axis.value]['args'] = self.fit_args
+        print(self.file_path)
+
+        with open("sample.json", "w") as outfile:
+            json.dump(self.json_dict, outfile, indent=4)
+            #json.dump(json_dict, outfile)
+
 
     def get_fit_panel(self):
         return self.fit_layout
