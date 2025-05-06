@@ -7,6 +7,7 @@ import os
 import asyncio
 import nest_asyncio
 nest_asyncio.apply()
+import inspect
 
 import hvplot
 import holoviews as hv
@@ -18,6 +19,7 @@ import panel as pn
 from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+import xarray as xr
 
 import re
 
@@ -29,7 +31,6 @@ from ..data.datadict import (
     dd2xr,
 )
 from .hvplotting import Node, labeled_widget
-
 
 class Handler(FileSystemEventHandler):
     def __init__(self, update_callback):
@@ -385,22 +386,29 @@ class LoaderNodeBase(Node):
         self.buffer_col = pn.Column(height=600, width=10)
         self.plot_col = pn.Column(objects=self.plot)
 
-        self.layout = pn.Column(
-            pn.Row(
-                labeled_widget(self.pre_process_opts),
-                self.pre_process_dim_input,
-                self.grid_on_load_toggle,
-                self.generate_button,
-                self.refresh,
-                self.html_button,
-                self.png_button,
+        # The Leading pn.Row is used to make the fit box appear at right
+        self.layout = pn.Row( 
+            pn.Column(
+                pn.Row(
+                    labeled_widget(self.pre_process_opts),
+                    self.pre_process_dim_input,
+                    self.grid_on_load_toggle,
+                    self.generate_button,
+                    self.refresh,
+                    self.html_button,
+                    self.png_button,
+                ),
+                self.display_info,
+                pn.Row(
+                    self.buffer_col,
+                    self.plot_col
+                )
             ),
-            self.display_info,
-            pn.Row(
-                self.buffer_col,
-                self.plot_col
-            )
+            self.fit_obj,
         )
+
+        #Create var to collect the fitfunc inputs
+        self.fit_inputs = None
 
         self.lock = asyncio.Lock()
 
@@ -479,7 +487,7 @@ class LoaderNodeBase(Node):
         
         if not has_packages:
             print("ATTENTION! \nYou have not installed the necessary packages to allow for the saving of images."\
-                  " To install these packages (Selenium, PhantomJS, Firefox, Geckodriver), please run this command _____________")
+                  " To allow this functionality, please install Selenium, PhantomJS, Firefox, and Geckodriver")
 
         return has_packages
 
@@ -558,6 +566,12 @@ class LoaderNodeBase(Node):
         """
         raise NotImplementedError
 
+Label_stylesheet = """
+:host {
+    font-family: monospace;
+    font-size: 20px;
+}
+"""
 
 class DDH5LoaderNode(LoaderNodeBase):
     """A node that loads data from a specified file location.
