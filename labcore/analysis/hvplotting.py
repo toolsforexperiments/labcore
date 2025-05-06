@@ -511,10 +511,7 @@ class PlotNode(Node):
     _fit_axis_options = param.Parameter(None)
 
     def __init__(self, path=None, *args, **kwargs):
-        # Update _fit_axis_options - happens before Node init
-        # so this can determine fits in process()
-        self._fit_axis_options = self.fit_axis_options()
-
+        # Create json_dict based on path
         if path == '.' or path == '':
             self.json_name = None
             self.json_dict = {}
@@ -530,8 +527,6 @@ class PlotNode(Node):
                     print(self.json_dict)
         print(f"saving to {self.json_name}")
 
-        # Make a dictionary of the arguments for the current fit
-        # self.fit_args = {}
         # A toggle variable to refresh the graph
         self.refresh_graph = True
 
@@ -546,7 +541,7 @@ class PlotNode(Node):
 
         self.select_fit_axis = pn.widgets.Select(
             name='Fit Axis',
-            options=self._fit_axis_options,
+            options=self._fit_axis_options if self._fit_axis_options is not None else [],
         )
         self.select_fit_axis.param.watch(self.update_fit_from_axis, 'value')
 
@@ -571,7 +566,7 @@ class PlotNode(Node):
         """
         return self.plot_panel()
 
-    def fit_axis_options(self):
+    def fit_axis_options(self) -> list:
         """Returns a list of the different axes you can 
         make a fit for in this node.
 
@@ -584,6 +579,9 @@ class PlotNode(Node):
         to other graphs/other analysis.
         Add saved arguments for all fits/axes."""
         self.data_out = copy.copy(self.data_in)
+        #Set fit_axis_options based on the function. Default to [] if returns None
+        self._fit_axis_options = self.fit_axis_options()
+        #Draw any fits that already exist
         for axis in self.fit_axis_options():
             if axis in self.json_dict.keys():
                 func_name = self.json_dict[axis]['fit_function']
@@ -852,7 +850,8 @@ class ValuePlot(PlotNode):
 
     def fit_axis_options(self):
         indep, dep = self.data_dims(self.data_out)
-        return dep
+        print(f"Setting VP fit opts - {dep} (also got {indep})")
+        return list(dep)
 
 
 class ComplexHist(PlotNode):
