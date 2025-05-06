@@ -854,7 +854,6 @@ class MagnitudePhasePlot(PlotNode):
             self.plot_options_panel,
             self.plot_panel,
         )
-
         self.right_min = -1
         self.right_max = 1
 
