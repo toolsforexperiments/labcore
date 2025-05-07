@@ -530,6 +530,7 @@ class PlotNode(Node):
         # Initialize layout buttons so they can be checked
         self.save_fit_button = None
         self.reset_fit_button = None
+        self.delete_fit_button = None
 
         # A toggle variable to refresh the graph
         self.refresh_graph = True
@@ -642,7 +643,11 @@ class PlotNode(Node):
             name="Reset", align="center", button_type="default", disabled=False
         )
         self.reset_fit_button.on_click(self.reset_fit_values)
-        objs.append(pn.Row(self.save_fit_button, self.reset_fit_button))
+        self.delete_fit_button= pn.widgets.Button(
+            name="Delete", align="center", button_type="default", disabled=False
+        )
+        self.delete_fit_button.on_click(self.delete_fit)
+        objs.append(pn.Row(self.save_fit_button, self.reset_fit_button, self.delete_fit_button))
         # Add to the layout
         self.fit_inputs = pn.WidgetBox(name=selected,
                                        objects=objs
@@ -771,6 +776,7 @@ class PlotNode(Node):
     def save_fit(self, *events: param.parameterized.Event):
         '''Saves only the currently selected fit axis to the json file'''
         temp = self.load_from_json()
+        # Set json to match the stored dict
         temp[self.select_fit_axis.value] = self.json_dict[self.select_fit_axis.value]
         # Save JUST THIS AXIS
         with open(self.json_name, "w") as outfile:
@@ -778,6 +784,27 @@ class PlotNode(Node):
         self.update_fit_in_dataset(True)
         self.set_saved_state(True) #This should get called from update_fit anyways
         self.refresh_graph = True
+
+    def delete_fit(self, *events: param.parameterized.Event):
+        '''Deletes the fit from the .json file, removes fit_box'''
+        temp = self.load_from_json()
+        # Get the fit name
+        name = self.select_fit_axis.value
+        fit_name = name + "_fit"
+        # Remove axis from json and local dict
+        self.json_dict[name] = None
+        del self.json_dict[name]
+        temp[name] = None
+        del temp[name]
+        # Save JUST THIS AXIS
+        with open(self.json_name, "w") as outfile:
+            json.dump(temp, outfile, indent=4)
+        # Delete from dataset if deleting a fit
+        if fit_name in self.data_out.keys():
+            del self.data_out[fit_name]
+        # Refresh the graph and remove the fit box
+        self.refresh_graph = True
+        self.remove_fit_box()
 
     def get_fit_panel(self):
         return self.fit_layout
@@ -811,13 +838,16 @@ class PlotNode(Node):
         if saved:
             # if saved, don't highlight save
             self.save_fit_button.button_type = 'default' 
+            self.delete_fit_button.disabled = False
         else:
             # Set save to green
             self.save_fit_button.button_type = 'success' 
+            self.delete_fit_button.disabled = True
         # Disable reset if theres no data to reset to.
         if self.select_fit_axis.value not in self.load_from_json().keys():
             print(f"Set Saved State: No {self.select_fit_axis.value} in {self.load_from_json().keys()}")
             self.reset_fit_button.disabled = True
+            self.delete_fit_button.disabled = True
         else:
             self.reset_fit_button.disabled = False
 
