@@ -40,6 +40,8 @@ import importlib
 from ..data.tools import split_complex, data_dims
 from .fit import plot_ds_2d_with_fit, Fit
 
+pn.extension(notifications=True)
+
 Data = Union[xr.Dataset, pd.DataFrame]
 """Type alias for valid data. Can be either a pandas DataFrame or an xarray Dataset."""
 
@@ -530,7 +532,8 @@ class PlotNode(Node):
                         # Add to FITS
                         PlotNode.FITS[name] = getattr(module, name)
                     except:
-                        print(f"Could not access Class {modname[1]} from module {modname[0]}")
+                        msg = f"Could not access Class {modname[1]} from module {modname[0]}"
+                        print(msg)
 
         # Create json_dict based on path
         if path == '.' or path == '':
@@ -614,7 +617,9 @@ class PlotNode(Node):
                 func_name = self.json_dict[axis]['fit_function']
                 saved_args = self.json_dict[axis]['args']
                 if func_name not in PlotNode.FITS:
-                    print(f"This data has a fit of type {func_name} saved, which you don't have access to.")
+                    msg = f"Axis {axis} has a fit of type {func_name} saved, which you don't have access to."
+                    print(msg)
+                    pn.state.notifications.error(msg, duration=0)
                 else:
                     self.update_fit_in_dataset_helper(
                         PlotNode.FITS[func_name], saved_args, axis, True)
