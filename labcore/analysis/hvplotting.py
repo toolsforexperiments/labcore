@@ -556,6 +556,7 @@ class PlotNode(Node):
         self.save_fit_button = None
         self.reset_fit_button = None
         self.delete_fit_button = None
+        self.fit_box = None
 
         # A toggle variable to refresh the graph
         self.refresh_graph = True
@@ -632,15 +633,15 @@ class PlotNode(Node):
         '''Removes and/or creates a fit box. If new_box == True this
         will (re)create the fit box.'''
         # Check if fit_box exists & get fit_box
-        fit_box = self.fit_layout.objects[len(self.fit_layout.objects)-1]
-        if fit_box.name != "fit_box":
+        if self.fit_box == None: 
             if not new_box:
                 return
-            fit_box = self.add_fit_box(fit_func_name)
+            self.fit_box = self.add_fit_box(fit_func_name)
         else:
             self.remove_fit_box()
+            self.fit_box = None
             if new_box:
-                fit_box = self.add_fit_box(fit_func_name)
+                self.fit_box = self.add_fit_box(fit_func_name)
 
     def add_fit_box(self, selected=None):
         '''Create a widget box for creating a fit.'''
@@ -679,14 +680,19 @@ class PlotNode(Node):
             name="Delete", align="center", button_type="default", disabled=False
         )
         self.delete_fit_button.on_click(self.delete_fit)
+        self.model_fit_button = pn.widgets.Button(
+            name="Model", align="center", button_type="default", disabled=False
+        )
+        self.model_fit_button.on_click(self.model_fit)
         objs.append(pn.Row(self.save_fit_button,
-                    self.reset_fit_button, self.delete_fit_button))
+                    self.reset_fit_button, self.delete_fit_button,
+                    self.model_fit_button))
         # Add to the layout
         self.fit_inputs = pn.WidgetBox(name=selected,
                                        objects=objs
                                        )
         self.fit_layout.append(
-            pn.Column(
+            pn.Row(
                 objects=[self.fit_inputs],
                 name="fit_box"
             )
@@ -841,6 +847,18 @@ class PlotNode(Node):
         # Refresh the graph and remove the fit box
         self.refresh_graph = True
         self.remove_fit_box()
+
+    def model_fit(self, *events: param.parameterized.Event):
+        fit_class = PlotNode.FITS[self.fit_button.clicked]
+        data_key = self.select_fit_axis.value
+        coords = [self.data_out[var].values for var in self.data_out.coords][0]
+        vals = self.data_out.data_vars[data_key].to_numpy()
+        fit = fit_class(coords, vals)
+        run_kwargs = self.json_dict[self.select_fit_axis.value]['args']
+        result = fit.run(**run_kwargs)
+        fit_data = result.eval()
+        print("     MODELED:")
+        print(f"Res: {result} \nData: {fit_data}")
 
     def get_fit_panel(self):
         return self.fit_layout
