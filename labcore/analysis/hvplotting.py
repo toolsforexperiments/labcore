@@ -34,12 +34,11 @@ import hvplot.pandas
 import hvplot.xarray
 import copy
 from pathlib import Path
+import ruamel.yaml
+import importlib
 
 from ..data.tools import split_complex, data_dims
 from .fit import plot_ds_2d_with_fit, Fit
-from .fitfuncs.generic import Cosine, Exponential
-
-FITS = {'Cosine': Cosine, 'Exponential': Exponential}
 
 Data = Union[xr.Dataset, pd.DataFrame]
 """Type alias for valid data. Can be either a pandas DataFrame or an xarray Dataset."""
@@ -509,7 +508,30 @@ class PlotNode(Node):
     """
     refresh_graph = param.Parameter(None)
 
+    FITS = None
+
     def __init__(self, path=None, *args, **kwargs):
+        if PlotNode.FITS == None:
+            PlotNode.FITS = {}
+            # Load FIT options from config only once
+            yaml = ruamel.yaml.YAML()
+            cwd = Path.cwd()
+            configPath = cwd / "environment.yml"
+            rawConfig = yaml.load(configPath)
+            # Add fits to PlotNode.FITS if fits in the Config
+            if 'fits' in rawConfig:
+                for ff in rawConfig['fits']:
+                    # Module and Class name from the string
+                    modname = str(ff).rsplit('.', 1)
+                    mod = modname[0]
+                    try:
+                        module = importlib.import_module(mod)
+                        name = modname[1]
+                        # Add to FITS
+                        PlotNode.FITS[name] = getattr(module, name)
+                    except:
+                        print(f"Could not access Class {modname[1]} from module {modname[0]}")
+
         # Create json_dict based on path
         if path == '.' or path == '':
             self.json_name = None
@@ -537,7 +559,7 @@ class PlotNode(Node):
 
         super().__init__(*args, **kwargs)
 
-        fit_options = list(FITS.keys())
+        fit_options = list(PlotNode.FITS.keys())
         fit_options.append('None')
         self.fit_button = pn.widgets.MenuButton(
             name="Fit", items=fit_options, button_type='success', width=100
@@ -591,8 +613,11 @@ class PlotNode(Node):
             if axis in self.json_dict.keys():
                 func_name = self.json_dict[axis]['fit_function']
                 saved_args = self.json_dict[axis]['args']
-                self.update_fit_in_dataset_helper(
-                    FITS[func_name], saved_args, axis, True)
+                if func_name not in PlotNode.FITS:
+                    print(f"This data has a fit of type {func_name} saved, which you don't have access to.")
+                else:
+                    self.update_fit_in_dataset_helper(
+                        PlotNode.FITS[func_name], saved_args, axis, True)
 
     def set_fit_box(self, *events: param.parameterized.Event):
         self.set_fit_box_helper(self.fit_button.clicked !=
@@ -622,7 +647,7 @@ class PlotNode(Node):
             value=selected,
             align="center",
         )]
-        fitClass = FITS[selected]
+        fitClass = PlotNode.FITS[selected]
         # Get guesses or saved values for all variables and make inputs
         saved_args = self.get_arguments()
         for i, var in enumerate(inspect.signature(fitClass.model).parameters.keys()):
@@ -689,7 +714,7 @@ class PlotNode(Node):
             return self.get_ansatz()
 
     def get_ansatz(self):
-        fitClass = FITS[self.fit_button.clicked]
+        fitClass = PlotNode.FITS[self.fit_button.clicked]
         # Get the guess for this data and x
         # Set data_key to first data key & make numpy data
         data_key = self.select_fit_axis.value
@@ -746,7 +771,7 @@ class PlotNode(Node):
         '''Updates the data for fit in the self.data_out dataset 
         based on current selection'''
         # Get fitClass and pass current args and axis
-        fitClass = FITS[self.fit_button.clicked]
+        fitClass = PlotNode.FITS[self.fit_button.clicked]
         self.update_fit_in_dataset_helper(
             fitClass, self.json_dict[self.select_fit_axis.value]['args'], self.select_fit_axis.value, saved)
 
