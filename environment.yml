@@ -27,7 +27,7 @@ dependencies:
   - pip
   - gitpython
   - watchdog
+  - pywavelets
 fits:
   - labcore.analysis.fitfuncs.generic.Cosine
   - labcore.analysis.fitfuncs.generic.Exponential
-  - test.fit_test.Test
