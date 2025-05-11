@@ -315,7 +315,6 @@ class LoaderNodeBase(Node):
         """
         # LoaderNodes need a datapath- this lets the super access said path
         self.file_path = path
-        print(f"LoaderNodeBase got path:{path}")
 
         # to be able to watch, this needs to be defined before super().__init__
         self.refresh = pn.widgets.Select(
