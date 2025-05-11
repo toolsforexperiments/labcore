@@ -46,3 +46,4 @@ class Exponential(Fit):
         coordinates: Union[Tuple[np.ndarray, ...], np.ndarray], data: np.ndarray
     ) -> Dict[str, float]:
         return dict(a=1, b=2)
+    
