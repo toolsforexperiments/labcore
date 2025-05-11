@@ -1046,9 +1046,6 @@ class MagnitudePhasePlot(PlotNode):
             self.plot_panel,
         )
 
-        self.right_min = -1
-        self.right_max = 1
-
     def process(self):
         assert isinstance(
             self.data_in, xr.Dataset), "MagnitudePhasePlot needs an xr.Dataset, did not receive one."
