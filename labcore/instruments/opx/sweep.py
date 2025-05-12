@@ -29,6 +29,17 @@ logger = logging.getLogger(__name__)
 
 
 class QuantumMachineContext:
+    """
+    Context manager for the Quantum Machine. It will open the machine when entering the context and close it when
+    exiting, after all measurement completed. This is used via a with statement, i.e.:
+
+    ```
+    with QuantumMachineContext() as qmc:
+        [your measurement code here]
+    ```
+
+    This does not need to be used, but if measurements are done repeatedly, it saves some time.
+    """
     def __enter__(self):
         global qmachine_mgr, qmachine, config
         qmachine_mgr = QuantumMachinesManager(
@@ -103,7 +114,6 @@ class RecordOPXdata(AsyncRecord):
             logger.info(f"current QM: {qmachine}, {qmachine.id}")
             self.communicator["self_managed"] = True
 
-        print(qmachine, qmachine_mgr)
         job = qmachine.execute(fun(*args, **kwargs))
         result_handles = job.result_handles
 
