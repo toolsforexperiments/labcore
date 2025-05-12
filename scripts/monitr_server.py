@@ -51,5 +51,4 @@ def run_autoplot():
     template = make_template(data_root)
     template.show()
 
-template = make_template(".")
-template.servable()
+make_template(".").servable()
