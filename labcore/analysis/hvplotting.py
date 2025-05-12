@@ -518,7 +518,7 @@ class PlotNode(Node):
             # Load FIT options from config only once
             yaml = ruamel.yaml.YAML()
             cwd = Path.cwd()
-            configPath = cwd / "environment.yml"
+            configPath = cwd / "autoplotConfig.yml"
             rawConfig = yaml.load(configPath)
             # Add fits to PlotNode.FITS if fits in the Config
             if 'fits' in rawConfig:
