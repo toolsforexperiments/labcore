@@ -110,6 +110,13 @@ class QickBoardSweep(AsyncRecord):
                 return_data[ds.name] = np.arange(cfg['steps'])
                 sweepIdx += 1
 
+<<<<<<< HEAD
+=======
+        # Reformat the independent variables
+        # Independent (sweep) variables have to be reformatted such that xArray and plottr can
+        # correctly recognize the axis being swept. Without reformatting the swept variable,
+        # the program won't be able to correctly set up the axis being swept.
+>>>>>>> 2132e06 (Removed qick_sweep v1)
         shapeIdx = 0
         for ds in self.specs:
             if isinstance(ds, ComplexQICKData):
