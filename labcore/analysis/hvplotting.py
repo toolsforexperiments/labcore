@@ -698,6 +698,10 @@ class PlotNode(Node):
             )
             objs[i].param.watch(self.update_fit_args, 'value')
         # Add buttons to model the fit, reset the fit
+        self.reguess_fit_button = pn.widgets.Button(
+            name="Reguess", align="center", button_type="default", disabled=False
+        )
+        self.reguess_fit_button.on_click(self.reguess_fit)
         self.reset_fit_button = pn.widgets.Button(
             name="Reset", align="center", button_type="default", disabled=False
         )
@@ -714,10 +718,14 @@ class PlotNode(Node):
             name="Model", align="center", button_type="default", disabled=False
         )
         self.model_fit_button.on_click(self.model_fit)
+        self.refit_button = pn.widgets.Button(
+            name="Refit", align="center", button_type="default", disabled=False
+        )
+        self.refit_button.on_click(self.set_fit_box)
         if fitted:
-            objs.append(pn.Row(self.save_fit_button, self.delete_fit_button))
+            objs.append(pn.Row(self.save_fit_button, self.delete_fit_button, self.refit_button))
         else:
-            objs.append(pn.Row(self.model_fit_button, self.reset_fit_button))
+            objs.append(pn.Row(self.model_fit_button, self.reset_fit_button, self.reguess_fit_button))
         # Add to the layout
         self.fit_inputs = pn.WidgetBox(name=selected,
                                        objects=objs
@@ -755,6 +763,19 @@ class PlotNode(Node):
         with open(self.json_name, "w") as outfile:
             json.dump(temp, outfile, indent=4)
         self.update_fit_by_current(True)
+        self.refresh_graph = True
+
+    def reguess_fit(self, event):
+        '''Resets the current args to the results of the Fit.guess() function for the
+        current fit class.'''
+        # Save the parameters from the current fit
+        store_params = self.fit_dict[self.select_fit_axis.value]
+        del self.fit_dict[self.select_fit_axis.value]
+        # Redo the box (will add the axis back to fit_dict)
+        self.set_fit_box_helper(
+            True, store_params['fit_function'])
+        # Restore parameters of current saved fit and refresh graph
+        self.fit_dict[self.select_fit_axis.value]['params'] = store_params['params']
         self.refresh_graph = True
 
     def reset_fit_values(self, event):
@@ -963,6 +984,10 @@ class PlotNode(Node):
             self.reset_fit_button.disabled = False
 
     def get_values(self, axis:str):
+        if 'params' not in self.fit_dict[axis].keys():
+            if 'start_params' in self.fit_dict[axis].keys():
+                return self.fit_dict[axis]['start_params']
+            return []
         _dict = self.fit_dict[axis]['params']
         '''Gets a dictionary of values from the result of the FitResult's
         params_to_dict() function.'''
