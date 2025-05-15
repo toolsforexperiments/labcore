@@ -581,9 +581,11 @@ class PlotNode(Node):
                     name = modname[1]
                     # Add to FITS
                     PlotNode.FITS[name] = getattr(module, name)
-                except:
+                except Exception as e:
                     msg = f"Could not access Class {modname[1]} from module {modname[0]}"
                     print(msg)
+                    print(f"Split into: {modname}")
+                    print(f"Got Exceptions: {e}")
 
     def load_from_json(self):
         if os.path.exists(self.json_name):
@@ -639,19 +641,22 @@ class PlotNode(Node):
         return []
 
     def set_fit_box(self, *events: param.parameterized.Event, fitted:bool=None):
-        print(f"Set Fit Box. Fitted:{fitted}")
         if fitted == None:
             fitted = False
             if self.select_fit_axis.value in self.fit_dict.keys():
                 if 'start_params' not in self.fit_dict[self.select_fit_axis.value].keys():
                     fitted = True
+        # Delete start parameters when refreshing the fit box. Creating the 
+        # fit box will regenerate these.
+        if self.select_fit_axis.value in self.fit_dict.keys():
+            if 'start_params' in self.fit_dict[self.select_fit_axis.value].keys():
+                del self.fit_dict[self.select_fit_axis.value]['start_params']
         self.set_fit_box_helper(self.fit_button.clicked !=
                                 'None', self.fit_button.clicked, fitted=fitted)
 
     def set_fit_box_helper(self, new_box: bool, fit_func_name: str, fitted: bool=False):
         '''Removes and/or creates a fit box. If new_box == True this
         will (re)create the fit box.'''
-        print(f"Fit Box Helper. Fitted:{fitted}")
         # Check if fit_box exists & get fit_box
         if self.fit_box == None: 
             if not new_box:
@@ -676,7 +681,9 @@ class PlotNode(Node):
         '''Create a widget box for creating a fit.'''
         if selected == None:
             selected = self.fit_button.clicked
-        print(f"Creating fit box. Fitted:? {fitted}")
+        if self.select_fit_axis.value in self.fit_dict.keys():
+            if self.fit_dict[self.select_fit_axis.value]['fit_function'] != selected:
+                fitted = False
         # Create a widget box, add the name of the fit function at top
         objs = [pn.widgets.StaticText(
             name='FITTED' if fitted else 'Setup',
@@ -690,11 +697,19 @@ class PlotNode(Node):
             if (var == "coordinates"):
                 # User wont input coords
                 continue
-            objs.append(pn.widgets.FloatInput(
+            name = var
+            if fitted:
+                objs.append( pn.widgets.StaticText(
                 name=var,
-                # Set value to the saved_args (or Ansatz) or to 0
-                value=saved_args[var] if var in list(saved_args.keys()) else 0,
-            )
+                value=str(saved_args[var]) + " +/- " + str(self.fit_dict[self.select_fit_axis.value]['params'][var]['stderr']),
+                align="start",
+                ))
+            else:
+                objs.append(pn.widgets.FloatInput(
+                    name=name,
+                    # Set value to the saved_args (or Ansatz) or to 0
+                    value=saved_args[var] if var in list(saved_args.keys()) else 0,
+                )
             )
             objs[i].param.watch(self.update_fit_args, 'value')
         # Add buttons to model the fit, reset the fit
@@ -715,7 +730,7 @@ class PlotNode(Node):
         )
         self.save_fit_button.on_click(self.save_fit)
         self.model_fit_button = pn.widgets.Button(
-            name="Model", align="center", button_type="default", disabled=False
+            name="Run Fit", align="center", button_type="default", disabled=False
         )
         self.model_fit_button.on_click(self.model_fit)
         self.refit_button = pn.widgets.Button(
@@ -739,7 +754,7 @@ class PlotNode(Node):
         # Save to fit_dict
         if self.select_fit_axis.value not in self.fit_dict.keys():
             self.fit_dict[self.select_fit_axis.value] = {
-                'fit_function': self.fit_button.clicked, 'start_params': {}, 'params': {}}
+                'fit_function': self.fit_button.clicked, 'start_params': saved_args, 'params': {}}
         # Resave to json for case of new fit class
         elif 'start_params' not in self.fit_dict[self.select_fit_axis.value]:
             self.fit_dict[self.select_fit_axis.value]['start_params'] = saved_args
@@ -819,7 +834,6 @@ class PlotNode(Node):
         vals = self.data_out.data_vars[data_key].to_numpy()
         # Run the fit on the fit class
         fit = fit_class(coords, vals)
-        print(f"Fit Dictionary: {self.fit_dict}")
         run_kwargs = self.fit_dict[self.select_fit_axis.value]['start_params']
         result :FitResult = fit.run(**run_kwargs)
         # Get the Fit Result's arguments
@@ -827,14 +841,11 @@ class PlotNode(Node):
         fit_params = {}
         for k, v in params_dict.items():
             fit_params[k] = v['value']
-        print(f"Param dict: {fit_params}")
-        print(f"-\n{params_dict}")
         # Update the dataset with the new data
         name = self.select_fit_axis.value
         self.update_dataset_by_fit_and_axis(fit_class, fit_params, name, True)
         self.fit_dict[self.select_fit_axis.value]['params'] = params_dict
         # switch to fitted fit_box
-        print(f"Setting fit box: no event, fitted=True hopefully")
         self.set_fit_box(None, fitted=True) 
         self.refresh_graph = True
 
@@ -893,7 +904,6 @@ class PlotNode(Node):
             params = self.fit_dict[self.select_fit_axis.value]['start_params']
         else:
             params = self.get_values(self.select_fit_axis.value)
-            print("SHOULD USE SAVED PARAMS FROM SAVED FIT")
         self.update_dataset_by_fit_and_axis(
             fitClass, params, self.select_fit_axis.value, saved)
 
@@ -991,10 +1001,8 @@ class PlotNode(Node):
         _dict = self.fit_dict[axis]['params']
         '''Gets a dictionary of values from the result of the FitResult's
         params_to_dict() function.'''
-        print(f"Getting values from: {_dict}")
         values = {}
         for k in _dict.keys():
-            print(f'Pairing: {k}:{_dict[k]["value"]}')
             values[k] = _dict[k]['value']
         return values
 
