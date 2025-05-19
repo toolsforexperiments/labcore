@@ -33,7 +33,7 @@ def make_template(data_root='.'):
 
 def run_autoplot():
     parser = argparse.ArgumentParser(
-        description="Data monitored program made for Pfaff lab by Rocky Daehler, building"
+        description="Data monitoring program made for Pfaff lab by Rocky Daehler, building"
                     " on Plottr made by Wolfgang Pfaff. Run command on it's own to start the"
                     " application, and pass an (optional) path to the data directory as a"
                     " second argument.")

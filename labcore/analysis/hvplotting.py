@@ -525,10 +525,7 @@ class PlotNode(Node):
             _dir = Path(path).parent
             self.json_name = str(_dir)+"\\fit_data.json"
             # Read and store fit data from the json
-            self.fit_dict = {}
-            if os.path.exists(self.json_name):
-                with open(self.json_name, 'r') as openfile:
-                    self.fit_dict = json.load(openfile)
+            self.fit_dict = self.load_from_json()
 
         # Initialize _fit_axis_options to avoid errors when there's no data.
         # This should get properly set in the process() function
@@ -584,13 +581,25 @@ class PlotNode(Node):
                 except Exception as e:
                     msg = f"Could not access Class {modname[1]} from module {modname[0]}"
                     print(msg)
-                    print(f"Split into: {modname}")
                     print(f"Got Exceptions: {e}")
 
-    def load_from_json(self):
+    def load_from_json(self, all=False):
+        '''Loads data from json. if all=True -> return the entire
+        json file. Otherwise, returns just the portion that applies to 
+        the current number of dimensions.'''
         if os.path.exists(self.json_name):
             with open(self.json_name, 'r') as openfile:
-                return json.load(openfile)
+                json_dict = json.load(openfile)
+                indep, dep = self.data_dims(self.data_out)
+                if not isinstance(indep, list):
+                    indep = [indep]
+                dim_key = str(len(indep))+"D"
+                if all:
+                    return json_dict, dim_key
+                try:
+                    return json_dict[dim_key]
+                except:
+                    return {}
         return {}
 
     def get_fit_panel(self):
@@ -603,6 +612,8 @@ class PlotNode(Node):
         self.data_out = copy.copy(self.data_in)
         # Set fit_axis_options based on the function. Default to [] if returns None
         self._fit_axis_options = self.fit_axis_options()
+        # Load from json again now that data_out exists
+        self.fit_dict = self.load_from_json()
         # Draw any fits that already exist
         for axis in self.fit_axis_options():
             if axis in self.fit_dict.keys():
@@ -769,11 +780,13 @@ class PlotNode(Node):
     
     def save_fit(self, *events: param.parameterized.Event):
         '''Saves only the currently selected fit axis to the json file'''
-        temp = self.load_from_json()
+        temp, dimension = self.load_from_json(True)
+        if dimension not in temp.keys():
+            temp[dimension] = {}
         # Set json to match the stored dict for this axis ignore 'start_params' if the exist
-        temp[self.select_fit_axis.value] = self.fit_dict[self.select_fit_axis.value]
-        if 'start_params' in temp[self.select_fit_axis.value].keys():
-            del temp[self.select_fit_axis.value]['start_params']
+        temp[dimension][self.select_fit_axis.value] = self.fit_dict[self.select_fit_axis.value]
+        if 'start_params' in temp[dimension][self.select_fit_axis.value].keys():
+            del temp[dimension][self.select_fit_axis.value]['start_params']
         # Save just this axis
         with open(self.json_name, "w") as outfile:
             json.dump(temp, outfile, indent=4)
@@ -830,7 +843,12 @@ class PlotNode(Node):
         # Get fit class, axis name, coordinate values
         fit_class = PlotNode.FITS[self.fit_button.clicked]
         data_key = self.select_fit_axis.value
-        coords = [self.data_out[var].values for var in self.data_out.coords][0]
+        np_data = [self.data_out[var].values for var in self.data_out.coords]
+        coords = np_data[0]
+        coord_dim = self.indep_dims()
+        if coord_dim == 2:
+            print(f"850: Passing 2D coords: <\n{np_data[0]},\n{np_data[1]}\n>")
+            coords = np_data[0:2]
         vals = self.data_out.data_vars[data_key].to_numpy()
         # Run the fit on the fit class
         fit = fit_class(coords, vals)
@@ -867,7 +885,12 @@ class PlotNode(Node):
         data_key = self.select_fit_axis.value
         np_data = [self.data_out[var].values for var in self.data_out.coords]
         # Get Ansatz using fit's 'guess' function
-        return fitClass.guess(np_data[0], self.data_out.data_vars[data_key].to_numpy())
+        coord_dim = self.indep_dims()
+        coords = np_data[0]
+        if coord_dim == 2:
+            print(f"891: Passing 2D coords: <\n{np_data[0]},\n{np_data[1]}\n>")
+            coords = np_data[0:2]
+        return fitClass.guess(coords, self.data_out.data_vars[data_key].to_numpy())
 
     def update_fit_from_axis(self, event):
         '''Helper function to update all args to the new axis. 
@@ -912,8 +935,13 @@ class PlotNode(Node):
         on the given arguments.'''
         # Create np array of coordinates
         np_data = [self.data_out[var].values for var in self.data_out.coords]
+        coords = np_data[0]
+        coord_dim = self.indep_dims()
+        if coord_dim == 2:
+            print(f"940: Passing 2D coords: <\n{np_data[0]},\n{np_data[1]}\n>")
+            coords = np_data[0:2]
         # Model the data, name it, and add to self.data_out
-        fit_data = fitClass.model(np_data[0], **model_args)
+        fit_data = fitClass.model(coords, **model_args)
         fit_name = model_axis_name+"_fit"
         fit_name_temp = model_axis_name+"_fit*"
         if not saved:
@@ -932,25 +960,9 @@ class PlotNode(Node):
     def update_dataset_by_data(self, fit_data:np.ndarray, name:str):
         # Get independent variable(s) and fit class
         indep, dep = self.data_dims(self.data_out)
+        print(f"Independents: {indep}")
+        print(type(indep))
         self.data_out[name] = (indep, fit_data)
-
-    def get_model_box(self, name):
-        args = self.get_values(name)
-        func_name = self.fit_dict[name]['fit_function']
-        objs = []
-        objs.append(
-            pn.widgets.StaticText(name='From', value=''))
-        for key, val in args.items():
-            objs.append(
-                pn.widgets.StaticText(name=key, value=val))
-        self.save_fit_button = pn.widgets.Button(
-            name="Save Fit", align="center", button_type="default", disabled=False
-        )
-        self.save_fit_button.on_click(self.save_fit)
-        objs.append(pn.Row(self.save_fit_button))
-        WB = pn.WidgetBox(name='modeled data',
-                    objects=objs)
-        return WB  
 
     def get_data_fit_names(self, axis_name, omit_axes=['Magnitude', 'Phase']):
         # Check if a fit axis exists. Return list of axis and fit axis (if it exists)
@@ -1005,6 +1017,14 @@ class PlotNode(Node):
         for k in _dict.keys():
             values[k] = _dict[k]['value']
         return values
+    
+    def indep_dims(self) -> int:
+        indep, dep = self.data_dims(self.data_out)
+        if isinstance(indep, list):
+            return len(indep)
+        if indep is not None:
+            return 1
+        return 0
 
 
 class ValuePlot(PlotNode):
@@ -1073,12 +1093,17 @@ class ValuePlot(PlotNode):
         else:
             if isinstance(self.data_out, pd.DataFrame):
                 plot = plot_df_as_2d(self.data_out, x, y,
-                                     dim_labels=self.dim_labels())
+                                     dim_labels=self.dim_labels(),
+                                     graph_axes=self.get_data_fit_names(self.fit_axis_options())
+                                     )
             elif isinstance(self.data_out, xr.Dataset):
                 plot = plot_xr_as_2d(self.data_out, x, y,
-                                     dim_labels=self.dim_labels())
+                                     dim_labels=self.dim_labels(),
+                                     graph_axes=self.get_data_fit_names(self.fit_axis_options())
+                                     )
             else:
                 raise NotImplementedError
+            plot = plot.cols(2)
         return plot
 
     def get_plot(self):
@@ -1086,8 +1111,12 @@ class ValuePlot(PlotNode):
 
     def fit_axis_options(self):
         indep, dep = self.data_dims(self.data_out)
+        ret = []
+        for d in dep:
+            if d[-4:] != "_fit" and d[-5:] != "_fit*":
+                ret.append(d)
         return list(dep)
-
+    
 
 class ComplexHist(PlotNode):
     def __init__(self, *args, **kwargs):
@@ -1236,8 +1265,10 @@ class MagnitudePhasePlot(PlotNode):
 
             # case: if x and y are selected, we make a 2d plot of some sort
             else:
-                plot = plot_df_as_2d(self.data_out, x, y,
-                                     dim_labels=self.dim_labels())
+                plot = plot_xr_as_2d(self.data_out, x, y,
+                                     dim_labels=self.dim_labels(), 
+                                     graph_axes=self.get_data_fit_names(self.fit_axis_options()))
+                plot = plot.cols(2)
 
         return plot
 
@@ -1251,8 +1282,12 @@ class MagnitudePhasePlot(PlotNode):
         return super().get_data_fit_names(axis_name, [])
 
 
-def plot_df_as_2d(df, x, y, dim_labels={}):
+def plot_df_as_2d(df, x, y, dim_labels={}, graph_axes=[]):
     indeps, deps = Node.data_dims(df)
+
+    # Set deps to the passed axes so it graphs all desired data
+    if graph_axes != []:
+        deps = graph_axes
 
     if x in indeps and y in indeps:
         return pn.Column(
@@ -1279,12 +1314,16 @@ def plot_df_as_2d(df, x, y, dim_labels={}):
         return "*that's currently not supported :(*"
 
 
-def plot_xr_as_2d(ds, x, y, dim_labels={}):
+def plot_xr_as_2d(ds, x, y, dim_labels={}, graph_axes=[]):
     if ds is None:
         return "Nothing to plot."
 
     indeps, deps = Node.data_dims(ds)
     plot = None
+
+    # Set deps to the passed axes so it graphs all desired data
+    if graph_axes != []:
+        deps = graph_axes
 
     if x + '_fit' in ds:
         return plot_ds_2d_with_fit(ds, dim_labels.get(x, x), x, y)
