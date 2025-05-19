@@ -847,7 +847,6 @@ class PlotNode(Node):
         coords = np_data[0]
         coord_dim = self.indep_dims()
         if coord_dim == 2:
-            print(f"850: Passing 2D coords: <\n{np_data[0]},\n{np_data[1]}\n>")
             coords = np_data[0:2]
         vals = self.data_out.data_vars[data_key].to_numpy()
         # Run the fit on the fit class
@@ -888,7 +887,6 @@ class PlotNode(Node):
         coord_dim = self.indep_dims()
         coords = np_data[0]
         if coord_dim == 2:
-            print(f"891: Passing 2D coords: <\n{np_data[0]},\n{np_data[1]}\n>")
             coords = np_data[0:2]
         return fitClass.guess(coords, self.data_out.data_vars[data_key].to_numpy())
 
@@ -938,7 +936,6 @@ class PlotNode(Node):
         coords = np_data[0]
         coord_dim = self.indep_dims()
         if coord_dim == 2:
-            print(f"940: Passing 2D coords: <\n{np_data[0]},\n{np_data[1]}\n>")
             coords = np_data[0:2]
         # Model the data, name it, and add to self.data_out
         fit_data = fitClass.model(coords, **model_args)
@@ -960,8 +957,6 @@ class PlotNode(Node):
     def update_dataset_by_data(self, fit_data:np.ndarray, name:str):
         # Get independent variable(s) and fit class
         indep, dep = self.data_dims(self.data_out)
-        print(f"Independents: {indep}")
-        print(type(indep))
         self.data_out[name] = (indep, fit_data)
 
     def get_data_fit_names(self, axis_name, omit_axes=['Magnitude', 'Phase']):
