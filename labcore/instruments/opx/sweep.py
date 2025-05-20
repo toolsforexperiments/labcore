@@ -39,6 +39,9 @@ class QuantumMachineContext:
     ```
 
     This does not need to be used, but if measurements are done repeatedly, it saves some time.
+
+    Warning: Using a context manager doesn't let you update the config of the OPX. If you want to change the
+    config, you need to open a new quantum machine.
     """
     def __enter__(self):
         global qmachine_mgr, qmachine, config
@@ -49,7 +52,7 @@ class QuantumMachineContext:
                 octave=config.octave
             )
         qmachine = qmachine_mgr.open_qm(config(), close_other_machines=False)
-        return self
+        return qmachine
 
     def __exit__(self, exc_type, exc_value, traceback):
         global qmachine, qmachine_mgr, config
