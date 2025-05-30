@@ -1,11 +1,8 @@
-import numpy as np
-import pandas as pd
 import seaborn as sns
 import holoviews as hv
-import hvplot.pandas
-import matplotlib.pyplot as plt
+import hvplot
 from PIL import Image
-import os
+from pathlib import Path
 
 hv.extension('bokeh')
 
@@ -86,21 +83,23 @@ def save_plot_as_png(plot, filename, width_in=6, height_in=4, dpi=300, embed_dpi
     - dpi       : Dots per inch (default: 300)
     - embed_dpi : Whether to embed DPI metadata using PIL (default: True)
     """
+    # Convert filename to Path
+    output_path = Path(filename).resolve()
+    tmp_path = output_path.with_name("_tmp_hvplot_export.png")
+
     # Calculate pixel dimensions
     width_px = int(width_in * dpi)
     height_px = int(height_in * dpi)
 
-    # Temporarily render plot at high pixel resolution
+    # Apply size to plot
     plot = plot.opts(width=width_px, height=height_px)
 
-    # Save to temporary file
-    tmp_file = "_tmp_hvplot_export.png"
-    hvplot.save(plot, tmp_file, fmt='png')
+    # Save to temporary file using Holoviews
+    hvplot.save(plot, tmp_path, fmt='png')
 
-    # Optionally embed DPI metadata using PIL
     if embed_dpi:
-        img = Image.open(tmp_file)
-        img.save(filename, dpi=(dpi, dpi))
-        os.remove(tmp_file)
+        img = Image.open(tmp_path)
+        img.save(output_path, dpi=(dpi, dpi))
+        tmp_path.unlink()  # Delete temp file
     else:
-        os.rename(tmp_file, filename)
+        tmp_path.rename(output_path)
