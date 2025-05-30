@@ -43,6 +43,7 @@ class ComplexQICKData(DataSpec):
 @dataclass
 class PulseVariable(DataSpec):
     pulse_parameter: str = None
+    sweep_parameter: str = None
 
 @dataclass
 class TimeVariable(DataSpec):
@@ -100,7 +101,7 @@ class QickBoardSweep(AsyncRecord):
                 return_data[ds.name]= data[measIdx].dot([1,1j])
                 measIdx += 1
             elif isinstance(ds, PulseVariable):
-                return_data[ds.name]= self.communicator["qick_program"].get_pulse_param(ds.pulse_parameter, ds.name, as_array=True)
+                return_data[ds.name]= self.communicator["qick_program"].get_pulse_param(ds.pulse_parameter, ds.sweep_parameter, as_array=True)
                 sweepIdx += 1
             elif isinstance(ds, TimeVariable):
                 return_data[ds.name]= (self.communicator["qick_program"].get_time_param(ds.time_parameter, 't', as_array=True))*(cfg['n_echoes']+1)

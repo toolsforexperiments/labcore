@@ -159,7 +159,9 @@ class QMConfig:
                         # Using the old integration weights style for the sliced weights because the OPX currently
                         # raises an exception when using the new ones.
                         flat = [(0.2, pulse_len)]
+                        minus_flat = [(-0.2, pulse_len)]
                         flat_sliced = [0.2] * int(pulse_len//4)
+                        mflat_sliced = [-0.2] * int(pulse_len//4)
                         empty = [(0.0, pulse_len)]
                         empty_sliced = [0.0] * int(pulse_len//4)
 
@@ -172,6 +174,10 @@ class QMConfig:
                             'cosine': empty,
                             'sine': flat
                         }
+                        pulses[pulse][pulse + '_minus_sin'] = {
+                            'cosine': empty,
+                            'sine': minus_flat
+                        }
                         pulses[pulse][pulse + '_sliced_cos'] = {
                             'cosine': flat_sliced,
                             'sine': empty_sliced
@@ -180,12 +186,18 @@ class QMConfig:
                             'cosine': empty_sliced,
                             'sine': flat_sliced
                         }
+                        pulses[pulse][pulse + '_sliced_minus_sin'] = {
+                            'cosine': empty_sliced,
+                            'sine': mflat_sliced
+                        }
 
                         # Creating the variables for the weighted integration weights.
                         # If integrationg weights of the correct length are found on file, they get overwritten with
                         # the proper loaded weights.
                         pulse_weight_I = flat
                         pulse_weight_Q = flat
+                        pulse_weight_m_I = flat
+                        pulse_weight_m_Q = flat
 
                         pulse_weight_empty = empty
 
@@ -203,7 +215,10 @@ class QMConfig:
                                     pulse_weight_I = pulse_weight_I_temp
                                     pulse_weight_Q = pulse_weight_Q_temp
 
-                                    pulse_weight_empty = [(0.0, 40)] * len(pulse_weight_I)
+                                    pulse_weight_m_I = [(-1*pulseI[0], pulseI[1]) for pulseI in pulse_weight_I]
+                                    pulse_weight_m_Q = [(-1*pulseQ[0], pulseQ[1]) for pulseQ in pulse_weight_Q]
+
+                                    pulse_weight_empty = [(0.0, pulse_weight_I[0][1])] * len(pulse_weight_I)
                                     logging.info(f'Loaded weighted integration weights for {pulse}.')
                                 else:
                                     logging.info(f'Found old integration weights for {pulse}, deleting them from file.')
@@ -220,11 +235,15 @@ class QMConfig:
 
                         pulses[pulse][pulse + '_weighted_cos'] = {
                             'cosine': pulse_weight_I,
-                            'sine': pulse_weight_empty
+                            'sine': pulse_weight_m_Q
                         }
                         pulses[pulse][pulse + '_weighted_sin'] = {
-                            'cosine': pulse_weight_empty,
-                            'sine': pulse_weight_Q
+                            'cosine': pulse_weight_Q,
+                            'sine': pulse_weight_I
+                        }
+                        pulses[pulse][pulse + '_weighted_minus_sin'] = {
+                            'cosine': pulse_weight_m_Q,
+                            'sine': pulse_weight_m_I
                         }
 
                     # Assembling the dictionary that the config dict needs in each pulse for integration weights.

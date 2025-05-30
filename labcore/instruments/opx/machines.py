@@ -1,4 +1,7 @@
-from qm.QuantumMachinesManager import QuantumMachinesManager
+try:
+    from qm.QuantumMachinesManager import QuantumMachinesManager
+except:
+    from qm.quantum_machines_manager import QuantumMachinesManager
 
 
 def close_my_qm(config, host, port):

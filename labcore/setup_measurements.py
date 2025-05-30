@@ -159,7 +159,14 @@ def run_measurement(sweep: Sweep, name: str, safe_write_mode: bool = False, **kw
         raise RuntimeError('it looks like options.parameters is not configured.')
 
     for n, c in options.instrument_clients.items():
-        kwargs[n] = c.snapshot
+        # Signature for snapshot changed, we need to check for both now.
+        if hasattr(c, 'get_snapshot'):
+            kwargs[n] = c.get_snapshot
+        elif hasattr(c, 'snapshot'):
+            kwargs[n] = c.snapshot
+        else:
+            raise RuntimeError(f"Could not find snapshot method for client {n}. Please update all packages.")
+
     kwargs['parameters'] = options.parameters.toParamDict
     
     py_env = get_environment_packages()
