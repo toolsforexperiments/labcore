@@ -22,7 +22,7 @@ from .config import QMConfig
 # config object that when called returns the config dictionary as expected by the OPX
 config: Optional[QMConfig] = None  # OPX config dictionary
 
-# WARNING: DO NOT TOUCH THESE VARIABLES. THEY ARE GLOBAL AND MANAGED IN THE CONTEXT MANAGER.
+# WARNING: DO NOT TOUCH THIS VARIABLE. IT IS GLOBAL AND HANDLED BY THE CONTEXT MANAGER.
 _qmachine_context = None
 
 
@@ -45,7 +45,7 @@ class QuantumMachineContext:
     config, you need to open a new quantum machine.
     """
 
-    def __init__(self, fun: Callable, *args, overrides: Optional[Dict] = None, **kwargs):
+    def __init__(self, overrides: Optional[Dict] = None, *args, **kwargs):
         """
         Initializes the context manager with a function to be executed, its arguments, and optional overrides.
 
@@ -202,18 +202,17 @@ class RecordOPXdata(AsyncRecord):
 
         Currently, manually closes the _qmachine in the OPT so that simultaneous measurements can occur.
         """
-        global _qmachine, _qmachine_mgr
         logger.info('Cleaning up')
 
-        open_machines = _qmachine_mgr.list_open_quantum_machines()
+        open_machines = qmachine_mgr.list_open_quantum_machines()
         logger.info(f"currently open QMs: {open_machines}")
         if self.communicator["self_managed"]:
-            machine_id = _qmachine.id
-            _qmachine.close()
+            machine_id = qmachine.id
+            qmachine.close()
             logger.info(f"QM with ID {machine_id} closed.")
 
-            _qmachine = None
-            _qmachine_mgr = None
+            qmachine = None
+            qmachine_mgr = None
         
 
 
@@ -324,10 +323,11 @@ class RecordPrecompiledOPXdata(RecordOPXdata):
                                "Please use a context manager for precompiled measurements.")
 
         if _qmachine_context._program_id is None:
-            _qmachine_context._program_id = _qmachine.compile(fun(*args, **kwargs))
-            pending_job = _qmachine.queue.add_compiled(_qmachine_context._program_id)
+            _qmachine_context._program_id = _qmachine_context._qmachine.compile(fun(*args, **kwargs))
         if _qmachine_context.overrides is not None:
-            pending_job = _qmachine.queue.add_compiled(_qmachine_context._program_id, overrides=_qmachine_context.overrides)
+            pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id, overrides=_qmachine_context.overrides)
+        else:
+            pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id)
 
         job = pending_job.wait_for_execution()
         result_handles = job.result_handles
@@ -336,6 +336,6 @@ class RecordPrecompiledOPXdata(RecordOPXdata):
         self.communicator["active"] = True
         self.communicator["counter"] = 0
         self.communicator["manager"] = _qmachine_context._qmachine_mgr
-        self.communicator["_qmachine"] = _qmachine_context._qmachine
-        self.communicator["_qmachine_id"] = _qmachine_context._qmachine.id
+        self.communicator["qmachine"] = _qmachine_context._qmachine
+        self.communicator["qmachine_id"] = _qmachine_context._qmachine.id
 
