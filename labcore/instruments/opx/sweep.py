@@ -21,8 +21,9 @@ from .config import QMConfig
 # --- Options that need to be set by the user for the OPX to work ---
 # config object that when called returns the config dictionary as expected by the OPX
 config: Optional[QMConfig] = None  # OPX config dictionary
-qmachine_mgr = None # Quantum machine manager
-qmachine = None # Quantum machine
+
+# WARNING: DO NOT TOUCH THESE VARIABLES. THEY ARE GLOBAL AND MANAGED IN THE CONTEXT MANAGER.
+_qmachine_context = None
 
 
 logger = logging.getLogger(__name__)
@@ -43,23 +44,42 @@ class QuantumMachineContext:
     Warning: Using a context manager doesn't let you update the config of the OPX. If you want to change the
     config, you need to open a new quantum machine.
     """
+
+    def __init__(self, fun: Callable, *args, overrides: Optional[Dict] = None, **kwargs):
+        """
+        Initializes the context manager with a function to be executed, its arguments, and optional overrides.
+
+        :param fun: The function to be executed in the quantum machine.
+        :param args: Positional arguments for the function.
+        :param overrides: Optional dictionary of overrides for the quantum machine configuration.
+        :param kwargs: Keyword arguments for the function.
+        """
+        global config
+        self.overrides = overrides
+        self.kwargs = kwargs
+
+        self._qmachine_mgr = None
+        self._qmachine = None
+        self._program_id = None
+
     def __enter__(self):
-        global qmachine_mgr, qmachine, config
-        qmachine_mgr = QuantumMachinesManager(
+        global config, _qmachine_context
+        _qmachine_mgr = QuantumMachinesManager(
                 host=config.opx_address,
                 port=config.opx_port, 
                 cluster_name=config.cluster_name,
                 octave=config.octave
             )
-        qmachine = qmachine_mgr.open_qm(config(), close_other_machines=False)
-        return qmachine
+    
+        self._qmachine = _qmachine_mgr.open_qm(config(), close_other_machines=False)
+        _qmachine_context = self
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        global qmachine, qmachine_mgr, config
-        if qmachine is not None:
-            qmachine.close()
-            qmachine = None
-            qmachine_mgr = None
+        global _qmachine_context
+        if self._qmachine is not None:
+            self._qmachine.close()
+        _qmachine_context = None
 
 
 @dataclass
@@ -102,10 +122,10 @@ class RecordOPXdata(AsyncRecord):
         the module variable global_config. It saves the result handles and saves initial values to the communicator
         dictionary.
         """
-        global qmachine, qmachine_mgr
+        global _qmachine_context
         self.communicator["self_managed"] = False
         # Start the measurement in the OPX.
-        if qmachine_mgr is None and qmachine is None:
+        if _qmachine_context is None:
             qmachine_mgr = QuantumMachinesManager(
                 host=config.opx_address,
                 port=config.opx_port, 
@@ -116,6 +136,9 @@ class RecordOPXdata(AsyncRecord):
             qmachine = qmachine_mgr.open_qm(config(), close_other_machines=False)
             logger.info(f"current QM: {qmachine}, {qmachine.id}")
             self.communicator["self_managed"] = True
+        else:
+            qmachine_mgr = _qmachine_context._qmachine_mgr
+            qmachine = _qmachine_context._qmachine
 
         job = qmachine.execute(fun(*args, **kwargs))
         result_handles = job.result_handles
@@ -177,20 +200,20 @@ class RecordOPXdata(AsyncRecord):
         """
         Functions in charge of cleaning up any software tools that needs cleanup.
 
-        Currently, manually closes the qmachine in the OPT so that simultaneous measurements can occur.
+        Currently, manually closes the _qmachine in the OPT so that simultaneous measurements can occur.
         """
-        global qmachine, qmachine_mgr
+        global _qmachine, _qmachine_mgr
         logger.info('Cleaning up')
 
-        open_machines = qmachine_mgr.list_open_quantum_machines()
+        open_machines = _qmachine_mgr.list_open_quantum_machines()
         logger.info(f"currently open QMs: {open_machines}")
         if self.communicator["self_managed"]:
-            machine_id = qmachine.id
-            qmachine.close()
+            machine_id = _qmachine.id
+            _qmachine.close()
             logger.info(f"QM with ID {machine_id} closed.")
 
-            qmachine = None
-            qmachine_mgr = None
+            _qmachine = None
+            _qmachine_mgr = None
         
 
 
@@ -282,3 +305,37 @@ class RecordOPXdata(AsyncRecord):
 
         finally:
             self.cleanup()
+
+
+class RecordPrecompiledOPXdata(RecordOPXdata):
+    """
+    Implementation of AsyncRecord for use with precompiled OPX programs.
+    """
+
+    def setup(self, fun, *args, **kwargs):
+        """
+        Starts the measurement using a provided _program_id. Compilation only happens if the _program_id is None.
+        """
+        global _qmachine_context
+        self.communicator["self_managed"] = False
+
+        if _qmachine_context is None:
+            raise RuntimeError("No quantum machine manager or quantum machine found. "
+                               "Please use a context manager for precompiled measurements.")
+
+        if _qmachine_context._program_id is None:
+            _qmachine_context._program_id = _qmachine.compile(fun(*args, **kwargs))
+            pending_job = _qmachine.queue.add_compiled(_qmachine_context._program_id)
+        if _qmachine_context.overrides is not None:
+            pending_job = _qmachine.queue.add_compiled(_qmachine_context._program_id, overrides=_qmachine_context.overrides)
+
+        job = pending_job.wait_for_execution()
+        result_handles = job.result_handles
+
+        self.communicator["result_handles"] = result_handles
+        self.communicator["active"] = True
+        self.communicator["counter"] = 0
+        self.communicator["manager"] = _qmachine_context._qmachine_mgr
+        self.communicator["_qmachine"] = _qmachine_context._qmachine
+        self.communicator["_qmachine_id"] = _qmachine_context._qmachine.id
+
