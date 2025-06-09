@@ -21,9 +21,46 @@ from .config import QMConfig
 # --- Options that need to be set by the user for the OPX to work ---
 # config object that when called returns the config dictionary as expected by the OPX
 config: Optional[QMConfig] = None  # OPX config dictionary
+qmachine_mgr = None # Quantum machine manager
+qmachine = None # Quantum machine
 
 
 logger = logging.getLogger(__name__)
+
+
+class QuantumMachineContext:
+    """
+    Context manager for the Quantum Machine. It will open the machine when entering the context and close it when
+    exiting, after all measurement completed. This is used via a with statement, i.e.:
+
+    ```
+    with QuantumMachineContext() as qmc:
+        [your measurement code here]
+    ```
+
+    This does not need to be used, but if measurements are done repeatedly, it saves some time.
+
+    Warning: Using a context manager doesn't let you update the config of the OPX. If you want to change the
+    config, you need to open a new quantum machine.
+    """
+    def __enter__(self):
+        global qmachine_mgr, qmachine, config
+        qmachine_mgr = QuantumMachinesManager(
+                host=config.opx_address,
+                port=config.opx_port, 
+                cluster_name=config.cluster_name,
+                octave=config.octave
+            )
+        qmachine = qmachine_mgr.open_qm(config(), close_other_machines=False)
+        return qmachine
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        global qmachine, qmachine_mgr, config
+        if qmachine is not None:
+            qmachine.close()
+            qmachine = None
+            qmachine_mgr = None
+
 
 @dataclass
 class TimedOPXData(DataSpec):
@@ -65,22 +102,20 @@ class RecordOPXdata(AsyncRecord):
         the module variable global_config. It saves the result handles and saves initial values to the communicator
         dictionary.
         """
+        global qmachine, qmachine_mgr
+        self.communicator["self_managed"] = False
         # Start the measurement in the OPX.
-        # qmachine_mgr = QuantumMachinesManager(host=config.opx_address, port=config.opx_port,
-        #                                       octave=config.octave)
-        qmachine_mgr = QuantumMachinesManager(
-            host=config.opx_address,
-            port=config.opx_port, 
-            cluster_name=config.cluster_name,
-            octave=config.octave
-        )
+        if qmachine_mgr is None and qmachine is None:
+            qmachine_mgr = QuantumMachinesManager(
+                host=config.opx_address,
+                port=config.opx_port, 
+                cluster_name=config.cluster_name,
+                octave=config.octave
+            )
 
-        qmachine = qmachine_mgr.open_qm(config(), close_other_machines=False)
-        logger.info(f"current QM: {qmachine}, {qmachine.id}")
-
-        
-        # if config.octave is not None:
-        #     config.configure_octave(qmachine_mgr, qmachine)
+            qmachine = qmachine_mgr.open_qm(config(), close_other_machines=False)
+            logger.info(f"current QM: {qmachine}, {qmachine.id}")
+            self.communicator["self_managed"] = True
 
         job = qmachine.execute(fun(*args, **kwargs))
         result_handles = job.result_handles
@@ -132,7 +167,6 @@ class RecordOPXdata(AsyncRecord):
                     # Once the OPX is done processing turn ready True and turn active False to exhaust the generator.
                     statuses.append(True)
                     processing.append(False)
-                    # self.communicator['active'] = False
 
             if not False in statuses:
                 ready = True
@@ -145,16 +179,18 @@ class RecordOPXdata(AsyncRecord):
 
         Currently, manually closes the qmachine in the OPT so that simultaneous measurements can occur.
         """
+        global qmachine, qmachine_mgr
         logger.info('Cleaning up')
 
-        manager = self.communicator['manager']
-        qm_id = self.communicator['qmachine_id']
-        open_machines = manager.list_open_quantum_machines()
+        open_machines = qmachine_mgr.list_open_quantum_machines()
         logger.info(f"currently open QMs: {open_machines}")
-        if qm_id in open_machines:
-            qmachine = manager.get_qm(qm_id)
+        if self.communicator["self_managed"]:
+            machine_id = qmachine.id
             qmachine.close()
-            logger.info(f"QM with ID {qm_id} closed.")
+            logger.info(f"QM with ID {machine_id} closed.")
+
+            qmachine = None
+            qmachine_mgr = None
         
 
 
@@ -246,5 +282,3 @@ class RecordOPXdata(AsyncRecord):
 
         finally:
             self.cleanup()
-
-

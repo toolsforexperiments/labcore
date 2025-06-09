@@ -43,6 +43,7 @@ class ComplexQICKData(DataSpec):
 @dataclass
 class PulseVariable(DataSpec):
     pulse_parameter: str = None
+    sweep_parameter: str = None
 
 @dataclass
 class TimeVariable(DataSpec):
@@ -100,7 +101,7 @@ class QickBoardSweep(AsyncRecord):
                 return_data[ds.name]= data[measIdx].dot([1,1j])
                 measIdx += 1
             elif isinstance(ds, PulseVariable):
-                return_data[ds.name]= self.communicator["qick_program"].get_pulse_param(ds.pulse_parameter, ds.name, as_array=True)
+                return_data[ds.name]= self.communicator["qick_program"].get_pulse_param(ds.pulse_parameter, ds.sweep_parameter, as_array=True)
                 sweepIdx += 1
             elif isinstance(ds, TimeVariable):
                 return_data[ds.name]= (self.communicator["qick_program"].get_time_param(ds.time_parameter, 't', as_array=True))*(cfg['n_echoes']+1)
@@ -109,6 +110,10 @@ class QickBoardSweep(AsyncRecord):
                 return_data[ds.name] = np.arange(cfg['steps'])
                 sweepIdx += 1
 
+        # Reformat the independent variables
+        # Independent (sweep) variables have to be reformatted such that xArray and plottr can
+        # correctly recognize the axis being swept. Without reformatting the swept variable,
+        # the program won't be able to correctly set up the axis being swept.
         shapeIdx = 0
         for ds in self.specs:
             if isinstance(ds, ComplexQICKData):
