@@ -1,3 +1,5 @@
 fits:
   - labcore.analysis.fitfuncs.generic.Cosine
   - labcore.analysis.fitfuncs.generic.Exponential
+  - labcore.analysis.fitfuncs.generic.ExponentialDecay
+  - labcore.analysis.fitfuncs.generic.ExponentiallyDecayingSine
