@@ -2,12 +2,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any, Union
 from collections import OrderedDict
-import os
+import logging
 
 import asyncio
 import nest_asyncio
 nest_asyncio.apply()
-import inspect
 
 import hvplot
 import holoviews as hv
@@ -16,10 +15,9 @@ from bokeh.io.export import export_png
 import pandas
 import param
 import panel as pn
-from panel.widgets import RadioButtonGroup as RBG, MultiSelect, Select
+from panel.widgets import RadioButtonGroup as RBG, Select
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-import xarray as xr
 
 import re
 
@@ -30,7 +28,11 @@ from ..data.datadict import (
     datadict_to_meshgrid,
     dd2xr,
 )
-from .hvplotting import Node, labeled_widget
+from ..utils.misc import add_end_number_to_repeated_file
+from .hvplotting import Node, labeled_widget, PlotNode
+
+logger = logging.getLogger(__name__)
+
 
 class Handler(FileSystemEventHandler):
     def __init__(self, update_callback):
@@ -471,24 +473,27 @@ class LoaderNodeBase(Node):
     def can_save(self):
         # Returns TRUE is the necessary packages for saving html and images are installed
         # Returns FALSE and prints a notice about the uninstalled packages otherwise
-        has_packages = False
 
         # Try and save an image to check packages
         try:
-            save_as = self.add_file_suffix('SAVETEST', '.png')
+            test_file = Path("SAVETEST.png")
+            save_as = add_end_number_to_repeated_file(test_file)
             self.refresh.save(save_as)
-            os.remove(save_as)
+            save_as.unlink(missing_ok=True)
             has_packages = True
-        except:
+        except RuntimeError as e:
+            logger.error(e)
             has_packages = False
 
         # Reset Plot object
         self._plot_obj = None
         
         if not has_packages:
-            print("ATTENTION! \nYou have not installed the necessary packages to allow for the saving of images."\
-                  " To allow this functionality, please install Selenium, PhantomJS, Firefox, and Geckodriver")
+            logger.warning("SAVING IMAGES DISABLED: You have not installed the necessary packages to allow for the saving of "
+                           "images. To allow this functionality, please install Selenium, PhantomJS, Firefox, and "
+                           "Geckodriver")
 
+        has_packages = True
         return has_packages
 
     def toggle_save_buttons(self):
@@ -502,40 +507,41 @@ class LoaderNodeBase(Node):
         self.png_button.disabled = _disabled
 
     def save_html(self, *events: param.parameterized.Event):
-        # Save the plot to an html file
-        if isinstance(self._plot_obj, Node):
-            file_name = self.file_path.parent.name
-            file_name = os.path.join(self.file_path.parent, file_name)
-            # Check if file_name exists & add suffix
-            file_name = self.add_file_suffix(file_name, '.html')
+        if isinstance(self._plot_obj, PlotNode):
+            file_name = add_end_number_to_repeated_file(self.file_path.parent / f"{self.file_path.parent.name}.html")
             hvplot.save(self._plot_obj.get_plot(), file_name)
 
-    def save_png(self, *events: param.parameterized.Event, name=None):
-        # Save the plot to a png file
-        if isinstance(self._plot_obj, Node):
-            # Create the file name
-            file_name = name
-            if name is None:
-                file_name = self.file_path.parent.name
-                file_name = os.path.join(self.file_path.parent, file_name)
-            # Check if file_name exists & add suffix
-            file_name = self.add_file_suffix(file_name, '.png')
-            # Get the plot to save
-            plot = self._plot_obj.get_plot() 
-            # Render the Holoviews plot to a Bokeh plot
-            bokeh_plot = hv.render(plot)
-            export_png(bokeh_plot, filename=file_name)
-            return file_name
+    def save_png(self, *events: param.parameterized.Event):
+        def save_p(p, suffix=""):
+            path = add_end_number_to_repeated_file(
+                self.file_path.parent.joinpath(f"{self.file_path.parent.name}{suffix}.png"))
+            # FIXME: We need all of this because different plot types return different objects.
+            #  It might be worth unifying it and always returning the same object.
+            # If p is a Panel HoloViews pane, extract the HoloViews object
+            if hasattr(p, 'object') and hasattr(p.object, 'traverse'):
+                # This is a Panel HoloViews pane - extract the HoloViews object
+                hv_obj = p.object
+            elif hasattr(p, 'traverse'):
+                # This is already a HoloViews object
+                hv_obj = p
+            else:
+                # Skip objects that are not HoloViews or Panel HoloViews panes
+                logger.warning(f"Skipping object of type {type(p)} - not a HoloViews object")
+                return
+                
+            bokeh_plot = hv.render(hv_obj)
+            export_png(bokeh_plot, filename=path)
 
-    def add_file_suffix(self, file_name, ext):
-        # Given a file name, check if file already exists and, if so,
-        # added a (#) suffix to it. Return the lowest unused file name.
-        count = 0
-        new_name = file_name + ext
-        while os.path.exists(new_name):
-            new_name = file_name + "(" + str(count) + ")" + ext
-            count += 1
-        return new_name
+        # TODO: What happens when this is not a Node? What should happen then?
+        if isinstance(self._plot_obj, PlotNode):
+
+            plot = self._plot_obj.get_plot()
+            if isinstance(plot, pn.Column):
+                for i, p in enumerate(plot):
+                    suffix = f"_plot{i+1}" if len(plot) > 1 else ""
+                    save_p(p, suffix)
+            else:
+                save_p(plot)
 
     @pn.depends("info_label.value")
     def display_info(self):

@@ -1,11 +1,14 @@
-from labcore.analysis.hvapps import DataSelect, DDH5LoaderNode
-from datetime import datetime
+import argparse
+import logging
 from pathlib import Path
 
-import argparse
+
 import panel as pn
 pn.extension()
 
+from labcore.analysis.hvapps import DataSelect, DDH5LoaderNode
+
+logger = logging.getLogger(__file__)
 
 def make_template(data_root='.'):
     ds = DataSelect(data_root)
@@ -43,10 +46,10 @@ def run_autoplot():
 
     data_root = Path(args.Datapath)
     if (not data_root.is_dir()):
-        print("Provided Path was invalid.\nPlease provide a path to an existing directory housing your data.")
+        logger.error("Provided Path was invalid.\nPlease provide a path to an existing directory housing your data.")
         return
 
-    print(f"Running Labcore.Autoplot on data from {data_root}")
+    logger.info(f"Running Labcore.Autoplot on data from {data_root}")
 
     template = make_template(data_root)
     template.show()
