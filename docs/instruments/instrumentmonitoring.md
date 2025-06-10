@@ -1,13 +1,9 @@
 # Instrument Monitoring
 
-The following is a guide to set up instrument montioring for various parameters associated with instrument(s). It contains capabilities for data storage, data visualization, and real-time alerts. More information on the tool is provided in the next section.
+The following is a guide to set up a dashboard for the monitoring of instruments. It contains capabilities for data storage, data visualization, and real-time alerts. More information on the tool is provided in the next section.
 
 !!! Note
-    The following guide assumes the user has:
-    - instrumentserver installed and has basic familiarity with it and using config files
-    - labcore installed
-    - basic familiarity with Docker
-    - a basic understanding of what Grafana and InfluxDB are
+    The following guide assumes the user has the instrumentserver installed and has basic familiarity with it and using config files, labcore installed, basic familiarity with Docker, and a basic understanding of what Grafana and InfluxDB are
 
 ## Overview
 
@@ -15,9 +11,11 @@ This tool is designed to be able to facilitate the monitoring of instruments. It
 
 ![Overview](img/instrumentmonitoring.png)
 
+Above is a diagram showcasing the architecture for a dashboard for the monitoring of two separate instruments. The architecture consists of two PCs that communicate with the instrument using qCoDeS, which broadcast the data they receive to a central computer where the dashboard is hosted.
+
 [Docker](#docker)
 
-Docker is the service used to host Grafana and InfluxDB locally. Both services have a server that runs inside of a Docker container on your internet-connected device, and will be accessible through the network the computer is connected to. Both Influx and Grafana will be accessible with an internet connection to the computer running Docker.
+Docker is the service used to host Grafana and InfluxDB locally. Both of the services have a server that runs inside of a Docker container on your internet-connected device, and will be accessible through the network the computer is connected to. Both Influx and Grafana will be accessible with an internet connection to the computer running Docker.
 
 [Grafana](#grafana)
 
@@ -33,27 +31,56 @@ Below is a sample alert send out by Grafana on Slack. The alert notifies that a 
 
 [InfluxDB](#influxdb)
 
-InfluxDB is the database used to store data fetched from instruments. It stores the data in time-series format (data with a time). It can then be accessed by Grafana in order to construct time-series plots of the various parameters in the database (as shown above).
+InfluxDB is the database used to store data fetched from instruments. It stores the data in time-series format (each data point has a time). It can then be accessed by Grafana in order to construct time-series plots of the various parameters in the database (as shown above).
 
 InfluxDB should be hosted on the same device as Grafana. It will also be in a Docker container. (again, more on that later)
 
 [The Instrumentserver](#the-instrumentserver)
 
-The instrumentserver is ran on a computer that can talk with your instrument through a network connection. The instrumentserver will ask your instrument for the data you specify, which will then be sent back to the instrumentserver by the instrument.
+The instrumentserver runs on a computer that can talk with your instrument through a network connection. The instrumentserver will ask your instrument for the data you specify, which will then be sent back to the instrumentserver by the instrument.
 
-Based on a yaml file, the instrumentserver can then ask for the correct data from the instrument and broadcast it to the internet (to be used for visualizations).
+Based on a yaml config file, the instrumentserver can then ask for the correct data from the instrument and broadcast it to the internet (to be used for visualizations).
 
-How to set up the instrumentserver to get the data you want:
-In the instrumentserver, for each instrument, the user provides a list of parameters to get values or states from, and a secondary field - polling rates. The polling rate for each parameter is how often the instrument server will ask for the value or state of the paramter.
+In the instrumentserver, for each instrument, the user provides a list of parameters to get values or states from, with a corresponding rate (in seconds) for how often to poll the parameter.
 
 [The Listener](#the-listener)
 
-The listener is ran on the same computer that is running the Docker containers for Grafana and InfluxDB. It listens for the internet broadcasts from the instrumentserver, and then writes the data to the InfluxDB database. The listener can also be configured to write to a CSV file, however InfluxDB is recommended.
+The listener is ran on the same computer that is running the Docker containers for Grafana and InfluxDB. It subscribes to the broadcasts from the instrumentservers, and then writes the data to the InfluxDB database. The listener can also be configured to write to a CSV file, however InfluxDB is recommended.
 
 !!! Note
-    The following portion assumes the user has:
-    - instrumentserver installed and has basic familiarity with it and using config files
-    - labcore installed
+    The following portion assumes the user has the instrumentserver installed and labcore installed.
+
+## Quick Start Guide
+
+This section is a guide to quickly set up an instrument monitoring dashboard for an arbitrary number of instruments.
+
+### Step 1: Instrumentserver setup
+
+First, locate or create a qCoDeS driver for your instrument. Also, make sure the instrument is connected to some sort of network (generally a switch), and find its IP address on the private network. Also, locate the correct port to communicate with the instrument (generally found in the manual for the instrument).
+
+Once you have all of this information, set up a PC (windows, linux, etc.) that is connected to the same network (switch) as the instrument you want to monitor. Install the instrumentserver and labcore on this PC.
+
+Decide on a port you want to broadcast data through on the PC. Then create a config file for the instrumentserver using the above qCoDeS driver, ports, etc. Check out the section for the instrumentserver [config file](#config-file).
+
+Then, start the instrumentserver. See [starting the instrumentserver](#starting-the-instrument-server).
+
+### Step 2: InfluxDB and Grafana
+
+Set up a PC that you would like to host the dashboard on. Install labcore and the instrumentserver on this PC.
+Install docker and start the docker engine. Follow the [docker section](#docker) to set up a docker compose file. Make sure that InfluxDB and Grafana are able to be accessed.
+
+### Step 3: The Listener
+
+ On the same PC that Grafana and Influx were started on:
+ 
+ Keep track of the address and port that the instrumentserver is broadcasting to in the previous section. Use this information, the information you used to set up InfluxDB, plus the parameters you want to monitor to fill out the [config file](#config-file-1).
+
+You can then [start the listener](#starting-the-listener).
+
+### Step 4: Grafana Customization
+
+If the previous steps were done correctly with no issues, the Influx database should start to be populated. Then, one can follow the guide at https://grafana.com/grafana/dashboards/ in order to create a dashboard using InfluxDB as data source. The grafana documentation also has guides on setting up alerting to Slack and other services.
+
 
 ## The Instrumentserver
 
@@ -96,24 +123,26 @@ networking:
 ```
 
 
-As usual, we declare an instrument for the fridge. For the driver, use the following from labcore if using an Oxford Fridge:
+As usual, we declare an qCoDeS instrument. In this case we are using an Oxford Triton Dilution Refrigerator. The driver for this instrument is in labcore:
 
 ```
 labcore.instruments.qcodes_drivers.Oxford.triton.OxfordTriton
 ```
 
-`address`: fill out the field with the IPv4 address of the fridge computer (on the same network as the computer you are running the instrumentserver on)
+In general, one can find a community-made driver (if it exists), or create one.
+
+`address`: fill out the field with the IPv4 address of the instrument (on the same network as the computer you are running the instrumentserver on)
 
 `init`: there are two items that must be filled out:
 
-`port`: From the manual of the fridge being used, provide the port on the fridge computer to communicate with. (For Oxford Triton, this port is `33576`). 
-
-`temp_channel_mapping`: Create a dictionary containing the mapping between name and temperature channel for each channel you would like a named parameter for. In the provided config, 7 Temperature Channels are used to create named parameters. Channels can be found on the Lakeshore thermometry dialog on the fridge computer.
+`port`: From the manual of the instrument being used, provide the port to communicate with. (For Oxford Triton, this port is `33576`).
 
 `pollingRate`: provide a dictionary for how often to poll each parameter given. For each parameter that you wish to fetch data for, add it as a new line in the dictionary, followed by the interval (in seconds) to fetch it.
 
 `networking`: For the dashboard, only one field is required, `externalBroadcast`. Locate the IPv4 address of the computer you are running the instrumentserver on for the internet network you wish to broadcast the data to. Include the port to broadcast to as well.
 
+Specific to Oxford Triton (from the driver):
+`temp_channel_mapping`: Create a dictionary containing the mapping between name and temperature channel for each channel you would like a named parameter for. In the provided config, 7 Temperature Channels are used to create named parameters. Channels can be found on the Lakeshore thermometry dialog on the fridge computer.
 
 ### Starting the Instrument Server
 
@@ -124,7 +153,7 @@ Use the following to start the instrumentserver. Replace serverConfig.yml with t
 $ instrumentserver -c serverConfig.yml --gui False
 ```
 
-You should start the instrumentserver using the above commmand in no GUI mode first. Then, you can use the following detached mode if you wish to use the GUI:
+You should start the instrumentserver using the above commmand in no GUI mode first (to improve stability). Then, you can use the following detached mode if you wish to use the GUI:
 
 ```bash
 $ instrumentserver-detached
@@ -148,7 +177,7 @@ Below is an example listener configuration file that can be used for the dashboa
 addresses: ["tcp://128.174.123.123:6000","tcp://128.174.456.456:6000","tcp://128.174.789.789:6000"]
 
 # list of parameters to listen for, if empty, will listen for all broadcasts
-paramDict: {"fridge_nh":[],"fridge_dt":[],"fridge_kk":[]}
+params: []
 
 # path to write data to for the CSV listener
 csv_path: C:\Users\jmnol\OneDrive\Documents\InstrumentServerData\data.csv
@@ -176,9 +205,9 @@ measurementNameDict: {"fridge_nh":"niflheim_telemetry","fridge_kk":"kelvin_klein
 
 `addresses`: List of addresses of where to subscribe to broadcasts from. These are the addresses on the network of the computer running the instrumentserver
 
-`paramDict`: Dictionary containing the list of parameters to listen for for each instrument. If the list for an instrument is empty, the listener will listen for all broadcasts from that instrument.
+`params`: List of all parameters to listen for, if empty, the listener will listen to all broadcasts
 
-`type`: "Influx" or "CSV"
+`type`: "Influx"
 
 `token`: Token to write to InfluxDB. (Created when setting up Influx)
 
@@ -198,7 +227,7 @@ measurementNameDict: {"fridge_nh":"niflheim_telemetry","fridge_kk":"kelvin_klein
 
 `csv_path`: Path of the csv file to write data to. A CSV file doesn't need to exist at the path as the listener will create one if one does not exist.
 
-`type`: "Influx" or "CSV"
+`type`: "CSV"
 
 ### Starting the Listener
 
@@ -227,9 +256,7 @@ $ kill -15 {INSERT ID}
 ```
 
 !!! Note
-    The following portion assumes the user has:
-    - Docker Engine installed
-    - Basic familiarity with Docker
+    The following portion assumes the user has the Docker Engine installed and basic familiarity with Docker
 
 ## Docker
 
@@ -370,3 +397,31 @@ from(bucket: "bucket1")
 The above query will display parameters in bucket1 with fields "measurement" being "measurement1", "field" being "value", and name being "param1" or "param2".
 
 When creating your panel, select "Time Series" in Grafana.
+
+More information on creating dashboards can be found on the grafana documentation page: https://grafana.com/docs/grafana/latest/dashboards/.
+
+Also, information on setting up Slack alerts can also be found there.
+
+Here is a sample Alert template:
+
+```go
+{{ define "general.message" }}
+{{ if or (gt (len .Alerts.Firing) 0) (gt (len .Alerts.Resolved) 0) }}
+{{ if gt (len .Alerts.Firing) 0 }}
+{{ range .Alerts.Firing }}
+- **Alert Name:** {{ .Labels.alertname }}
+- **Description:** {{ .Annotations.summary }}
+{{ end }}
+{{ end }}
+
+{{ if gt (len .Alerts.Resolved) 0 }}
+{{ range .Alerts.Resolved }}
+- **Alert Name:** {{ .Labels.alertname }}
+- **Description:** {{ .Annotations.summary }}
+{{ end }}
+{{ end }}
+{{ else }}
+No alerts to display.
+{{ end }}
+{{ end }}
+```
