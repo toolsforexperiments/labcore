@@ -71,7 +71,7 @@ class ExponentialDecay(Fit):
         tau = coordinates[one_over_e_idx]
 
         return dict(A=A, of=of, tau=tau)
-    
+
 
 class Linear(Fit):
     @staticmethod
@@ -144,5 +144,4 @@ class Gaussian(Fit):
         A = data[i_max] - of
         sigma = np.abs((coordinates[-1] - coordinates[0])) / 20
         return dict(x0=x0, sigma=sigma, A=A, of=of)
-    
-    
+
