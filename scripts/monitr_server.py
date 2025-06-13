@@ -1,11 +1,14 @@
-from labcore.analysis.hvapps import DataSelect, DDH5LoaderNode
-from datetime import datetime
+import argparse
+import logging
 from pathlib import Path
 
-import argparse
+
 import panel as pn
 pn.extension()
 
+from labcore.analysis.hvapps import DataSelect, DDH5LoaderNode
+
+logger = logging.getLogger(__file__)
 
 def make_template(data_root='.'):
     ds = DataSelect(data_root)
@@ -33,7 +36,7 @@ def make_template(data_root='.'):
 
 def run_autoplot():
     parser = argparse.ArgumentParser(
-        description="Data monitored program made for Pfaff lab by Rocky Daehler, building"
+        description="Data monitoring program made for Pfaff lab by Rocky Daehler, building"
                     " on Plottr made by Wolfgang Pfaff. Run command on it's own to start the"
                     " application, and pass an (optional) path to the data directory as a"
                     " second argument.")
@@ -43,11 +46,12 @@ def run_autoplot():
 
     data_root = Path(args.Datapath)
     if (not data_root.is_dir()):
-        print("Provided Path was invalid.\nPlease provide a path to an existing directory housing your data.")
+        logger.error("Provided Path was invalid.\nPlease provide a path to an existing directory housing your data.")
         return
 
-    print(f"Running Labcore.Autoplot on data from {data_root}")
+    logger.info(f"Running Labcore.Autoplot on data from {data_root}")
 
     template = make_template(data_root)
     template.show()
 
+make_template(".").servable()

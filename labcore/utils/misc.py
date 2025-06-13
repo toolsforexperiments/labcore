@@ -246,3 +246,16 @@ def commit_changes_in_repo(current_dir: Path) -> Optional[str]:
         return commit_hash
     except InvalidGitRepositoryError:
         return None
+
+
+def add_end_number_to_repeated_file(path: Path) -> Path:
+    """
+    Checks if a file or directory with given path exists, if it does it add `(x)` where `x` is an increasing number,
+    until a file or directory with that name does not exist.
+    """
+    i = 1
+    new_path = path
+    while new_path.exists():
+        new_path = path.parent.joinpath(f"{path.stem}({i}){path.suffix}")
+        i += 1
+    return new_path
