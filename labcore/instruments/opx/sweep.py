@@ -204,9 +204,9 @@ class RecordOPXdata(AsyncRecord):
         """
         logger.info('Cleaning up')
 
-        open_machines = qmachine_mgr.list_open_quantum_machines()
-        logger.info(f"currently open QMs: {open_machines}")
         if self.communicator["self_managed"]:
+            open_machines = qmachine_mgr.list_open_quantum_machines()
+            logger.info(f"currently open QMs: {open_machines}")
             machine_id = qmachine.id
             qmachine.close()
             logger.info(f"QM with ID {machine_id} closed.")
