@@ -205,15 +205,15 @@ class RecordOPXdata(AsyncRecord):
         logger.info('Cleaning up')
 
         if self.communicator["self_managed"]:
-            open_machines = qmachine_mgr.list_open_quantum_machines()
+            open_machines = self.communicator["manager"].list_open_quantum_machines()
             logger.info(f"currently open QMs: {open_machines}")
-            machine_id = qmachine.id
-            qmachine.close()
+            machine_id = self.communicator["qmachine_id"]
+            self.communicator["qmachine"].close()
             logger.info(f"QM with ID {machine_id} closed.")
 
-            qmachine = None
-            qmachine_mgr = None
-        
+            self.communicator["qmachine"] = None
+            self.communicator["manager"] = None
+
 
 
     def collect(self, batchsize: int = 100) -> Generator[Dict, None, None]:
