@@ -45,17 +45,19 @@ class QuantumMachineContext:
     config, you need to open a new quantum machine.
     """
 
-    def __init__(self, overrides: Optional[Dict] = None, *args, **kwargs):
+    def __init__(self, wf_overrides: Optional[Dict] = None, if_overrides: Optional[List] = None, *args, **kwargs):
         """
         Initializes the context manager with a function to be executed, its arguments, and optional overrides.
 
         :param fun: The function to be executed in the quantum machine.
         :param args: Positional arguments for the function.
-        :param overrides: Optional dictionary of overrides for the quantum machine configuration.
+        :param wf_overrides: Optional dictionary of overrides for the waveforms.
+        :param if_overrides: Optional dictionary of overrides for the intermediate frequencies.
         :param kwargs: Keyword arguments for the function.
         """
         global config
-        self.overrides = overrides
+        self.wf_overrides = wf_overrides
+        self.if_overrides = if_overrides
         self.kwargs = kwargs
 
         self._qmachine_mgr = None
@@ -324,10 +326,14 @@ class RecordPrecompiledOPXdata(RecordOPXdata):
 
         if _qmachine_context._program_id is None:
             _qmachine_context._program_id = _qmachine_context._qmachine.compile(fun(*args, **kwargs))
-        if _qmachine_context.overrides is not None:
-            pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id, overrides=_qmachine_context.overrides)
+        if _qmachine_context.wf_overrides is not None:
+            pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id, overrides=_qmachine_context.wf_overrides)
         else:
             pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id)
+
+        if _qmachine_context.if_overrides is not None:
+            _qmachine_context._qmachine.set_intermediate_frequency(*_qmachine_context.if_overrides)
+            _qmachine_context.if_overrides = None
 
         job = pending_job.wait_for_execution()
         result_handles = job.result_handles
