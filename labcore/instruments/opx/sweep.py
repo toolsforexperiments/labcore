@@ -45,7 +45,7 @@ class QuantumMachineContext:
     config, you need to open a new quantum machine.
     """
 
-    def __init__(self, wf_overrides: Optional[Dict] = None, if_overrides: Optional[List] = None, *args, **kwargs):
+    def __init__(self, wf_overrides: Optional[Dict] = None, if_overrides: Optional[Dict] = None, *args, **kwargs):
         """
         Initializes the context manager with a function to be executed, its arguments, and optional overrides.
 
@@ -332,7 +332,8 @@ class RecordPrecompiledOPXdata(RecordOPXdata):
             pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id)
 
         if _qmachine_context.if_overrides is not None:
-            _qmachine_context._qmachine.set_intermediate_frequency(*_qmachine_context.if_overrides)
+            for element, frequency in _qmachine_context.if_overrides.items():
+                _qmachine_context._qmachine.set_intermediate_frequency(element, frequency)
             _qmachine_context.if_overrides = None
 
         job = pending_job.wait_for_execution()
