@@ -46,8 +46,6 @@ If running the instrumentserver without the gui, the gui can be opened separatel
 $ instrumentserver-detached
 ```
 
-Need to replace following section with config files?
-
 By default, instrumentserver listens to the local host IP address (127.0.0.1) and the port 5555. To be able to communicate
 with the server through other devices in the network we have to specify the IP address we want the server to listen to.
 For this we pass the argument `-a <IP_address>` and `-p <port_number>`:
