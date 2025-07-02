@@ -402,9 +402,21 @@ More information on creating dashboards can be found on the grafana documentatio
 
 Also, information on setting up Slack alerts can also be found there.
 
-Here is a sample Alert template:
+### Notification Templates
+
+Here is a sample notofication template:
 
 ```go
+{{ define "general.title" }}
+{{ if gt (len .Alerts) 0 }}
+{{ range .Alerts }}
+Alert: {{ .Labels.alertname }} - {{ .Status | title }}
+{{ end }}
+{{ else }}
+No active alerts
+{{ end }}
+{{ end }}
+
 {{ define "general.message" }}
 {{ if or (gt (len .Alerts.Firing) 0) (gt (len .Alerts.Resolved) 0) }}
 {{ if gt (len .Alerts.Firing) 0 }}
@@ -425,3 +437,68 @@ No alerts to display.
 {{ end }}
 {{ end }}
 ```
+
+### Creating Alert Conditions in Grafana
+
+On the homepage, navigate to Alert Rules
+
+![alert rules](img/alert_rules.png)
+
+For creating new alerts rules for a dashboard with existing rules, it is easiest to duplicate an existing rule. Navigate under the folder of the instrument you wish to create a new alert for:
+
+![duplicate](img/duplicate.png)
+
+First, enter the name of the alert you want to add:
+
+![name](img/enter_name.png)
+
+If you are creating an alert for a parameter that is different from the rule you duplicated, you must change the database query. Replace the highlighted portion with the parameter you want to set up an alert for. (Names of parameters can be seen under the dashboard graphs)
+
+![changequery](img/modify_query.png)
+
+To change the alert condition, only modify the highlighted portion, select a condition such as "is below", and then input the wanted value of the condition. For example if we wanted to send an alert when the temperature of a plate goes below 50 mK, you would choose "is below" and "0.050".
+
+![changecondition](img/change_condition.png)
+
+
+Assuming you duplicating an existing alert, the only part left to add is a description like the picture shown below:
+
+![changemessage](img/change_message.png)
+
+Then, navigate to the top right of the screen and select "Save rule and exit".
+
+The new alert rule should now be working.
+
+#### Creating Alert Conditions from Scratch
+
+If there are no existing alert conditions for the dashboard you wish to set up, follow this portion.
+
+First, navigate to the Contact Points tab. Go to Notification Templates and make sure you have a message and title template. Examples can be found in [notificationtemplates](#notification-templates).
+
+Then, go back to the main contact points tab, and check if there is a contact point for the dashboard you are setting up alerts for. If not, select "Create Contact Point".
+
+![contactpoint](img/new_contact_point.png)
+
+Choose a name corresponding to the dashboard. Choose your integration type. For this guide we will choose Slack. Then, fill in the Webhook url section with the webhook of the channel you wish to send alerts to. You must have a Slack App set up. Information on how to do this can be found on Slack API website.
+
+Then, under optional slack settings, use the two created templates to upload to the "title" and "text body" fields.
+
+Navigate to the Notification Policies tab, under Alerting. Under the default policy, select "new child policy".
+
+![childpolicy](img/child_policy.png)
+
+Fill in the label portion with the name of the instrument/dashboard, and have the condition be "= 1". Add the contact point you just created to the policy. Then, select "Override General timings", and set the repeat interval to a high number "say 52w". This will ensure the alert will only fire once, at the moment the threshold is passed.
+
+Then, navigate to the alert rules tab and select "New alert rule". Follow [creatingconditions](#creating-alert-conditions-in-grafana) to fill out sections 1 and 2.
+
+Now you should be on section 3. "Set evaluation behaviour. I would recommend creating a new folder for your instrument/dashboard if one does not exist. Then, create a default evaluation group (can be used for all the elements in the folder). I have found that evaultation every 30 seconds with a 30 second pending period work well. Then, navigate to "Configure no data and error handling". I have found that using "Keep Last State" for both will result in no false alerts if missing/bad data is encountered.
+
+![evaluationbehavior](img/evaluation_behavior.png)
+
+Then, under "Configure labels and notifications", set your label you created on the notification policy to 1, and under "Notifications", select "Use notification policy"
+
+You may want to use the preview routing option to make sure everything is set up correctly.
+
+Then, you shouild configure the notification message under part 5 with a description for your alert. Then you can select "Save rule and exit" in the top right.
+
+Your alert condition should now be working correctly and sending slack alerts when the threshold you set it passed.
