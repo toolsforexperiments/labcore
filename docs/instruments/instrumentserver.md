@@ -39,12 +39,7 @@ This will open the GUI of the server and start running it.
 ![Instrumentserver GUI](img/empty_server.png)
 
 !!! note
-    The server can be run without a gui by passing the `--gui False` argument. 
-
-If running the instrumentserver without the gui, the gui can be opened separately using the following command:
-```bash
-$ instrumentserver-detached
-```
+    The server can be run without a gui by passing the `--gui False` argument.
 
 By default, instrumentserver listens to the local host IP address (127.0.0.1) and the port 5555. To be able to communicate
 with the server through other devices in the network we have to specify the IP address we want the server to listen to.
@@ -146,82 +141,3 @@ Changing things in the GUI will also be reflected in the code.
     Changing something from the GUI only changes the code if we are calling the parameter manager directly.
     If we store a value in a separate variable and then change the GUI, the value in the variable might not get update.
     Because of this, we always recommend to call the Parameter Manager directly instead of saving the values in variables.
-
-## Config Files
-
-The instrumentserver also contains functionality for config files. These config files contain set-up for QCoDeS instruments. These config files can then be used by the instrumentserver 
-on start-up to have the desired instruments already created without having to manually add them after starting the server.
-
-To open the instrument server with a config file, we can use the '-c' flag to specify a config file, followed by the path to the config file:
-
-```bash
-$ instrumentserver -c serverConfig.yml
-```
-
-
-Below is a sample config file to initialize a DummyInstrument and an Oxford Triton dilution refrigerator
-
-`instruments`: this field will contain each instrument you wish to create. Under this field should be the names of each instrument you are creating
-
-`type`: This specifies which QCoDeS driver the instrumentserver should use to create the instrument. Can either be a local file or a community-created driver
-
-`address`: the tcp/ip address of the instrument on the same network as the instrumentserver
-
-`port`: which port (of the instrument) to communicate with (can generally be found in the manual of the instrument)
-
-```yaml
-instruments:
-  dummy_instrument_random_number:
-    type: instrumentserver.testing.dummy_instruments.generic.DummyInstrumentRandomNumber
-    initialize: True
-  fridge_test:
-    type: labcore.instruments.qcodes_drivers.Oxford.triton.OxfordTriton
-    address: 192.168.999.999
-    init: 
-      port: 33576
-```
-
-This is the result of running the instrument server with this config file:
-
-![two_instruments](img/two_instruments.png)
-
-### Parameter Manager with Config Files
-
-The instrumentserver also comes with the virtual instrument Parameter Manager.
-The Parameter Manager allows us to store values in an instrument inside of the Instrumentserver, allowing access from any process or device in the same network.
-The idea of it is to have a single source of truth for parameters whose values change frequently, and it provides a GUI from which you can change the values and easily see what they are.
-
-The following is an example config file to add the parameter manager as a virtual instrument
-
-```yaml
-instruments:
-  parameter_manager:
-    type: instrumentserver.params.ParameterManager
-    initialize: True
-    gui:
-      type: instrumentserver.gui.instruments.ParameterManagerGui
-```
-
-![parameter_manager_2](img/param_manager_2.png)
-
-
-![parameter_manager_3](img/param_manager_3.png)
-
-The instrumentserver also supports loading parameters from a file. They can also be created manually either from the terminal or the GUI.
-
-![load_from_file](img/load_from_file.png)
-
-Below is an example of a parameter file
-
-```json
-{
-  "parameter_manager.active.qubit": {
-    "unit": "",
-    "value": "qC"
-  },
-  "parameter_manager.opx.const_amp": {
-    "unit": "",
-    "value": 5
-  }
-}
-```
