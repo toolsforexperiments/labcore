@@ -469,6 +469,12 @@ Then, navigate to the top right of the screen and select "Save rule and exit".
 
 The new alert rule should now be working.
 
+#### Creating Slack Bots
+
+To create a slack bot, head to https://api.slack.com/apps. Create a new application, and add it to the slack workspace you want to send alert in. Go to your application, and go to "Incoming Webhooks" under Features. Create a new webhook with the channel you want to post alerts in. You will use this in Grafana in order to send messages in slack.
+
+In this application menu, you can also edit other general features of the bot, such as its status, description, and profile picture.
+
 #### Creating Alert Conditions from Scratch
 
 If there are no existing alert conditions for the dashboard you wish to set up, follow this portion.
