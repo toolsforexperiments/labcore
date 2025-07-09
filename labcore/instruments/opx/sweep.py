@@ -318,7 +318,9 @@ class RecordPrecompiledOPXdata(RecordOPXdata):
     The overrides must be passed as dictionaries.
     
     For the waveform overrides the keys are the names of the waveforms as defined in the OPX config file, and
-    the values are the new waveform arrays.
+    the values are the new waveform arrays. For an arbitrary (as defined in the qmconfig) waveform to be overridable,
+    the waveform must have `"is_overridable": True` set. Constant waveforms do not need to be set as such: the override
+    will simply be a constant value. Other waveform types are not overridable.
 
     For the IF overrides the keys are the names of the elements as defined in the OPX config file, and
     the values are the new intermediate frequencies in Hz.
