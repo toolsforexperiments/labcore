@@ -326,11 +326,11 @@ class RecordPrecompiledOPXdata(RecordOPXdata):
     Usage example:
     ```
     def create_readout_wf(amp):
-    wf_samples = [0.0] * int(params.q01.readout.short.buffer()) + [amp] * int(
-            params.q01.readout.short.len()
-            - 2 * params.q01.readout.short.buffer()
-        ) + [0.0] * int(params.q01.readout.short.buffer())
-    return wf_samples
+        wf_samples = [0.0] * int(params.q01.readout.short.buffer()) + [amp] * int(
+                params.q01.readout.short.len()
+                - 2 * params.q01.readout.short.buffer()
+            ) + [0.0] * int(params.q01.readout.short.buffer())
+        return wf_samples
 
     def create_drive_wf(amp):
         return amp
