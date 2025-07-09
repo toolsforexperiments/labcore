@@ -376,6 +376,7 @@ class RecordPrecompiledOPXdata(RecordOPXdata):
             print(f"Using waveform overrides: {_qmachine_context.wf_overrides}")
             pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id, overrides=_qmachine_context.wf_overrides)
         else:
+            print("No waveform overrides provided, using default waveforms.")
             pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id)
 
         if _qmachine_context.if_overrides is not None:
@@ -383,6 +384,8 @@ class RecordPrecompiledOPXdata(RecordOPXdata):
             for element, frequency in _qmachine_context.if_overrides.items():
                 _qmachine_context._qmachine.set_intermediate_frequency(element, frequency)
             _qmachine_context.if_overrides = None
+        else:
+            print("No IF overrides provided, using default IFs.")
 
         job = pending_job.wait_for_execution()
         result_handles = job.result_handles
