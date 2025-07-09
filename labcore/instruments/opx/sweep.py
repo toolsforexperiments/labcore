@@ -21,8 +21,9 @@ from .config import QMConfig
 # --- Options that need to be set by the user for the OPX to work ---
 # config object that when called returns the config dictionary as expected by the OPX
 config: Optional[QMConfig] = None  # OPX config dictionary
-qmachine_mgr = None # Quantum machine manager
-qmachine = None # Quantum machine
+
+# WARNING: DO NOT TOUCH THIS VARIABLE. IT IS GLOBAL AND HANDLED BY THE CONTEXT MANAGER.
+_qmachine_context = None
 
 
 logger = logging.getLogger(__name__)
@@ -38,28 +39,51 @@ class QuantumMachineContext:
         [your measurement code here]
     ```
 
-    This does not need to be used, but if measurements are done repeatedly, it saves some time.
+    This does not need to be used, but if measurements are done repeatedly and precompiling with the OPX is
+    desired, it saves some time.
 
     Warning: Using a context manager doesn't let you update the config of the OPX. If you want to change the
-    config, you need to open a new quantum machine.
+    config, you need to open a new quantum machine or use precompiled measurements to overwrite aspects of the
+    measurement on the fly.
     """
+
+    def __init__(self, wf_overrides: Optional[Dict] = None, if_overrides: Optional[Dict] = None, *args, **kwargs):
+        """
+        Initializes the context manager with a function to be executed, its arguments, and optional overrides.
+
+        :param fun: The function to be executed in the quantum machine.
+        :param args: Positional arguments for the function.
+        :param wf_overrides: Optional dictionary of overrides for the waveforms.
+        :param if_overrides: Optional dictionary of overrides for the intermediate frequencies.
+        :param kwargs: Keyword arguments for the function.
+        """
+        global config
+        self.wf_overrides = wf_overrides
+        self.if_overrides = if_overrides
+        self.kwargs = kwargs
+
+        self._qmachine_mgr = None
+        self._qmachine = None
+        self._program_id = None
+
     def __enter__(self):
-        global qmachine_mgr, qmachine, config
-        qmachine_mgr = QuantumMachinesManager(
+        global config, _qmachine_context
+        _qmachine_mgr = QuantumMachinesManager(
                 host=config.opx_address,
                 port=config.opx_port, 
                 cluster_name=config.cluster_name,
                 octave=config.octave
             )
-        qmachine = qmachine_mgr.open_qm(config(), close_other_machines=False)
-        return qmachine
+    
+        self._qmachine = _qmachine_mgr.open_qm(config(), close_other_machines=False)
+        _qmachine_context = self
+        return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        global qmachine, qmachine_mgr, config
-        if qmachine is not None:
-            qmachine.close()
-            qmachine = None
-            qmachine_mgr = None
+        global _qmachine_context
+        if self._qmachine is not None:
+            self._qmachine.close()
+        _qmachine_context = None
 
 
 @dataclass
@@ -102,10 +126,10 @@ class RecordOPXdata(AsyncRecord):
         the module variable global_config. It saves the result handles and saves initial values to the communicator
         dictionary.
         """
-        global qmachine, qmachine_mgr
+        global _qmachine_context
         self.communicator["self_managed"] = False
         # Start the measurement in the OPX.
-        if qmachine_mgr is None and qmachine is None:
+        if _qmachine_context is None:
             qmachine_mgr = QuantumMachinesManager(
                 host=config.opx_address,
                 port=config.opx_port, 
@@ -116,6 +140,9 @@ class RecordOPXdata(AsyncRecord):
             qmachine = qmachine_mgr.open_qm(config(), close_other_machines=False)
             logger.info(f"current QM: {qmachine}, {qmachine.id}")
             self.communicator["self_managed"] = True
+        else:
+            qmachine_mgr = _qmachine_context._qmachine_mgr
+            qmachine = _qmachine_context._qmachine
 
         job = qmachine.execute(fun(*args, **kwargs))
         result_handles = job.result_handles
@@ -177,21 +204,20 @@ class RecordOPXdata(AsyncRecord):
         """
         Functions in charge of cleaning up any software tools that needs cleanup.
 
-        Currently, manually closes the qmachine in the OPT so that simultaneous measurements can occur.
+        Currently, manually closes the _qmachine in the OPT so that simultaneous measurements can occur.
         """
-        global qmachine, qmachine_mgr
         logger.info('Cleaning up')
 
-        open_machines = qmachine_mgr.list_open_quantum_machines()
-        logger.info(f"currently open QMs: {open_machines}")
         if self.communicator["self_managed"]:
-            machine_id = qmachine.id
-            qmachine.close()
+            open_machines = self.communicator["manager"].list_open_quantum_machines()
+            logger.info(f"currently open QMs: {open_machines}")
+            machine_id = self.communicator["qmachine_id"]
+            self.communicator["qmachine"].close()
             logger.info(f"QM with ID {machine_id} closed.")
 
-            qmachine = None
-            qmachine_mgr = None
-        
+            self.communicator["qmachine"] = None
+            self.communicator["manager"] = None
+
 
 
     def collect(self, batchsize: int = 100) -> Generator[Dict, None, None]:
@@ -282,3 +308,92 @@ class RecordOPXdata(AsyncRecord):
 
         finally:
             self.cleanup()
+
+
+class RecordPrecompiledOPXdata(RecordOPXdata):
+    """
+    Implementation of AsyncRecord for use with precompiled OPX programs.
+    
+    To pass either waveform or IF overrides, use the QuantumMachineContext and set the overrides as attributes.
+    The overrides must be passed as dictionaries.
+    
+    For the waveform overrides the keys are the names of the waveforms as defined in the OPX config file, and
+    the values are the new waveform arrays. For an arbitrary (as defined in the qmconfig) waveform to be overridable,
+    the waveform must have `"is_overridable": True` set. Constant waveforms do not need to be set as such: the override
+    will simply be a constant value. Other waveform types are not overridable.
+
+    For the IF overrides the keys are the names of the elements as defined in the OPX config file, and
+    the values are the new intermediate frequencies in Hz.
+
+    Usage example:
+    ```
+    def create_readout_wf(amp):
+        wf_samples = [0.0] * int(params.q01.readout.short.buffer()) + [amp] * int(
+                params.q01.readout.short.len()
+                - 2 * params.q01.readout.short.buffer()
+            ) + [0.0] * int(params.q01.readout.short.buffer())
+        return wf_samples
+
+    def create_drive_wf(amp):
+        return amp
+
+    with QuantumMachineContext() as qmc:
+        loc = measure_time_rabi() 
+
+        qmc.wf_overrides = {
+            "waveforms": {
+                f"q01_short_readout_wf": create_readout_wf(),
+                f"q01_square_pi_pulse_iwf": create_drive_wf()
+            }
+        }
+        qmc.if_overrides = {
+            "q01": 80e6,
+            "q01_readout": 80e6
+        }
+
+        loc = measure_time_rabi()
+    ```
+    This will perform a time Rabi measurement, redefine the IF and waveforms of the drive and readout elements,
+    and then execute the same measurement with the new settings.
+
+    There is no need to create a new quantum machine or recompile in between measurements.
+    """
+
+    def setup(self, fun, *args, **kwargs):
+        """
+        Starts the measurement using a provided _program_id. Compilation only happens if the _program_id is None.
+        """
+        global _qmachine_context
+        self.communicator["self_managed"] = False
+
+        if _qmachine_context is None:
+            raise RuntimeError("No quantum machine manager or quantum machine found. "
+                               "Please use a context manager for precompiled measurements.")
+
+        if _qmachine_context._program_id is None:
+            _qmachine_context._program_id = _qmachine_context._qmachine.compile(fun(*args, **kwargs))
+        if _qmachine_context.wf_overrides is not None:
+            print(f"Using waveform overrides: {_qmachine_context.wf_overrides}")
+            pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id, overrides=_qmachine_context.wf_overrides)
+        else:
+            print("No waveform overrides provided, using default waveforms.")
+            pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id)
+
+        if _qmachine_context.if_overrides is not None:
+            print(f"Using IF overrides: {_qmachine_context.if_overrides}")
+            for element, frequency in _qmachine_context.if_overrides.items():
+                _qmachine_context._qmachine.set_intermediate_frequency(element, frequency)
+            _qmachine_context.if_overrides = None
+        else:
+            print("No IF overrides provided, using default IFs.")
+
+        job = pending_job.wait_for_execution()
+        result_handles = job.result_handles
+
+        self.communicator["result_handles"] = result_handles
+        self.communicator["active"] = True
+        self.communicator["counter"] = 0
+        self.communicator["manager"] = _qmachine_context._qmachine_mgr
+        self.communicator["qmachine"] = _qmachine_context._qmachine
+        self.communicator["qmachine_id"] = _qmachine_context._qmachine.id
+
