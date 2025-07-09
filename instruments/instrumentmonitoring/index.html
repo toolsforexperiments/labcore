@@ -1,0 +1,1590 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://toolsforexperiments.github.io./instruments/instrumentmonitoring/">
+      
+      
+        <link rel="prev" href="../instrumentserver/">
+      
+      
+        <link rel="next" href="../qcodes_instruments/instruments/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.6">
+    
+    
+      
+        <title>Instrument Monitoring - Labcore documentation page.</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.35e1ed30.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#instrument-monitoring" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Labcore documentation page." class="md-header__button md-logo" aria-label="Labcore documentation page." data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Labcore documentation page.
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Instrument Monitoring
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../instrumentserver/" class="md-tabs__link">
+          
+  
+  Instruments
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../measurement/sweep/" class="md-tabs__link">
+          
+  
+  Measurement
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../data/data_formats/" class="md-tabs__link">
+          
+  
+  Data
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/Intro%20to%20our%20Holoviz%20apps/" class="md-tabs__link">
+          
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../about/" class="md-tabs__link">
+        
+  
+    
+  
+  About
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Labcore documentation page." class="md-nav__button md-logo" aria-label="Labcore documentation page." data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Labcore documentation page.
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Instruments
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Instruments
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instrumentserver/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Instrumentserver
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Instrument Monitoring
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Instrument Monitoring
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-guide" class="md-nav__link">
+    Quick Start Guide
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-instrumentserver-setup" class="md-nav__link">
+    Step 1: Instrumentserver setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-influxdb-and-grafana" class="md-nav__link">
+    Step 2: InfluxDB and Grafana
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-the-listener" class="md-nav__link">
+    Step 3: The Listener
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-grafana-customization" class="md-nav__link">
+    Step 4: Grafana Customization
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-instrumentserver" class="md-nav__link">
+    The Instrumentserver
+  </a>
+  
+    <nav class="md-nav" aria-label="The Instrumentserver">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config-file" class="md-nav__link">
+    Config File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-the-instrument-server" class="md-nav__link">
+    Starting the Instrument Server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-listener" class="md-nav__link">
+    The Listener
+  </a>
+  
+    <nav class="md-nav" aria-label="The Listener">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config-file_1" class="md-nav__link">
+    Config File
+  </a>
+  
+    <nav class="md-nav" aria-label="Config File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#necessary-parameters-for-using-influxdb" class="md-nav__link">
+    Necessary Parameters for using InfluxDB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#necessary-parameters-for-using-csv" class="md-nav__link">
+    Necessary Parameters for using CSV
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-the-listener" class="md-nav__link">
+    Starting the Listener
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#influxdb" class="md-nav__link">
+    InfluxDB
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grafana" class="md-nav__link">
+    Grafana
+  </a>
+  
+    <nav class="md-nav" aria-label="Grafana">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notification-templates" class="md-nav__link">
+    Notification Templates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-alert-conditions-in-grafana" class="md-nav__link">
+    Creating Alert Conditions in Grafana
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating Alert Conditions in Grafana">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-slack-bots" class="md-nav__link">
+    Creating Slack Bots
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-alert-conditions-from-scratch" class="md-nav__link">
+    Creating Alert Conditions from Scratch
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../qcodes_instruments/instruments/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Our QCoDeS drivers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Measurement
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Measurement
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../measurement/sweep/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sweeping
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Data
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Data
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data/data_formats/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data Formats
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Examples
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/Intro%20to%20our%20Holoviz%20apps/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Intro to our Holoviz apps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/Holoviz-based%20plotting%20in%20the%20lab%20-%20Primer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Holoviz-based plotting in the lab - Primer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/hvplot_visualization_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pretty hvplot and exporting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    About
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start-guide" class="md-nav__link">
+    Quick Start Guide
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Start Guide">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-instrumentserver-setup" class="md-nav__link">
+    Step 1: Instrumentserver setup
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-influxdb-and-grafana" class="md-nav__link">
+    Step 2: InfluxDB and Grafana
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-the-listener" class="md-nav__link">
+    Step 3: The Listener
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-grafana-customization" class="md-nav__link">
+    Step 4: Grafana Customization
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-instrumentserver" class="md-nav__link">
+    The Instrumentserver
+  </a>
+  
+    <nav class="md-nav" aria-label="The Instrumentserver">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config-file" class="md-nav__link">
+    Config File
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-the-instrument-server" class="md-nav__link">
+    Starting the Instrument Server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-listener" class="md-nav__link">
+    The Listener
+  </a>
+  
+    <nav class="md-nav" aria-label="The Listener">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#config-file_1" class="md-nav__link">
+    Config File
+  </a>
+  
+    <nav class="md-nav" aria-label="Config File">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#necessary-parameters-for-using-influxdb" class="md-nav__link">
+    Necessary Parameters for using InfluxDB
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#necessary-parameters-for-using-csv" class="md-nav__link">
+    Necessary Parameters for using CSV
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#starting-the-listener" class="md-nav__link">
+    Starting the Listener
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#influxdb" class="md-nav__link">
+    InfluxDB
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grafana" class="md-nav__link">
+    Grafana
+  </a>
+  
+    <nav class="md-nav" aria-label="Grafana">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#notification-templates" class="md-nav__link">
+    Notification Templates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-alert-conditions-in-grafana" class="md-nav__link">
+    Creating Alert Conditions in Grafana
+  </a>
+  
+    <nav class="md-nav" aria-label="Creating Alert Conditions in Grafana">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-slack-bots" class="md-nav__link">
+    Creating Slack Bots
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-alert-conditions-from-scratch" class="md-nav__link">
+    Creating Alert Conditions from Scratch
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="instrument-monitoring">Instrument Monitoring</h1>
+<p>The following is a guide to set up a dashboard for the monitoring of instruments. It contains capabilities for data storage, data visualization, and real-time alerts. More information on the tool is provided in the next section.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following guide assumes the user has the instrumentserver installed and has basic familiarity with it and using config files, labcore installed, basic familiarity with Docker, and a basic understanding of what Grafana and InfluxDB are</p>
+</div>
+<h2 id="overview">Overview</h2>
+<p>This tool is designed to be able to facilitate the monitoring of instruments. It consists of multiple parts that must be set up:</p>
+<p><img alt="Overview" src="../img/instrumentmonitoring.png" /></p>
+<p>Above is a diagram showcasing the architecture for a dashboard for the monitoring of two separate instruments. The architecture consists of two PCs that communicate with the instrument using qCoDeS, which broadcast the data they receive to a central computer where the dashboard is hosted.</p>
+<p><a href="#docker">Docker</a></p>
+<p>Docker is the service used to host Grafana and InfluxDB locally. Both of the services have a server that runs inside of a Docker container on your internet-connected device, and will be accessible through the network the computer is connected to. Both Influx and Grafana will be accessible with an internet connection to the computer running Docker.</p>
+<p><a href="#grafana">Grafana</a></p>
+<p>Grafana is the service used to visualize the data gathered from your instrument(s) of choice. It has functionality to both have visualization through dashboards, and also alerting capabilities through Slack integration and more. Below is an example of what a Grafana dashboard may look like.</p>
+<p>Grafana is hosted locally on a internet-connected device, and can then be viewed while connected to the network and logging in to your Grafana account. It will live in a Docker container. (More on that later)</p>
+<p><img alt="Example Dashboard" src="../img/dashboard.png" /></p>
+<p>Below is a sample alert send out by Grafana on Slack. The alert notifies that a parameter (in this case MC) has passed a threshold. This is for a dilution refrigerator, and the parameter in this case is a value from a temperature sensor. This one, MC, is in the mixing chamber.</p>
+<p><img alt="Example Alert" src="../img/sample_alert.png" /></p>
+<p><a href="#influxdb">InfluxDB</a></p>
+<p>InfluxDB is the database used to store data fetched from instruments. It stores the data in time-series format (each data point has a time). It can then be accessed by Grafana in order to construct time-series plots of the various parameters in the database (as shown above).</p>
+<p>InfluxDB should be hosted on the same device as Grafana. It will also be in a Docker container. (again, more on that later)</p>
+<p><a href="#the-instrumentserver">The Instrumentserver</a></p>
+<p>The instrumentserver runs on a computer that can talk with your instrument through a network connection. The instrumentserver will ask your instrument for the data you specify, which will then be sent back to the instrumentserver by the instrument.</p>
+<p>Based on a yaml config file, the instrumentserver can then ask for the correct data from the instrument and broadcast it to the internet (to be used for visualizations).</p>
+<p>In the instrumentserver, for each instrument, the user provides a list of parameters to get values or states from, with a corresponding rate (in seconds) for how often to poll the parameter.</p>
+<p><a href="#the-listener">The Listener</a></p>
+<p>The listener is ran on the same computer that is running the Docker containers for Grafana and InfluxDB. It subscribes to the broadcasts from the instrumentservers, and then writes the data to the InfluxDB database. The listener can also be configured to write to a CSV file, however InfluxDB is recommended.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following portion assumes the user has the instrumentserver installed and labcore installed.</p>
+</div>
+<h2 id="quick-start-guide">Quick Start Guide</h2>
+<p>This section is a guide to quickly set up an instrument monitoring dashboard for an arbitrary number of instruments.</p>
+<h3 id="step-1-instrumentserver-setup">Step 1: Instrumentserver setup</h3>
+<p>First, locate or create a qCoDeS driver for your instrument. Also, make sure the instrument is connected to some sort of network (generally a switch), and find its IP address on the private network. Also, locate the correct port to communicate with the instrument (generally found in the manual for the instrument).</p>
+<p>Once you have all of this information, set up a PC (windows, linux, etc.) that is connected to the same network (switch) as the instrument you want to monitor. Install the instrumentserver and labcore on this PC.</p>
+<p>Decide on a port you want to broadcast data through on the PC. Then create a config file for the instrumentserver using the above qCoDeS driver, ports, etc. Check out the section for the instrumentserver <a href="#config-file">config file</a>.</p>
+<p>Then, start the instrumentserver. See <a href="#starting-the-instrument-server">starting the instrumentserver</a>.</p>
+<h3 id="step-2-influxdb-and-grafana">Step 2: InfluxDB and Grafana</h3>
+<p>Set up a PC that you would like to host the dashboard on. Install labcore and the instrumentserver on this PC.
+Install docker and start the docker engine. Follow the <a href="#docker">docker section</a> to set up a docker compose file. Make sure that InfluxDB and Grafana are able to be accessed.</p>
+<h3 id="step-3-the-listener">Step 3: The Listener</h3>
+<p>On the same PC that Grafana and Influx were started on:</p>
+<p>Keep track of the address and port that the instrumentserver is broadcasting to in the previous section. Use this information, the information you used to set up InfluxDB, plus the parameters you want to monitor to fill out the <a href="#config-file-1">config file</a>.</p>
+<p>You can then <a href="#starting-the-listener">start the listener</a>.</p>
+<h3 id="step-4-grafana-customization">Step 4: Grafana Customization</h3>
+<p>If the previous steps were done correctly with no issues, the Influx database should start to be populated. Then, one can follow the guide at https://grafana.com/grafana/dashboards/ in order to create a dashboard using InfluxDB as data source. The grafana documentation also has guides on setting up alerting to Slack and other services.</p>
+<h2 id="the-instrumentserver">The Instrumentserver</h2>
+<p>In order to use the dashboard, we will need to have an instance of the instrumentserver running to fetch data from the fridge computer. </p>
+<h3 id="config-file">Config File</h3>
+<p>Below is an example instrumentserver configuration file that can be used for the dashboard.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">instruments</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">fridge_nh</span><span class="p">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">labcore.instruments.qcodes_drivers.Oxford.triton.OxfordTriton</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.1.1</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">init</span><span class="p">:</span><span class="w"> </span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">33576</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">      </span><span class="nt">temp_channel_mapping</span><span class="p">:</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">          </span><span class="nt">T1</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PT2_HEAD&quot;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">          </span><span class="nt">T2</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PT2_PLATE&quot;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">          </span><span class="nt">T3</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;STILL_PLATE&quot;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">          </span><span class="nt">T4</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;COLD_PLATE&quot;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">          </span><span class="nt">T6</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PT1_HEAD&quot;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">          </span><span class="nt">T7</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;PT1_PLATE&quot;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">          </span><span class="nt">T8</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MC_PLATE_RUO2&quot;</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="nt">pollingRate</span><span class="p">:</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">      </span><span class="nt">comp_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">      </span><span class="nt">PT1_PLATE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">      </span><span class="nt">PT2_PLATE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">      </span><span class="nt">STILL_PLATE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">      </span><span class="nt">COLD_PLATE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">      </span><span class="nt">MC_PLATE_RUO2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">      </span><span class="nt">turb1_state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">      </span><span class="nt">turb1_speed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="nt">networking</span><span class="p">:</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">  </span><span class="nt">externalBroadcast</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tcp://128.174.123.123:6000&quot;</span>
+</code></pre></div>
+<p>As usual, we declare an qCoDeS instrument. In this case we are using an Oxford Triton Dilution Refrigerator. The driver for this instrument is in labcore:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>labcore.instruments.qcodes_drivers.Oxford.triton.OxfordTriton
+</code></pre></div>
+<p>In general, one can find a community-made driver (if it exists), or create one.</p>
+<p><code>address</code>: fill out the field with the IPv4 address of the instrument (on the same network as the computer you are running the instrumentserver on)</p>
+<p><code>init</code>: there are two items that must be filled out:</p>
+<p><code>port</code>: From the manual of the instrument being used, provide the port to communicate with. (For Oxford Triton, this port is <code>33576</code>).</p>
+<p><code>pollingRate</code>: provide a dictionary for how often to poll each parameter given. For each parameter that you wish to fetch data for, add it as a new line in the dictionary, followed by the interval (in seconds) to fetch it.</p>
+<p><code>networking</code>: For the dashboard, only one field is required, <code>externalBroadcast</code>. Locate the IPv4 address of the computer you are running the instrumentserver on for the internet network you wish to broadcast the data to. Include the port to broadcast to as well.</p>
+<p>Specific to Oxford Triton (from the driver):
+<code>temp_channel_mapping</code>: Create a dictionary containing the mapping between name and temperature channel for each channel you would like a named parameter for. In the provided config, 7 Temperature Channels are used to create named parameters. Channels can be found on the Lakeshore thermometry dialog on the fridge computer.</p>
+<h3 id="starting-the-instrument-server">Starting the Instrument Server</h3>
+<p>Use the following to start the instrumentserver. Replace serverConfig.yml with the path to the config file you created above.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>instrumentserver<span class="w"> </span>-c<span class="w"> </span>serverConfig.yml<span class="w"> </span>--gui<span class="w"> </span>False
+</code></pre></div>
+<p>You should start the instrumentserver using the above commmand in no GUI mode first (to improve stability). Then, you can use the following detached mode if you wish to use the GUI:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>instrumentserver-detached
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following portion assumes the user has:
+- instrumentserver installed</p>
+</div>
+<h2 id="the-listener">The Listener</h2>
+<p>To use the dashboard, we will also need to run an instance of the listener on whichever computer you wish to host the dashboard on. (The computer with the listener and the computer with the instrumentserver must be on the same network). The listener can be used for writing data either in a CSV file or the InfluxDB database.</p>
+<h3 id="config-file_1">Config File</h3>
+<p>Below is an example listener configuration file that can be used for the dashboard.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># addresses to listen for broadcasts at</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">addresses</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;tcp://128.174.123.123:6000&quot;</span><span class="p p-Indicator">,</span><span class="s">&quot;tcp://128.174.456.456:6000&quot;</span><span class="p p-Indicator">,</span><span class="s">&quot;tcp://128.174.789.789:6000&quot;</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># list of parameters to listen for, if empty, will listen for all broadcasts</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># path to write data to for the CSV listener</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nt">csv_path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">C:\Users\jmnol\OneDrive\Documents\InstrumentServerData\data.csv</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># type of listener (where the listener writes data to)</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Influx&quot;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="c1"># InfluxDB token for Influx listener</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;token&quot;</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="c1"># InfluxDB org for Influx listener</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="nt">org</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pfafflab&quot;</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="c1"># InfluxDB buckets for Influx listener, in the same order as addresses</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="nt">bucketDict</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="s">&quot;fridge_nh&quot;</span><span class="p p-Indicator">:</span><span class="s">&quot;niflheim&quot;</span><span class="p p-Indicator">,</span><span class="s">&quot;fridge_kk&quot;</span><span class="p p-Indicator">:</span><span class="s">&quot;kelvin_klein&quot;</span><span class="p p-Indicator">,</span><span class="s">&quot;fridge_dt&quot;</span><span class="p p-Indicator">:</span><span class="s">&quot;demeter&quot;</span><span class="p p-Indicator">}</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="c1"># InfluxDB url for Influx listener</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="nt">url</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;http://localhost:8086&quot;</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="c1"># measurement Name for Influx listener</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="nt">measurementNameDict</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="s">&quot;fridge_nh&quot;</span><span class="p p-Indicator">:</span><span class="s">&quot;niflheim_telemetry&quot;</span><span class="p p-Indicator">,</span><span class="s">&quot;fridge_kk&quot;</span><span class="p p-Indicator">:</span><span class="s">&quot;kelvin_klein_telemetry&quot;</span><span class="p p-Indicator">,</span><span class="s">&quot;fridge_dt&quot;</span><span class="p p-Indicator">:</span><span class="s">&quot;demeter_telemetry&quot;</span><span class="p p-Indicator">}</span>
+</code></pre></div>
+<h4 id="necessary-parameters-for-using-influxdb">Necessary Parameters for using InfluxDB</h4>
+<p><code>addresses</code>: List of addresses of where to subscribe to broadcasts from. These are the addresses on the network of the computer running the instrumentserver</p>
+<p><code>params</code>: List of all parameters to listen for, if empty, the listener will listen to all broadcasts</p>
+<p><code>type</code>: "Influx"</p>
+<p><code>token</code>: Token to write to InfluxDB. (Created when setting up Influx)</p>
+<p><code>org</code>: Organization to write to InfluxDB. (Created when setting up Influx)</p>
+<p><code>bucketDict</code>: Dictionary containing the mapping for each instrument to a bucket in Influx</p>
+<p><code>url</code>: URL to where the Influx database is hosted on the computer running the listener</p>
+<p><code>measurementNameDict</code>: Name of the measurement (one of the fields for a data point) that will be applied to the data from an instrument</p>
+<h4 id="necessary-parameters-for-using-csv">Necessary Parameters for using CSV</h4>
+<p><code>addresses</code>: List of addresses of where to subscribe to broadcasts from. These are the addresses on the network of the computer running the instrumentserver</p>
+<p><code>paramDict</code>: Dictionary containing the list of parameters to listen for for each instrument. If the list for an instrument is empty, the listener will listen for all broadcasts from that instrument.</p>
+<p><code>csv_path</code>: Path of the csv file to write data to. A CSV file doesn't need to exist at the path as the listener will create one if one does not exist.</p>
+<p><code>type</code>: "CSV"</p>
+<h3 id="starting-the-listener">Starting the Listener</h3>
+<p>Use the following to start the instrumentserver. Replace listenerConfig.yml with the path to the config file you created above.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>instrumentserver-listener<span class="w"> </span>-c<span class="w"> </span>listenerConfig.yml
+</code></pre></div>
+<p>One may choose to use the following command to not display output and instead have it written to a file:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>nohup<span class="w"> </span>instrumentserver-listener<span class="w"> </span>-c<span class="w"> </span>listenerConfig.yml
+</code></pre></div>
+<p>The process can be killed with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>instrumentserver-listener
+</code></pre></div>
+<p>You can then find the ID number of the process and kill it with:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span><span class="nb">kill</span><span class="w"> </span>-15<span class="w"> </span><span class="o">{</span>INSERT<span class="w"> </span>ID<span class="o">}</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The following portion assumes the user has the Docker Engine installed and basic familiarity with Docker</p>
+</div>
+<h2 id="docker">Docker</h2>
+<p>Docker is the service that will be used to host both Influx and Grafana.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">grafana</span><span class="p">:</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">unless-stopped</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">     </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;1000:1000&#39;</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana-storage:/var/lib/grafana</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./data:/etc/grafana/data</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;/bin/sh&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-c&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;export</span><span class="nv"> </span><span class="s">GF_SECURITY_ADMIN_USER=$(cat</span><span class="nv"> </span><span class="s">/run/secrets/.env.grafana-username)</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">/run.sh&quot;</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;/bin/sh&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;-c&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;export</span><span class="nv"> </span><span class="s">GF_SECURITY_ADMIN_PASSWORD=$(cat</span><span class="nv"> </span><span class="s">/run/secrets/.env.grafana-password)</span><span class="nv"> </span><span class="s">&amp;&amp;</span><span class="nv"> </span><span class="s">/run.sh&quot;</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana-username</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">grafana-password</span>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="w">  </span><span class="nt">influxdb2</span><span class="p">:</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">influxdb:2</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080:8080</span>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="w">      </span><span class="nt">DOCKER_INFLUXDB_INIT_MODE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">setup</span>
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="w">      </span><span class="nt">DOCKER_INFLUXDB_INIT_USERNAME_FILE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/run/secrets/influxdb2-admin-username</span>
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a><span class="w">      </span><span class="nt">DOCKER_INFLUXDB_INIT_PASSWORD_FILE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/run/secrets/influxdb2-admin-password</span>
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="w">      </span><span class="nt">DOCKER_INFLUXDB_INIT_ADMIN_TOKEN_FILE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/run/secrets/influxdb2-admin-token</span>
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="w">      </span><span class="nt">DOCKER_INFLUXDB_INIT_ORG</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">org</span>
+<a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="w">      </span><span class="nt">DOCKER_INFLUXDB_INIT_BUCKET</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bucket1</span>
+<a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>
+<a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a><span class="w">    </span><span class="nt">secrets</span><span class="p">:</span>
+<a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">influxdb2-admin-username</span>
+<a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">influxdb2-admin-password</span>
+<a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">influxdb2-admin-token</span>
+<a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>
+<a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a><span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">volume</span>
+<a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">influxdb2-data</span>
+<a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/lib/influxdb2</span>
+<a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">volume</span>
+<a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a><span class="w">        </span><span class="nt">source</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">influxdb2-config</span>
+<a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a><span class="w">        </span><span class="nt">target</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/influxdb2</span>
+<a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a>
+<a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a><span class="nt">volumes</span><span class="p">:</span>
+<a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a><span class="w">  </span><span class="nt">grafana-storage</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a><span class="w">  </span><span class="nt">influxdb2-data</span><span class="p">:</span>
+<a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a><span class="w">  </span><span class="nt">influxdb2-config</span><span class="p">:</span>
+<a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a>
+<a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a><span class="nt">secrets</span><span class="p">:</span>
+<a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a><span class="w">  </span><span class="nt">grafana-username</span><span class="p">:</span>
+<a id="__codelineno-9-58" name="__codelineno-9-58" href="#__codelineno-9-58"></a><span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env.grafana-username</span>
+<a id="__codelineno-9-59" name="__codelineno-9-59" href="#__codelineno-9-59"></a><span class="w">  </span><span class="nt">grafana-password</span><span class="p">:</span>
+<a id="__codelineno-9-60" name="__codelineno-9-60" href="#__codelineno-9-60"></a><span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env.grafana-password</span>
+<a id="__codelineno-9-61" name="__codelineno-9-61" href="#__codelineno-9-61"></a><span class="w">  </span><span class="nt">influxdb2-admin-username</span><span class="p">:</span>
+<a id="__codelineno-9-62" name="__codelineno-9-62" href="#__codelineno-9-62"></a><span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env.influxdb2-admin-username</span>
+<a id="__codelineno-9-63" name="__codelineno-9-63" href="#__codelineno-9-63"></a><span class="w">  </span><span class="nt">influxdb2-admin-password</span><span class="p">:</span>
+<a id="__codelineno-9-64" name="__codelineno-9-64" href="#__codelineno-9-64"></a><span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env.influxdb2-admin-password</span>
+<a id="__codelineno-9-65" name="__codelineno-9-65" href="#__codelineno-9-65"></a><span class="w">  </span><span class="nt">influxdb2-admin-token</span><span class="p">:</span>
+<a id="__codelineno-9-66" name="__codelineno-9-66" href="#__codelineno-9-66"></a><span class="w">    </span><span class="nt">file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">.env.influxdb2-admin-token</span>
+</code></pre></div>
+<p>Above is a sample Docker Compose file. This is what is used to start the instances of Grafana and InfluxDB. Most of it should not be modified.</p>
+<p>To use the above file, provide 5 files:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a> .env.grafana-username
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a> .env.grafana-password
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a> .env.influxdb2-admin-username
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a> .env.influxdb2-admin-password
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a> .env.influxdb2-admin-token
+</code></pre></div>
+These will be the respective usernames and passwords for each service, and then a token for the database, which is used by the entity writing to the database. These files should be in the same directory as the docker compose file.</p>
+<p>If you wish to add more plugins, modify a few things:</p>
+<ol>
+<li>
+<p>Modify the Dockerfile. On the line including, "GF_INSTALL_PLUGINS", include your wanted plugins in a comma-separated list.</p>
+</li>
+<li>
+<p>Run the following command:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$<span class="w"> </span>sudo<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span><span class="o">(</span>insert-image-name<span class="o">)</span><span class="w"> </span>.
+</code></pre></div>
+Replace (insert-image-name) with your desired name and directory location.</p>
+</li>
+<li>
+<p>Modify the docker compose file:
+Under the grafana section, under "image", replace the default image "grafana" with your newly created image.</p>
+</li>
+</ol>
+<p>Now that your Docker compose is fully set up, you can start both services with the following command (run in the directory of the docker compose file)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$<span class="w"> </span>sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-d
+</code></pre></div></p>
+<p>You can then close both with the following:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>$<span class="w"> </span>sudo<span class="w"> </span>docker<span class="w"> </span>compose<span class="w"> </span>down
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Closing will take ~ 10 seconds</p>
+</div>
+<h2 id="influxdb">InfluxDB</h2>
+<p>Now that you have the instances of Grafana and Influx working, there is a bit more setup necessary to put it all together.</p>
+<p>First, you must create a bucket where you wish to store your data.</p>
+<p>Now, you should have all of the necessary information to fill out the config file for the listener (section is above). As long as everything is set up correctly, if the listener is running and receiving data, it should be writing the data it receives to Influx.</p>
+<h2 id="grafana">Grafana</h2>
+<p>Now that you have an Influx database being populated by your data, you are ready to set up a dashboard. To create a dashboard, please follow the documentation for grafana https://grafana.com/docs/grafana/latest/dashboards/.</p>
+<p>To use the data from Influx, you must add it as a source: https://grafana.com/docs/grafana/latest/datasources/</p>
+<p>Then, within each panel of the dashboard, you must write a query to get the correct data from the database.</p>
+<p>Here is an example query that may be helpful (or a good starting point):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>from(bucket: &quot;bucket1&quot;)
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>  |&gt; range(start: v.timeRangeStart, stop: v.timeRangeStop)
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>  |&gt; filter(fn: (r) =&gt; r[&quot;_measurement&quot;] == &quot;measurement1&quot;)
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>  |&gt; filter(fn: (r) =&gt; r[&quot;_field&quot;] == &quot;value&quot;)
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>  |&gt; filter(fn: (r) =&gt; r[&quot;name&quot;] == &quot;bucket1.param1&quot; or r[&quot;name&quot;] == &quot;bucket1.param2&quot;)
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>  |&gt; aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>  |&gt; yield(name: &quot;mean&quot;)
+</code></pre></div>
+The above query will display parameters in bucket1 with fields "measurement" being "measurement1", "field" being "value", and name being "param1" or "param2".</p>
+<p>When creating your panel, select "Time Series" in Grafana.</p>
+<p>More information on creating dashboards can be found on the grafana documentation page: https://grafana.com/docs/grafana/latest/dashboards/.</p>
+<p>Also, information on setting up Slack alerts can also be found there.</p>
+<h3 id="notification-templates">Notification Templates</h3>
+<p>Here is a sample notofication template:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">{{</span><span class="w"> </span><span class="nx">define</span><span class="w"> </span><span class="s">&quot;general.title&quot;</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="p">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">gt</span><span class="w"> </span><span class="p">(</span><span class="nx">len</span><span class="w"> </span><span class="p">.</span><span class="nx">Alerts</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="p">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="p">.</span><span class="nx">Alerts</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="nx">Alert</span><span class="p">:</span><span class="w"> </span><span class="p">{{</span><span class="w"> </span><span class="p">.</span><span class="nx">Labels</span><span class="p">.</span><span class="nx">alertname</span><span class="w"> </span><span class="p">}}</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">{{</span><span class="w"> </span><span class="p">.</span><span class="nx">Status</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">title</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="p">{{</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="p">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="nx">No</span><span class="w"> </span><span class="nx">active</span><span class="w"> </span><span class="nx">alerts</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="p">{{</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="p">{{</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="p">{{</span><span class="w"> </span><span class="nx">define</span><span class="w"> </span><span class="s">&quot;general.message&quot;</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="p">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">or</span><span class="w"> </span><span class="p">(</span><span class="nx">gt</span><span class="w"> </span><span class="p">(</span><span class="nx">len</span><span class="w"> </span><span class="p">.</span><span class="nx">Alerts</span><span class="p">.</span><span class="nx">Firing</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">gt</span><span class="w"> </span><span class="p">(</span><span class="nx">len</span><span class="w"> </span><span class="p">.</span><span class="nx">Alerts</span><span class="p">.</span><span class="nx">Resolved</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="p">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">gt</span><span class="w"> </span><span class="p">(</span><span class="nx">len</span><span class="w"> </span><span class="p">.</span><span class="nx">Alerts</span><span class="p">.</span><span class="nx">Firing</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="p">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="p">.</span><span class="nx">Alerts</span><span class="p">.</span><span class="nx">Firing</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="o">-</span><span class="w"> </span><span class="o">**</span><span class="nx">Alert</span><span class="w"> </span><span class="nx">Name</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="p">{{</span><span class="w"> </span><span class="p">.</span><span class="nx">Labels</span><span class="p">.</span><span class="nx">alertname</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="o">-</span><span class="w"> </span><span class="o">**</span><span class="nx">Description</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="p">{{</span><span class="w"> </span><span class="p">.</span><span class="nx">Annotations</span><span class="p">.</span><span class="nx">summary</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="p">{{</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="p">{{</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="p">{{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nx">gt</span><span class="w"> </span><span class="p">(</span><span class="nx">len</span><span class="w"> </span><span class="p">.</span><span class="nx">Alerts</span><span class="p">.</span><span class="nx">Resolved</span><span class="p">)</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="p">{{</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="p">.</span><span class="nx">Alerts</span><span class="p">.</span><span class="nx">Resolved</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-22" name="__codelineno-15-22" href="#__codelineno-15-22"></a><span class="o">-</span><span class="w"> </span><span class="o">**</span><span class="nx">Alert</span><span class="w"> </span><span class="nx">Name</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="p">{{</span><span class="w"> </span><span class="p">.</span><span class="nx">Labels</span><span class="p">.</span><span class="nx">alertname</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-23" name="__codelineno-15-23" href="#__codelineno-15-23"></a><span class="o">-</span><span class="w"> </span><span class="o">**</span><span class="nx">Description</span><span class="p">:</span><span class="o">**</span><span class="w"> </span><span class="p">{{</span><span class="w"> </span><span class="p">.</span><span class="nx">Annotations</span><span class="p">.</span><span class="nx">summary</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-24" name="__codelineno-15-24" href="#__codelineno-15-24"></a><span class="p">{{</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-25" name="__codelineno-15-25" href="#__codelineno-15-25"></a><span class="p">{{</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-26" name="__codelineno-15-26" href="#__codelineno-15-26"></a><span class="p">{{</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-27" name="__codelineno-15-27" href="#__codelineno-15-27"></a><span class="nx">No</span><span class="w"> </span><span class="nx">alerts</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">display</span><span class="p">.</span>
+<a id="__codelineno-15-28" name="__codelineno-15-28" href="#__codelineno-15-28"></a><span class="p">{{</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-15-29" name="__codelineno-15-29" href="#__codelineno-15-29"></a><span class="p">{{</span><span class="w"> </span><span class="nx">end</span><span class="w"> </span><span class="p">}}</span>
+</code></pre></div>
+<h3 id="creating-alert-conditions-in-grafana">Creating Alert Conditions in Grafana</h3>
+<p>On the homepage, navigate to Alert Rules</p>
+<p><img alt="alert rules" src="../img/alert_rules.png" /></p>
+<p>For creating new alerts rules for a dashboard with existing rules, it is easiest to duplicate an existing rule. Navigate under the folder of the instrument you wish to create a new alert for:</p>
+<p><img alt="duplicate" src="../img/duplicate.png" /></p>
+<p>First, enter the name of the alert you want to add:</p>
+<p><img alt="name" src="../img/enter_name.png" /></p>
+<p>If you are creating an alert for a parameter that is different from the rule you duplicated, you must change the database query. Replace the highlighted portion with the parameter you want to set up an alert for. (Names of parameters can be seen under the dashboard graphs)</p>
+<p><img alt="changequery" src="../img/modify_query.png" /></p>
+<p>To change the alert condition, only modify the highlighted portion, select a condition such as "is below", and then input the wanted value of the condition. For example if we wanted to send an alert when the temperature of a plate goes below 50 mK, you would choose "is below" and "0.050".</p>
+<p><img alt="changecondition" src="../img/change_condition.png" /></p>
+<p>Assuming you duplicating an existing alert, the only part left to add is a description like the picture shown below:</p>
+<p><img alt="changemessage" src="../img/change_message.png" /></p>
+<p>Then, navigate to the top right of the screen and select "Save rule and exit".</p>
+<p>The new alert rule should now be working.</p>
+<h4 id="creating-slack-bots">Creating Slack Bots</h4>
+<p>To create a slack bot, head to https://api.slack.com/apps. Create a new application, and add it to the slack workspace you want to send alert in. Go to your application, and go to "Incoming Webhooks" under Features. Create a new webhook with the channel you want to post alerts in. You will use this in Grafana in order to send messages in slack.</p>
+<p>In this application menu, you can also edit other general features of the bot, such as its status, description, and profile picture.</p>
+<h4 id="creating-alert-conditions-from-scratch">Creating Alert Conditions from Scratch</h4>
+<p>If there are no existing alert conditions for the dashboard you wish to set up, follow this portion.</p>
+<p>First, navigate to the Contact Points tab. Go to Notification Templates and make sure you have a message and title template. Examples can be found in <a href="#notification-templates">notificationtemplates</a>.</p>
+<p>Then, go back to the main contact points tab, and check if there is a contact point for the dashboard you are setting up alerts for. If not, select "Create Contact Point".</p>
+<p><img alt="contactpoint" src="../img/new_contact_point.png" /></p>
+<p>Choose a name corresponding to the dashboard. Choose your integration type. For this guide we will choose Slack. Then, fill in the Webhook url section with the webhook of the channel you wish to send alerts to. You must have a Slack App set up. Information on how to do this can be found on Slack API website.</p>
+<p>Then, under optional slack settings, use the two created templates to upload to the "title" and "text body" fields.</p>
+<p>Navigate to the Notification Policies tab, under Alerting. Under the default policy, select "new child policy".</p>
+<p><img alt="childpolicy" src="../img/child_policy.png" /></p>
+<p>Fill in the label portion with the name of the instrument/dashboard, and have the condition be "= 1". Add the contact point you just created to the policy. Then, select "Override General timings", and set the repeat interval to a high number "say 52w". This will ensure the alert will only fire once, at the moment the threshold is passed.</p>
+<p>Then, navigate to the alert rules tab and select "New alert rule". Follow <a href="#creating-alert-conditions-in-grafana">creatingconditions</a> to fill out sections 1 and 2.</p>
+<p>Now you should be on section 3. "Set evaluation behaviour. I would recommend creating a new folder for your instrument/dashboard if one does not exist. Then, create a default evaluation group (can be used for all the elements in the folder). I have found that evaultation every 30 seconds with a 30 second pending period work well. Then, navigate to "Configure no data and error handling". I have found that using "Keep Last State" for both will result in no false alerts if missing/bad data is encountered.</p>
+<p><img alt="evaluationbehavior" src="../img/evaluation_behavior.png" /></p>
+<p>Then, under "Configure labels and notifications", set your label you created on the notification policy to 1, and under "Notifications", select "Use notification policy"</p>
+<p>You may want to use the preview routing option to make sure everything is set up correctly.</p>
+<p>Then, you shouild configure the notification message under part 5 with a description for your alert. Then you can select "Save rule and exit" in the top right.</p>
+<p>Your alert condition should now be working correctly and sending slack alerts when the threshold you set it passed.</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; 2025 Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan
+
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.instant", "navigation.sections", "navigation.tracking", "navigation.top", "search.suggest", "search.highlight", "permalink"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.aecac24b.min.js"></script>
+      
+    
+  </body>
+</html>
