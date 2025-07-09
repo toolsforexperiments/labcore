@@ -39,10 +39,12 @@ class QuantumMachineContext:
         [your measurement code here]
     ```
 
-    This does not need to be used, but if measurements are done repeatedly, it saves some time.
+    This does not need to be used, but if measurements are done repeatedly and precompiling with the OPX is
+    desired, it saves some time.
 
     Warning: Using a context manager doesn't let you update the config of the OPX. If you want to change the
-    config, you need to open a new quantum machine.
+    config, you need to open a new quantum machine or use precompiled measurements to overwrite aspects of the
+    measurement on the fly.
     """
 
     def __init__(self, wf_overrides: Optional[Dict] = None, if_overrides: Optional[Dict] = None, *args, **kwargs):
@@ -311,6 +313,48 @@ class RecordOPXdata(AsyncRecord):
 class RecordPrecompiledOPXdata(RecordOPXdata):
     """
     Implementation of AsyncRecord for use with precompiled OPX programs.
+    
+    To pass either waveform or IF overrides, use the QuantumMachineContext and set the overrides as attributes.
+    The overrides must be passed as dictionaries.
+    
+    For the waveform overrides the keys are the names of the waveforms as defined in the OPX config file, and
+    the values are the new waveform arrays.
+
+    For the IF overrides the keys are the names of the elements as defined in the OPX config file, and
+    the values are the new intermediate frequencies in Hz.
+
+    Usage example:
+    ```
+    def create_readout_wf(amp):
+    wf_samples = [0.0] * int(params.q01.readout.short.buffer()) + [amp] * int(
+            params.q01.readout.short.len()
+            - 2 * params.q01.readout.short.buffer()
+        ) + [0.0] * int(params.q01.readout.short.buffer())
+    return wf_samples
+
+    def create_drive_wf(amp):
+        return amp
+
+    with QuantumMachineContext() as qmc:
+        loc = measure_time_rabi() 
+
+        qmc.wf_overrides = {
+            "waveforms": {
+                f"q01_short_readout_wf": create_readout_wf(),
+                f"q01_square_pi_pulse_iwf": create_drive_wf()
+            }
+        }
+        qmc.if_overrides = {
+            "q01": 80e6,
+            "q01_readout": 80e6
+        }
+
+        loc = measure_time_rabi()
+    ```
+    This will perform a time Rabi measurement, redefine the IF and waveforms of the drive and readout elements,
+    and then execute the same measurement with the new settings.
+
+    There is no need to create a new quantum machine or recompile in between measurements.
     """
 
     def setup(self, fun, *args, **kwargs):
@@ -327,11 +371,13 @@ class RecordPrecompiledOPXdata(RecordOPXdata):
         if _qmachine_context._program_id is None:
             _qmachine_context._program_id = _qmachine_context._qmachine.compile(fun(*args, **kwargs))
         if _qmachine_context.wf_overrides is not None:
+            print(f"Using waveform overrides: {_qmachine_context.wf_overrides}")
             pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id, overrides=_qmachine_context.wf_overrides)
         else:
             pending_job = _qmachine_context._qmachine.queue.add_compiled(_qmachine_context._program_id)
 
         if _qmachine_context.if_overrides is not None:
+            print(f"Using IF overrides: {_qmachine_context.if_overrides}")
             for element, frequency in _qmachine_context.if_overrides.items():
                 _qmachine_context._qmachine.set_intermediate_frequency(element, frequency)
             _qmachine_context.if_overrides = None
