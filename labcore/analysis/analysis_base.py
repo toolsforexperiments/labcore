@@ -260,7 +260,7 @@ class DatasetAnalysis:
                     elif isinstance(element, pd.DataFrame):
                         fp = self.save_df(element, name, folder)
 
-                    elif isinstance(element, np.ndarray):
+                    elif isinstance(element, (np.ndarray, int, float, complex)):
                         fp = self.save_np(element, name, folder)
 
                     elif isinstance(element, dict):
