@@ -7,6 +7,7 @@ if __name__ == "__main__":
         entry_points={
             'console_scripts': [
                 'autoplot = scripts.monitr_server:run_autoplot',
+                'pyro-ns = scripts.pyro_nameserver:run_pyro_nameserver',
             ],
         },
     )
