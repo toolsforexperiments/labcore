@@ -18,7 +18,7 @@ n_echoes
 steps
 reps
 final_delay
-""" 
+"""
 
 import numpy as np
 from collections.abc import Iterable, Generator
@@ -82,7 +82,7 @@ class QickBoardSweep(AsyncRecord):
         """
         Get the measurement data.
         Note that one can overload the given acquire function if one needs
-        to perform other specific tasks. e.g. Needs to plot each non-averaged 
+        to perform other specific tasks. e.g. Needs to plot each non-averaged
         points in the I-Q plane for a readout fidelity experiment.
         Assumptions
         * Given DataSpecs are either independent, dependent, or ComplexQICKData.
@@ -90,7 +90,7 @@ class QickBoardSweep(AsyncRecord):
         # TODO: How can I extend this to multiple measurement rounds? (e.g. active reset)
 
         # Run the program
-        data = self.communicator["qick_program"].acquire(self.config.soc, progress=False)[0]
+        data = self.communicator["qick_program"].acquire(self.config.soc, progress=True)[0]
         cfg = self.config.config()[1]
         return_data = {}
 
@@ -138,6 +138,3 @@ class QickBoardSweep(AsyncRecord):
                 shapeIdx += 1
 
         yield return_data
-
-
-        

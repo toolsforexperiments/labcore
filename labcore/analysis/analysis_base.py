@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 
 
 class AnalysisExistsError(Exception):
+    logger.info('Analysis already exists, adding another')
     pass
 
 

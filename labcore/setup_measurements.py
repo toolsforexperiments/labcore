@@ -38,8 +38,8 @@ def getp(name: str, default=None, raise_if_missing=False):
     if options.parameters is None:
         logger.error("No parameter manager defined. cannot get/set params!")
         return None
-    
-    try: 
+
+    try:
         p = param_from_name(name)
         return p()
     except AttributeError:
@@ -123,7 +123,7 @@ def find_or_create_remote_instrument(cli: Client, ins_name: str, ins_class: Opti
     return ins
 
 
-def run_measurement(sweep: Sweep, name: str, safe_write_mode: bool = False, **kwargs) -> Tuple[Union[str, Path], Optional[DataDict]]:
+def run_measurement(sweep: Sweep, name: str, safe_write_mode: bool = False, save_path=None, **kwargs) -> Tuple[Union[str, Path], Optional[DataDict]]:
     """
     Wrapper function around run_and_save_sweep that makes sure you are saving your measurement with all the necessary
     metadata around it.
@@ -168,15 +168,20 @@ def run_measurement(sweep: Sweep, name: str, safe_write_mode: bool = False, **kw
             raise RuntimeError(f"Could not find snapshot method for client {n}. Please update all packages.")
 
     kwargs['parameters'] = options.parameters.toParamDict
-    
+
     py_env = get_environment_packages()
 
     current_dir = Path.cwd()
     commit_hash = commit_changes_in_repo(current_dir)
-   
+
     if commit_hash is None:
         logger.warning("The current directory is not a git repository, your measurement code will not be tracked.")
-    
+
+    if save_path is not None: # allow user to override the default save path
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
+        DATADIR = save_path
+
     save_kwargs = {
         'sweep': sweep,
         'data_dir': DATADIR,
@@ -197,5 +202,3 @@ Saved data at {data_location}:
 {data_info(data_location, do_print=False)}
 =========""")
     return data_location, data
-
-
