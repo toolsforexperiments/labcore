@@ -1,308 +1,421 @@
 """Streaming helper for using QICK programs with the Sweep framework.
 
-This module provides `QickBoardStreamingSweep`, a variant of the existing
-`QickBoardSweep` that uses a program's `stream_acquire()` method (if present)
-to receive incremental IQ chunks and write them to disk as they arrive.
+This module provides `QickBoardStreamingSweep`, a decorator that uses a program's
+`stream_acquire()` method (if present) to receive incremental IQ chunks and
+yield them as dictionaries with independent axes.
 
 Behavior:
-- Saves static/metadata fields (pulse/time/independent variables) once at
-  the start of the measurement.
-- For complex IQ dependent specs, appends incoming complex samples to an
-  HDF5 dataset in the file so data is persisted incrementally.
-- Falls back to calling `acquire()` if `stream_acquire()` is not available on
-  the program.
+- Precomputes sweep-value arrays for independent specs (PulseVariable, TimeVariable etc).
+- Contracts round and per-round rep indices into a single 'rep' = (round + per-round rep) axis.
+- For each streaming event/blocking acquire call, yields a single aggregated
+  dictionary containing:
+  - 'ro_channel_and_readout_trigger': identifier string for each data point
+    (format: "<channel>_r<readout_idx>")
+  - 'channel': list of channel indices corresponding to each data point
+  - 'readout': list of readout trigger indices corresponding to each data point
+  - 'data': list of complex IQ values flattened in arrival order
+  - 'rep': list of global rep indices (collapsed from round and per-round indices)
+  - One key per independent sweep spec, mapping to a list of sweep values
 
-The implementation intentionally keeps the HDF5 layout simple: a dataset is
-created per complex dependent spec (or per RO channel, if no matching spec is
-provided). Each such dataset is created with `maxshape=(None,)` and is
-appended to as data arrives.
+- Falls back to calling `acquire()` (blocking) if `stream_acquire()` is not
+  available on the program, yielding the same dictionary structure at the end just with all of the experiment's data at once
+
+All data is yielded as raw in dictionaries without any processing, only reshaping and tagging/labelling.
 """
 
 from __future__ import annotations
 
-import os
-import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
-
-import h5py
+from collections import OrderedDict
+from itertools import cycle as it_cycle, product as it_product, islice as it_islice, tee as it_tee
 import numpy as np
 
 from labcore.measurement import DataSpec
 from labcore.measurement.record import make_data_spec
 
 from labcore.measurement.sweep import AsyncRecord
+import logging
 
-from labcore.measurement.storage import TIMESTRFORMAT
+logger = logging.getLogger(__name__)
+
+
+config = None
+
 
 
 @dataclass
 class ComplexQICKData(DataSpec):
     """Complex IQ readout data spec with full dimensionality tracking.
 
-    The stored data has shape:
-        [RO_channel, rep_number, *sweep_loop_dims, readout_number, IQ_component]
-
     Attributes:
         i_data_stream: label for I component (default 'I')
         q_data_stream: label for Q component (default 'Q')
-        ro_ch: readout channel index (set during collection)
-        sweep_dims: tuple of sweep loop dimensions (set from program config)
-        n_readouts: number of readout triggers per shot (set during collection)
     """
     i_data_stream: str = 'I'
     q_data_stream: str = 'Q'
-    ro_ch: Optional[int] = None
-    sweep_dims: Optional[tuple] = None
-    n_readouts: Optional[int] = None
+    # ro_ch: Optional[int] = None
+    # sweep_dims: Optional[tuple] = None
+    # n_readouts: Optional[int] = None
 
 
 @dataclass
 class PulseVariable(DataSpec):
     pulse_parameter: Optional[str] = None
     sweep_parameter: Optional[str] = None
+    loop_idx: Optional[int] = None
+    loop_name: Optional[str] = None
 
 
 @dataclass
 class TimeVariable(DataSpec):
     time_parameter: Optional[str] = None
+    loop_idx: Optional[int] = None
+    loop_name: Optional[str] = None
+
+@dataclass
+class RepVariable(DataSpec):
+    """Rep number variable spec for QICK sweeps."""
+    loop_idx: Optional[int] = None
+    loop_name: Optional[str] = 'reps'
+
+
 
 
 class QickBoardStreamingSweep(AsyncRecord):
     """Decorator to run QICK programs and save streaming data incrementally.
-
-    Usage mirrors `QickBoardSweep` but the `collect_streaming` method accepts
-    a `data_dir` and `name` for immediate saving while the program runs.
+    The data specs must be defined in loop/measurement order. Reps are defined automatically.
     """
 
     def __init__(self, *specs, **kwargs):
         self.communicator = {}
+        self.unordered_nonexhaustive_specs = list(specs)
         self.specs = []
         for s in specs:
             spec = make_data_spec(s)
             self.specs.append(spec)
 
     def setup(self, func, *args, **kwargs):
-        if 'config' not in globals() and 'config' in kwargs:
-            # keep parity with other sweep helpers if config passed as kw
-            self.config = kwargs['config']
 
-        # Expect external configuration to exist in `config` global like
-        # the older helper; caller must ensure it's set before setup.
-        if not hasattr(self, 'config') or self.config is None:
-            raise Exception("QickStreamingSweep: config is not set")
+        # follow same convention as qick_sweep_v2
+        # TODO: change this to pass config through kwargs instead of setting this constant.
+        if config is None:
+            raise Exception("QickSweep: config is not set")
 
-        conf = self.config.config()
-        # create program using same convention as qick_sweep_v2
+        self.config = config
+        conf = config.config()
         qick_program = func(soccfg=conf[0], reps=conf[1].get('reps'), final_delay=conf[1].get('final_delay'), cfg=conf[1])
         self.communicator['qick_program'] = qick_program
+        prog = qick_program
+        # at this point, the qick program has been compiled into asm. we can retreive loop info.
 
-    def collect_streaming(self, data_dir: str, name: str, rounds: int = 1, add_timestamps: bool = False, include_full: bool = False, remove_offset: bool = False):
-        """Run `stream_acquire()` (if available) and save streaming data into an HDF5 file.
+        ################################################
+        ### ========= Get Independnent Sweep Axes ==============
+        # get loops info
+        loop_dict : OrderedDict = prog.loop_dict # { (reps, 10000), (gain_sweep, 100), (freq_sweep, 50) ... }
+        loop_dims : tuple = prog.loop_dims
 
-        Data is reshaped to [RO_ch, rep, *sweep_dims, readout_no, IQ_component].
+        # construct data specs in the order of loops in the program
+        loop_idx = 0
+        ordered_specs = []
+        for name, dim in loop_dict.items():
+            # check if spec loop name exists
+            # if it exists, add it according to order
+            if name == 'reps':
+                ordered_specs.append(RepVariable(name='rep', loop_name='reps', loop_idx=loop_idx))
+                loop_idx +=1
+                continue
 
-        Parameters:
-        - `data_dir`, `name`: where to create the HDF5 file (extension `.h5` is added if missing).
-        - `rounds`: forwarded to `stream_acquire` when used (soft-averaging rounds).
-        - `add_timestamps`: prefix file with a timestamp.
-        """
-        prog = self.communicator['qick_program']
-        cfg = self.config.config()[1]
-
-        # file path
-        if not name.endswith('.h5'):
-            name = name + '.h5'
-        if add_timestamps:
-            t = time.localtime()
-            time_stamp = time.strftime(TIMESTRFORMAT, t) + '_'
-            name = time_stamp + name
-        os.makedirs(data_dir, exist_ok=True)
-        filepath = os.path.join(data_dir, name)
-
-        # Extract loop dimensions and readout configuration from program
-        loop_dims = getattr(prog, 'loop_dims', None) or cfg.get('loop_dims', [1])
-        if not isinstance(loop_dims, (list, tuple)):
-            loop_dims = [loop_dims]
-        loop_dims = tuple(loop_dims)
-
-        # Get RO channels and their readout counts
-        ro_chs = getattr(prog, 'ro_chs', {})
-        ro_ch_list = list(ro_chs.keys())
-        reads_per_shot = [ro_chs[ch].get('trigs', 1) for ch in ro_ch_list]
-
-        # open file and prepare datasets
-        with h5py.File(filepath, 'w') as h5f:
-            # Save static specs once
-            self._save_static_specs(h5f, prog, cfg)
-
-            # Create dataset structure for complex IQ data
-            # Shape: [RO_ch, rep, *sweep_dims, readout_no, IQ(2)]
-            ds_map = {}
-            for ro_idx, ch in enumerate(ro_ch_list):
-                nreads = reads_per_shot[ro_idx]
-
-                # Find corresponding ComplexQICKData spec
-                complex_specs = [s for s in self.specs if isinstance(s, ComplexQICKData)]
-                if ro_idx < len(complex_specs):
-                    spec = complex_specs[ro_idx]
-                    ds_name = spec.name
-                    # Annotate spec with metadata
-                    spec.ro_ch = ch
-                    spec.sweep_dims = loop_dims
-                    spec.n_readouts = nreads
-                else:
-                    ds_name = f'RO_ch_{ch}'
-
-                # Full target shape: [n_reps, *loop_dims, nreads, 2]
-                # We'll collect into this shape across all polls
-                target_shape = (rounds,) + loop_dims + (nreads, 2)
-
-                # Create dataset: we'll store complex values reshaped appropriately
-                # For now: store with maxshape=(None,) along rep axis, freeze others
-                # Full shape would be: (rounds, *loop_dims, nreads, 2) -> we'll store pre-complex
-                ds = h5f.create_dataset(
-                    ds_name,
-                    shape=(rounds,) + loop_dims + (nreads, 2),
-                    maxshape=(None,) + loop_dims + (nreads, 2),
-                    dtype=np.float64,
-                    chunks=True
-                )
-                ds_map[ds_name] = {
-                    'dataset': ds,
-                    'ro_ch': ch,
-                    'nreads': nreads,
-                    'loop_dims': loop_dims,
-                }
-
-            # choose streaming if available
-            stream_fn = getattr(prog, 'stream_acquire', None)
-            if callable(stream_fn):
-                gen = prog.stream_acquire(
-                    self.config.soc,
-                    rounds=rounds,
-                    include_full=include_full,
-                    remove_offset=remove_offset,
-                    progress=True,
-                    return_end_of_exp_raw=False
-                )
-
-                # Track current position in each round for proper storage
-                round_rep_counts = {}  # round -> rep count so far
-
-                # iterate events
-                for ev in gen:
-                    if ev.get('event') == 'data':
-                        partial = ev.get('partial', {})
-                        round_idx = ev.get('round', 0)
-                        rep_slice = ev.get('rep_slice', (0, 0))  # (start_rep, stop_rep) in flattened space
-
-                        rep_start_flat, rep_stop_flat = rep_slice
-                        n_new_reps = rep_stop_flat - rep_start_flat
-
-                        # Convert flattened rep indices to multi-dimensional indices
-                        # For now, assume linear progression through cartesian product
-                        # Each "rep" corresponds to one shot in the loop
-
-                        for ch, arr in partial.items():
-                            # arr shape: (new_points, nreads, 2)
-                            # new_points = number of new shots/reps received
-                            # nreads = readouts per shot
-                            # 2 = IQ components
-
-                            new_points, nreads, _ = arr.shape
-
-                            # Find dataset for this channel
-                            complex_specs = [s for s in self.specs if isinstance(s, ComplexQICKData)]
-                            try:
-                                ro_keys = list(prog.ro_chs.keys())
-                                ch_idx = ro_keys.index(ch)
-                            except (ValueError, AttributeError):
-                                ch_idx = None
-
-                            if ch_idx is not None and ch_idx < len(complex_specs):
-                                ds_name = complex_specs[ch_idx].name
-                            else:
-                                ds_name = f'RO_ch_{ch}'
-
-                            if ds_name not in ds_map:
-                                continue
-
-                            ds_info = ds_map[ds_name]
-                            ds = ds_info['dataset']
-
-                            # Reshape incoming data to multi-dimensional structure
-                            # Input arr: (new_points, nreads, 2)
-                            # Target: new_points samples placed into reps [rep_start_flat:rep_stop_flat]
-                            # mapped to multi-dimensional indices via loop_dims
-
-                            for i in range(new_points):
-                                flat_idx = rep_start_flat + i
-                                # Convert flat index to multi-dim indices for loop_dims
-                                multi_idx = np.unravel_index(flat_idx, loop_dims)
-
-                                # Store at [round, *multi_idx, :, :]
-                                ds_idx = (round_idx,) + tuple(multi_idx) + (slice(None), slice(None))
-                                ds[ds_idx] = arr[i]  # shape (nreads, 2)
-
-                    elif ev.get('event') == 'round-complete':
-                        # optional: store snapshot of full buffers as groups
-                        round_idx = ev.get('round', 0)
-                        round_raw = ev.get('round_raw', [])
-                        # create a group for this round and store per-channel arrays
-                        rgrp = h5f.create_group(f'round_{round_idx}_raw')
-                        for idx, buf in enumerate(round_raw):
-                            rgrp.create_dataset(f'chan_{idx}', data=buf)
-
-                return filepath
+            elif any( (spec.loop_name == name) for spec in self.unordered_nonexhaustive_specs):
+                for spec in self.unordered_nonexhaustive_specs:
+                    if spec.loop_name == name:
+                        spec.loop_idx = loop_idx
+                        loop_idx +=1
+                        new_spec = make_data_spec(spec)
+                        ordered_specs.append(new_spec)
+                        break
+                    else : pass
 
             else:
-                # fallback: call blocking acquire() and save result once
-                try:
-                    data = prog.acquire(self.config.soc, progress=True)
-                except Exception as e:
-                    raise
+                raise Exception(f"QickStreamingSweep: Spec for loop '{name}' not provided in specs.")
+        self.communicator['ordered_specs'] = ordered_specs
 
-                # data is usually a list of measurement arrays per channel
-                # reshape and store with proper dimensions
-                for measIdx, arr in enumerate(data[0] if isinstance(data, tuple) else data):
-                    arr = np.asarray(arr)
+        # ========== Get sweep arrays ============
+        # prepare sweep value iterators for independent specs, that will render sweep values
+        self.sweep_arrays: OrderedDict[str, Optional[np.ndarray]] = OrderedDict()
 
-                    # Find spec name
-                    complex_specs = [s for s in self.specs if isinstance(s, ComplexQICKData)]
-                    if measIdx < len(complex_specs):
-                        ds_name = complex_specs[measIdx].name
-                    else:
-                        ds_name = f'meas_{measIdx}'
+        for ds in ordered_specs:
+            if isinstance(ds, PulseVariable):
+                arr = prog.get_pulse_param(ds.pulse_parameter, ds.sweep_parameter, as_array=True)
+                self.sweep_arrays[ds.name] = np.asarray(arr).flatten()
+            elif isinstance(ds, TimeVariable):
+                arr = prog.get_time_param(ds.time_parameter, 't', as_array=True)
+                self.sweep_arrays[ds.name] = np.asarray(arr).flatten()
+                # coalesce rounds and reps into single rep axis
+            elif isinstance(ds, RepVariable):
+                self.sweep_arrays[ds.name] = range(1, prog.reps * conf[1].get('rounds') + 1,  1 )
 
-                    # Store full-resolution data
-                    h5f.create_dataset(ds_name, data=arr)
+        # get number of triggers etc
+        readout_spec_number = sum([1 for ds in self.unordered_nonexhaustive_specs if isinstance(ds, ComplexQICKData)])
 
-                return filepath
+        readout_dict = prog.ro_chs #outputs ordered dict, 'ro_ch_number : int' : { '#trigs': int, 'length': int, 'length_us': float, ...}
+        reads_per_shot = [ro['trigs'] for ro in prog.ro_chs.values()] # list of [# readouts for ro channel , # readouts for ro channel, ... ]
 
-    def _save_static_specs(self, h5f: h5py.File, prog, cfg: Dict[str, Any]):
-        """Save static (non-streaming) specs as HDF5 datasets/attributes."""
-        for ds in self.specs:
-            if ds.depends_on is None and not isinstance(ds, ComplexQICKData):
-                # independent variable: save as dataset
-                if isinstance(ds, PulseVariable):
-                    try:
-                        arr = prog.get_pulse_param(ds.pulse_parameter, ds.sweep_parameter, as_array=True)
-                    except Exception:
-                        arr = np.array([])
-                elif isinstance(ds, TimeVariable):
-                    try:
-                        arr = prog.get_time_param(ds.time_parameter, 't', as_array=True) * (cfg.get('n_echoes', 0) + 1)
-                    except Exception:
-                        arr = np.array([])
-                else:
-                    # fallback: try to convert default value to array
-                    arr = np.asarray(ds.default if hasattr(ds, 'default') else [])
+        # sanity check
+        assert sum(reads_per_shot) == readout_spec_number, "Mismatch in defined readout specs and program readout triggers. Check defined data specs."
 
-                # create dataset
-                name = ds.name
-                if arr.size > 0:
-                    h5f.create_dataset(name, data=arr)
+        # since data_dict requires each data point with it's axes value, we create an iterator to produce those points
+        # We use product since the sweep values should be nested in the order of executed loops in Qick
+        self.final_iterable = it_product(*self.sweep_arrays.values())
 
+    def collect(self, len_normalize: bool = True, stream: bool = True, **kwargs):
+        """Collect streaming IQ data from QICK program and yield aggregated dictionaries.
+        Falls back to blocking acquire() if streaming not available.
+
+        Parameters:
+        - `rounds`: number of averaging rounds forwarded to `stream_acquire`.
+        - `len_normalize`: if True, normalizes IQ points by their readout window values.
+        - `stream`: if True, uses streaming API; otherwise falls back to blocking acquire.
+
+        Yields:
+        - dict with keys: { 'ro_channel_and_readout_idx' : np.array(IQ Values),
+                            'reps' : np.array(rep number corresponding to data above),
+                            'loop_name' : np.array(sweep loop value corresponding to data above),}
+        """
+        prog = self.communicator['qick_program']
+
+        # ========== Collect streaming data ================
+        stream_fn = getattr(prog, 'stream_acquire', None)
+         # Use streaming API if available; otherwise fall back to a blocking acquire
+        if callable(stream_fn):
+            gen = prog.stream_acquire(
+                self.config.soc,
+                rounds=kwargs.get('rounds', 1),
+                progress=True,
+                len_normalize=len_normalize,
+                remove_offset=False,
+                include_full=False,
+                return_end_of_exp_raw=False,
+            )
+            # iterate events and yield a single aggregated dictionary per data event
+            extra_data = None
+            for ev in gen:
+                yield_dict: Dict[str, Any] = {}
+                if ev['event'] == 'data':
+                    partial = ev['partial']
+                    round_idx = ev['round']
+                    count_start_flat, count_stop_flat = ev.get('rep_slice', (0, 0))  #  in per-round flattened space
+
+                    for ch in partial.keys():
+                        comp_data = partial[ch].dot([1,1j]) #data in shape of (new_points, nreads)
+                        for ro_no in range(comp_data.shape[1]):
+                            # key =
+                            key = f"roch{ch}_read{ro_no}"  #TODO : pull this name from ComplexQICKData spec and use this as fallback
+                            yield_dict[key] = comp_data[:, ro_no]
+                            # add sweep values
+                    tp = [self.final_iterable.__next__() for i in range(count_stop_flat-count_start_flat)]
+                    # tp = list(it_islice(self.final_iterable, count_start_flat, count_stop_flat))
+                    sweep_value_array = np.array(tp) # array of sweep values for this channel
+                    for spec_name in self.sweep_arrays.keys():
+                        # yield_dict[key][spec_name] = sweep_value_array[:, list(sweep_arrays.keys()).index(spec_name)]
+                        yield_dict[spec_name] = sweep_value_array[:, list(self.sweep_arrays.keys()).index(spec_name)]
+                    # logger.info(yield_dict)
+                    # logger.info(f"{[(key, data.shape) for key ,data in yield_dict.items()]}")
+
+                elif ev.get('event') == 'round-complete':
+                    pass
+                    # gen.__next__() # finish pbars
+                    # return # end of experiment
+                if yield_dict != {} :
+                    # logger.info(f"Yielding streaming data dict. \n {yield_dict}")
+                    yield yield_dict
+                else: logger.info("Empty yield dict, skipping.")
+
+        else: #TODO : acquire() fallback
+            logger.critical("Streaming not callable, check qick libraries. Falling back to blocking acquire().")
+
+
+
+
+    # def collect_streaming(self, rounds: int = 1, include_full: bool = False, remove_offset: bool = False):
+    #     """Stream or acquire IQ data and yield aggregated dictionaries.
+
+    #     Yields one dictionary per streaming event (or one for blocking acquire)
+    #     containing complex IQ data with corresponding metadata: channel, readout
+    #     trigger indices, rep numbers, and sweep parameter values.
+
+    #     Parameters:
+    #     - `rounds`: number of averaging rounds forwarded to `stream_acquire`.
+    #     - `include_full`: passed to `stream_acquire` if available.
+    #     - `remove_offset`: passed to `stream_acquire` if available.
+
+    #     Yields:
+    #     - dict with keys: 'ro_channel_and_readout_trigger', 'channel', 'readout',
+    #       'data', 'rep', and one key per sweep spec.
+    #     """
+    #     prog = self.communicator['qick_program']
+    #     cfg = self.config.config()[1]
+
+    #     # ------- Figure out independent axes and non-IQ dependent specs------------
+    #     # Extract loop dimensions and readout configuration from program,
+    #     # this contains the loops as qick will execute them ; including reps
+    #     # We try to follow QICK's terminology of shot, rep, round, loops.
+    #     loop_dims = getattr(prog, 'loop_dims', []) # contains rep number, could be any one of them depending on execution
+    #     loop_dims = tuple(loop_dims) # because order matters, immutable
+    #     # number of per-round reps (flattened loop length)
+    #     total_reps_per_round = int(np.prod(loop_dims)) if len(loop_dims) > 0 else 1
+
+    #     # Prepare sweep-value arrays for independent specs so we can map flat indices -> values
+    #     sweep_arrays: Dict[str, np.ndarray] = {}
+    #     for ds in self.specs:
+    #         #get independent specs only
+    #         if ds.depends_on is None and not isinstance(ds, ComplexQICKData):
+    #             spec_name = ds.name
+    #             try:
+    #                 if isinstance(ds, PulseVariable):
+    #                     arr = prog.get_pulse_param(ds.pulse_parameter, ds.sweep_parameter, as_array=True)
+    #                 elif isinstance(ds, TimeVariable):
+    #                     arr = prog.get_time_param(ds.time_parameter, 't', as_array=True) * (cfg['n_echoes'] + 1)
+    #                 else:
+    #                     arr = np.asarray(ds.default if hasattr(ds, 'default') else [])
+    #             except Exception:
+    #                 logger.error(f"Could not get sweep array for spec {spec_name}, will fill with None")
+    #                 arr = np.array([])
+
+    #             arr = np.asarray(arr) # ensure numpy array, qick may return lists
+    #             if arr.size == 0:
+    #                 # fill with None so indexing is safe
+    #                 sweep_arrays[spec_name] = np.array([None] * total_reps_per_round, dtype=object)
+    #             else:
+    #                 # try to flatten arr into per-round flattened ordering
+    #                 if arr.size == total_reps_per_round:
+    #                     sweep_arrays[spec_name] = arr.flatten()
+    #                 else:
+    #                     # if arr has same shape as loop_dims, flatten in C-order
+    #                     if arr.shape == loop_dims:
+    #                         sweep_arrays[spec_name] = np.asarray(arr).flatten()
+    #                     else:
+    #                         # best-effort: resize/repeat to match length
+    #                         sweep_arrays[spec_name] = np.resize(np.asarray(arr).flatten(), total_reps_per_round)
+
+    #     aggregated_sweep_iterable =
+    #     # Use streaming API if available; otherwise fall back to a blocking acquire
+    #     stream_fn = getattr(prog, 'stream_acquire', None)
+    #     if callable(stream_fn):
+    #         gen = prog.stream_acquire(
+    #             self.config.soc,
+    #             rounds=rounds,
+    #             include_full=include_full,
+    #             remove_offset=remove_offset,
+    #             progress=True,
+    #             return_end_of_exp_raw=False,
+    #         )
+
+    #         # iterate events and yield a single aggregated dictionary per data event
+    #         for ev in gen:
+    #             if ev.get('event') == 'data':
+    #                 partial = ev.get('partial', {})
+    #                 round_idx = int(ev.get('round', 0))
+    #                 rep_slice = ev.get('rep_slice', (0, 0))  # (start_rep, stop_rep) in per-round flattened space
+
+    #                 rep_start_flat, rep_stop_flat = rep_slice
+
+    #                 # aggregated lists across channels and readouts for this event
+    #                 data_list: List[complex] = []
+    #                 rep_list: List[int] = []
+    #                 ro_ch_readout_list: List[str] = []
+    #                 channel_list: List[Any] = []
+    #                 readout_list: List[int] = []
+    #                 sweep_values_for_specs: Dict[str, List[Any]] = {k: [] for k in sweep_arrays.keys()}
+
+    #                 for ch, arr in partial.items():
+    #                     arr = np.asarray(arr)
+    #                     if arr.size == 0:
+    #                         continue
+    #                     new_points, nreads, _ = arr.shape
+
+    #                     for i in range(new_points):
+    #                         per_round_flat = rep_start_flat + i
+    #                         # global rep index collapses round and per-round index
+    #                         global_rep = round_idx * total_reps_per_round + per_round_flat
+
+    #                         for readout_idx in range(nreads):
+    #                             val = arr[i, readout_idx, 0] + 1j * arr[i, readout_idx, 1]
+    #                             data_list.append(val)
+    #                             rep_list.append(global_rep)
+    #                             ro_ch_readout_list.append(f"{ch}_r{readout_idx}")
+    #                             channel_list.append(ch)
+    #                             readout_list.append(readout_idx)
+
+    #                             for spec_name, vals in sweep_arrays.items():
+    #                                 try:
+    #                                     sweep_values_for_specs[spec_name].append(vals[per_round_flat])
+    #                                 except Exception:
+    #                                     sweep_values_for_specs[spec_name].append(None)
+
+    #                 out: Dict[str, Any] = {
+    #                     'ro_channel_and_readout_trigger': ro_ch_readout_list,
+    #                     'channel': channel_list,
+    #                     'readout': readout_list,
+    #                     'data': data_list,
+    #                     'rep': rep_list,
+    #                 }
+    #                 out.update(sweep_values_for_specs)
+
+    #                 yield out
+
+    #             # ignore other event types for now (e.g., 'round-complete')
+    #         return
+
+    #     else:
+    #         # blocking fallback: acquire full buffers then yield same structured dicts
+    #         try:
+    #             data = prog.acquire(self.config.soc, progress=True)
+    #         except Exception:
+    #             raise
+
+    #         channels = data[0] if isinstance(data, tuple) else data
+
+    #         # aggregate across channels for blocking acquire
+    #         data_list: List[complex] = []
+    #         rep_list: List[int] = []
+    #         ro_ch_readout_list: List[str] = []
+    #         channel_list: List[Any] = []
+    #         readout_list: List[int] = []
+    #         sweep_values_for_specs: Dict[str, List[Any]] = {k: [] for k in sweep_arrays.keys()}
+
+    #         for ch_idx, arr in enumerate(channels):
+    #             arr = np.asarray(arr)
+    #             # arr expected shape: (nreps, nreads, 2)
+    #             if arr.ndim < 3:
+    #                 continue
+    #             nreps, nreads, _ = arr.shape
+
+    #             for rep in range(nreps):
+    #                 for readout_idx in range(nreads):
+    #                     val = arr[rep, readout_idx, 0] + 1j * arr[rep, readout_idx, 1]
+    #                     data_list.append(val)
+    #                     rep_list.append(rep)
+    #                     ro_ch_readout_list.append(f"{ch_idx}_r{readout_idx}")
+    #                     channel_list.append(ch_idx)
+    #                     readout_list.append(readout_idx)
+
+    #                     for spec_name, vals in sweep_arrays.items():
+    #                         try:
+    #                             sweep_values_for_specs[spec_name].append(vals[rep])
+    #                         except Exception:
+    #                             sweep_values_for_specs[spec_name].append(None)
+
+    #         out: Dict[str, Any] = {
+    #             'ro_channel_and_readout_trigger': ro_ch_readout_list,
+    #             'channel': channel_list,
+    #             'readout': readout_list,
+    #             'data': data_list,
+    #             'rep': rep_list,
+    #         }
+    #         out.update(sweep_values_for_specs)
+
+    #         yield out
+    #         return
 
 __all__ = ["QickBoardStreamingSweep", "ComplexQICKData", "PulseVariable", "TimeVariable"]
