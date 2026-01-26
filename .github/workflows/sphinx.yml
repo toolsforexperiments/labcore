@@ -1,6 +1,11 @@
 name: "Sphinx: Render docs"
 
-on: push
+push:
+  branches:
+    - main
+pull_request:
+  branches:
+    - main
 
 jobs:
   build:
