@@ -37,10 +37,8 @@ Labcore is developed by Physicists for real needs happening inside of our lab.
 :maxdepth: 2
 :caption: Contents
 
-instruments/index
-measurement/index
-data/index
-about
+first_steps/index
+user_guide/index
 ```
 
 ## Examples

@@ -737,7 +737,10 @@ API documentation for the measurement modules is auto-generated from source code
 
 ### Sweep Module
 
-The core sweeping functionality for automated measurements. For full API documentation, see {py:mod}`labcore.measurement.sweep`.
+[`labcore.measurement.sweep`](labcore.measurement.sweep)
+: Module containing the core functionality for automated measurements.
+
+[//]: # (The core sweeping functionality for automated measurements. For full API documentation, see {py:mod}`labcore.measurement.sweep`.)
 
 ### Record Module
 

@@ -89,6 +89,7 @@ html_logo = '_static/logo.png'
 html_baseurl = 'https://toolsforexperiments.github.io/labcore/'
 
 html_theme_options = {
+    "show_nav_level": 2,
     "logo": {
         "text": "Labcore",
     },
