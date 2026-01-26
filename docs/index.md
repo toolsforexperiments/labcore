@@ -37,11 +37,9 @@ Labcore is developed by Physicists for real needs happening inside of our lab.
 :maxdepth: 2
 :caption: Contents
 
-instruments/instrumentserver
-instruments/instrumentmonitoring
-instruments/qcodes_instruments/instruments
-measurement/sweep
-data/data_formats
+instruments/index
+measurement/index
+data/index
 about
 ```
 
@@ -51,11 +49,7 @@ about
 :maxdepth: 1
 :caption: Jupyter Notebook Examples
 
-examples/Introduction to sweeping
-examples/Intro to our Holoviz apps
-examples/Holoviz-based plotting in the lab - Primer
-examples/hvplot_visualization_guide
-examples/Data explorer
+examples/index
 ```
 
 ## API Reference
