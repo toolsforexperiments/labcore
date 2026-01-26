@@ -4,7 +4,4 @@ The following are our own QCoDeS drivers that we have developed (or borrowed and
 
 ## Specific Drivers
 
-::: labcore.instruments.qcodes_drivers
-    options:
-        docstrings_style: sphinx
-        show_submodules: true
+API documentation for our QCoDeS drivers is auto-generated from source code docstrings. See the [API Reference](../../autoapi/labcore/instruments/index.html) for complete documentation of all instrument drivers including {py:mod}`labcore.instruments.qcodes_drivers` and its submodules.

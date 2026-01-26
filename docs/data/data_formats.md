@@ -504,20 +504,16 @@ Finally, datadict_storage contains 2 module variables, 'DATAFILEXT' and 'TIMESTR
 
 ## Reference
 
-### Datadict
+API documentation for the data handling modules is auto-generated from source code docstrings. See the [API Reference](../autoapi/labcore/data/index.html) for complete documentation.
 
-::: labcore.data.datadict
-    options:
-        docstring_style: sphinx
+### DataDict
 
-### Datadict Storage
+The `DataDict` class is the main container for in-memory data with metadata support. For full API documentation, see {py:class}`labcore.data.datadict.DataDict`.
 
-::: labcore.data.datadict_storage
-    options:
-        docstring_style: sphinx
+### DataDict Storage
+
+Storage utilities for reading and writing DataDict objects to various formats. For full API documentation, see {py:mod}`labcore.data.datadict_storage`.
 
 ### Extra Tools
 
-::: labcore.data.tools
-    options:
-        docstring_style: sphinx
+Additional utilities and helper functions for data handling. For full API documentation, see {py:mod}`labcore.data.tools`.

@@ -2,8 +2,9 @@
 
 The following is a guide to set up a dashboard for the monitoring of instruments. It contains capabilities for data storage, data visualization, and real-time alerts. More information on the tool is provided in the next section.
 
-!!! Note
-    The following guide assumes the user has the instrumentserver installed and has basic familiarity with it and using config files, labcore installed, basic familiarity with Docker, and a basic understanding of what Grafana and InfluxDB are
+:::{note}
+The following guide assumes the user has the instrumentserver installed and has basic familiarity with it and using config files, labcore installed, basic familiarity with Docker, and a basic understanding of what Grafana and InfluxDB are
+:::
 
 ## Overview
 
@@ -47,8 +48,9 @@ In the instrumentserver, for each instrument, the user provides a list of parame
 
 The listener is ran on the same computer that is running the Docker containers for Grafana and InfluxDB. It subscribes to the broadcasts from the instrumentservers, and then writes the data to the InfluxDB database. The listener can also be configured to write to a CSV file, however InfluxDB is recommended.
 
-!!! Note
-    The following portion assumes the user has the instrumentserver installed and labcore installed.
+:::{note}
+The following portion assumes the user has the instrumentserver installed and labcore installed.
+:::
 
 ## Quick Start Guide
 
@@ -159,9 +161,10 @@ You should start the instrumentserver using the above commmand in no GUI mode fi
 $ instrumentserver-detached
 ```
 
-!!! Note
-    The following portion assumes the user has:
-    - instrumentserver installed
+:::{note}
+The following portion assumes the user has:
+- instrumentserver installed
+:::
 
 ## The Listener
 
@@ -255,8 +258,9 @@ You can then find the ID number of the process and kill it with:
 $ kill -15 {INSERT ID}
 ```
 
-!!! Note
-    The following portion assumes the user has the Docker Engine installed and basic familiarity with Docker
+:::{note}
+The following portion assumes the user has the Docker Engine installed and basic familiarity with Docker
+:::
 
 ## Docker
 
@@ -365,8 +369,9 @@ You can then close both with the following:
 ```bash
 $ sudo docker compose down
 ```
-!!! Note
-    Closing will take ~ 10 seconds
+:::{note}
+Closing will take ~ 10 seconds
+:::
 
 ## InfluxDB
 

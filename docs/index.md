@@ -1,4 +1,70 @@
 ---
-template: home.html
-title: Labcore
+myst:
+  html_meta:
+    "description lang=eng": "Labcore - Core software tools for your physics laboratory"
+html_theme.sidebar_secondary.remove: true
 ---
+
+# Labcore
+
+:::{warning}
+Site under construction
+:::
+
+**Core software tools for your physics laboratory**
+
+[GitHub Repository](https://github.com/toolsforexperiments/labcore) | [About](about.md)
+
+## Overview
+
+Labcore and the whole [Tools For Experiments](https://github.com/toolsforexperiments) are the software efforts of [Pfaff-lab at the University of Illinois at Urbana-Champaign](https://pfaff.physics.illinois.edu/).
+
+### Full Stack Toolset
+
+Labcore helps your lab function on all steps of the software stack. From controlling instruments and experiment flow, to final data analysis for publication papers, Labcore provides tools for all of them.
+
+### Modular Design
+
+Only use the tools that you need. Labcore modular designs lets you choose which parts of it are the most convenient for your workflow and gets out of the way for the rest.
+
+### Developed by Physicists
+
+Labcore is developed by Physicists for real needs happening inside of our lab.
+
+## Documentation
+
+```{toctree}
+:maxdepth: 2
+:caption: Contents
+
+instruments/instrumentserver
+instruments/instrumentmonitoring
+instruments/qcodes_instruments/instruments
+measurement/sweep
+data/data_formats
+about
+```
+
+## Examples
+
+```{toctree}
+:maxdepth: 1
+:caption: Jupyter Notebook Examples
+
+examples/Introduction to sweeping
+examples/Intro to our Holoviz apps
+examples/Holoviz-based plotting in the lab - Primer
+examples/hvplot_visualization_guide
+examples/Data explorer
+```
+
+## API Reference
+
+The API documentation is automatically generated from the source code.
+
+```{toctree}
+:maxdepth: 1
+:caption: API Reference
+
+autoapi/index
+```

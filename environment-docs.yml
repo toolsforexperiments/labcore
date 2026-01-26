@@ -1,0 +1,13 @@
+name: labcore-docs
+channels:
+  - conda-forge
+dependencies:
+  - python=3.13.*
+  - sphinx
+  - pydata-sphinx-theme
+  - myst-parser
+  - sphinx-autoapi
+  - nbsphinx
+  - pandoc
+  - ipykernel
+  - linkify-it-py
