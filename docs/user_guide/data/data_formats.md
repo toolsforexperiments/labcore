@@ -4,7 +4,7 @@
 
 ### Basic Concepts
 
-The main format we're using within plottr is the [`DataDict`](#labcore.data.datadict.DataDict). While most of the actual numeric data will typically live in numpy arrays (or lists, or similar), they don't typically capture easily arbitrary metadata and relationships between arrays. Say, for example, we have some data ``z`` that depends on two other variables, ``x`` and ``y``. This information has be stored somewhere, and numpy doesn't offer readily a solution here. There are various extensions, for example [xarray](http://xarray.pydata.org) or the [MetaArray class](https://scipy-cookbook.readthedocs.io/items/MetaArray.html). Those however typically have a grid format in mind, which we do not want to impose. Instead, we use a wrapper around the python dictionary that contains all the required meta information to infer the relevant relationships, and that uses numpy arrays internally to store the numeric data. Additionally we can store any other arbitrary meta data.
+The main format we're using within plottr is the {py:class}`DataDict <labcore.data.datadict.DataDict>`. While most of the actual numeric data will typically live in numpy arrays (or lists, or similar), they don't typically capture easily arbitrary metadata and relationships between arrays. Say, for example, we have some data ``z`` that depends on two other variables, ``x`` and ``y``. This information has be stored somewhere, and numpy doesn't offer readily a solution here. There are various extensions, for example [xarray](http://xarray.pydata.org) or the [MetaArray class](https://scipy-cookbook.readthedocs.io/items/MetaArray.html). Those however typically have a grid format in mind, which we do not want to impose. Instead, we use a wrapper around the python dictionary that contains all the required meta information to infer the relevant relationships, and that uses numpy arrays internally to store the numeric data. Additionally we can store any other arbitrary meta data.
 
 A DataDict container (a `dataset`) can contain multiple `data fields` (or variables), that have values and can contain their own meta information. Importantly, we distinct between independent fields (the `axes`) and dependent fields (the `data`).
 
@@ -94,7 +94,7 @@ The DataDict that we just created contains no data yet, only the structure and r
 
 ### Structure
 
-From the basic and empty DataDict we can already start to inspect its structure. To see the entire structure of a DataDict we can use the [`structure()`](#labcore.data.datadict.DataDictBase.structure) method:
+From the basic and empty DataDict we can already start to inspect its structure. To see the entire structure of a DataDict we can use the {py:meth}`structure <labcore.data.datadict.DataDictBase.structure>` method:
 
 ```python
 >>> data_dict = DataDict(x=dict(unit='m'), y = dict(unit='m'), z = dict(axes=['x', 'y']))
@@ -118,7 +118,7 @@ We can look at all the dependents:
 ['z']
 ```
 
-We can also see the shape of a DataDict by using the [`shapes()`](#labcore.data.datadict.DataDictBase.shapes) method:
+We can also see the shape of a DataDict by using the {py:meth}`shapes <labcore.data.datadict.DataDictBase.shapes>` method:
 
 ```python
 >>> data_dict.shapes()
@@ -134,7 +134,7 @@ There are 2 different ways of safely populating a DataDict, adding data to it or
 !!! note
     You can always manually update the item ``values`` any data field like any other item of a python dictionary, however, populating the DataDict this way can result in an invalid DataDict if you are not being careful. Both population methods presented below contains checks to make sure that the new data being added will not create an invalid DataDict.
 
-We can add data to an existing DataDict with the [`add_data()`(#labcore.data.datadict.DataDict.add_data) method:
+We can add data to an existing DataDict with the {py:meth}`add_data <labcore.data.datadict.DataDict.add_data>` method:
 
 ```python
 >>> data_dict = DataDict(x=dict(unit='m'), y = dict(unit='m'), z = dict(axes=['x', 'y']))
@@ -168,7 +168,7 @@ As we can see, both ``y`` and ``z`` have an extra ``nan`` record in them. We can
  'z': {'axes': ['x', 'y'], 'unit': '', 'label': '', 'values': array([0])}}
 ```
 
-If we want to expand our DataDict by appending another one, we need to make sure that both of our DataDicts have the same inner structure. We can check that by utilizing the static method [`same_structure()`](#labcore.data.datadict.DataDictBase.same_structure):
+If we want to expand our DataDict by appending another one, we need to make sure that both of our DataDicts have the same inner structure. We can check that by utilizing the static method {py:meth}`same_structure <labcore.data.datadict.DataDictBase.same_structure>`:
 
 ```python
 >>> data_dict_1 = DataDict(x=dict(unit='m'), y=dict(unit='m'), z=dict(axes=['x','y']))
@@ -180,9 +180,9 @@ True
 ```
 
 !!! note
-    Make sure that both DataDicts have the exact same structure. This means that every item of every data field that appears when using the method [`same_structure()`](#labcore.data.datadict.DataDictBase.same_structure) (`unit`, `axes`, and `label`) are identical to one another, except for `values`. Any slight difference will make this method fail due to conflicting structures.    
+    Make sure that both DataDicts have the exact same structure. This means that every item of every data field that appears when using the method {py:meth}`same_structure <labcore.data.datadict.DataDictBase.same_structure>` (`unit`, `axes`, and `label`) are identical to one another, except for `values`. Any slight difference will make this method fail due to conflicting structures.    
 
-The [`append()`](#labcore.data.datadict.DataDict.append) method will do this check before appending the 2 DataDict, and will only append them if the check returns ``True``. Once we know that the structure is the same we can append them:
+The {py:meth}`append <labcore.data.datadict.DataDict.append>` method will do this check before appending the 2 DataDict, and will only append them if the check returns ``True``. Once we know that the structure is the same we can append them:
 
 ```python
 >>> data_dict_1.append(data_dict_2)
@@ -202,7 +202,7 @@ We can simply add meta data manually by adding an item with the proper notation:
 >>> data_dict['__metadata__'] = 'important meta data'
 ```
 
-Or we can use the [`add_meta()`](#labcore.data.datadict.DataDictBase.add_meta) method:
+Or we can use the {py:meth}`add_meta <labcore.data.datadict.DataDictBase.add_meta>` method:
 
 ```python
 >>> data_dict.add_meta('sample_temperature', '10mK')
@@ -221,7 +221,7 @@ We can also add meta data to a specific data field by passing its name as the la
 True
 ```
 
-We can retrieve the meta data with the [`meta_val()`](#labcore.data.datadict.DataDictBase.meta_val) method:
+We can retrieve the meta data with the {py:meth}`meta_val <labcore.data.datadict.DataDictBase.meta_val>` method:
 
 ```python
 >>> data_dict.meta_val('sample_temperature')
@@ -235,7 +235,7 @@ We can also ask for a meta value from a specific data field by passing the data 
 'important meta data'
 ```
 
-We can delete a specific meta field by using the [`delete_meta()`](#labcore.data.datadict.DataDictBase.delete_meta) method:
+We can delete a specific meta field by using the {py:meth}`delete_meta <labcore.data.datadict.DataDictBase.delete_meta>` method:
 
 ```python
 >>> data_dict.delete_meta('metadata')
@@ -251,7 +251,7 @@ This also work for meta data in data fields by passing the data field as the las
 {'unit': 'm', 'axes': [], 'label': '', 'values': array([0, 1, 2])}
 ```
 
-We can delete all the meta data present in the DataDict with the [`clear_meta()`](#labcore.data.datadict.DataDictBase.clear_meta) method:
+We can delete all the meta data present in the DataDict with the {py:meth}`clear_meta <labcore.data.datadict.DataDictBase.clear_meta>` method:
 
 ```python
 >>> data_dict.add_meta('metadata', 'important meta data')
@@ -267,9 +267,9 @@ We can delete all the meta data present in the DataDict with the [`clear_meta()`
 !!! note
     There are 3 helper functions in the datadict module that help converting from meta data name to key. These are: 
 
-      * [`is_meta_key()`](#labcore.data.datadict.is_meta_key),
-      * [`meta_key_to_name()`](#labcore.data.datadict.meta_key_to_name)
-      * [`meta_name_to_key()`](#labcore.data.datadict.meta_name_to_key)
+      * {py:func}`is_meta_key <labcore.data.datadict.is_meta_key>`,
+      * {py:func}`meta_key_to_name <labcore.data.datadict.meta_key_to_name>`
+      * {py:func}`meta_name_to_key <labcore.data.datadict.meta_name_to_key>`
 
 
 ### Meshgrid DataDict
@@ -303,15 +303,15 @@ Example: a simple uniform 3x2 grid might look like this; x and y are the coordin
 ```
 
 !!! note
-    Internally we will typically assume that the nested axes are ordered from slow to fast, i.e., dimension 1 is the most outer axis, and dimension N of an N-dimensional array the most inner (i.e., the fastest changing one). This guarantees, for example, that the default implementation of `np.reshape` has the expected outcome. If, for some reason, the specified axes are not in that order (e.g., we might have ``z`` with ``axes = ['x', 'y']``, but ``x`` is the fast axis in the data). In such a case, the guideline is that at creation of the meshgrid, the data should be transposed such that it conforms correctly to the order as given in the ``axis = [...]`` specification of the data. The function [`datadict_to_meshgrid()`](#labcore.data.datadict.datadict_to_meshgrid) provides options for that.
+    Internally we will typically assume that the nested axes are ordered from slow to fast, i.e., dimension 1 is the most outer axis, and dimension N of an N-dimensional array the most inner (i.e., the fastest changing one). This guarantees, for example, that the default implementation of `np.reshape` has the expected outcome. If, for some reason, the specified axes are not in that order (e.g., we might have ``z`` with ``axes = ['x', 'y']``, but ``x`` is the fast axis in the data). In such a case, the guideline is that at creation of the meshgrid, the data should be transposed such that it conforms correctly to the order as given in the ``axis = [...]`` specification of the data. The function {py:func}`datadict_to_meshgrid <labcore.data.datadict.datadict_to_meshgrid>` provides options for that.
 
-This implementation of [`DataDictBase`](#labcore.data.datadict.DataDictBase) consists only of three extra methods:
+This implementation of {py:class}`DataDictBase <labcore.data.datadict.DataDictBase>` consists only of three extra methods:
 
-  * [`MeshgridDataDict.shape`](#labcore.data.datadict.MeshgridDataDict.shape)
-  * [`MeshgridDataDict.validate`](#labcore.data.datadict.MeshgridDataDict.validate)
-  * [`MeshgridDataDict.reorder_axis`](#labcore.data.datadict.MeshgridDataDict.reorder_axes)
+  * {py:attr}`shape <labcore.data.datadict.MeshgridDataDict.shape>`
+  * {py:meth}`validate <labcore.data.datadict.MeshgridDataDict.validate>`
+  * {py:meth}`reorder_axes <labcore.data.datadict.MeshgridDataDict.reorder_axes>`
 
-So the only way of populating it is by manually modifying the ``values`` object of each data field since the tools for populating the DataDict are specific to the [`DataDict`](#labcore.data.datadict.DataDict) implementation.
+So the only way of populating it is by manually modifying the ``values`` object of each data field since the tools for populating the DataDict are specific to the {py:class}`DataDict <labcore.data.datadict.DataDict>` implementation.
 
 ## DataDict Storage
 
@@ -328,7 +328,7 @@ For more specific information on how HDF5 works please read the [following docum
 
 ### Working With DDH5 Files
 
-When we are working with data, the first thing we usually want to do is to save it in disk. We can directly save an already existing DataDict into disk by calling the function [`datadict_to_hdf5()`](#labcore.data.datadict_storage.datadict_to_hdf5).
+When we are working with data, the first thing we usually want to do is to save it in disk. We can directly save an already existing DataDict into disk by calling the function {py:func}`datadict_to_hdf5 <labcore.data.datadict_storage.datadict_to_hdf5>`.
 
 ```python
 >>> data_dict = DataDict(x=dict(values=np.array([0,1,2]), axes=[], __unit__='cm'), y=dict(values=np.array([3,4,5]), axes=['x']))
@@ -338,7 +338,7 @@ When we are working with data, the first thing we usually want to do is to save 
 >>> datadict_to_hdf5(data_dict, 'folder\data.ddh5')
 ```
 
-[`datadict_to_hdf5()`](#labcore.data.datadict_storage.datadict_to_hdf5) will save data_dict in a file named 'data.ddh5' in whatever directory is passed to it, creating new folders if they don't already exists. The file will contain all of the data fields as well as all the metadata,
+{py:func}`datadict_to_hdf5 <labcore.data.datadict_storage.datadict_to_hdf5>` will save data_dict in a file named 'data.ddh5' in whatever directory is passed to it, creating new folders if they don't already exists. The file will contain all of the data fields as well as all the metadata,
 with some more metadata generated to specify when the DataDict was created.
 
 !!! note
@@ -347,7 +347,7 @@ with some more metadata generated to specify when the DataDict was created.
 !!! warning
     For this method to properly work the objects that are being saved in the ``values`` key of a data field must by a numpy array, or numpy array like.
 
-Data saved on disk is useless however if we do not have a way of accessing it. To do this we use the [`datadict_from_hdf5()`](#labcore.data.datadict_storage.datadict_from_hdf5):
+Data saved on disk is useless however if we do not have a way of accessing it. To do this we use the {py:func}`datadict_from_hdf5 <labcore.data.datadict_storage.datadict_from_hdf5>`:
 
 ```python
 >>> loaded_data_dict = datadict_from_hdf5('folder\data.ddh5')
@@ -373,7 +373,7 @@ Data saved on disk is useless however if we do not have a way of accessing it. T
 
 We can see that the DataDict is the same one we saved earlier with the added metadata that indicates the time it was created.
 
-By default both [`datadict_to_hdf5()`](#labcore.data.datadict_storage.datadict_to_hdf5) and [`datadict_from_hdf5()`](#labcore.data.datadict_storage.datadict_from_hdf5) save and load the datadict in the 'data' group of the DDH5. Both of these can by changed by passing another group to the argument 'groupname'. We can see this if we manually create a second group and save a new DataDict there:
+By default both {py:func}`datadict_to_hdf5 <labcore.data.datadict_storage.datadict_to_hdf5>` and {py:func}`datadict_from_hdf5 <labcore.data.datadict_storage.datadict_from_hdf5>` save and load the datadict in the 'data' group of the DDH5. Both of these can by changed by passing another group to the argument 'groupname'. We can see this if we manually create a second group and save a new DataDict there:
 
 ```python
 >>> data_dict2 = DataDict(a=dict(values=np.array([0,1,2]), axes=[], __unit__='cm'), b=dict(values=np.array([3,4,5]), axes=['a']))
@@ -428,7 +428,7 @@ To see the other DataDict we can specify the group in the argument 'groupname':
   'label': ''}}
 ```
 
-We can also use [`all_datadicts_from_hdf5()`](#labcore.data.datadict_storage.all_datadicts_from_hdf5) to get a dictionary with all DataDicts in every group inside:
+We can also use {py:func}`all_datadicts_from_hdf5 <labcore.data.datadict_storage.all_datadicts_from_hdf5>` to get a dictionary with all DataDicts in every group inside:
 
 ```python
 >>> all_datadicts = all_datadicts_from_hdf5('folder\data.ddh5')
@@ -479,7 +479,7 @@ To use it we first need to create an empty DataDict that contains the structure 
 >>> y = dict(unit='y_unit', axes=['x']))
 ```
 
-With our created DataDict, we can start the [`DDH5Writer`](#labcore.data.datadict_storage.DDH5Writer) context manager and add data to our DataDict utilizing the [`add_data()`](#plottr.data.datadict_storage.DDH5Writer.add_data)
+With our created DataDict, we can start the {py:class}`DDH5Writer <labcore.data.datadict_storage.DDH5Writer>` context manager and add data to our DataDict utilizing the {py:meth}`add_data <plottr.data.datadict_storage.DDH5Writer.add_data>`
 
 ```python
 >>> with DDH5Writer(datadict=data_dict, basedir='./data/', name='Test') as writer:
@@ -508,12 +508,12 @@ API documentation for the data handling modules is auto-generated from source co
 
 ### DataDict
 
-The `DataDict` class is the main container for in-memory data with metadata support. For full API documentation, see {py:class}`labcore.data.datadict.DataDict`.
+The `DataDict` class is the main container for in-memory data with metadata support. For full API documentation, see {py:class}`DataDict <labcore.data.datadict.DataDict>`.
 
 ### DataDict Storage
 
-Storage utilities for reading and writing DataDict objects to various formats. For full API documentation, see {py:mod}`labcore.data.datadict_storage`.
+Storage utilities for reading and writing DataDict objects to various formats. For full API documentation, see {py:mod}`datadict_storage <labcore.data.datadict_storage>`.
 
 ### Extra Tools
 
-Additional utilities and helper functions for data handling. For full API documentation, see {py:mod}`labcore.data.tools`.
+Additional utilities and helper functions for data handling. For full API documentation, see {py:mod}`tools <labcore.data.tools>`.
