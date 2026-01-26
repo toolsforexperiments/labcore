@@ -20,12 +20,12 @@ author = 'Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'myst_parser',           # Markdown support
-    'sphinx.ext.autodoc',    # API documentation from docstrings
-    'sphinx.ext.napoleon',   # Support for NumPy and Google style docstrings
-    'sphinx.ext.viewcode',   # Add links to source code
-    'autoapi.extension',     # Automatic API documentation generation
-    'nbsphinx',              # Jupyter notebook support
+    'myst_parser',            # Markdown support
+    'sphinx.ext.autodoc',     # API documentation from docstrings
+    'sphinx.ext.autosummary', # Generate summary tables for modules
+    'sphinx.ext.napoleon',    # Support for NumPy and Google style docstrings
+    'sphinx.ext.viewcode',    # Add links to source code
+    'nbsphinx',               # Jupyter notebook support
     'sphinx.ext.intersphinx', # Link to other project docs
 ]
 
@@ -44,19 +44,22 @@ myst_enable_extensions = [
     "tasklist",         # Task lists
 ]
 
-# AutoAPI Configuration (replaces mkdocstrings)
-autoapi_type = 'python'
-autoapi_dirs = ['../labcore']
-autoapi_options = [
-    'members',
-    'undoc-members',
-    'show-inheritance',
-    'show-module-summary',
-    'imported-members',
-]
-autoapi_keep_files = False
-autoapi_add_toctree_entry = True
-autoapi_python_class_content = 'both'  # Include both class and __init__ docstrings
+# Allow MyST to parse Sphinx roles and directives
+myst_enable_roles = True
+
+# Autosummary configuration (auto-generate API docs)
+autosummary_generate = True
+autosummary_generate_overwrite = True
+
+# Autodoc configuration (required for proper cross-references)
+autodoc_default_options = {
+    'members': True,
+    'undoc-members': False,
+    'show-inheritance': True,
+}
+
+# MyST configuration for proper cross-references in Markdown
+myst_linkify_fuzzy_links = True
 
 # nbsphinx configuration (for Jupyter notebooks)
 nbsphinx_execute = 'never'  # Don't execute notebooks during build (safer)

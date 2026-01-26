@@ -71,7 +71,9 @@ instance/
 # Sphinx documentation
 docs/_build/
 docs/build/
-docs/autoapi/
+# These files are generated automatically by autosummary
+docs/**/*.rst
+docs/**/generated
 site/
 
 # PyBuilder

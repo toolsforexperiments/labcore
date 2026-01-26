@@ -501,19 +501,3 @@ Finally, datadict_storage contains 2 module variables, 'DATAFILEXT' and 'TIMESTR
 'DATAFILEXT' by default is 'ddh5', and it is used to specify the extension file of all of the module saving functions. Change this variable if you want your HDF5 to have a different extension by default, instead of passing it everytime.
 
 'TIMESTRFORMAT' specifies how the time is formated in the new metadata created when saving a DataDict. The default is: ``"%Y-%m-%d %H:%M:%S"``, and it follows the structure of [strftime](https://docs.python.org/3/library/time.html#time.strftime>).
-
-## Reference
-
-API documentation for the data handling modules is auto-generated from source code docstrings. See the [API Reference](../autoapi/labcore/data/index.html) for complete documentation.
-
-### DataDict
-
-The `DataDict` class is the main container for in-memory data with metadata support. For full API documentation, see {py:class}`DataDict <labcore.data.datadict.DataDict>`.
-
-### DataDict Storage
-
-Storage utilities for reading and writing DataDict objects to various formats. For full API documentation, see {py:mod}`datadict_storage <labcore.data.datadict_storage>`.
-
-### Extra Tools
-
-Additional utilities and helper functions for data handling. For full API documentation, see {py:mod}`tools <labcore.data.tools>`.

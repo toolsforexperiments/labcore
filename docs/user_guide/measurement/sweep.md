@@ -729,22 +729,3 @@ starting an instrument
 closing an instrument
 {}
 ```
-
-## Reference
-
-API documentation for the measurement modules is auto-generated from source code docstrings. See the [API Reference](../autoapi/labcore/measurement/index.html) for complete documentation.
-
-### Sweep Module
-
-{py:mod}`labcore.measurement.sweep`
-: Module containing the core functionality for automated measurements.
-
-### Record Module
-
-{py:mod}`labcore.measurement.record`
-: Low-level recording utilities for measurement data.
-
-### Storage Module
-
-{py:mod}`labcore.measurement.storage`
-: Data storage backend for measurement sweeps.

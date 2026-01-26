@@ -58,5 +58,5 @@ The API documentation is automatically generated from the source code.
 :maxdepth: 1
 :caption: API Reference
 
-autoapi/index
+api/index
 ```
