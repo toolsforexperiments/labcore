@@ -1,0 +1,780 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>labcore.measurement.storage &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/measurement/storage';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/measurement/storage.html" />
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.measurement.storage</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for labcore.measurement.storage</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;plottr.data.datadict_storage</span>
+
+<span class="sd">Provides file-storage tools for the DataDict class.</span>
+
+<span class="sd">Description of the HDF5 storage format</span>
+<span class="sd">======================================</span>
+
+<span class="sd">We use a simple mapping from DataDict to the HDF5 file. Within the file,</span>
+<span class="sd">a single DataDict is stored in a (top-level) group of the file.</span>
+<span class="sd">The data fields are datasets within that group.</span>
+
+<span class="sd">Global meta data of the DataDict are attributes of the group; field meta data</span>
+<span class="sd">are attributes of the dataset (incl., the `unit` and `axes` values). The meta</span>
+<span class="sd">data keys are given exactly like in the DataDict, i.e., incl the double</span>
+<span class="sd">underscore pre- and suffix.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">TracebackType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pickle</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..data.datadict</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataDict</span><span class="p">,</span> <span class="n">is_meta_key</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..data.datadict_storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">DDH5Writer</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sweep</span>
+
+<span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Wolfgang Pfaff&#39;</span>
+<span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;MIT&#39;</span>
+
+<div class="viewcode-block" id="TIMESTRFORMAT">
+<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.TIMESTRFORMAT">[docs]</a>
+<span class="n">TIMESTRFORMAT</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H%M%S&quot;</span></div>
+
+
+<div class="viewcode-block" id="logger">
+<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.logger">[docs]</a>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_create_datadict_structure</span><span class="p">(</span><span class="n">sweep</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataDict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a structured DataDict from the DataSpecs of a Sweep.</span>
+
+<span class="sd">    :param sweep: Sweep object from which the DataDict is created.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">data_specs</span> <span class="o">=</span> <span class="n">sweep</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">()</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="n">DataDict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">spec</span> <span class="ow">in</span> <span class="n">data_specs</span><span class="p">:</span>
+
+        <span class="n">depends_on</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">depends_on</span>
+        <span class="n">unit</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">unit</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="c1"># Checks which fields have information and which ones are None.</span>
+        <span class="k">if</span> <span class="n">depends_on</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">data_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">unit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">data_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">depends_on</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">data_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">axes</span><span class="o">=</span><span class="n">depends_on</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">unit</span><span class="p">)</span>
+
+    <span class="n">data_dict</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">data_dict</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_check_none</span><span class="p">(</span><span class="n">line</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="nb">all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Checks if the values in a Dict are all None.</span>
+<span class="sd">    :returns: True if all values are None, False otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">all</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_save_dictionary</span><span class="p">(</span><span class="nb">dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="bp">cls</span><span class="o">=</span><span class="n">NumpyEncoder</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_pickle_and_save</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">pickle_error</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Object could not be pickled: </span><span class="si">{</span><span class="n">pickle_error</span><span class="o">.</span><span class="n">args</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="NumpyEncoder">
+<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.NumpyEncoder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">NumpyEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
+<div class="viewcode-block" id="NumpyEncoder.default">
+<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.NumpyEncoder.default">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="run_and_save_sweep">
+<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.run_and_save_sweep">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_and_save_sweep</span><span class="p">(</span><span class="n">sweep</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">,</span>
+                       <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                       <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                       <span class="n">ignore_all_None_results</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                       <span class="n">save_action_kwargs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">add_timestamps</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">archive_files</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">return_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">safe_write_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="o">**</span><span class="n">extra_saving_items</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataDict</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Iterates through a sweep, saving the data coming through it into a file called &lt;name&gt; at &lt;data_dir&gt; directory.</span>
+
+<span class="sd">    :param sweep: Sweep object to iterate through.</span>
+<span class="sd">    :param data_dir: Directory of file location.</span>
+<span class="sd">    :param name: Name of the file.</span>
+<span class="sd">    :param ignore_all_None_results: if ``True``, don&#39;t save any records that contain a ``None``.</span>
+<span class="sd">        if ``False``, only do not save records that are all-``None``.</span>
+<span class="sd">    :param  save_action_kwargs: If ``True``, the action_kwargs of the sweep will be saved as a json file named after</span>
+<span class="sd">        the first key of the kwargs dctionary followed by &#39;_action_kwargs&#39; in the same directory as the data.</span>
+<span class="sd">    :param archive_files: List of files to copy into a folder called &#39;archived_files&#39; in</span>
+<span class="sd">        the same directory that the data is saved. It should be a list of paths (str), regular expressions are supported.</span>
+<span class="sd">        If a folder is passed, it will copy the entire folder and all of its subdirectories and files into the</span>
+<span class="sd">        archived_files folder. If one of the arguments could not be found, a message will be printed and the measurement</span>
+<span class="sd">        will be performed without the file being archived. An exception is raised if the type is invalid.</span>
+
+<span class="sd">        e.g. archive_files=[&#39;*.txt&#39;, &#39;calibration_files&#39;, &#39;../test_file.py&#39;].  &#39;*.txt&#39; will copy every txt file</span>
+<span class="sd">        located in the working directory. &#39;calibration_files&#39; will copy the entire folder called calibration_files from</span>
+<span class="sd">        the working directory into the archived_files folder. &#39;../test_file.py&#39; will copy the script test_file.py from</span>
+<span class="sd">        one directory above the working directory.</span>
+<span class="sd">    :param extra_saving_items: Kwargs for extra objects that should be saved. If the kwarg is a dictionary, the function</span>
+<span class="sd">        will try and save it as a JSON file. If the dictionary contains objects that are not JSON serializable it will</span>
+<span class="sd">        be pickled. Any other kind of object will be pickled too. The files will have their keys as names.</span>
+<span class="sd">    :param safe_write_mode: Indicates if the data should be written in safe mode or not. Look into ddh5 writer for more</span>
+<span class="sd">        info.</span>
+
+<span class="sd">    :raises TypeError: A Typerror is raised if the object passed for archive_files is not correct</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data_dict</span> <span class="o">=</span> <span class="n">_create_datadict_structure</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+
+    <span class="c1"># Creates a file even when it fails.</span>
+    <span class="k">with</span> <span class="n">DDH5Writer</span><span class="p">(</span><span class="n">data_dict</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">safe_write_mode</span><span class="o">=</span><span class="n">safe_write_mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+
+        <span class="c1"># Saving meta-data</span>
+        <span class="nb">dir</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">writer</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span>
+        <span class="k">if</span> <span class="n">add_timestamps</span><span class="p">:</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">()</span>
+            <span class="n">time_stamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">TIMESTRFORMAT</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">extra_saving_items</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">val</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">val</span>
+
+            <span class="k">if</span> <span class="n">add_timestamps</span><span class="p">:</span>
+                <span class="n">pickle_path_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">time_stamp</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s1">&#39;.pickle&#39;</span><span class="p">)</span>
+                <span class="n">json_path_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">time_stamp</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pickle_path_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">key</span> <span class="o">+</span> <span class="s1">&#39;.pickle&#39;</span><span class="p">)</span>
+                <span class="n">json_path_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">key</span> <span class="o">+</span> <span class="s1">&#39;.json&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">_save_dictionary</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">json_path_file</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">TypeError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+                    <span class="c1"># Delete the file created by _save_dictionary. This file does not contain the complete dictionary.</span>
+                    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">json_path_file</span><span class="p">):</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">json_path_file</span><span class="p">)</span>
+
+                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1"> has not been able to save to json: </span><span class="si">{</span><span class="n">error</span><span class="o">.</span><span class="n">args</span><span class="si">}</span><span class="s1">.&#39;</span>
+                                 <span class="sa">f</span><span class="s1">&#39; The item will be pickled instead.&#39;</span><span class="p">)</span>
+                    <span class="n">_pickle_and_save</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">pickle_path_file</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">_pickle_and_save</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">pickle_path_file</span><span class="p">)</span>
+
+        <span class="c1"># Save the kwargs</span>
+        <span class="k">if</span> <span class="n">save_action_kwargs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">add_timestamps</span><span class="p">:</span>
+                <span class="n">json_path_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">time_stamp</span> <span class="o">+</span> <span class="s1">&#39;sweep_action_kwargs.json&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">json_path_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="s1">&#39;sweep_action_kwargs.json&#39;</span><span class="p">)</span>
+            <span class="n">_save_dictionary</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">action_kwargs</span><span class="p">,</span> <span class="n">json_path_file</span><span class="p">)</span>
+
+        <span class="c1"># Save archive_files</span>
+        <span class="k">if</span> <span class="n">archive_files</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">archive_files_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="s1">&#39;archive_files&#39;</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">archive_files_dir</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">archive_files</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">archive_files</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">archive_files</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">archive_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">archive_files</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">archive_files</span><span class="p">)</span><span class="si">}</span><span class="s1"> is not a list.&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">archive_files</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                    <span class="n">folder_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">folder_name</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">folder_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
+
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">archive_files_dir</span><span class="p">,</span> <span class="n">folder_name</span><span class="p">),</span> <span class="n">dirs_exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+                    <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">archive_files_dir</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">matches</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1"> could not be found. Measurement will continue without archiving </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">matches</span><span class="p">:</span>
+                        <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">archive_files_dir</span><span class="p">)</span>
+
+        <span class="c1"># Save data.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">_check_none</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="nb">all</span><span class="o">=</span><span class="n">ignore_all_None_results</span><span class="p">):</span>
+                    <span class="n">writer</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="o">**</span><span class="n">line</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Sweep stopped by Keyboard interrupt. Data completed before interrupt should be saved.&#39;</span><span class="p">)</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">)</span> <span class="k">if</span> <span class="n">return_data</span> <span class="k">else</span> <span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;The measurement has finished successfully and all of the data has been saved.&#39;</span><span class="p">)</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">)</span> <span class="k">if</span> <span class="n">return_data</span> <span class="k">else</span> <span class="p">(</span><span class="nb">dir</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ret</span></div>
+
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

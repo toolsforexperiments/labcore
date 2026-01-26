@@ -1,0 +1,31 @@
+labcore.instruments.qcodes_drivers.SignalHound.Spike
+====================================================
+
+.. py:module:: labcore.instruments.qcodes_drivers.SignalHound.Spike
+
+.. autoapi-nested-parse::
+
+   Basic driver to communicate with the SPIKE program through SCPI.
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.instruments.qcodes_drivers.SignalHound.Spike.Spike
+
+
+Module Contents
+---------------
+
+.. py:class:: Spike(name, address=None, **kwargs)
+
+   Bases: :py:obj:`qcodes.VisaInstrument`
+
+
+   Pfafflab SignalHound Driver using the qcodes package
+
+
+

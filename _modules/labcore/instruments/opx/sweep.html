@@ -1,0 +1,984 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>labcore.instruments.opx.sweep &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/instruments/opx/sweep';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/instruments/opx/sweep.html" />
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.instruments.opx.sweep</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for labcore.instruments.opx.sweep</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qm.qua</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qm.QuantumMachinesManager</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumMachinesManager</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">qm.quantum_machines_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">QuantumMachinesManager</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">labcore.measurement</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">labcore.measurement.record</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_data_spec</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">labcore.measurement.sweep</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncRecord</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">QMConfig</span>
+
+<span class="c1"># --- Options that need to be set by the user for the OPX to work ---</span>
+<span class="c1"># config object that when called returns the config dictionary as expected by the OPX</span>
+<div class="viewcode-block" id="config">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.config">[docs]</a>
+<span class="n">config</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">QMConfig</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># OPX config dictionary</span></div>
+
+
+<span class="c1"># WARNING: DO NOT TOUCH THIS VARIABLE. IT IS GLOBAL AND HANDLED BY THE CONTEXT MANAGER.</span>
+<span class="n">_qmachine_context</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="logger">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.logger">[docs]</a>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="QuantumMachineContext">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.QuantumMachineContext">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">QuantumMachineContext</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Context manager for the Quantum Machine. It will open the machine when entering the context and close it when</span>
+<span class="sd">    exiting, after all measurement completed. This is used via a with statement, i.e.:</span>
+
+<span class="sd">    ```</span>
+<span class="sd">    with QuantumMachineContext() as qmc:</span>
+<span class="sd">        [your measurement code here]</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    This does not need to be used, but if measurements are done repeatedly and precompiling with the OPX is</span>
+<span class="sd">    desired, it saves some time.</span>
+
+<span class="sd">    Warning: Using a context manager doesn&#39;t let you update the config of the OPX. If you want to change the</span>
+<span class="sd">    config, you need to open a new quantum machine or use precompiled measurements to overwrite aspects of the</span>
+<span class="sd">    measurement on the fly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wf_overrides</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">if_overrides</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the context manager with a function to be executed, its arguments, and optional overrides.</span>
+
+<span class="sd">        :param fun: The function to be executed in the quantum machine.</span>
+<span class="sd">        :param args: Positional arguments for the function.</span>
+<span class="sd">        :param wf_overrides: Optional dictionary of overrides for the waveforms.</span>
+<span class="sd">        :param if_overrides: Optional dictionary of overrides for the intermediate frequencies.</span>
+<span class="sd">        :param kwargs: Keyword arguments for the function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">config</span>
+<div class="viewcode-block" id="QuantumMachineContext.wf_overrides">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.QuantumMachineContext.wf_overrides">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wf_overrides</span> <span class="o">=</span> <span class="n">wf_overrides</span></div>
+
+<div class="viewcode-block" id="QuantumMachineContext.if_overrides">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.QuantumMachineContext.if_overrides">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">if_overrides</span> <span class="o">=</span> <span class="n">if_overrides</span></div>
+
+<div class="viewcode-block" id="QuantumMachineContext.kwargs">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.QuantumMachineContext.kwargs">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span></div>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_qmachine_mgr</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_qmachine</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_program_id</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">config</span><span class="p">,</span> <span class="n">_qmachine_context</span>
+        <span class="n">_qmachine_mgr</span> <span class="o">=</span> <span class="n">QuantumMachinesManager</span><span class="p">(</span>
+                <span class="n">host</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">opx_address</span><span class="p">,</span>
+                <span class="n">port</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">opx_port</span><span class="p">,</span> 
+                <span class="n">cluster_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">cluster_name</span><span class="p">,</span>
+                <span class="n">octave</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">octave</span>
+            <span class="p">)</span>
+    
+        <span class="bp">self</span><span class="o">.</span><span class="n">_qmachine</span> <span class="o">=</span> <span class="n">_qmachine_mgr</span><span class="o">.</span><span class="n">open_qm</span><span class="p">(</span><span class="n">config</span><span class="p">(),</span> <span class="n">close_other_machines</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">_qmachine_context</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">_qmachine_context</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_qmachine</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_qmachine</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="n">_qmachine_context</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="TimedOPXData">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.TimedOPXData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TimedOPXData</span><span class="p">(</span><span class="n">DataSpec</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__post_init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depends_on</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">deps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">deps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">depends_on</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">depends_on</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;_time_points&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">deps</span></div>
+
+
+<span class="nd">@dataclass</span>
+<div class="viewcode-block" id="ComplexOPXData">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.ComplexOPXData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComplexOPXData</span><span class="p">(</span><span class="n">DataSpec</span><span class="p">):</span>
+<div class="viewcode-block" id="ComplexOPXData.i_data_stream">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.ComplexOPXData.i_data_stream">[docs]</a>
+    <span class="n">i_data_stream</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;I&#39;</span></div>
+
+<div class="viewcode-block" id="ComplexOPXData.q_data_stream">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.ComplexOPXData.q_data_stream">[docs]</a>
+    <span class="n">q_data_stream</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;Q&#39;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RecordOPXdata">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.RecordOPXdata">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RecordOPXdata</span><span class="p">(</span><span class="n">AsyncRecord</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implementation of AsyncRecord for use with the OPX machine.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">specs</span><span class="p">):</span>
+<div class="viewcode-block" id="RecordOPXdata.communicator">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.RecordOPXdata.communicator">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+        <span class="c1"># self.communicator[&#39;raw_variables&#39;] = []</span>
+<div class="viewcode-block" id="RecordOPXdata.user_data">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.RecordOPXdata.user_data">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_data</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+<div class="viewcode-block" id="RecordOPXdata.specs">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.RecordOPXdata.specs">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">specs</span> <span class="o">=</span> <span class="p">[]</span></div>
+
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">specs</span><span class="p">:</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="n">make_data_spec</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spec</span><span class="p">,</span> <span class="n">TimedOPXData</span><span class="p">):</span>
+                <span class="n">tspec</span> <span class="o">=</span> <span class="n">indep</span><span class="p">(</span><span class="n">spec</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;_time_points&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">specs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tspec</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">user_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tspec</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RecordOPXdata.setup">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.RecordOPXdata.setup">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fun</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Establishes connection with the OPX and starts the measurement. The config of the OPX is passed through</span>
+<span class="sd">        the module variable global_config. It saves the result handles and saves initial values to the communicator</span>
+<span class="sd">        dictionary.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">_qmachine_context</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;self_managed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># Start the measurement in the OPX.</span>
+        <span class="k">if</span> <span class="n">_qmachine_context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">qmachine_mgr</span> <span class="o">=</span> <span class="n">QuantumMachinesManager</span><span class="p">(</span>
+                <span class="n">host</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">opx_address</span><span class="p">,</span>
+                <span class="n">port</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">opx_port</span><span class="p">,</span> 
+                <span class="n">cluster_name</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">cluster_name</span><span class="p">,</span>
+                <span class="n">octave</span><span class="o">=</span><span class="n">config</span><span class="o">.</span><span class="n">octave</span>
+            <span class="p">)</span>
+
+            <span class="n">qmachine</span> <span class="o">=</span> <span class="n">qmachine_mgr</span><span class="o">.</span><span class="n">open_qm</span><span class="p">(</span><span class="n">config</span><span class="p">(),</span> <span class="n">close_other_machines</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;current QM: </span><span class="si">{</span><span class="n">qmachine</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">qmachine</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;self_managed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">qmachine_mgr</span> <span class="o">=</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_qmachine_mgr</span>
+            <span class="n">qmachine</span> <span class="o">=</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_qmachine</span>
+
+        <span class="n">job</span> <span class="o">=</span> <span class="n">qmachine</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="n">result_handles</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result_handles</span>
+
+        <span class="c1"># Save the result handle and create initial parameters in the communicator used in the collector.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;result_handles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result_handles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;active&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;counter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;manager&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qmachine_mgr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;qmachine&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qmachine</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;qmachine_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">qmachine</span><span class="o">.</span><span class="n">id</span></div>
+
+
+    <span class="c1"># FIXME change this such that we make sure that we have enough data on all handles</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_wait_for_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Waits for the opx to have measured more data points than the ones indicated in the batchsize. Also checks that</span>
+<span class="sd">        the OPX is still collecting data, when the OPX is no longer processing, turn communicator[&#39;active&#39;] to False to</span>
+<span class="sd">        exhaust the collector.</span>
+
+<span class="sd">        :param batchsize: Size of batch. How many data-points is the minimum for the sweep to get in an iteration.</span>
+<span class="sd">                          e.g. if 5, _control_progress will keep running until at least 5 new data-points</span>
+<span class="sd">                          are available for collection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># When ready becomes True, the infinite loop stops.</span>
+        <span class="n">ready</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Collect necessary values from communicator.</span>
+        <span class="n">res_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;result_handles&#39;</span><span class="p">]</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;counter&#39;</span><span class="p">]</span>
+
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">ready</span><span class="p">:</span>
+            <span class="n">statuses</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">processing</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">handle</span> <span class="ow">in</span> <span class="n">res_handle</span><span class="p">:</span>
+                <span class="n">current_datapoint</span> <span class="o">=</span> <span class="n">handle</span><span class="o">.</span><span class="n">count_so_far</span><span class="p">()</span>
+
+                <span class="c1"># Check if the OPX is still processing.</span>
+                <span class="k">if</span> <span class="n">res_handle</span><span class="o">.</span><span class="n">is_processing</span><span class="p">():</span>
+                    <span class="n">processing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+                    <span class="c1"># Check if enough data-points are available.</span>
+                    <span class="k">if</span> <span class="n">current_datapoint</span> <span class="o">-</span> <span class="n">counter</span> <span class="o">&gt;=</span> <span class="n">batchsize</span><span class="p">:</span>
+                        <span class="n">statuses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">statuses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># Once the OPX is done processing turn ready True and turn active False to exhaust the generator.</span>
+                    <span class="n">statuses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">processing</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="kc">False</span> <span class="ow">in</span> <span class="n">statuses</span><span class="p">:</span>
+                <span class="n">ready</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="kc">True</span> <span class="ow">in</span> <span class="n">processing</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;active&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="RecordOPXdata.cleanup">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.RecordOPXdata.cleanup">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cleanup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Functions in charge of cleaning up any software tools that needs cleanup.</span>
+
+<span class="sd">        Currently, manually closes the _qmachine in the OPT so that simultaneous measurements can occur.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Cleaning up&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;self_managed&quot;</span><span class="p">]:</span>
+            <span class="n">open_machines</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;manager&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">list_open_quantum_machines</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;currently open QMs: </span><span class="si">{</span><span class="n">open_machines</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">machine_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;qmachine_id&quot;</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;qmachine&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;QM with ID </span><span class="si">{</span><span class="n">machine_id</span><span class="si">}</span><span class="s2"> closed.&quot;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;qmachine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;manager&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+
+
+<div class="viewcode-block" id="RecordOPXdata.collect">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.RecordOPXdata.collect">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Implementation of collector for the OPX. Collects new data-points from the OPX and yields them in a dictionary</span>
+<span class="sd">        with the names of the recorded variables as keywords and numpy arrays with the values. Raises ValueError if a</span>
+<span class="sd">        stream name inside the QUA program has a different name than a recorded variable and if the amount of recorded</span>
+<span class="sd">        variables and streams are different.</span>
+
+<span class="sd">        :param batchsize: Size of batch. How many data-points is the minimum for the sweep to get in an iteration.</span>
+<span class="sd">                          e.g. if 5, _control_progress will keep running until at least 5 new data-points</span>
+<span class="sd">                          are available for collection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Get the result_handles from the communicator.</span>
+        <span class="n">result_handle</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;result_handles&#39;</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;active&#39;</span><span class="p">]:</span>
+                <span class="c1"># Restart values for each iteration.</span>
+                <span class="n">return_data</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">counter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;counter&#39;</span><span class="p">]</span>  <span class="c1"># Previous iteration data-point number.</span>
+                <span class="n">first</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">available_points</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">ds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">DataSpec</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+                <span class="c1"># Make sure that the result_handle is active.</span>
+                <span class="k">if</span> <span class="n">result_handle</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="kc">None</span>
+
+                <span class="c1"># Waits until new data-points are ready to be gathered.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_wait_for_data</span><span class="p">(</span><span class="n">batchsize</span><span class="p">)</span>
+
+                <span class="k">def</span><span class="w"> </span><span class="nf">get_data_from_handle</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">up_to</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">up_to</span> <span class="o">==</span> <span class="n">counter</span><span class="p">:</span>
+                        <span class="k">return</span> <span class="kc">None</span>
+                    <span class="n">handle</span> <span class="o">=</span> <span class="n">result_handle</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                    <span class="n">handle</span><span class="o">.</span><span class="n">wait_for_values</span><span class="p">(</span><span class="n">up_to</span><span class="p">)</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">handle</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">counter</span><span class="p">,</span> <span class="n">up_to</span><span class="p">))[</span><span class="s1">&#39;value&#39;</span><span class="p">])</span>
+                    <span class="k">return</span> <span class="n">data</span>
+
+                <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">specs</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ComplexOPXData</span><span class="p">):</span>
+                        <span class="n">iname</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">i_data_stream</span>
+                        <span class="n">qname</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">q_data_stream</span>
+                        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">available_points</span> <span class="o">=</span> <span class="n">result_handle</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">iname</span><span class="p">)</span><span class="o">.</span><span class="n">count_so_far</span><span class="p">()</span>
+                        <span class="n">idata</span> <span class="o">=</span> <span class="n">get_data_from_handle</span><span class="p">(</span><span class="n">iname</span><span class="p">,</span> <span class="n">up_to</span><span class="o">=</span><span class="n">available_points</span><span class="p">)</span>
+                        <span class="n">qdata</span> <span class="o">=</span> <span class="n">get_data_from_handle</span><span class="p">(</span><span class="n">qname</span><span class="p">,</span> <span class="n">up_to</span><span class="o">=</span><span class="n">available_points</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">qdata</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">idata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;qdata is: </span><span class="si">{</span><span class="n">qdata</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;idata is: </span><span class="si">{</span><span class="n">idata</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;available points is:</span><span class="si">{</span><span class="n">available_points</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;i is: </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;ds is: </span><span class="si">{</span><span class="n">ds</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;iname is: </span><span class="si">{</span><span class="n">iname</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;qname is: </span><span class="si">{</span><span class="n">qdata</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;am I active: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;active&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;counter is: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;counter&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+                        <span class="k">if</span> <span class="n">qdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">idata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">return_data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">idata</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">qdata</span>
+
+                    <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_data</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+                    <span class="k">elif</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">result_handle</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s1"> specified but cannot be found in result handle.&#39;</span><span class="p">)</span>
+
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">name</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">name</span>
+                        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">available_points</span> <span class="o">=</span> <span class="n">result_handle</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">count_so_far</span><span class="p">()</span>
+                        <span class="n">return_data</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_data_from_handle</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">up_to</span><span class="o">=</span><span class="n">available_points</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">TimedOPXData</span><span class="p">):</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="n">return_data</span><span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">tvals</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                                <span class="n">return_data</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_time_points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tvals</span>
+                            <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                                <span class="n">return_data</span><span class="p">[</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;_time_points&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">tvals</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;someone needs to look at data saving ASAP...&#39;</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s1">&#39;counter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">available_points</span>
+                <span class="k">yield</span> <span class="n">return_data</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="RecordPrecompiledOPXdata">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.RecordPrecompiledOPXdata">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">RecordPrecompiledOPXdata</span><span class="p">(</span><span class="n">RecordOPXdata</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Implementation of AsyncRecord for use with precompiled OPX programs.</span>
+<span class="sd">    </span>
+<span class="sd">    To pass either waveform or IF overrides, use the QuantumMachineContext and set the overrides as attributes.</span>
+<span class="sd">    The overrides must be passed as dictionaries.</span>
+<span class="sd">    </span>
+<span class="sd">    For the waveform overrides the keys are the names of the waveforms as defined in the OPX config file, and</span>
+<span class="sd">    the values are the new waveform arrays. For an arbitrary (as defined in the qmconfig) waveform to be overridable,</span>
+<span class="sd">    the waveform must have `&quot;is_overridable&quot;: True` set. Constant waveforms do not need to be set as such: the override</span>
+<span class="sd">    will simply be a constant value. Other waveform types are not overridable.</span>
+
+<span class="sd">    For the IF overrides the keys are the names of the elements as defined in the OPX config file, and</span>
+<span class="sd">    the values are the new intermediate frequencies in Hz.</span>
+
+<span class="sd">    Usage example:</span>
+<span class="sd">    ```</span>
+<span class="sd">    def create_readout_wf(amp):</span>
+<span class="sd">        wf_samples = [0.0] * int(params.q01.readout.short.buffer()) + [amp] * int(</span>
+<span class="sd">                params.q01.readout.short.len()</span>
+<span class="sd">                - 2 * params.q01.readout.short.buffer()</span>
+<span class="sd">            ) + [0.0] * int(params.q01.readout.short.buffer())</span>
+<span class="sd">        return wf_samples</span>
+
+<span class="sd">    def create_drive_wf(amp):</span>
+<span class="sd">        return amp</span>
+
+<span class="sd">    with QuantumMachineContext() as qmc:</span>
+<span class="sd">        loc = measure_time_rabi() </span>
+
+<span class="sd">        qmc.wf_overrides = {</span>
+<span class="sd">            &quot;waveforms&quot;: {</span>
+<span class="sd">                f&quot;q01_short_readout_wf&quot;: create_readout_wf(),</span>
+<span class="sd">                f&quot;q01_square_pi_pulse_iwf&quot;: create_drive_wf()</span>
+<span class="sd">            }</span>
+<span class="sd">        }</span>
+<span class="sd">        qmc.if_overrides = {</span>
+<span class="sd">            &quot;q01&quot;: 80e6,</span>
+<span class="sd">            &quot;q01_readout&quot;: 80e6</span>
+<span class="sd">        }</span>
+
+<span class="sd">        loc = measure_time_rabi()</span>
+<span class="sd">    ```</span>
+<span class="sd">    This will perform a time Rabi measurement, redefine the IF and waveforms of the drive and readout elements,</span>
+<span class="sd">    and then execute the same measurement with the new settings.</span>
+
+<span class="sd">    There is no need to create a new quantum machine or recompile in between measurements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="RecordPrecompiledOPXdata.setup">
+<a class="viewcode-back" href="../../../../autoapi/labcore/instruments/opx/sweep/index.html#labcore.instruments.opx.sweep.RecordPrecompiledOPXdata.setup">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fun</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Starts the measurement using a provided _program_id. Compilation only happens if the _program_id is None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">_qmachine_context</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;self_managed&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">_qmachine_context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;No quantum machine manager or quantum machine found. &quot;</span>
+                               <span class="s2">&quot;Please use a context manager for precompiled measurements.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_program_id</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_program_id</span> <span class="o">=</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_qmachine</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">wf_overrides</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using waveform overrides: </span><span class="si">{</span><span class="n">_qmachine_context</span><span class="o">.</span><span class="n">wf_overrides</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">pending_job</span> <span class="o">=</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_qmachine</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">add_compiled</span><span class="p">(</span><span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_program_id</span><span class="p">,</span> <span class="n">overrides</span><span class="o">=</span><span class="n">_qmachine_context</span><span class="o">.</span><span class="n">wf_overrides</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No waveform overrides provided, using default waveforms.&quot;</span><span class="p">)</span>
+            <span class="n">pending_job</span> <span class="o">=</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_qmachine</span><span class="o">.</span><span class="n">queue</span><span class="o">.</span><span class="n">add_compiled</span><span class="p">(</span><span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_program_id</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">if_overrides</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using IF overrides: </span><span class="si">{</span><span class="n">_qmachine_context</span><span class="o">.</span><span class="n">if_overrides</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">element</span><span class="p">,</span> <span class="n">frequency</span> <span class="ow">in</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">if_overrides</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_qmachine</span><span class="o">.</span><span class="n">set_intermediate_frequency</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+            <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">if_overrides</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No IF overrides provided, using default IFs.&quot;</span><span class="p">)</span>
+
+        <span class="n">job</span> <span class="o">=</span> <span class="n">pending_job</span><span class="o">.</span><span class="n">wait_for_execution</span><span class="p">()</span>
+        <span class="n">result_handles</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">result_handles</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;result_handles&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result_handles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;active&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;counter&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;manager&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_qmachine_mgr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;qmachine&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_qmachine</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">[</span><span class="s2">&quot;qmachine_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_qmachine_context</span><span class="o">.</span><span class="n">_qmachine</span><span class="o">.</span><span class="n">id</span></div>
+</div>
+
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

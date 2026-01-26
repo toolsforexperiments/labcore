@@ -1,0 +1,169 @@
+labcore.analysis.fit
+====================
+
+.. py:module:: labcore.analysis.fit
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.analysis.fit.Parameter
+   labcore.analysis.fit.Parameters
+   labcore.analysis.fit.AnalysisResult
+   labcore.analysis.fit.Analysis
+   labcore.analysis.fit.FitResult
+   labcore.analysis.fit.Fit
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   labcore.analysis.fit.xr2fitinput
+   labcore.analysis.fit.fit_and_add_to_ds
+   labcore.analysis.fit.plot_ds_2d_with_fit
+
+
+Module Contents
+---------------
+
+.. py:class:: Parameter(name: str, value: Any = None, **kw: Any)
+
+   .. py:attribute:: name
+
+
+   .. py:attribute:: value
+      :value: None
+
+
+
+.. py:class:: Parameters
+
+   Bases: :py:obj:`collections.OrderedDict`
+
+
+   A collection of parameters
+
+   Initialize self.  See help(type(self)) for accurate signature.
+
+
+   .. py:method:: add(name: str, **kw: Any) -> None
+
+      Add/overwrite a parameter in the collection.
+
+
+
+.. py:class:: AnalysisResult(parameters: Dict[str, Union[Dict[str, Any], Any]])
+
+   Bases: :py:obj:`object`
+
+
+   .. py:attribute:: params
+
+
+   .. py:method:: eval(*args: Any, **kwargs: Any) -> numpy.ndarray
+      :abstractmethod:
+
+
+      Analysis types that produce data (like filters or fits) should implement this.
+
+
+
+   .. py:method:: params_to_dict() -> Dict[str, Any]
+
+      Get all analysis parameters.
+      Returns a dictionary that contains one key per parameter (its name).
+      Each value contains all attributes of the parameter object, except
+      those whose names start with `_` and those that are callable.
+
+
+
+.. py:class:: Analysis(coordinates: Union[Tuple[numpy.ndarray, Ellipsis], numpy.ndarray], data: numpy.ndarray)
+
+   Bases: :py:obj:`object`
+
+
+   Basic analysis object.
+
+   :param coordinates: may be a single 1d numpy array (for a single coordinate) or a tuple
+                       of 1d arrays (for multiple coordinates).
+   :param data: a 1d array of data
+   :param Constructor of `Analysis`.:
+
+
+   .. py:attribute:: coordinates
+
+
+   .. py:attribute:: data
+
+
+   .. py:method:: analyze(coordinates: Union[Tuple[numpy.ndarray, Ellipsis], numpy.ndarray], data: numpy.ndarray, *args: Any, **kwargs: Any) -> AnalysisResult
+      :abstractmethod:
+
+
+      Needs to be implemented by each inheriting class.
+
+
+
+   .. py:method:: run(*args: Any, **kwargs: Any) -> AnalysisResult
+
+
+.. py:class:: FitResult(lmfit_result: lmfit.model.ModelResult)
+
+   Bases: :py:obj:`AnalysisResult`
+
+
+   .. py:attribute:: lmfit_result
+
+
+   .. py:attribute:: params
+
+
+   .. py:method:: eval(*args: Any, **kwargs: Any) -> numpy.ndarray
+
+      Analysis types that produce data (like filters or fits) should implement this.
+
+
+
+.. py:class:: Fit(coordinates: Union[Tuple[numpy.ndarray, Ellipsis], numpy.ndarray], data: numpy.ndarray)
+
+   Bases: :py:obj:`Analysis`
+
+
+   Basic analysis object.
+
+   :param coordinates: may be a single 1d numpy array (for a single coordinate) or a tuple
+                       of 1d arrays (for multiple coordinates).
+   :param data: a 1d array of data
+   :param Constructor of `Analysis`.:
+
+
+   .. py:method:: model(*arg: Any, **kwarg: Any) -> numpy.ndarray
+      :staticmethod:
+
+      :abstractmethod:
+
+
+
+   .. py:method:: analyze(coordinates: Union[Tuple[numpy.ndarray, Ellipsis], numpy.ndarray], data: numpy.ndarray, dry: bool = False, params: Dict[str, Any] = {}, *args: Any, **fit_kwargs: Any) -> FitResult
+
+      Needs to be implemented by each inheriting class.
+
+
+
+   .. py:method:: guess(coordinates: Union[Tuple[numpy.ndarray, Ellipsis], numpy.ndarray], data: numpy.ndarray) -> Dict[str, Any]
+      :staticmethod:
+
+      :abstractmethod:
+
+
+
+.. py:function:: xr2fitinput(arr: xarray.DataArray) -> Tuple[List[numpy.ndarray], numpy.ndarray]
+
+.. py:function:: fit_and_add_to_ds(ds: xarray.Dataset, dim_name: str, fit_class: Type[Fit], dim_order: Optional[List[int]] = None, **run_kwargs: Any) -> Tuple[xarray.Dataset, FitResult]
+
+.. py:function:: plot_ds_2d_with_fit(ds: xarray.Dataset, dim_name: str, x: Optional[str] = None, y: Optional[str] = None, plot_kwargs: Dict[str, Any] = {})
+

@@ -1,0 +1,172 @@
+labcore.instruments.opx.config
+==============================
+
+.. py:module:: labcore.instruments.opx.config
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   labcore.instruments.opx.config.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.instruments.opx.config.QMConfig
+
+
+Module Contents
+---------------
+
+.. py:data:: logger
+
+.. py:class:: QMConfig(params, opx_address: Optional[str] = None, opx_port: Optional[int] = None, cluster_name: Optional[str] = None, octave=None)
+
+   Base class for a QMConfig class. The purpose of this class is to implement the real time changes of the
+   parameter manager with the OPX. We do this to always have the most up-to-date parameters from the
+   parameter manager and integration weights (which depend on the parameters in the parameter manager).
+
+   By default, when a new config is generated this class will close any open QuantumMachines that are using the same
+   controllers that this config uses. To not do this pass False to close_other_machines in config().
+
+   The user should still manually write the config dictionary used for the specific physical setup that the
+   measurement is going to be performed but a few helper methods are implemented in the base class: two helper
+   methods to write integration weights and a method that creates and adds the integration weights to the config dict.
+
+   If the constructor is overriden the new constructor should call the super constructor to pass the parameter manager
+   instance used.
+
+   If the constructor is overriden because the parameter manager is not being used, the method config(self) also needs
+   to be overriden.
+
+   To have the integration weights added automatically into the config dict, you have to implement config_(self).
+   config_(self) should return the python dictionary without the integration weights in it.
+   If this is the case, the already implemented config(self) method will add the integration weights when called and
+   return the python dictionary with the integration weights added.
+
+   The add_integration_weights will go through the items in the pulses dictionary and add weights to any
+   pulse that has the following characteristics:
+       * The key of the pulse starts with the str 'readout'. If the first 7 characters of the key are not 'readout'
+         that pulse will be ignored.
+       * It needs to have the string '_pulse', present in its key. anything that comes before '_pulse' is
+         as the name of the pulse, anything afterwards gets ignored.
+         e.g. If my pulse name is: 'readout_short_pulse', 'readout_short' is taken as a unique pulse that requires
+         integration weights. If another pulse exists called: 'readout_short_pulse_something_else'
+         add_integration_weights will add the same integration weights as it did to 'readout_short'.
+         This is useful if you have 2 different pules of the same length that need the same integration weights.
+       * For each unique pulse there needs to be a parameter in the parameter manager with the unique pulse name
+         followed by len. This is where the length of the pulse will be taken to get the
+         integration weights. An underscore ('_') in the pulse name will be interpreted as a dot ('.') in the
+         parameter manager.
+         e.g. If I have a pulse with name 'readout_short_pulse', the pulse name is 'readout_short' and there should
+         be a parameter in the parameter manager called: 'readout.short.len' with the pulse length in it.
+   Any pulse that does not fulfil any of the three requirements will be ignored and will not have
+   integration weights.
+
+   3 integration weights will be created for each unique pulse, a flat integration weights
+   for a full demodulation, flat integration weights for a sliced demodulation and weighted integration weights.
+   The weights for the weighted integration will be loaded from the calibration files folder.
+   If no weights are found in the calibration folder for a pulse, flat ones will be used instead.
+   If old integration weights are found in the file, they will be deleted.
+
+   :param params: The instance of the parameter manager where the length of the pulses are stored.
+   :param opx_address: The address of the OPX where the config is going to get used.
+   :param opx_port: The port of the OPX where the config is going to get used.
+
+
+   .. py:attribute:: params
+
+
+   .. py:attribute:: opx_address
+      :value: None
+
+
+
+   .. py:attribute:: opx_port
+      :value: None
+
+
+
+   .. py:attribute:: octave
+      :value: None
+
+
+
+   .. py:attribute:: cluster_name
+      :value: None
+
+
+
+   .. py:method:: config(close_other_machines: bool = False) -> Dict[str, Any]
+
+      Creates the config dictionary.
+
+      :param close_other_machines: If True, closes any currently open qm in the opx that uses the same controllers
+          that this config is using.
+      :returns: The config dictionary.
+
+
+
+   .. py:method:: config_() -> Dict[str, Any]
+      :abstractmethod:
+
+
+
+   .. py:method:: add_random_waveform(conf)
+
+      Adds a random waveform to the config dictionary. This is needed becaouse of a bug in the qm code that does not
+      close open QuantumMachines if the configuration is exactly the same.
+
+
+
+   .. py:method:: add_integration_weights(conf)
+
+      Automatically add integration weights to the config dictionary. See module docstring for further explanation on
+      the rules for this to work.
+
+
+
+   .. py:method:: convert_full_list_to_list_of_tuples(integration_weights, N=100, accuracy=2**(-15))
+
+      Written by Quantum Machines.
+
+      Converts a list of integration weights, in which each sample corresponds to a clock cycle (4ns), to a list
+      of tuples with the format (weight, time_to_integrate_in_ns).
+      Can be used to convert between the old format (up to QOP 1.10) to the new format introduced in QOP 1.20.
+
+      :param integration_weights: A list of integration weights.
+      :param N:   Maximum number of tuples to return. The algorithm will first create a list of tuples,
+                  and then if it is
+                  too long, it will run :func:`compress_integration_weights` on them.
+      :param accuracy:    The accuracy at which to calculate the integration weights. Default is 2^-15, which is
+                          the accuracy at which the OPX operates for the integration weights.
+      :type integration_weights: list[float]
+      :type N: int
+      :type accuracy: float
+      :return: List of tuples representing the integration weights
+
+
+
+   .. py:method:: compress_integration_weights(integration_weights, N=100)
+
+      Written by Quantum Machines.
+
+      Compresses the list of tuples with the format (weight, time_to_integrate_in_ns) to one with length < N.
+      Works by iteratively finding the nearest integration weights and combining them with a weighted average.
+
+      :param integration_weights: The integration_weights to be compressed.
+      :param N: The maximum list length required.
+      :return: The compressed list of tuples representing the integration weights.
+
+
+
+   .. py:method:: configure_octave(qmm, qm)
+      :abstractmethod:
+
+
+

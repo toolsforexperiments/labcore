@@ -1,0 +1,123 @@
+labcore.setup_measurements
+==========================
+
+.. py:module:: labcore.setup_measurements
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   labcore.setup_measurements.WD
+   labcore.setup_measurements.DATADIR
+   labcore.setup_measurements.options
+   labcore.setup_measurements.logger
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.setup_measurements.Options
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   labcore.setup_measurements.param_from_name
+   labcore.setup_measurements.getp
+   labcore.setup_measurements.setup_logging
+   labcore.setup_measurements.find_or_create_remote_instrument
+   labcore.setup_measurements.run_measurement
+
+
+Module Contents
+---------------
+
+.. py:data:: WD
+
+.. py:data:: DATADIR
+
+.. py:class:: Options
+
+   .. py:attribute:: instrument_clients
+      :type:  Optional[Dict[str, instrumentserver.client.Client]]
+      :value: None
+
+
+
+   .. py:attribute:: parameters
+      :type:  Optional[instrumentserver.client.ProxyInstrument]
+      :value: None
+
+
+
+   .. py:attribute:: qubit_defaults
+      :type:  Optional[callable]
+
+
+.. py:data:: options
+
+.. py:function:: param_from_name(name: str)
+
+.. py:function:: getp(name: str, default=None, raise_if_missing=False)
+
+.. py:function:: setup_logging() -> logging.Logger
+
+   Setup logging in a reasonable way. Note: we use the root logger since
+   our measurements typically run in the console directly and we want
+   logging to work from scripts that are directly run in the console.
+
+   :rtype: The logger that has been setup.
+
+
+.. py:data:: logger
+
+.. py:function:: find_or_create_remote_instrument(cli: instrumentserver.client.Client, ins_name: str, ins_class: Optional[str] = None, *args: Any, **kwargs: Any) -> instrumentserver.client.ProxyInstrument
+
+   Finds or creates an instrument in an instrument server.
+
+   :param cli: instance of the client pointing to the instrument server
+   :param ins_name: name of the instrument to find or to create
+   :param ins_class: the class of the instrument (import path as string) if creating a new instrument
+   :param args: will be passed to the instrument creation call
+   :param kwargs: will be passed to the instrument creation call
+
+   :rtype: Proxy to the remote instrument
+
+
+.. py:function:: run_measurement(sweep: labcore.measurement.Sweep, name: str, safe_write_mode: bool = False, **kwargs) -> Tuple[Union[str, pathlib.Path], Optional[labcore.data.datadict.DataDict]]
+
+   Wrapper function around run_and_save_sweep that makes sure you are saving your measurement with all the necessary
+   metadata around it.
+   This includes the current git commit hash, the python environment, and the snapshot of all
+   instruments and parameters.
+   It is considered bad practice to have uncommitted changes in a repository that is installed locally.
+   If you have to change something from a repo, please open up a PR, this usually means that something is wrong there.
+
+   Assumptions
+   -----------
+
+   To use this function, you need:
+   * Have an instrumentserver instance running with an instantiated client in options.instrument_clients
+   * Have a parameter manager proxy instrument in options.parameters. You get this simply
+     by passing the usually called params variable to options.
+
+   How-to set up auto-committing
+   ---------------------------
+
+   To get this function to commit your measurement code before running the measurement,
+   you need to follow the following steps:
+
+   * Run `git init` in the directory where you are running your measurements.
+     If you are getting an error saying "could not set core.filemode to 'false'", run `sudo git init` instead.
+   * In your measurement folder copy the file :doc:`../doc/example.gitignore` and rename it to '.gitignore'.
+   * Commit all the files in your measurement folder running the command `git add -a -m "Initial commit"`.
+
+   After those 3 steps have been taken, every time a measurement is run, the folder should autocommit before any measurement.
+
+

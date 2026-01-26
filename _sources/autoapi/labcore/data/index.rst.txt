@@ -1,0 +1,17 @@
+labcore.data
+============
+
+.. py:module:: labcore.data
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/labcore/data/datadict/index
+   /autoapi/labcore/data/datadict_storage/index
+   /autoapi/labcore/data/tools/index
+
+

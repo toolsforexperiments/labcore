@@ -1,0 +1,339 @@
+labcore.instruments.opx.mixer
+=============================
+
+.. py:module:: labcore.instruments.opx.mixer
+
+.. autoapi-nested-parse::
+
+   Tools for using (IQ) mixers with the QM OPX.
+
+   Required packages/hardware:
+   - QM OPX incl python software
+   - SignalHound USB SA124B + driver (comes with qcodes)
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.instruments.opx.mixer.MixerCalibration
+   labcore.instruments.opx.mixer.MixerConfig
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   labcore.instruments.opx.mixer.calibrate_mixer
+   labcore.instruments.opx.mixer.mixer_of_step
+   labcore.instruments.opx.mixer.mixer_imb_step
+
+
+Module Contents
+---------------
+
+.. py:class:: MixerCalibration(lo_frq: float, if_frq: float, analyzer: labcore.instruments.qcodes_drivers.SignalHound.Spike.Spike, qm: qm.QuantumMachine, mixer_name: str, element_name: str, pulse_name: str)
+
+   Class for performing IQ mixer calibration.
+
+   We assume that we control the I and Q with a QM OPX, and monitor the output of the mixer with a
+   SignalHound spectrum analyzer.
+   Requires that independently a correctly specified configuration for the OPX is available.
+
+   :param lo_frq: LO frequency in Hz
+   :param if_frq: IF frequency in Hz (can be positive or negative, depending on the sideband you want)
+   :param analyzer: SignalHound qcodes driver instance
+   :param qm: Quantum Machine instance (with config applied)
+   :param mixer_name: the name of mixer we're tuning, as given in the QM config
+   :param element_name: the name of the element thats playing the IQ waveform, as given in the QM config
+   :param pulse_name: the name of the (CW) pulse we're playing to tune the mixer, as given in the QM config
+
+
+   .. py:attribute:: lo_frq
+
+
+   .. py:attribute:: if_frq
+
+
+   .. py:attribute:: analyzer
+
+
+   .. py:attribute:: qm
+
+
+   .. py:attribute:: mixer_name
+
+
+   .. py:attribute:: element_name
+
+
+   .. py:attribute:: pulse_name
+
+
+   .. py:attribute:: do_plot
+      :value: True
+
+
+
+   .. py:method:: play_wf() -> None
+
+      Play an infinite loop waveform on the OPX.
+      We're scaling the amplitude of the pulse used by 0.5.
+
+
+
+   .. py:method:: setup_analyzer(f: float) -> None
+
+      Set up the analyzer to measure at the given frequency `f` and sweep time.
+
+      Signalhound driver is automatically put in zero-span mode when called.
+
+      :param f: frequency to measure at, in Hz
+      :param mode: set the mode for the spectrum analyzer
+
+
+
+   .. py:method:: measure_leakage() -> float
+
+      Measure max. signal power at the LO frequency.
+
+
+
+   .. py:method:: measure_upper_sb() -> float
+
+      Measure max. signal power at LO frequency + IF frequency
+
+
+
+   .. py:method:: measure_lower_sb() -> float
+
+      Measure max. signal power at LO frequency - IF frequency
+
+
+
+   .. py:method:: IQ_imbalance_correction(g, phi) -> List
+      :staticmethod:
+
+
+      returns in the IQ mixer correction matrix as exepcted by the QM mixer config.
+
+      :param g: relative amplitude imbalance between I and Q channels
+      :param phi: relative phase imbalance between I and Q channels
+
+
+
+   .. py:method:: lo_leakage(iq_offsets: numpy.ndarray) -> float
+
+      Set the I and Q DC offsets and measure the leakage power (in dBm).
+
+      :param iq_offsets: array with 2 elements (I and Q offsets), with dtype = float
+
+
+
+   .. py:method:: lo_leakage_scan(center: numpy.ndarray = np.array([0.0, 0.0]), ranges: Tuple = (0.5, 0.5), steps: int = 11) -> numpy.ndarray
+
+      Scan the I and Q DC offsets and measure the leakage at each point.
+
+      if `MixerCalibration.do_plot` is `True` (default), then this generates a live plot of this measurement.
+
+      :param center: center coordinate [I_of, Q_of]
+      :param ranges: scan range on I and Q
+      :param steps: how many steps (will be used for both I and Q)
+
+      :returns: the I/Q offset coordinate at which the smallest leakage was found
+      :rtype: np.ndarray
+
+
+
+   .. py:method:: optimize_lo_leakage(initial_guess: numpy.ndarray = np.array([0.0, 0.0]), ranges: Tuple[float, float] = (0.1, 0.1), cb_options: Optional[Dict[str, Any]] = None)
+
+      Optimize the IQ DC offsets using COBYLA.
+
+      The initial guess and ranges are used to specify the initial simplex
+      for the COBYLA algorithm.
+      initial guess is the starting point, and initial ranges are the distances
+      along the two coordinates for the remaining two vertices of the initial simplex.
+
+      :param initial_guess: x0 of the COBYLA algorithm, an array with two elements, for I and Q offset
+      :param ranges: distance for I and Q vectors to complete the initial simplex
+      :param cb_options: Options to pass to the `scipy.optimize.minimize(method='COBYLA')`.
+                         Will be passed via the `options` dictionary.
+
+
+
+   .. py:method:: sb_imbalance(imbalance: numpy.ndarray) -> float
+
+      Set mixer imbalance and measure the upper SB power.
+
+      :param imbalance: values for relative amplitude and phase imbalance
+
+      :returns: upper SB power [dBm]
+      :rtype: float
+
+
+
+   .. py:method:: sb_imbalance_scan(center: numpy.ndarray = np.array([0.0, 0.0]), ranges: Tuple = (0.5, 0.5), steps: int = 11) -> numpy.ndarray
+
+      Scan the relative amplitude and phase imbalance and measure the leakage at each point.
+
+      if `MixerCalibration.do_plot` is `True` (default), then this generates a live plot of this measurement.
+
+      :param center: center coordinate [amp imbalance, phase imbalance]
+      :param ranges: scan range on the two imbalances
+      :param steps: how many steps (will be used for both imbalances)
+
+      :returns: the imbalance coordinate at which the smallest leakage was found for the lower sideband
+      :rtype: np.ndarray
+
+
+
+   .. py:method:: optimize_sb_imbalance(initial_guess: numpy.ndarray = np.array([0.0, 0.0]), ranges: Tuple[float, float] = (0.05, 0.05), cb_options: Optional[Dict[str, Any]] = None) -> numpy.ndarray
+
+      Optimize the mixer imbalances using COBYLA.
+
+      The initial guess and ranges are used to specify the initial simplex
+      for the COBYLA algorithm.
+      initial guess is the starting point, and initial ranges are the distances
+      along the two coordinates for the remaining two vertices of the initial simplex.
+
+      :param initial_guess: x0 of the COBYLA algorithm, an array with two elements, for rel. amp and phase imbalance
+      :param ranges: distance for amp/phase imbalance vectors to complete the initial simplex
+      :param cb_options: Options to pass to the `scipy.optimize.minimize(method='COBYLA')`.
+                         Will be passed via the `options` dictionary.
+
+
+
+.. py:class:: MixerConfig
+
+   .. py:attribute:: qmconfig
+      :type:  labcore.instruments.opx.config.QMConfig
+
+
+   .. py:attribute:: opx_address
+      :type:  str
+
+
+   .. py:attribute:: opx_port
+      :type:  str
+
+
+   .. py:attribute:: opx_cluster_name
+      :type:  str
+
+
+   .. py:attribute:: analyzer
+      :type:  labcore.instruments.qcodes_drivers.SignalHound.Spike.Spike
+
+
+   .. py:attribute:: generator
+      :type:  labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A
+
+
+   .. py:attribute:: if_param
+      :type:  Callable
+
+
+   .. py:attribute:: offsets_param
+      :type:  Callable
+
+
+   .. py:attribute:: imbalances_param
+      :type:  Callable
+
+
+   .. py:attribute:: mixer_name
+      :type:  str
+
+
+   .. py:attribute:: element_name
+      :type:  str
+
+
+   .. py:attribute:: pulse_name
+      :type:  str
+
+
+   .. py:attribute:: calibration_method
+      :type:  str
+      :value: ' '
+
+
+
+   .. py:attribute:: generator_power
+      :type:  Optional[float]
+      :value: None
+
+
+
+   .. py:attribute:: offset_scan_ranges
+      :type:  Tuple[float, float]
+      :value: (0.01, 0.01)
+
+
+
+   .. py:attribute:: offset_scan_steps
+      :type:  int
+      :value: 11
+
+
+
+   .. py:attribute:: imbalance_scan_ranges
+      :type:  Tuple[float, float]
+      :value: (0.01, 0.01)
+
+
+
+   .. py:attribute:: imbalance_scan_steps
+      :type:  int
+      :value: 11
+
+
+
+   .. py:attribute:: lo_param
+      :type:  Optional[Callable]
+      :value: None
+
+
+
+   .. py:attribute:: frequency_param
+      :type:  Optional[Callable]
+      :value: None
+
+
+
+   .. py:attribute:: opt2D_of_custom_init
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: opt2D_imb_custom_init
+      :type:  bool
+      :value: True
+
+
+
+   .. py:attribute:: opt2D_of_dia
+      :type:  str
+      :value: 'large'
+
+
+
+   .. py:attribute:: opt2D_imb_dia
+      :type:  str
+      :value: 'large'
+
+
+
+.. py:function:: calibrate_mixer(config: MixerConfig, offset_scan_ranges=None, offset_scan_steps=None, imbalance_scan_ranges=None, imbalance_scan_steps=None, calibrate_offsets=True, calibrate_imbalance=True, max_step_size=0.05)
+
+   Runs the entire mixer calibration for any mixer
+
+
+.. py:function:: mixer_of_step(config: MixerConfig, qm: qm.QuantumMachine, di, dq)
+
+.. py:function:: mixer_imb_step(config: MixerConfig, qm: qm.QuantumMachine, dg, dp)
+

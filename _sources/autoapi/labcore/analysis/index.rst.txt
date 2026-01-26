@@ -1,0 +1,549 @@
+labcore.analysis
+================
+
+.. py:module:: labcore.analysis
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/labcore/analysis/analysis_base/index
+   /autoapi/labcore/analysis/fit/index
+   /autoapi/labcore/analysis/fitfuncs/index
+   /autoapi/labcore/analysis/hv_pretty/index
+   /autoapi/labcore/analysis/hvapps/index
+   /autoapi/labcore/analysis/hvplotting/index
+   /autoapi/labcore/analysis/mpl/index
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.analysis.DatasetAnalysis
+   labcore.analysis.Node
+   labcore.analysis.ValuePlot
+   labcore.analysis.ComplexHist
+   labcore.analysis.Fit
+   labcore.analysis.FitResult
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   labcore.analysis.plot_data
+
+
+Package Contents
+----------------
+
+.. py:class:: DatasetAnalysis(datafolder, name, analysisfolder='./analysis/', has_period_in_name=False, raise_on_earlier_analysis=None)
+
+   .. py:attribute:: figure_save_format
+      :value: ['png', 'pdf']
+
+
+
+   .. py:attribute:: raise_on_earlier_analysis
+      :value: None
+
+
+
+   .. py:attribute:: name
+
+
+   .. py:attribute:: datafolder
+
+
+   .. py:attribute:: analysisfolder
+      :value: './analysis/'
+
+
+
+   .. py:attribute:: timestamp
+      :value: ''
+
+
+
+   .. py:attribute:: savefolders
+      :value: []
+
+
+
+   .. py:attribute:: entities
+
+
+   .. py:attribute:: files
+      :value: []
+
+
+
+   .. py:method:: load_metadata_from_json(file_name, key)
+
+      Load a parameter from a metadata json file
+
+      :param file_name: file name inside the data directory.
+      :param key: which entry from the file we should get.
+                  only top-level keys supported currently.
+
+      :rtype: the requested data.
+
+      :raises ValueError: if requested data is not present in the file.
+
+
+
+   .. py:method:: load_saved_parameter(parameter_name, parameter_manager_name='parameter_manager', file_name='parameters.json')
+
+
+   .. py:method:: add(**kwargs: Any) -> None
+
+
+   .. py:method:: add_figure(name, *arg, fig: Optional[matplotlib.figure.Figure] = None, **kwargs) -> matplotlib.figure.Figure
+
+
+   .. py:attribute:: make_figure
+
+
+   .. py:method:: to_table(name, data: Dict[str, Any])
+
+
+   .. py:method:: load_table(path)
+      :staticmethod:
+
+
+
+   .. py:method:: save()
+
+
+   .. py:method:: save_mpl_figure(fig: matplotlib.figure.Figure, name: str, folder: pathlib.Path) -> List[pathlib.Path]
+
+      save a figure in a standard way to the dataset directory.
+
+      :param fig: the figure instance
+      :param name: name to give the figure
+      :param fmt: file format (defaults to png)
+
+      :rtype: A list of file paths where the figure was saved.
+
+
+
+   .. py:method:: save_hv_plot(plot: holoviews.core.Dimensioned, name: str, folder: pathlib.Path) -> pathlib.Path
+
+      save a hvplot in a standard way to the dataset directory.
+
+      :param plot: the hvplot instance
+      :param name: name to give the figure
+      :param fmt: file format (defaults to png)
+
+      :rtype: Path of the saved file.
+
+
+
+   .. py:method:: save_dict_data(data: dict, name: str, folder: pathlib.Path) -> pathlib.Path
+
+
+   .. py:method:: save_str(data: str, name: str, folder: pathlib.Path) -> pathlib.Path
+
+
+   .. py:method:: save_np(data: numpy.ndarray, name: str, folder: pathlib.Path) -> pathlib.Path
+
+
+   .. py:method:: save_ds(data: xarray.Dataset, name: str, folder: pathlib.Path) -> pathlib.Path
+
+
+   .. py:method:: save_da(data: xarray.DataArray, name: str, folder: pathlib.Path) -> pathlib.Path
+
+
+   .. py:method:: save_df(data: pandas.DataFrame, name: str, folder: pathlib.Path) -> pathlib.Path
+
+
+   .. py:method:: save_pickle(data: Any, name: str, folder: pathlib.Path) -> pathlib.Path
+
+
+   .. py:method:: get_analysis_data_file(name: str, format=['json'])
+
+
+   .. py:method:: has_analysis_data(name: str, format=['json'])
+
+
+   .. py:method:: load_analysis_data(name: str, format=['json'])
+
+
+.. py:class:: Node(path=None, data_in: Optional[Data] = None, *args: Any, **kwargs: Any)
+
+   Bases: :py:obj:`panel.viewable.Viewer`
+
+
+   Node base class.
+
+   A simple wrapper class that we use to standardize the way we process data.
+   Aim: whenever input data is set/updated, ``Node.process`` is called (in the
+   base class it simply sets output equal to input).
+   User-defined nodes may watch ``data_in`` and ``data_out`` to update UI or
+   anything else.
+   Pipelines are formed by appending nodes to each other using ``Node.append``.
+
+   Nodes with graphs must implement a ``get_plot()`` function that returns
+   a holoviews graph object in order for that graph to be able to be saved
+   as either an html or png file.
+
+   Params
+   ------
+   data_in
+       input data. Must be either a pandas DataFrame or an xarray Dataset.
+   data_out
+       processed output data. Must be either a pandas DataFrame or an xarray Dataset.
+   units_in
+       units of input data. Must be a dictionary with keys corresponding to dimensions,
+       and values corresponding to units.
+   units_out
+       units of output data. Must be a dictionary with keys corresponding to dimensions,
+       and values corresponding to units.
+   meta_in
+       any input metadata. Arbitrary keys/value.
+   meta_out
+       any output metadata. Arbitrary keys/value.
+
+   Constructor for ``Node``.
+
+   :param data_in: Optional input data.
+   :param \*args: passed to ``pn.viewable.Viewer``.
+   :param \*\*kwargs: passed to ``pn.viewable.Viewer``.
+
+
+   .. py:attribute:: data_in
+
+
+   .. py:attribute:: data_out
+
+
+   .. py:attribute:: units_in
+
+
+   .. py:attribute:: units_out
+
+
+   .. py:attribute:: meta_in
+
+
+   .. py:attribute:: meta_out
+
+
+   .. py:attribute:: layout
+
+
+   .. py:attribute:: graph_types
+
+
+   .. py:attribute:: plot_type_select
+
+
+   .. py:attribute:: file_path
+      :value: None
+
+
+
+   .. py:method:: render_data(data: Optional[Data]) -> DataDisplay
+      :staticmethod:
+
+
+      Shows data as renderable object.
+
+      :raises NotImplementedError: if data is not a pandas DataFrame or an xarray Dataset.
+
+
+
+   .. py:method:: data_dims(data: Optional[Data]) -> tuple[list[str], list[str]]
+      :staticmethod:
+
+
+      Returns the dimensions of the data.
+
+      Format: (independents, dependents); both as lists of strings.
+
+      :raises NotImplementedError: if data is not a pandas DataFrame or an xarray Dataset.
+
+
+
+   .. py:method:: mean(data: Data, *dims: str) -> Data
+      :staticmethod:
+
+
+      Takes the mean of data along the given dimensions.
+
+      :param data: input data.
+      :param \*dims: dimensions to take the mean along
+
+      :rtype: data after taking the mean
+
+      :raises NotImplementedError: if data is not a pandas DataFrame or an xarray Dataset.
+
+
+
+   .. py:method:: split_complex(data: Data) -> Data
+      :staticmethod:
+
+
+      Split complex dependents into real and imaginary parts.
+
+      TODO: should update units as well
+
+      :param data: input data.
+
+      :rtype: data with complex dependents split into real and imaginary parts.
+
+      :raises NotImplementedError: if data is not a pandas DataFrame or an xarray Dataset.
+
+
+
+   .. py:method:: complex_dependents(data: Optional[Data]) -> dict[str, dict[str, str]]
+      :staticmethod:
+
+
+      Returns a dictionary of complex dependents and their real/imaginary parts.
+
+      Requires that complex data has already been split.
+
+      :param data: input data.
+
+      :returns: "`dependent`": {"real": "`dependent_Re`", "imag": "`dependent_Im`"}}
+                `dependent_Re` and `dependent_Im` are the dimensions actually present
+                in the data.
+      :rtype: dictionary of the form
+
+
+
+   .. py:method:: dim_label(dim: str, which: str = 'out') -> str
+
+      Generate dimension label for use in plots.
+
+      :param dim: dimension name.
+      :param which: Either "in" or "out", depending on whether we want the input or
+                    output data of the Node. Default is "out".
+
+      :rtype: dimension label, including units if available.
+
+
+
+   .. py:method:: dim_labels(which: str = 'out') -> dict[str, str]
+
+      Generate dimension labels for use in plots.
+
+      Generates all dimension labels for the data.
+      See ``Node.dim_label`` for more information.
+
+
+
+   .. py:method:: update(*events: param.parameterized.Event) -> None
+
+      Update the node using external events.
+
+      If event contains ``data_out``, ``units_out``, or ``meta_out``,
+      will set them as ``data_in``, ``units_in``, or ``meta_in`` respectively.
+
+
+
+   .. py:method:: process() -> None
+
+      Process data.
+
+      By default, simply sets ``data_out`` equal to ``data_in``.
+
+      Can/Should be overridden by subclasses to do more complicated things.
+
+
+
+   .. py:method:: data_in_view() -> DataDisplay
+
+      Updating view of input data (as table; as provided by the data type).
+
+      Updates on change of ``data_in``.
+
+
+
+   .. py:method:: data_out_view() -> DataDisplay
+
+      Updating view of output data (as table; as provided by the data type).
+
+      Updates on change of ``data_out``.
+
+
+
+   .. py:method:: plot() -> panel.viewable.Viewable
+
+      A reactive panel object that allows selecting a plot type, and shows the plot.
+
+      Updates on change of ``data_out``.
+
+
+
+   .. py:method:: plot_obj() -> Optional[Node]
+
+      The actual plot object.
+
+      Updates on change of ``data_out`` or the selection of the plot value.
+
+      :rtype: A dedicated plotting node.
+
+
+
+   .. py:method:: append(other: Node) -> None
+
+
+   .. py:method:: detach(other: Node) -> None
+
+
+   .. py:method:: fit_obj()
+
+
+.. py:class:: ValuePlot(*args, **kwargs)
+
+   Bases: :py:obj:`PlotNode`
+
+
+   PlotNode, Node subclass
+
+   A superclass of all nodes that make plots of some sort. Mostly
+   deals with define/creating fits for whatever graph subnode is instantiated.
+
+   Constructor for ``Node``.
+
+   :param data_in: Optional input data.
+   :param \*args: passed to ``pn.viewable.Viewer``.
+   :param \*\*kwargs: passed to ``pn.viewable.Viewer``.
+
+
+   .. py:attribute:: xy_select
+
+
+   .. py:attribute:: layout
+
+
+   .. py:method:: plot_options_panel()
+
+
+   .. py:method:: plot_panel()
+
+      Creates and returns a panel with the class's plot
+
+      Should be overridden by subclasses to return the desired plot.
+
+
+
+   .. py:method:: fit_axis_options()
+
+      Returns a list of the different axes you can
+      make a fit for in this node.
+
+      Should be overridden by subclasses to return the appropriate object.
+
+
+
+.. py:class:: ComplexHist(*args, **kwargs)
+
+   Bases: :py:obj:`PlotNode`
+
+
+   PlotNode, Node subclass
+
+   A superclass of all nodes that make plots of some sort. Mostly
+   deals with define/creating fits for whatever graph subnode is instantiated.
+
+   Constructor for ``Node``.
+
+   :param data_in: Optional input data.
+   :param \*args: passed to ``pn.viewable.Viewer``.
+   :param \*\*kwargs: passed to ``pn.viewable.Viewer``.
+
+
+   .. py:attribute:: gb_select
+
+
+   .. py:attribute:: layout
+
+
+   .. py:method:: plot_panel()
+
+      Creates and returns a panel with the class's plot
+
+      Should be overridden by subclasses to return the desired plot.
+
+
+
+   .. py:method:: get_plot()
+
+      Returns the plot as a holoviews object
+
+      Used for saving the plot as html or png.
+
+      Can/Should be overridden by subclasses to return the appropriate object.
+
+
+
+   .. py:method:: fit_axis_options()
+
+      Returns a list of the different axes you can
+      make a fit for in this node.
+
+      Should be overridden by subclasses to return the appropriate object.
+
+
+
+.. py:function:: plot_data(data: Union[pandas.DataFrame, xarray.Dataset]) -> panel.viewable.Viewable
+
+.. py:class:: Fit(coordinates: Union[Tuple[numpy.ndarray, Ellipsis], numpy.ndarray], data: numpy.ndarray)
+
+   Bases: :py:obj:`Analysis`
+
+
+   Basic analysis object.
+
+   :param coordinates: may be a single 1d numpy array (for a single coordinate) or a tuple
+                       of 1d arrays (for multiple coordinates).
+   :param data: a 1d array of data
+   :param Constructor of `Analysis`.:
+
+
+   .. py:method:: model(*arg: Any, **kwarg: Any) -> numpy.ndarray
+      :staticmethod:
+
+      :abstractmethod:
+
+
+
+   .. py:method:: analyze(coordinates: Union[Tuple[numpy.ndarray, Ellipsis], numpy.ndarray], data: numpy.ndarray, dry: bool = False, params: Dict[str, Any] = {}, *args: Any, **fit_kwargs: Any) -> FitResult
+
+      Needs to be implemented by each inheriting class.
+
+
+
+   .. py:method:: guess(coordinates: Union[Tuple[numpy.ndarray, Ellipsis], numpy.ndarray], data: numpy.ndarray) -> Dict[str, Any]
+      :staticmethod:
+
+      :abstractmethod:
+
+
+
+.. py:class:: FitResult(lmfit_result: lmfit.model.ModelResult)
+
+   Bases: :py:obj:`AnalysisResult`
+
+
+   .. py:attribute:: lmfit_result
+
+
+   .. py:attribute:: params
+
+
+   .. py:method:: eval(*args: Any, **kwargs: Any) -> numpy.ndarray
+
+      Analysis types that produce data (like filters or fits) should implement this.
+
+
+

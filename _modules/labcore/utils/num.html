@@ -1,0 +1,1059 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>labcore.utils.num &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/utils/num';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/utils/num.html" />
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.utils.num</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for labcore.utils.num</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;num.py</span>
+
+<span class="sd">Tools for numerical operations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">unwrap_optional</span>
+
+<div class="viewcode-block" id="INTTYPES">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.INTTYPES">[docs]</a>
+<span class="n">INTTYPES</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="FLOATTYPES">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.FLOATTYPES">[docs]</a>
+<span class="n">FLOATTYPES</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
+              <span class="nb">complex</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="NUMTYPES">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.NUMTYPES">[docs]</a>
+<span class="n">NUMTYPES</span> <span class="o">=</span> <span class="n">INTTYPES</span> <span class="o">+</span> <span class="n">FLOATTYPES</span></div>
+
+
+
+<div class="viewcode-block" id="largest_numtype">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.largest_numtype">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">largest_numtype</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">include_integers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> \
+        <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the largest numerical type present in an array.</span>
+<span class="sd">    :param arr: input array</span>
+<span class="sd">    :param include_integers: whether to include int as possible return.</span>
+<span class="sd">                             if ``False``, return will be float, if there&#39;s</span>
+<span class="sd">                             only integers in the the data.</span>
+<span class="sd">    :return: type if possible. None if no numeric data in array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">types</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()}</span>
+    <span class="n">curidx</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">if</span> <span class="n">include_integers</span><span class="p">:</span>
+        <span class="n">ok_types</span> <span class="o">=</span> <span class="n">NUMTYPES</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ok_types</span> <span class="o">=</span> <span class="n">FLOATTYPES</span>
+
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">types</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">ok_types</span><span class="p">:</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">ok_types</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">idx</span> <span class="o">&gt;</span> <span class="n">curidx</span><span class="p">:</span>
+                <span class="n">curidx</span> <span class="o">=</span> <span class="n">idx</span>
+
+    <span class="k">if</span> <span class="n">curidx</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ok_types</span><span class="p">[</span><span class="n">curidx</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="n">include_integers</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">types</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">INTTYPES</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">float</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_are_close</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">rtol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">]:</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_are_equal</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+
+
+<div class="viewcode-block" id="is_invalid">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.is_invalid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_invalid</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="c1"># really use == None to do an element wise</span>
+    <span class="c1"># check for None</span>
+    <span class="n">isnone</span> <span class="o">=</span> <span class="n">a</span> <span class="o">==</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="n">FLOATTYPES</span><span class="p">:</span>
+        <span class="n">isnan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">isnan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">isnone</span> <span class="o">|</span> <span class="n">isnan</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_are_invalid</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">is_invalid</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">is_invalid</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="arrays_equal">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.arrays_equal">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">arrays_equal</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                 <span class="n">rtol</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if two numpy arrays are equal, content-wise.</span>
+
+<span class="sd">    Perform the following checks:</span>
+<span class="sd">    * actual equality of elements</span>
+<span class="sd">    * approximate equality to a certain degree of relative accuracy (for floats)</span>
+<span class="sd">    * invalid entries (capturing both ``None`` and ``np.nan``; all treated as</span>
+<span class="sd">      equally invalid).</span>
+
+<span class="sd">    Element-wise comparison is ``True`` if any of the conditions are ``True``.</span>
+
+<span class="sd">    :param a: 1st numpy array</span>
+<span class="sd">    :param b: 2nd numpy array</span>
+<span class="sd">    :param rtol: relative uncertainty tolerance. see `numpy.isclose`.</span>
+<span class="sd">    :return: `True`, if all element-wise checks are `True`. `False`</span>
+<span class="sd">             otherwise.</span>
+<span class="sd">    :raises: `ValueError` if shapes of `a` and `b` don&#39;t match</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">close</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">bool_</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rtol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">a</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="n">FLOATTYPES</span> <span class="ow">and</span> <span class="n">b</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="n">FLOATTYPES</span><span class="p">:</span>
+        <span class="n">close</span> <span class="o">=</span> <span class="n">_are_close</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="n">rtol</span><span class="p">)</span>
+    <span class="n">equal</span> <span class="o">=</span> <span class="n">_are_equal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="n">invalid</span> <span class="o">=</span> <span class="n">_are_invalid</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">equal</span> <span class="o">|</span> <span class="n">close</span> <span class="o">|</span> <span class="n">invalid</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="array1d_to_meshgrid">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.array1d_to_meshgrid">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">array1d_to_meshgrid</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+                        <span class="n">target_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+                        <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    reshape an array to a target shape.</span>
+
+<span class="sd">    If target shape is larger than the array, fill with invalids</span>
+<span class="sd">    (``nan`` for float and complex dtypes, ``None`` otherwise).</span>
+<span class="sd">    If target shape is smaller than the array, cut off the end.</span>
+
+<span class="sd">    :param arr: input array</span>
+<span class="sd">    :param target_shape: desired output shape</span>
+<span class="sd">    :param copy: whether to make a copy before the operation.</span>
+<span class="sd">    :return: re-shaped array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">localarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">localarr</span> <span class="o">=</span> <span class="n">arr</span>
+
+    <span class="k">if</span> <span class="n">copy</span><span class="p">:</span>
+        <span class="n">localarr</span> <span class="o">=</span> <span class="n">localarr</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">localarr</span> <span class="o">=</span> <span class="n">localarr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">newsize</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">target_shape</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">newsize</span> <span class="o">&lt;</span> <span class="n">localarr</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="n">localarr</span> <span class="o">=</span> <span class="n">localarr</span><span class="p">[:</span><span class="n">newsize</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">newsize</span> <span class="o">&gt;</span> <span class="n">localarr</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">localarr</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">in</span> <span class="n">FLOATTYPES</span><span class="p">:</span>
+            <span class="n">fill</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">newsize</span> <span class="o">-</span> <span class="n">localarr</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">fill</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">newsize</span> <span class="o">-</span> <span class="n">localarr</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">*</span> <span class="p">[</span><span class="kc">None</span><span class="p">])</span>
+        <span class="n">localarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">localarr</span><span class="p">,</span> <span class="n">fill</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">localarr</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">target_shape</span><span class="p">)</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_find_switches</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                   <span class="n">rth</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">25</span><span class="p">,</span>
+                   <span class="n">ztol</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-15</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="n">arr_</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_invalid</span><span class="p">(</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">deltas</span> <span class="o">=</span> <span class="n">arr_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">arr_</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="o">~</span><span class="n">is_invalid</span><span class="p">(</span><span class="n">arr</span><span class="p">)],</span> <span class="mf">100.</span><span class="o">-</span><span class="n">rth</span><span class="p">)</span>
+    <span class="n">lo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="o">~</span><span class="n">is_invalid</span><span class="p">(</span><span class="n">arr</span><span class="p">)],</span> <span class="n">rth</span><span class="p">)</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">hi</span><span class="o">-</span><span class="n">lo</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="n">ztol</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+    <span class="c1"># first step: suspected switches are where we have &#39;large&#39; jumps in value.</span>
+    <span class="n">switch_candidates</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">deltas</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">diff</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">switch_candidates</span> <span class="o">=</span> <span class="n">switch_candidates</span><span class="p">[</span><span class="n">switch_candidates</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">switch_candidates</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+    <span class="c1"># importantly: switches have to opposite to the sweep direction.</span>
+    <span class="c1"># we check the sweep direction by looking at the values prior to the</span>
+    <span class="c1"># first suspected switch</span>
+    <span class="n">sweep_direction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">deltas</span><span class="p">[:</span><span class="n">switch_candidates</span><span class="p">[</span><span class="mi">0</span><span class="p">]]))</span>
+
+    <span class="c1"># real switches are then those where the delta is opposite to the sweep</span>
+    <span class="c1"># direction.</span>
+    <span class="n">switch_candidate_vals</span> <span class="o">=</span> <span class="n">deltas</span><span class="p">[</span><span class="n">switch_candidates</span><span class="p">]</span>
+    <span class="n">switches</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">switch_candidates</span><span class="p">,</span> <span class="n">switch_candidate_vals</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="n">sweep_direction</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">switches</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="find_direction_period">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.find_direction_period">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">find_direction_period</span><span class="p">(</span><span class="n">vals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ignore_last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> \
+        <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the period with which the values in an array change direction.</span>
+
+<span class="sd">    :param vals: the axes values (1d array)</span>
+<span class="sd">    :param ignore_last: if True, we&#39;ll ignore the last value when determining</span>
+<span class="sd">                        if the period is unique (useful for incomplete data),</span>
+<span class="sd">    :return: None if we could not determine a unique period.</span>
+<span class="sd">             The period, i.e., the number of elements after which</span>
+<span class="sd">             the more common direction is changed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">switches</span> <span class="o">=</span> <span class="n">_find_switches</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+
+    <span class="c1"># if there&#39;s no switch at all, no period is defined.</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">switches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+
+    <span class="c1"># if there was one switch there is a period only if the switch occurred</span>
+    <span class="c1"># in the second half of the data</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">switches</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">switches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="mf">2.</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">switches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">switches</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">vals</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">switches</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">switches</span><span class="p">,</span> <span class="n">vals</span><span class="o">.</span><span class="n">size</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">periods</span> <span class="o">=</span> <span class="p">(</span><span class="n">switches</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">switches</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">ignore_last</span> <span class="ow">and</span> <span class="n">periods</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">periods</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="n">periods</span> <span class="o">=</span> <span class="n">periods</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">periods</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">periods</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">vals</span><span class="o">.</span><span class="n">size</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">periods</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="guess_grid_from_sweep_direction">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.guess_grid_from_sweep_direction">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">guess_grid_from_sweep_direction</span><span class="p">(</span><span class="o">**</span><span class="n">axes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> \
+        <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Try to determine order and shape of a set of axes data</span>
+<span class="sd">    (such as flattened meshgrid data).</span>
+
+<span class="sd">    Analyzes the periodicity (in sweep direction) of the given set of axes</span>
+<span class="sd">    values, and use that information to infer the shape of the dataset,</span>
+<span class="sd">    and the order of the axes, given from slowest to fastest.</span>
+
+<span class="sd">    :param axes: all axes values as keyword args, given as 1d numpy arrays.</span>
+<span class="sd">    :return: None, if we cannot infer a shape that makes sense.</span>
+<span class="sd">             Sorted list of axes names, and shape tuple for the dataset.</span>
+<span class="sd">    :raises: `ValueError` for incorrect input</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">periods_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">sorting</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">names_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Empty input.&quot;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Expect 1-dimensional axis data, not </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="o">.</span><span class="n">size</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">size</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Non-matching array sizes.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># first step: find repeating patterns in the data.</span>
+        <span class="c1"># record for each dimension in which interval it repeats.</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="n">find_direction_period</span><span class="p">(</span><span class="n">vals</span><span class="p">,</span> <span class="n">ignore_last</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">period</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">names_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">periods_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
+
+            <span class="c1"># some dimensions will likely not have a finite period (because</span>
+            <span class="c1"># there have been no repetitions (yet).</span>
+            <span class="c1"># in those cases we try to make a guess as to which dimensions</span>
+            <span class="c1"># are likely to be the more inner (i.e., faster changing) ones.</span>
+            <span class="c1"># we do that by looking at how diverse the entries are.</span>
+            <span class="c1"># more diverse -&gt; more likely to be a fast axis.</span>
+            <span class="k">if</span> <span class="n">period</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+                <span class="n">sorting</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">mean</span> <span class="o">=</span> <span class="n">vals</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+                <span class="n">std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">std</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">cost</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">mean</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">mean</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">max</span><span class="p">()),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">vals</span><span class="o">.</span><span class="n">min</span><span class="p">()))</span>
+                    <span class="n">cost</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span><span class="o">/</span><span class="n">mean</span><span class="p">)</span>
+                <span class="n">sorting</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">size</span> <span class="o">+</span> <span class="n">cost</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="n">size</span> <span class="o">=</span> <span class="n">unwrap_optional</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+
+    <span class="c1"># invert the order. we work from fastest to slowest repetition period.</span>
+    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">sorting</span><span class="p">)</span>
+    <span class="n">periods</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">periods_list</span><span class="p">)[</span><span class="n">order</span><span class="p">]</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">periods</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">names_list</span><span class="p">)[</span><span class="n">order</span><span class="p">]</span>
+
+    <span class="n">divisor</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">periods</span><span class="p">):</span>
+
+        <span class="c1"># we need to treat the non-repeating dimensions correctly.</span>
+        <span class="c1"># if there&#39;s a rest when diving on a dimension that has no defined period,</span>
+        <span class="c1"># that means we have to add 1 to the period to get its length.</span>
+        <span class="c1"># (typically it&#39;ll go from 0 to 1 then)</span>
+        <span class="k">if</span> <span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">size</span> <span class="o">%</span> <span class="n">divisor</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span> <span class="o">//</span> <span class="n">divisor</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size</span> <span class="o">//</span> <span class="n">divisor</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">//=</span> <span class="n">divisor</span>
+
+        <span class="n">divisor</span> <span class="o">*=</span> <span class="nb">int</span><span class="p">(</span><span class="n">shape</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">shape</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># this is a sanity check.</span>
+    <span class="c1"># at this point, `divisor` is the size of the full grid.</span>
+    <span class="c1"># it cannot be smaller than the total size, but can be larger</span>
+    <span class="c1"># for incomplete grids.</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">divisor</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># in returning, we go back to standard order, i.e., slow-&gt;fast.</span>
+    <span class="k">return</span> <span class="n">names</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">shape</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+
+<div class="viewcode-block" id="crop2d_rows_cols">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.crop2d_rows_cols">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">crop2d_rows_cols</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get row and col idxs that are completely invalid in a 2d array.</span>
+
+<span class="sd">    :param arr: input array</span>
+<span class="sd">    :return: the x (outer) and y (inner) indices at which the</span>
+<span class="sd">             data ontains only invalid entries.</span>
+<span class="sd">    :raises: ``ValueError`` if input is not a 2d ndarray.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input is not a 2d array.&#39;</span><span class="p">)</span>
+
+    <span class="n">invalids</span> <span class="o">=</span> <span class="n">is_invalid</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">invalids</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">invalids</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span></div>
+
+
+
+<div class="viewcode-block" id="joint_crop2d_rows_cols">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.joint_crop2d_rows_cols">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">joint_crop2d_rows_cols</span><span class="p">(</span><span class="o">*</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get idxs where full rows/cols are invalid in any of the input arrays.</span>
+<span class="sd">    Uses ``crop2d_rows_cols`` for each, then joins indices.</span>
+
+<span class="sd">    :param arr: input 2d arrays.</span>
+<span class="sd">    :return: x/y indices with invalid rows/cols.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">ys</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arr</span><span class="p">:</span>
+        <span class="n">_x</span><span class="p">,</span> <span class="n">_y</span> <span class="o">=</span> <span class="n">crop2d_rows_cols</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">xs</span> <span class="o">+=</span> <span class="n">_x</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">ys</span> <span class="o">+=</span> <span class="n">_y</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">xs</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">ys</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">),</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="crop2d_from_xy">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.crop2d_from_xy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">crop2d_from_xy</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">xs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                   <span class="n">ys</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove rows/cols from a 2d array.</span>
+
+<span class="sd">    :param arr: input array.</span>
+<span class="sd">    :param xs: list of 1st-dimension indices to remove.</span>
+<span class="sd">    :param ys: list of 2nd-dimension indices to remove.</span>
+<span class="sd">    :return: remaining array.</span>
+<span class="sd">    :raises: ``ValueError`` if input is not a 2d ndarray.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;input is not a 2d array.&#39;</span><span class="p">)</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">a</span></div>
+
+
+
+<div class="viewcode-block" id="crop2d">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.crop2d">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">crop2d</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> \
+        <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove invalid rows and columns from 2d data.</span>
+
+<span class="sd">    Determine invalid areas from the x and y coordinates,</span>
+<span class="sd">    and then crop the invalid rows/columns from all input data.</span>
+
+<span class="sd">    :param x: 1st dim coordinates (2d meshgrid-like)</span>
+<span class="sd">    :param y: 2nd dim coordinates (2d meshgrid-like)</span>
+<span class="sd">    :param arr: other arrays to crop.</span>
+<span class="sd">    :return: all arrays (incl. x and y), cropped.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">joint_crop2d_rows_cols</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">allarrs</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arr</span><span class="p">]</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="p">[</span><span class="n">crop2d_from_xy</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">allarrs</span><span class="p">]</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">ret</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="interp_meshgrid_2d">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.interp_meshgrid_2d">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">interp_meshgrid_2d</span><span class="p">(</span><span class="n">xx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+                       <span class="n">yy</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Try to find missing vertices in a 2d meshgrid,</span>
+<span class="sd">    where xx and yy are the x and y coordinates of each point.</span>
+<span class="sd">    This is just done by simple linear interpolation (using pandas).</span>
+
+<span class="sd">    i.e.:</span>
+<span class="sd">    if xx = [[0, 0], [1, nan]], yy = [[0, 1], [0, nan]]</span>
+<span class="sd">    this will return [[0, 0], [1, 1]], [[0, 1], [0, 1]].</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xx2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">xx</span><span class="p">)</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># interpolate would return None if inplace=True</span>
+    <span class="k">assert</span> <span class="n">xx2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="n">yy2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">yy</span><span class="p">)</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">yy2</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">xx2</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">yy2</span><span class="o">.</span><span class="n">values</span></div>
+
+
+
+<div class="viewcode-block" id="centers2edges_1d">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.centers2edges_1d">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">centers2edges_1d</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given an array of center coordinates, return the array of</span>
+<span class="sd">    bounding vertices for the mesh that is defined by the coordinates.</span>
+<span class="sd">    This is useful for methods like pcolor(mesh).</span>
+
+<span class="sd">    To illustrate: if x are the centers, we return the inferred o&#39;s:</span>
+
+<span class="sd">      o-x-o-x-o-x-o-x--o--x--o</span>
+
+<span class="sd">    They are equidistantly spaced between the centers, such that the centers</span>
+<span class="sd">    are in the middle between the vertices.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">arr</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(([</span><span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">])],</span> <span class="n">e</span><span class="p">))</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e</span><span class="p">,</span> <span class="p">[</span><span class="n">arr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">e</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])]))</span>
+    <span class="k">return</span> <span class="n">e</span></div>
+
+
+
+<div class="viewcode-block" id="centers2edges_2d">
+<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.centers2edges_2d">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">centers2edges_2d</span><span class="p">(</span><span class="n">centers</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Given a 2d array of coordinates, return the array of bounding vertices for</span>
+<span class="sd">    the mesh that is defined by the coordinates.</span>
+<span class="sd">    This is useful for methods like pcolor(mesh).</span>
+<span class="sd">    Done by very simple linear interpolation.</span>
+
+<span class="sd">    To illustrate: if x are the centers, we return the inferred o&#39;s:</span>
+
+<span class="sd">    ``</span>
+<span class="sd">    o   o   o   o</span>
+<span class="sd">      x---x---x</span>
+<span class="sd">    o | o | o | o</span>
+<span class="sd">      x---x---x</span>
+<span class="sd">    o   o   o   o</span>
+<span class="sd">    ``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">shp</span> <span class="o">=</span> <span class="n">centers</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">edges</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">shp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">shp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># the central vertices are easy -- follow just from the means of the</span>
+    <span class="c1"># neighboring centers</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="n">centers</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">centers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+              <span class="o">+</span> <span class="n">centers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">centers</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">4.</span>
+    <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">center</span>
+
+    <span class="c1"># for the outer edges we just make the vertices such that the points are</span>
+    <span class="c1"># pretty much in the center</span>
+    <span class="c1"># first average over neighbor centers to get the &#39;vertical&#39; right</span>
+    <span class="n">_left</span> <span class="o">=</span> <span class="p">(</span><span class="n">centers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">centers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.</span>
+    <span class="c1"># then extrapolate to the left of the centers</span>
+    <span class="n">left</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_left</span> <span class="o">-</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">left</span>
+
+    <span class="c1"># and same for the other three sides</span>
+    <span class="n">_right</span> <span class="o">=</span> <span class="p">(</span><span class="n">centers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:]</span> <span class="o">+</span> <span class="n">centers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.</span>
+    <span class="n">right</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_right</span> <span class="o">-</span> <span class="n">center</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">right</span>
+
+    <span class="n">_top</span> <span class="o">=</span> <span class="p">(</span><span class="n">centers</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">centers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.</span>
+    <span class="n">top</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_top</span> <span class="o">-</span> <span class="n">center</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">top</span>
+
+    <span class="n">_bottom</span> <span class="o">=</span> <span class="p">(</span><span class="n">centers</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">centers</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="mf">2.</span>
+    <span class="n">bottom</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_bottom</span> <span class="o">-</span> <span class="n">center</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">bottom</span>
+
+    <span class="c1"># only thing remaining now is the corners of the grid.</span>
+    <span class="c1"># this is a bit simplistic, but will be fine for now.</span>
+    <span class="c1"># (mirror the vertex (1,1) of the diagonal at the outermost center)</span>
+    <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">centers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">centers</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">centers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">centers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">edges</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">edges</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

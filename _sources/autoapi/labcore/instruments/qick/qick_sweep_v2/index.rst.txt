@@ -1,0 +1,145 @@
+labcore.instruments.qick.qick_sweep_v2
+======================================
+
+.. py:module:: labcore.instruments.qick.qick_sweep_v2
+
+.. autoapi-nested-parse::
+
+   Tools to enable the usage of QICK in the Sweep framework.
+
+   Required packages/hardware:
+   - FPGA configured with QICK
+   - QICK package
+
+   Example usage of this module:
+   >>> @QickBoardSweep(
+   >>>     independent("freqs"),
+   >>>     ComplexQICKData("signal",
+   >>>                     depends_on=["freqs"],
+   >>>                     i_data_stream='I', q_data_stream='Q'),
+   >>> )
+   >>> class SingleToneSpecstroscopyProgram(RAveragerProgram):
+
+   To run any measurement, you would need the followign parameters in your config
+   n_echoes
+   steps
+   reps
+   final_delay
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   labcore.instruments.qick.qick_sweep_v2.config
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.instruments.qick.qick_sweep_v2.ComplexQICKData
+   labcore.instruments.qick.qick_sweep_v2.PulseVariable
+   labcore.instruments.qick.qick_sweep_v2.TimeVariable
+   labcore.instruments.qick.qick_sweep_v2.QickBoardSweep
+
+
+Module Contents
+---------------
+
+.. py:data:: config
+   :value: None
+
+
+.. py:class:: ComplexQICKData
+
+   Bases: :py:obj:`labcore.measurement.DataSpec`
+
+
+   Specification for data parameters to be recorded.
+
+
+   .. py:attribute:: i_data_stream
+      :type:  str
+      :value: 'I'
+
+
+
+   .. py:attribute:: q_data_stream
+      :type:  str
+      :value: 'Q'
+
+
+
+.. py:class:: PulseVariable
+
+   Bases: :py:obj:`labcore.measurement.DataSpec`
+
+
+   Specification for data parameters to be recorded.
+
+
+   .. py:attribute:: pulse_parameter
+      :type:  str
+      :value: None
+
+
+
+   .. py:attribute:: sweep_parameter
+      :type:  str
+      :value: None
+
+
+
+.. py:class:: TimeVariable
+
+   Bases: :py:obj:`labcore.measurement.DataSpec`
+
+
+   Specification for data parameters to be recorded.
+
+
+   .. py:attribute:: time_parameter
+      :type:  str
+      :value: None
+
+
+
+.. py:class:: QickBoardSweep(*specs, **kwargs)
+
+   Bases: :py:obj:`labcore.measurement.sweep.AsyncRecord`
+
+
+   Decorator class to communicate with QICK in the Sweeping framework.
+
+   Initialize the decorator class by saving incoming DataSpec variables.
+
+
+   .. py:attribute:: communicator
+
+
+   .. py:attribute:: specs
+      :value: []
+
+
+
+   .. py:method:: setup(func, *args, **kwargs)
+
+      Setup a QICK program.
+
+
+
+   .. py:method:: collect(*args, **kwargs)
+
+      Get the measurement data.
+      Note that one can overload the given acquire function if one needs
+      to perform other specific tasks. e.g. Needs to plot each non-averaged
+      points in the I-Q plane for a readout fidelity experiment.
+      Assumptions
+      * Given DataSpecs are either independent, dependent, or ComplexQICKData.
+
+
+

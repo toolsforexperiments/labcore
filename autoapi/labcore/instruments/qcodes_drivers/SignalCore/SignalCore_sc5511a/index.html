@@ -1,0 +1,1197 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../../_static/graphviz.css?v=4ae1632d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a/index';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/autoapi/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a/index.html" />
+    <link rel="author" title="About these documents" href="../../../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../../search.html" />
+    <link rel="next" title="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5521a" href="../SignalCore_sc5521a/index.html" />
+    <link rel="prev" title="labcore.instruments.qcodes_drivers.SignalCore" href="../index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../../../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../../../triton/index.html">triton</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../../../index.html">labcore</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../analysis/index.html">labcore.analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../analysis/analysis_base/index.html">labcore.analysis.analysis_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../analysis/fit/index.html">labcore.analysis.fit</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../../analysis/fitfuncs/index.html">labcore.analysis.fitfuncs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../../analysis/fitfuncs/generic/index.html">labcore.analysis.fitfuncs.generic</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../analysis/hv_pretty/index.html">labcore.analysis.hv_pretty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../analysis/hvapps/index.html">labcore.analysis.hvapps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../analysis/hvplotting/index.html">labcore.analysis.hvplotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../analysis/mpl/index.html">labcore.analysis.mpl</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../data/index.html">labcore.data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../data/datadict/index.html">labcore.data.datadict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../data/datadict_storage/index.html">labcore.data.datadict_storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../data/tools/index.html">labcore.data.tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../../../index.html">labcore.instruments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../opx/index.html">labcore.instruments.opx</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../opx/config/index.html">labcore.instruments.opx.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../opx/machines/index.html">labcore.instruments.opx.machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../opx/mixer/index.html">labcore.instruments.opx.mixer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../opx/sweep/index.html">labcore.instruments.opx.sweep</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="../../index.html">labcore.instruments.qcodes_drivers</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../Keysight/index.html">labcore.instruments.qcodes_drivers.Keysight</a></li>
+<li class="toctree-l4 current active"><a class="reference internal" href="../index.html">labcore.instruments.qcodes_drivers.SignalCore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../SignalHound/index.html">labcore.instruments.qcodes_drivers.SignalHound</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../ThorLabs/index.html">labcore.instruments.qcodes_drivers.ThorLabs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../Yokogawa/index.html">labcore.instruments.qcodes_drivers.Yokogawa</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../../qick/index.html">labcore.instruments.qick</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../qick/config/index.html">labcore.instruments.qick.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../qick/qick_sweep_v2/index.html">labcore.instruments.qick.qick_sweep_v2</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../measurement/index.html">labcore.measurement</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../measurement/record/index.html">labcore.measurement.record</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../measurement/storage/index.html">labcore.measurement.storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../measurement/sweep/index.html">labcore.measurement.sweep</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../setup_measurements/index.html">labcore.setup_measurements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../setup_opx_measurements/index.html">labcore.setup_opx_measurements</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../testing/index.html">labcore.testing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../testing/dispersive_qubit_readout_data/index.html">labcore.testing.dispersive_qubit_readout_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../testing/resonator_readout_data/index.html">labcore.testing.resonator_readout_data</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../../utils/index.html">labcore.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../../utils/misc/index.html">labcore.utils.misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../../utils/num/index.html">labcore.utils.num</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">labcore</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">labcore.instruments</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">labcore.instruments.qcodes_drivers</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">labcore.instruments.qcodes_drivers.SignalCore</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a">
+<span id="labcore-instruments-qcodes-drivers-signalcore-signalcore-sc5511a"></span><h1>labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a<a class="headerlink" href="#module-labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a" title="Link to this heading">#</a></h1>
+<p>Created on Fri Mar 19 14:11:31 2021</p>
+<p>&#64;author: Chao Zhou</p>
+<p>A simple driver for SignalCore SC5511A to be used with QCoDes, transferred from the one written by Erick Brindock</p>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_rf_params_t" title="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_rf_params_t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Device_rf_params_t</span></code></a></p></td>
+<td><p>Structure base class</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_temperature_t" title="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_temperature_t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Device_temperature_t</span></code></a></p></td>
+<td><p>Structure base class</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Operate_status_t" title="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Operate_status_t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Operate_status_t</span></code></a></p></td>
+<td><p>Structure base class</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Pll_status_t" title="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Pll_status_t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Pll_status_t</span></code></a></p></td>
+<td><p>Structure base class</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.List_mode_t" title="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.List_mode_t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">List_mode_t</span></code></a></p></td>
+<td><p>Structure base class</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_status_t" title="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_status_t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Device_status_t</span></code></a></p></td>
+<td><p>Structure base class</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_info_t" title="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_info_t"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Device_info_t</span></code></a></p></td>
+<td><p>Structure base class</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A" title="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SignalCore_SC5511A</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_rf_params_t">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.</span></span><span class="sig-name descname"><span class="pre">Device_rf_params_t</span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#Device_rf_params_t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_rf_params_t" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#ctypes.Structure" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.Structure</span></code></a></p>
+<p>Structure base class</p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_temperature_t">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.</span></span><span class="sig-name descname"><span class="pre">Device_temperature_t</span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#Device_temperature_t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_temperature_t" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#ctypes.Structure" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.Structure</span></code></a></p>
+<p>Structure base class</p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Operate_status_t">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.</span></span><span class="sig-name descname"><span class="pre">Operate_status_t</span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#Operate_status_t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Operate_status_t" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#ctypes.Structure" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.Structure</span></code></a></p>
+<p>Structure base class</p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Pll_status_t">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.</span></span><span class="sig-name descname"><span class="pre">Pll_status_t</span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#Pll_status_t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Pll_status_t" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#ctypes.Structure" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.Structure</span></code></a></p>
+<p>Structure base class</p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.List_mode_t">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.</span></span><span class="sig-name descname"><span class="pre">List_mode_t</span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#List_mode_t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.List_mode_t" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#ctypes.Structure" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.Structure</span></code></a></p>
+<p>Structure base class</p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_status_t">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.</span></span><span class="sig-name descname"><span class="pre">Device_status_t</span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#Device_status_t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_status_t" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#ctypes.Structure" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.Structure</span></code></a></p>
+<p>Structure base class</p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_info_t">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.</span></span><span class="sig-name descname"><span class="pre">Device_info_t</span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#Device_info_t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_info_t" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#ctypes.Structure" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ctypes.Structure</span></code></a></p>
+<p>Structure base class</p>
+<p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.</span></span><span class="sig-name descname"><span class="pre">SignalCore_SC5511A</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serial_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dllpath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">debug</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-obj docutils literal notranslate"><span class="pre">qcodes.Instrument</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.dllpath">
+<span class="sig-name descname"><span class="pre">dllpath</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'C:\\Program</span> <span class="pre">Files\\SignalCore\\SC5511A\\api\\c\\x64\\sc5511a.dll'</span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.dllpath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.dllpath" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.connected_instruments">
+<span class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">connected_instruments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">max_n_gens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sn_len</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.connected_instruments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.connected_instruments" title="Link to this definition">#</a></dt>
+<dd><p>Return the serial numbers of the connected generators.</p>
+<p>The parameters are very unlikely to be needed, and are just for making sure
+we allocated the right amount of memory when calling the SignalCore DLL.
+:param max_n_gens: maximum number of generators expected
+:param sn_len: max length of serial numbers.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.set_open">
+<span class="sig-name descname"><span class="pre">set_open</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">open</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.set_open"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.set_open" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.soft_trigger">
+<span class="sig-name descname"><span class="pre">soft_trigger</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.soft_trigger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.soft_trigger" title="Link to this definition">#</a></dt>
+<dd><p>Send out a soft trigger, so that the we can start the sweep
+Generator need to be configured for list mode and soft trigger is selected as the trigger source</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_output_status">
+<span class="sig-name descname"><span class="pre">do_set_output_status</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_output_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_output_status" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Turns the output of RF1 on or off.</dt><dd><dl class="simple">
+<dt>Input:</dt><dd><p>enable (int) = OFF = 0 ; ON = 1</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_output_status">
+<span class="sig-name descname"><span class="pre">do_get_output_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_output_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_output_status" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Reads the output status of RF1</dt><dd><dl class="simple">
+<dt>Output:</dt><dd><p>status (int) : OFF = 0 ; ON = 1</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_start_frequency">
+<span class="sig-name descname"><span class="pre">do_set_sweep_start_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sweep_start_frequency</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_sweep_start_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_start_frequency" title="Link to this definition">#</a></dt>
+<dd><p>Set the sweep start frequency of RF1 in the unit of Hz</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_start_frequency">
+<span class="sig-name descname"><span class="pre">do_get_sweep_start_frequency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_sweep_start_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_start_frequency" title="Link to this definition">#</a></dt>
+<dd><p>Get the sweep start frequency that is used in the sweep mode
+The frequency returned is in the unit of Hz</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_stop_frequency">
+<span class="sig-name descname"><span class="pre">do_set_sweep_stop_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sweep_stop_frequency</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_sweep_stop_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_stop_frequency" title="Link to this definition">#</a></dt>
+<dd><p>Set the sweep stop frequency of RF1 in the unit of Hz</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_stop_frequency">
+<span class="sig-name descname"><span class="pre">do_get_sweep_stop_frequency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_sweep_stop_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_stop_frequency" title="Link to this definition">#</a></dt>
+<dd><p>Get the sweep stop frequency that is used in the sweep mode
+The frequency returned is in the unit of Hz</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_step_frequency">
+<span class="sig-name descname"><span class="pre">do_set_sweep_step_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sweep_step_frequency</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_sweep_step_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_step_frequency" title="Link to this definition">#</a></dt>
+<dd><p>Set the sweep step frequency of RF1 in the unit of Hz</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_step_frequency">
+<span class="sig-name descname"><span class="pre">do_get_sweep_step_frequency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_sweep_step_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_step_frequency" title="Link to this definition">#</a></dt>
+<dd><p>Get the sweep step frequency that is used in the sweep mode
+The frequency returned is in the unit of Hz</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_dwell_time">
+<span class="sig-name descname"><span class="pre">do_set_sweep_dwell_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sweep_dwell_time</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_sweep_dwell_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_dwell_time" title="Link to this definition">#</a></dt>
+<dd><p>Set the sweep/list time at each frequency point.
+Note that the dwell time is set as multiple of 500 us.
+The input value is an unsigned int, it means how many multiple of 500 us.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_dwell_time">
+<span class="sig-name descname"><span class="pre">do_get_sweep_dwell_time</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_sweep_dwell_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_dwell_time" title="Link to this definition">#</a></dt>
+<dd><p>Get the dwell time of the sweep mode.
+Return value is the unit multiple of 500 us, e.g. a return value 3 means the dwell time is 1500 us.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_cycles">
+<span class="sig-name descname"><span class="pre">do_set_sweep_cycles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sweep_cycles</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_sweep_cycles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_cycles" title="Link to this definition">#</a></dt>
+<dd><p>Set the number of sweep cycles to perform before stopping.
+To repeat the sweep continuously, set the value to 0.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_cycles">
+<span class="sig-name descname"><span class="pre">do_get_sweep_cycles</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_sweep_cycles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_cycles" title="Link to this definition">#</a></dt>
+<dd><p>Get the number of sweep cycles to perform before stopping.
+To repeat the sweep continuously, the value is 0.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_trig_out_enable">
+<span class="sig-name descname"><span class="pre">do_set_trig_out_enable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trig_out_enable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_trig_out_enable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_trig_out_enable" title="Link to this definition">#</a></dt>
+<dd><p>Set the trigger output status.
+It does not send out the trigger, just enable the generator to send out the trigger
+0 = No trigger output
+1 = Puts a trigger pulse on the TRIGOUT pin</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_trig_out_enable">
+<span class="sig-name descname"><span class="pre">do_get_trig_out_enable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_trig_out_enable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_trig_out_enable" title="Link to this definition">#</a></dt>
+<dd><p>Get the status of the trigger output status
+0 = No trigger output
+1 = Puts a trigger pulse on the TRIGOUT pin</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_trig_out_on_cycle">
+<span class="sig-name descname"><span class="pre">do_set_trig_out_on_cycle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trig_out_on_cycle</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_trig_out_on_cycle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_trig_out_on_cycle" title="Link to this definition">#</a></dt>
+<dd><p>Set the trigger output mode
+0 = Puts out a trigger pulse at each frequency change
+1 = Puts out a trigger pulse at the completion of each sweep/list cycle</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_trig_out_on_cycle">
+<span class="sig-name descname"><span class="pre">do_get_trig_out_on_cycle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_trig_out_on_cycle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_trig_out_on_cycle" title="Link to this definition">#</a></dt>
+<dd><p>Get the trigger output mode
+0 = Puts out a trigger pulse at each frequency change
+1 = Puts out a trigger pulse at the completion of each sweep/list cycle</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_step_on_hw_trig">
+<span class="sig-name descname"><span class="pre">do_set_step_on_hw_trig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">step_on_hw_trig</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_step_on_hw_trig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_step_on_hw_trig" title="Link to this definition">#</a></dt>
+<dd><p>Set the behavior of the sweep/list mode when receiving a trigger.
+0 = Start/Stop behavior. The sweep starts and continues to step through the list for the number of cycles set,</p>
+<blockquote>
+<div><p>dwelling at each step frequency for a period set by the dwell time. The sweep/list will end on a consecutive
+trigger.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>1 = Step-on-trigger. This is only available if hardware triggering is selected. The device will step to the next</dt><dd><p>frequency on a trigger.Upon completion of the number of cycles, the device will exit from the stepping state
+and stop.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_step_on_hw_trig">
+<span class="sig-name descname"><span class="pre">do_get_step_on_hw_trig</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_step_on_hw_trig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_step_on_hw_trig" title="Link to this definition">#</a></dt>
+<dd><p>Set the behavior of the sweep/list mode when receiving a trigger.
+0 = Start/Stop behavior
+1 = Step-on-trigger</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_return_to_start">
+<span class="sig-name descname"><span class="pre">do_set_return_to_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">return_to_start</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_return_to_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_return_to_start" title="Link to this definition">#</a></dt>
+<dd><p>Set how the frequency will change at the end of the list/sweep
+0 = Stop at end of sweep/list. The frequency will stop at the last point of the sweep/list
+1 = Return to start. The frequency will return and stop at the beginning point of the sweep or list after a</p>
+<blockquote>
+<div><p>cycle.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_return_to_start">
+<span class="sig-name descname"><span class="pre">do_get_return_to_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_return_to_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_return_to_start" title="Link to this definition">#</a></dt>
+<dd><p>Get the status of how the frequency will change at the end of the list/sweep
+0 = Stop at end of sweep/list. The frequency will stop at the last point of the sweep/list
+1 = Return to start. The frequency will return and stop at the beginning point of the sweep or list after a</p>
+<blockquote>
+<div><p>cycle.</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_hw_trig">
+<span class="sig-name descname"><span class="pre">do_set_hw_trig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hw_trigger</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_hw_trig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_hw_trig" title="Link to this definition">#</a></dt>
+<dd><p>Set the status of hardware trigger
+0 = Software trigger. Softtrigger can only be used to start and stop a sweep/list cycle. It does not work for</p>
+<blockquote>
+<div><p>step-on-trigger mode.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>1 = Hardware trigger. A high-to-low transition on the TRIGIN pin will trigger the device. It can be used for</dt><dd><p>both start/stop or step-on-trigger functions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_hw_trig">
+<span class="sig-name descname"><span class="pre">do_get_hw_trig</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_hw_trig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_hw_trig" title="Link to this definition">#</a></dt>
+<dd><p>Get the status of hardware trigger
+0 = Software trigger. Softtrigger can only be used to start and stop a sweep/list cycle. It does not work for</p>
+<blockquote>
+<div><p>step-on-trigger mode.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>1 = Hardware trigger. A high-to-low transition on the TRIGIN pin will trigger the device. It can be used for</dt><dd><p>both start/stop or step-on-trigger functions.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_tri_waveform">
+<span class="sig-name descname"><span class="pre">do_set_tri_waveform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tri_waveform</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_tri_waveform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_tri_waveform" title="Link to this definition">#</a></dt>
+<dd><p>Set the triangular waveform of the generator
+0 = Sawtooth waveform. Frequency returns to the beginning frequency upon reaching the end of a sweep cycle
+1 = Triangular waveform. Frequency reverses direction at the end of the list and steps back towards the</p>
+<blockquote>
+<div><p>beginning to complete a cycle</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_tri_waveform">
+<span class="sig-name descname"><span class="pre">do_get_tri_waveform</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_tri_waveform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_tri_waveform" title="Link to this definition">#</a></dt>
+<dd><p>Get the triangular waveform of the generator
+0 = Sawtooth waveform. Frequency returns to the beginning frequency upon reaching the end of a sweep cycle
+1 = Triangular waveform. Frequency reverses direction at the end of the list and steps back towards the</p>
+<blockquote>
+<div><p>beginning to complete a cycle</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_dir">
+<span class="sig-name descname"><span class="pre">do_set_sweep_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sweep_dir</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_sweep_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_dir" title="Link to this definition">#</a></dt>
+<dd><p>Set the sweep direction of the generator
+0 = Forward. Sweeps start from the lowest start frequency or starts at the beginning of the list buffer
+1 = Reverse. Sweeps start from the stop frequency and steps down toward the start frequency or starts at the</p>
+<blockquote>
+<div><p>end and steps toward the beginning of the buffer</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_dir">
+<span class="sig-name descname"><span class="pre">do_get_sweep_dir</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_sweep_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_dir" title="Link to this definition">#</a></dt>
+<dd><p>Get the sweep direction of the generator
+0 = Forward. Sweeps start from the lowest start frequency or starts at the beginning of the list buffer
+1 = Reverse. Sweeps start from the stop frequency and steps down toward the start frequency or starts at the</p>
+<blockquote>
+<div><p>end and steps toward the beginning of the buffer</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sss_mode">
+<span class="sig-name descname"><span class="pre">do_set_sss_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sss_mode</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_sss_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sss_mode" title="Link to this definition">#</a></dt>
+<dd><p>Set the list/sweep mode of the generator
+0 = List mode. Device gets its frequency points from the list buffer uploaded via LIST_BUFFER_WRITE register
+1 = Sweep mode. The device computes the frequency points using the Start, Stop and Step frequencies</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sss_mode">
+<span class="sig-name descname"><span class="pre">do_get_sss_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_sss_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sss_mode" title="Link to this definition">#</a></dt>
+<dd><p>Get the list/sweep mode of the generator
+0 = List mode. Device gets its frequency points from the list buffer uploaded via LIST_BUFFER_WRITE register
+1 = Sweep mode. The device computes the frequency points using the Start, Stop and Step frequencies</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_rf1_mode">
+<span class="sig-name descname"><span class="pre">do_set_rf1_mode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rf1_mode</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_rf1_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_rf1_mode" title="Link to this definition">#</a></dt>
+<dd><p>Set the RF mode for rf1
+0 = single fixed tone mode
+1 = sweep/list mode</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_rf1_mode">
+<span class="sig-name descname"><span class="pre">do_get_rf1_mode</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_rf1_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_rf1_mode" title="Link to this definition">#</a></dt>
+<dd><p>Get the RF mode for rf1
+0 = single fixed tone mode
+1 = sweep/list mode</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_frequency">
+<span class="sig-name descname"><span class="pre">do_set_frequency</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">frequency</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_frequency" title="Link to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Sets RF1 frequency in the unit of Hz. Valid between 100MHz and 20GHz</dt><dd><dl class="simple">
+<dt>Args:</dt><dd><p>frequency (int) = frequency in Hz</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_frequency">
+<span class="sig-name descname"><span class="pre">do_get_frequency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_frequency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_frequency" title="Link to this definition">#</a></dt>
+<dd><p>Gets RF1 frequency in the unit of Hz.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_reference_source">
+<span class="sig-name descname"><span class="pre">do_set_reference_source</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lock_to_external</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_reference_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_reference_source" title="Link to this definition">#</a></dt>
+<dd><p>Set the generator reference source
+0 = internal source
+1 = external source</p>
+<p>Note here high is set to 0, means we always use 10 MHz clock when use external lock</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_reference_source">
+<span class="sig-name descname"><span class="pre">do_get_reference_source</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_reference_source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_reference_source" title="Link to this definition">#</a></dt>
+<dd><p>Get the generator reference source
+0 = internal source
+1 = external source</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_power">
+<span class="sig-name descname"><span class="pre">do_set_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">power</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_power"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_power" title="Link to this definition">#</a></dt>
+<dd><p>Set the power of the generator in the unit of dBm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_power">
+<span class="sig-name descname"><span class="pre">do_get_power</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_power"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_power" title="Link to this definition">#</a></dt>
+<dd><p>Get the power of the generator in the unit of dBm</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_auto_level_disable">
+<span class="sig-name descname"><span class="pre">do_set_auto_level_disable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">enable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_set_auto_level_disable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_auto_level_disable" title="Link to this definition">#</a></dt>
+<dd><p>Set if we want to disable the auto level</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_auto_level_disable">
+<span class="sig-name descname"><span class="pre">do_get_auto_level_disable</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_auto_level_disable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_auto_level_disable" title="Link to this definition">#</a></dt>
+<dd><p>Get if we disable to auto level</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_device_temp">
+<span class="sig-name descname"><span class="pre">do_get_device_temp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.do_get_device_temp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_device_temp" title="Link to this definition">#</a></dt>
+<dd><p>Get the device temperature in unit of C</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.get_idn">
+<span class="sig-name descname"><span class="pre">get_idn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../../../_modules/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a.html#SignalCore_SC5511A.get_idn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.get_idn" title="Link to this definition">#</a></dt>
+<dd><p>Get the identification information of the current device</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">labcore.instruments.qcodes_drivers.SignalCore</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../SignalCore_sc5521a/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5521a</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_rf_params_t"><code class="docutils literal notranslate"><span class="pre">Device_rf_params_t</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_temperature_t"><code class="docutils literal notranslate"><span class="pre">Device_temperature_t</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Operate_status_t"><code class="docutils literal notranslate"><span class="pre">Operate_status_t</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Pll_status_t"><code class="docutils literal notranslate"><span class="pre">Pll_status_t</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.List_mode_t"><code class="docutils literal notranslate"><span class="pre">List_mode_t</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_status_t"><code class="docutils literal notranslate"><span class="pre">Device_status_t</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.Device_info_t"><code class="docutils literal notranslate"><span class="pre">Device_info_t</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.dllpath"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.dllpath</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.connected_instruments"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.connected_instruments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.set_open"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.set_open()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.soft_trigger"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.soft_trigger()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_output_status"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_output_status()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_output_status"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_output_status()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_start_frequency"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_sweep_start_frequency()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_start_frequency"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_sweep_start_frequency()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_stop_frequency"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_sweep_stop_frequency()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_stop_frequency"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_sweep_stop_frequency()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_step_frequency"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_sweep_step_frequency()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_step_frequency"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_sweep_step_frequency()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_dwell_time"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_sweep_dwell_time()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_dwell_time"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_sweep_dwell_time()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_cycles"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_sweep_cycles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_cycles"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_sweep_cycles()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_trig_out_enable"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_trig_out_enable()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_trig_out_enable"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_trig_out_enable()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_trig_out_on_cycle"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_trig_out_on_cycle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_trig_out_on_cycle"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_trig_out_on_cycle()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_step_on_hw_trig"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_step_on_hw_trig()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_step_on_hw_trig"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_step_on_hw_trig()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_return_to_start"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_return_to_start()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_return_to_start"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_return_to_start()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_hw_trig"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_hw_trig()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_hw_trig"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_hw_trig()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_tri_waveform"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_tri_waveform()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_tri_waveform"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_tri_waveform()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sweep_dir"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_sweep_dir()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sweep_dir"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_sweep_dir()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_sss_mode"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_sss_mode()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_sss_mode"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_sss_mode()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_rf1_mode"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_rf1_mode()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_rf1_mode"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_rf1_mode()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_frequency"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_frequency()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_frequency"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_frequency()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_reference_source"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_reference_source()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_reference_source"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_reference_source()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_power"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_power()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_power"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_power()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_set_auto_level_disable"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_set_auto_level_disable()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_auto_level_disable"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_auto_level_disable()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.do_get_device_temp"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.do_get_device_temp()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.instruments.qcodes_drivers.SignalCore.SignalCore_sc5511a.SignalCore_SC5511A.get_idn"><code class="docutils literal notranslate"><span class="pre">SignalCore_SC5511A.get_idn()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../../../../_sources/autoapi/labcore/instruments/qcodes_drivers/SignalCore/SignalCore_sc5511a/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

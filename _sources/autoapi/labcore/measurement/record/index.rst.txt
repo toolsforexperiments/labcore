@@ -1,0 +1,239 @@
+labcore.measurement.record
+==========================
+
+.. py:module:: labcore.measurement.record
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   labcore.measurement.record.QCODES_PRESENT
+   labcore.measurement.record.logger
+   labcore.measurement.record.ds
+   labcore.measurement.record.DataSpecFromTupleType
+   labcore.measurement.record.DataSpecFromDictType
+   labcore.measurement.record.DataSpecCreationType
+   labcore.measurement.record.indep
+   labcore.measurement.record.dep
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.measurement.record.DataType
+   labcore.measurement.record.DataSpec
+   labcore.measurement.record.IteratorToRecords
+   labcore.measurement.record.FunctionToRecords
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   labcore.measurement.record.data_specs_label
+   labcore.measurement.record.make_data_spec
+   labcore.measurement.record.make_data_specs
+   labcore.measurement.record.combine_data_specs
+   labcore.measurement.record.independent
+   labcore.measurement.record.dependent
+   labcore.measurement.record.recording
+   labcore.measurement.record.record_as
+   labcore.measurement.record.produces_record
+   labcore.measurement.record.get_parameter
+
+
+Module Contents
+---------------
+
+.. py:data:: QCODES_PRESENT
+   :value: True
+
+
+.. py:data:: logger
+
+.. py:class:: DataType(*args, **kwds)
+
+   Bases: :py:obj:`enum.Enum`
+
+
+   Valid options for data types used in :class:`DataSpec`
+
+
+   .. py:attribute:: scalar
+      :value: 'scalar'
+
+
+
+   .. py:attribute:: array
+      :value: 'array'
+
+
+
+.. py:class:: DataSpec
+
+   Specification for data parameters to be recorded.
+
+
+   .. py:attribute:: name
+      :type:  str
+
+
+   .. py:attribute:: depends_on
+      :type:  Union[None, List[str], Tuple[str]]
+      :value: None
+
+
+
+   .. py:attribute:: type
+      :type:  Union[str, DataType]
+      :value: 'scalar'
+
+
+
+   .. py:attribute:: unit
+      :type:  str
+      :value: ''
+
+
+
+   .. py:method:: copy() -> DataSpec
+
+      return a deep copy of the DataSpec instance.
+
+
+
+.. py:data:: ds
+
+.. py:data:: DataSpecFromTupleType
+
+.. py:data:: DataSpecFromDictType
+
+.. py:data:: DataSpecCreationType
+
+.. py:function:: data_specs_label(*dspecs: DataSpec) -> str
+
+   Create a readable label for multiple data specs.
+
+   Format:
+       {data_name_1 (dep_1, dep_2), data_name_2 (dep_3), etc.}
+
+   :param dspecs: data specs as positional arguments.
+   :return: label as string.
+
+
+.. py:function:: make_data_spec(value: DataSpecCreationType) -> DataSpec
+
+   Instantiate a DataSpec object.
+
+   :param value:
+       May be one of the following with the following behavior:
+
+           - A string create a dependent with name given by the string
+           - A tuple of values that can be used to pass to the constructor of :class:`.DataSpec`
+           - A dictionary entries of which will be passed as keyword arguments to the constructor of :class:`.DataSpec`
+           - A :class:`.DataSpec` instance
+
+
+
+.. py:function:: make_data_specs(*specs: DataSpecCreationType) -> Tuple[DataSpec, Ellipsis]
+
+   Create a tuple of DataSpec instances.
+
+   :param specs: will be passed individually to :func:`.make_data_spec`
+
+
+.. py:function:: combine_data_specs(*specs: DataSpec) -> Tuple[DataSpec, Ellipsis]
+
+   Create a tuple of DataSpecs from the inputs. Removes duplicates.
+
+
+.. py:function:: independent(name: str, unit: str = '', type: str = 'scalar') -> DataSpec
+
+   Create a the spec for an independent parameter.
+   All arguments are forwarded to the :class:`.DataSpec` constructor.
+   ``depends_on`` is set to ``None``.
+
+
+.. py:data:: indep
+
+.. py:function:: dependent(name: str, depends_on: List[str] = [], unit: str = '', type: str = 'scalar')
+
+   Create a the spec for a dependent parameter.
+   All arguments are forwarded to the :class:`.DataSpec` constructor.
+   ``depends_on`` may not be set to ``None``.
+
+
+.. py:data:: dep
+
+.. py:function:: recording(*data_specs: DataSpecCreationType) -> Callable
+
+   Returns a decorator that allows adding data parameter specs to a
+   function.
+
+
+.. py:function:: record_as(obj: Union[Callable, Iterable, Iterator], *specs: DataSpecCreationType)
+
+   Annotate produced data as records.
+
+   :param obj: a function that returns data or an iterable/iterator that
+       produces data at each iteration step
+   :param specs: specs for the data produced (see :func:`.make_data_specs`)
+
+
+.. py:function:: produces_record(obj: Any) -> bool
+
+   Check if `obj` is annotated to generate records.
+
+
+.. py:class:: IteratorToRecords(iterable: Iterable, *data_specs: DataSpecCreationType)
+
+   A wrapper that converts the iteration values to records.
+
+
+   .. py:attribute:: iterable
+
+
+   .. py:attribute:: data_specs
+      :value: ()
+
+
+
+   .. py:method:: get_data_specs()
+
+
+.. py:class:: FunctionToRecords(func, *data_specs)
+
+   A wrapper that converts a function return to a record.
+
+
+   .. py:attribute:: func
+
+
+   .. py:attribute:: func_sig
+
+
+   .. py:attribute:: data_specs
+      :value: ()
+
+
+
+   .. py:method:: get_data_specs()
+
+
+   .. py:method:: using(*args, **kwargs) -> FunctionToRecords
+
+      Set the default positional and keyword arguments that will be
+      used when the function is called.
+
+      :returns: a copy of the object. This is to allow setting different
+          defaults to multiple uses of the function.
+
+
+
+.. py:function:: get_parameter(param: qcodes.Parameter)
+

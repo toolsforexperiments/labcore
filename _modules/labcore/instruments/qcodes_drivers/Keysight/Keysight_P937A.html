@@ -1,0 +1,1124 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A.html" />
+    <link rel="author" title="About these documents" href="../../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A driver to control the Keysight VNA P9374A using pyVISA and qcodes</span>
+
+<span class="sd">@author: Hatlab: Ryan Kaufman; UIUC: Wolfgang Pfaff</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcodes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">VisaInstrument</span><span class="p">,</span> <span class="n">Parameter</span><span class="p">,</span> <span class="n">ParameterWithSetpoints</span><span class="p">,</span> <span class="n">InstrumentChannel</span><span class="p">,</span> <span class="n">validators</span> <span class="k">as</span> <span class="n">vals</span><span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcodes.instrument.parameter</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParamRawDataType</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Some basic concepts for this VNA:</span>
+
+<span class="sd">Measurement: </span>
+<span class="sd">    The VNA object that actually holds the information of measurement of the device. It will not automatically </span>
+<span class="sd">    show up on the VNA software interface when created.  </span>
+<span class="sd">Trace: </span>
+<span class="sd">    The VNA object that can be shown on the VNA software, needs to link to a certain measurement.  </span>
+<span class="sd">    As a working definition in our setting, we can think the trace and measurement are equivalent as there are always </span>
+<span class="sd">    created together.     </span>
+<span class="sd">Channel:</span>
+<span class="sd">    One channel can hold many traces. So that the common settings (frequency range, number of points, etc...) </span>
+<span class="sd">    can be applied to all the measurement. In this driver we are only use one channel. More needs to do if we want to</span>
+<span class="sd">    support multiple channel functions. </span>
+<span class="sd">Window:</span>
+<span class="sd">    Place to show the selected traces on the VNA software. </span>
+
+<span class="sd">The settings that are independent to each trace/measurement (S-parameters, trace data) will be method/parameters for </span>
+<span class="sd">Trace object while common settings for the whole channel will be method/parameters for the Keysight_P9374A_SingleChannel</span>
+<span class="sd">object. </span>
+
+<span class="sd">For example:</span>
+<span class="sd">    vna.trace_1.s_parameter()</span>
+<span class="sd">    get the S-parameter for the first trace/measurement. </span>
+
+<span class="sd">    vna.fstart()</span>
+<span class="sd">    get the start frequency for the whole channel. </span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="SParameterData">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.SParameterData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SParameterData</span><span class="p">(</span><span class="n">Parameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SParameterData(Parameter)</span>
+
+<span class="sd">    Qcodes parameter that can be used to set/get the S-parameter of this measurement.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="viewcode-block" id="SParameterData.trace_number">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.SParameterData.trace_number">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span> <span class="o">=</span> <span class="n">trace_number</span></div>
+
+
+<div class="viewcode-block" id="SParameterData.get_raw">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.SParameterData.get_raw">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParamRawDataType</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">get_existing_traces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">npts</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;Trace is not on&#39;</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;:CALC1:MEAS</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span><span class="si">}</span><span class="s2">:PAR?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="SParameterData.set_raw">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.SParameterData.set_raw">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S_parameter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;S21&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">get_existing_traces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">npts</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;Trace is not on&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;:CALC1:MEAS</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span><span class="si">}</span><span class="s2">:PAR </span><span class="si">{</span><span class="n">S_parameter</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="FrequencyData">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.FrequencyData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">FrequencyData</span><span class="p">(</span><span class="n">Parameter</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    FrequencyData(Parameter)</span>
+
+<span class="sd">    Qcodes parameter that can be used to get the frequency data of this measurment.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="viewcode-block" id="FrequencyData.trace_number">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.FrequencyData.trace_number">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span> <span class="o">=</span> <span class="n">trace_number</span></div>
+
+
+<div class="viewcode-block" id="FrequencyData.get_raw">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.FrequencyData.get_raw">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParamRawDataType</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">get_existing_traces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">npts</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CALC:MEAS</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span><span class="si">}</span><span class="s2">:X?&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="TraceData">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.TraceData">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">TraceData</span><span class="p">(</span><span class="n">ParameterWithSetpoints</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TraceData(ParameterWithSetpoints)</span>
+
+<span class="sd">    Qcodes ParameterWithSetpoints that can be used to get the data of this measurement.</span>
+<span class="sd">    VNA will be set to polar format &quot;POL&quot; to acquire data by default.</span>
+<span class="sd">    If the VNA is in a different measurement format, it will be reset to that format after measurement, other wise VNA</span>
+<span class="sd">    will remain in format of self.data_fmt after the measurement.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trace_number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<div class="viewcode-block" id="TraceData.trace_number">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.TraceData.trace_number">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span> <span class="o">=</span> <span class="n">trace_number</span></div>
+
+<div class="viewcode-block" id="TraceData.data_fmt">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.TraceData.data_fmt">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_fmt</span> <span class="o">=</span> <span class="s2">&quot;POL&quot;</span></div>
+
+
+<div class="viewcode-block" id="TraceData.get_raw">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.TraceData.get_raw">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_raw</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ParamRawDataType</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">get_existing_traces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">npts</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+        <span class="c1"># get the values of relevant parameters before taking the trace</span>
+        <span class="n">prev_fmt</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_fmt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prev_fmt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CALC:MEAS</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span><span class="si">}</span><span class="s2">:FORM?&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CALC:MEAS</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span><span class="si">}</span><span class="s2">:FORM </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data_fmt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Code will check if VNA average trpe is SWEEP.</span>
+        <span class="c1"># If not a type error will be raised.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">prev_trigger_source</span><span class="p">,</span> <span class="n">prev_sweep_mode</span><span class="p">,</span> <span class="n">prev_averaging</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">average</span><span class="p">()</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CALC:MEAS</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span><span class="si">}</span><span class="s2">:DATA:FDATA?&quot;</span><span class="p">)</span>
+            <span class="c1"># set relevant parameters back to their old values</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">trigger_source</span><span class="p">(</span><span class="n">prev_trigger_source</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">sweep_mode</span><span class="p">(</span><span class="n">prev_sweep_mode</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">averaging</span><span class="p">(</span><span class="n">prev_averaging</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">prev_fmt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CALC:MEAS</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">trace_number</span><span class="si">}</span><span class="s2">:FORM </span><span class="si">{</span><span class="n">prev_fmt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># process complex data correctly</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_fmt</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;POL&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">2</span><span class="p">))</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">data</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Data taking failed. </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">args</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">instrument</span><span class="o">.</span><span class="n">npts</span><span class="p">())</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Trace">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Trace">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Trace</span><span class="p">(</span><span class="n">InstrumentChannel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A Qcode InstrumentChannel creates from the parameter instrument: Keysight_P9374A_SingleChannel.</span>
+
+<span class="sd">    This InstrumentChannel contains all the parameters and functions that are unique for each different</span>
+<span class="sd">    trace/measurement.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="s2">&quot;Keysight_P9374A_SingleChannel&quot;</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_number</span> <span class="o">=</span> <span class="n">number</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;npts&#39;</span><span class="p">,</span>
+            <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">get_cmd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_npts</span><span class="p">,</span>
+            <span class="n">docstring</span><span class="o">=</span><span class="s1">&#39;number of points in the trace&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;frequency&#39;</span><span class="p">,</span>
+            <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;Hz&#39;</span><span class="p">,</span>
+            <span class="n">parameter_class</span><span class="o">=</span><span class="n">FrequencyData</span><span class="p">,</span>
+            <span class="n">trace_number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_number</span><span class="p">,</span>
+            <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Arrays</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="o">.</span><span class="n">get_latest</span><span class="p">,)),</span>
+            <span class="n">snapshot_exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
+            <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">setpoints</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">frequency</span><span class="p">,),</span>
+            <span class="n">parameter_class</span><span class="o">=</span><span class="n">TraceData</span><span class="p">,</span>
+            <span class="n">trace_number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_number</span><span class="p">,</span>
+            <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Arrays</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npts</span><span class="o">.</span><span class="n">get_latest</span><span class="p">,),</span>
+                             <span class="n">valid_types</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floating</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complexfloating</span><span class="p">)),</span>
+            <span class="n">snapshot_exclude</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;s_parameter&#39;</span><span class="p">,</span>
+            <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+            <span class="n">parameter_class</span><span class="o">=</span><span class="n">SParameterData</span><span class="p">,</span>
+            <span class="n">trace_number</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_number</span><span class="p">,</span>
+            <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;S11&#39;</span><span class="p">,</span> <span class="s1">&#39;S12&#39;</span><span class="p">,</span> <span class="s1">&#39;S21&#39;</span><span class="p">,</span> <span class="s1">&#39;S22&#39;</span><span class="p">),</span>
+            <span class="n">get_parser</span><span class="o">=</span><span class="nb">str</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_npts</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_xdata</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_xdata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_instrument</span><span class="o">.</span><span class="n">get_existing_traces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CALC:MEAS</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_number</span><span class="si">}</span><span class="s2">:X?&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Keysight_P9374A_SingleChannel</span><span class="p">(</span><span class="n">VisaInstrument</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is a very simple driver for the Keysight_P9374A Vector Network Analyzer</span>
+<span class="sd">    Performs basic manipulations of parameters and data acquisition</span>
+
+<span class="sd">    Note: this version does not include a way of averaging via a BUS trigger</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initializes the Keysight_P9374A, and communicates with the wrapper.</span>
+
+<span class="sd">        Input:</span>
+<span class="sd">          name (string)    : name of the instrument</span>
+<span class="sd">          address (string) : GPIB address</span>
+<span class="sd">          reset (bool)     : resets to default values, default=False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">address</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;TCP IP address needed&#39;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39; : Initializing instrument Keysight PNA&#39;</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">terminator</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;CALC1:PAR:MNUM 1&#39;</span><span class="p">)</span>  <span class="c1"># sets the active msmt to the first channel/trace</span>
+
+        <span class="c1"># Add in parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;fstart&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:FREQ:STAR?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:FREQ:STAR </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">(),</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;Hz&#39;</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;fstop&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:FREQ:STOP?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:FREQ:STOP </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">(),</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;Hz&#39;</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;fcenter&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:FREQ:CENT?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:FREQ:CENT </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">(),</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;Hz&#39;</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;fspan&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:FREQ:SPAN?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:FREQ:SPAN </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">(),</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;Hz&#39;</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;rfout&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:OUTP?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:OUTP </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Ints</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">int</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;num_points&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:SWE:POIN?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:SWE:POIN </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Ints</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100000</span><span class="p">),</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">int</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;ifbw&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:BWID?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:BWID </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">1.5e6</span><span class="p">),</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;power&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:SOUR1:POW?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:SOUR1:POW </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;dBm&#39;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">(</span><span class="o">-</span><span class="mi">85</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;power_start&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SOUR1:POW:STAR?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SOUR1:POW:STAR </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;dBm&#39;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">(</span><span class="o">-</span><span class="mi">85</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;power_stop&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SOUR:POW:STOP?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SOUR1:POW:STOP </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;dBm&#39;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">(</span><span class="o">-</span><span class="mi">85</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;averaging&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:AVER?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:AVER </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Ints</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                           <span class="p">)</span>
+        <span class="c1"># TODO: this throws an error currently.</span>
+        <span class="c1"># self.add_parameter(&#39;average_trigger&#39;,</span>
+        <span class="c1">#                    get_cmd=&#39;:TRIG:AVER?&#39;,</span>
+        <span class="c1">#                    set_cmd=&#39;:TRIG:AVER {}&#39;,</span>
+        <span class="c1">#                    get_parser=int,</span>
+        <span class="c1">#                    vals=vals.Ints(0, 1)</span>
+        <span class="c1">#                    )</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;avg_num&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;SENS1:AVER:COUN?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;SENS1:AVER:COUN </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Ints</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">int</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;avg_type&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;SENS1:AVER:MODE?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;SENS1:AVER:MODE </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;POIN&#39;</span><span class="p">,</span> <span class="s1">&#39;SWEEP&#39;</span><span class="p">),</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">str</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;phase_offset&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;CALC1:CORR:OFFS:PHAS?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;CALC1:CORR:OFFS:PHAS </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;electrical_delay&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;CALC1:CORR:EDEL:TIME?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;CALC1:CORR:EDEL:TIME </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Numbers</span><span class="p">()</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;trigger_source&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;TRIG:SOUR?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;TRIG:SOUR </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;IMM&#39;</span><span class="p">,</span> <span class="s1">&#39;EXT&#39;</span><span class="p">,</span> <span class="s1">&#39;MAN&#39;</span><span class="p">)</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;sweep_mode&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;SENS1:SWE:MODE?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;SENS1:SWE:MODE </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;HOLD&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;CONT&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;GRO&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;SING&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;trigger_mode&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;SENS:SWE:TRIG:MODE?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;SENS:SWE:TRIG:MODE </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;CHAN&#39;</span><span class="p">,</span> <span class="s1">&#39;SWE&#39;</span><span class="p">,</span> <span class="s1">&#39;POIN&#39;</span><span class="p">,</span> <span class="s1">&#39;TRAC&#39;</span><span class="p">)</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;trform&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:CALC1:FORM?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:CALC1:FORM </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;MLOG&#39;</span><span class="p">,</span> <span class="s1">&#39;PHAS&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;GDEL&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;SCOM&#39;</span><span class="p">,</span> <span class="s1">&#39;SMIT&#39;</span><span class="p">,</span> <span class="s1">&#39;SADM&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;POL&#39;</span><span class="p">,</span> <span class="s1">&#39;MLIN&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;SWR&#39;</span><span class="p">,</span> <span class="s1">&#39;REAL&#39;</span><span class="p">,</span> <span class="s1">&#39;IMAG&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;UPH&#39;</span><span class="p">,</span> <span class="s1">&#39;PPH&#39;</span><span class="p">,</span> <span class="s1">&#39;SLIN&#39;</span><span class="p">,</span> <span class="s1">&#39;SLOG&#39;</span><span class="p">,</span> <span class="p">)</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;math&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:CALC1:MATH:FUNC?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:CALC1:MATH:FUNC </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;ADD&#39;</span><span class="p">,</span> <span class="s1">&#39;SUBT&#39;</span><span class="p">,</span> <span class="s1">&#39;DIV&#39;</span><span class="p">,</span> <span class="s1">&#39;MULT&#39;</span><span class="p">,</span> <span class="s1">&#39;NORM&#39;</span><span class="p">)</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;sweep_type&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:SWE:TYPE?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:SWE:TYPE </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">vals</span><span class="o">.</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;LIN&#39;</span><span class="p">,</span> <span class="s1">&#39;LOG&#39;</span><span class="p">,</span> <span class="s1">&#39;SEGM&#39;</span><span class="p">,</span> <span class="s1">&#39;POW&#39;</span><span class="p">)</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;correction&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:CORR:STAT?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:CORR:STAT </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;smoothing&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:CALC1:SMO:STAT?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:CALC1:SMO:STAT </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span>
+                           <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;sweep_time&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS1:SWE:TIME?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># generally just adjust ifbw and number of pts to change it,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span>
+                           <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">17</span><span class="p">):</span>
+            <span class="n">trace</span> <span class="o">=</span> <span class="n">Trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;trace_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_submodule</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;trace_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">trace</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect_message</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel.clear_all_traces">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel.clear_all_traces">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_all_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;remove all currently defined traces.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;CALC:MEAS:DEL:ALL&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel.get_existing_traces_by_channel">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel.get_existing_traces_by_channel">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_existing_traces_by_channel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns all currently available traces.</span>
+<span class="sd">        Assumes that traces/measurements do not have custom names not ending with the</span>
+<span class="sd">        measurement number.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">            A dictionary, with keys being the channel indices that have traces in them.</span>
+<span class="sd">            values are tuples of trace/measurement number and parameter measured.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
+            <span class="n">traces</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CALC</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">:PAR:CAT:EXT?&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;&quot;&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">traces</span> <span class="o">==</span> <span class="s2">&quot;NO CATALOG&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ret</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">traces</span> <span class="o">=</span> <span class="n">traces</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">traces</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+                <span class="n">ret</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="n">p</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel.get_existing_traces">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel.get_existing_traces">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_existing_traces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return three lists, with one item per current trace: channel, trace/measurement number, parameter</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">chans</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="n">trace_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_existing_traces_by_channel</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">chan</span><span class="p">,</span> <span class="n">traces</span> <span class="ow">in</span> <span class="n">trace_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">number</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+                <span class="n">chans</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">chan</span><span class="p">)</span>
+                <span class="n">numbers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+                <span class="n">params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">chans</span><span class="p">,</span> <span class="n">numbers</span><span class="p">,</span> <span class="n">params</span></div>
+
+
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel.get_sweep_data">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel.get_sweep_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sweep_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets stimulus data in displayed range of active measurement, returns array</span>
+<span class="sd">        Will return different data depending on sweep type.</span>
+
+<span class="sd">        For example:</span>
+<span class="sd">            power sweep: 1xN array of powers in dBm</span>
+<span class="sd">            frequency sweep: 1xN array of freqs in Hz</span>
+<span class="sd">        Input:</span>
+<span class="sd">            None</span>
+<span class="sd">        Output:</span>
+<span class="sd">            sweep_values (Hz, dBm, etc...)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s1">&#39; : get stim data&#39;</span><span class="p">)</span>
+        <span class="n">strdata</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s1">&#39;:SENS1:X:VAL?&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">strdata</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))))</span></div>
+
+
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel.data_to_mem">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel.data_to_mem">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_to_mem</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calls for data to be stored in memory</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;: data to mem called&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;:CALC1:MATH:MEM&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel.remove_trace">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel.remove_trace">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove selected trace</span>
+
+<span class="sd">        Note that when removing a new trace, vna will restart average.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_existing_traces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">number</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Trace does not exist. Nothing happens.&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;: remove trace</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CALC1:MEAS</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">:DEL&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Trace is successfully removed.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel.add_trace">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel.add_trace">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_trace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">s_parameter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;S21&quot;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a trace with a specific s_parameter</span>
+
+<span class="sd">        Note that when adding a new trace, vna will restart average.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">traces</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_existing_traces</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">traces</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Trace exist. Please use another trace number or remove the current one with remove_trace(number).&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="vm">__name__</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;: add trace</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2"> with S-parameter </span><span class="si">{</span><span class="n">s_parameter</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;CALC1:MEAS</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">:DEF &#39;</span><span class="si">{</span><span class="n">s_parameter</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;DISP:MEAS</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s2">:FEED 1&quot;</span><span class="p">)</span>  <span class="c1"># always show this trace in the window 1 (FEED number).</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Trace is successfully created.&#39;</span><span class="p">)</span></div>
+
+
+    <span class="c1"># TODO: add timout protection</span>
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel.average">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel.average">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">average</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Do the average self.avg_num() times.</span>
+
+<span class="sd">        Read the trigger settings (trigger source and mode) before doing the average and return them.</span>
+<span class="sd">        During the average the VNA will be in manual trigger source with single trigger mode.</span>
+<span class="sd">        A single trigger signal is generated with &#39;INIT:IMM&#39; for self.avg_num() times to complete the whole average</span>
+<span class="sd">        process.</span>
+
+<span class="sd">        Note that after the average the VNA will remain in the trigger settings for the average process.</span>
+<span class="sd">        This is to give time for user to use another command to take the data from the trace/measurement.</span>
+
+<span class="sd">        The trace.data() will automatically take the old settings and put them back. But you can also just take the</span>
+<span class="sd">        return values of this function and reset by yourself.</span>
+
+<span class="sd">        Will check if VNA average type is in SWEEP. If not, a type error will be raised.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_type</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;POIN&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s1">&#39;VNA average type is set to POINT, neeed to be SWEEP. Use vna.avg_type() function to change&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">prev_trigger_source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">trigger_source</span><span class="p">()</span>
+            <span class="n">prev_sweep_mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sweep_mode</span><span class="p">()</span>
+            <span class="n">prev_averaging</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">averaging</span><span class="p">()</span>
+            <span class="c1"># The following trigger settings are necessary for VNA to take the average</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trigger_source</span><span class="p">(</span><span class="s1">&#39;MAN&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sweep_mode</span><span class="p">(</span><span class="s1">&#39;SING&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">averaging</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;SENS:AVER:CLE&quot;</span><span class="p">)</span>  <span class="c1"># does not apply to point averaging</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">avg_num</span><span class="p">()):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;INIT:IMM&#39;</span><span class="p">)</span>
+                <span class="n">averaged</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">while</span> <span class="n">averaged</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">averaged</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;*OPC?&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Average completed&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">prev_trigger_source</span><span class="p">,</span> <span class="n">prev_sweep_mode</span><span class="p">,</span> <span class="n">prev_averaging</span></div>
+
+
+<div class="viewcode-block" id="Keysight_P9374A_SingleChannel.clear_averages">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Keysight/Keysight_P937A/index.html#labcore.instruments.qcodes_drivers.Keysight.Keysight_P937A.Keysight_P9374A_SingleChannel.clear_averages">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_averages</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset averaging and wait for new trigger to start over.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;SENS:AVER:CLE&#39;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

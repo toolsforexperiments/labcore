@@ -1,0 +1,1385 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>labcore.data.datadict_storage &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css?v=4ae1632d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/labcore/data/datadict_storage/index';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/autoapi/labcore/data/datadict_storage/index.html" />
+    <link rel="author" title="About these documents" href="../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="labcore.data.tools" href="../tools/index.html" />
+    <link rel="prev" title="labcore.data.datadict" href="../datadict/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/index.html">triton</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">labcore</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../analysis/index.html">labcore.analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../analysis/analysis_base/index.html">labcore.analysis.analysis_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../analysis/fit/index.html">labcore.analysis.fit</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../analysis/fitfuncs/index.html">labcore.analysis.fitfuncs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../analysis/fitfuncs/generic/index.html">labcore.analysis.fitfuncs.generic</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../analysis/hv_pretty/index.html">labcore.analysis.hv_pretty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../analysis/hvapps/index.html">labcore.analysis.hvapps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../analysis/hvplotting/index.html">labcore.analysis.hvplotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../analysis/mpl/index.html">labcore.analysis.mpl</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html">labcore.data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../datadict/index.html">labcore.data.datadict</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">labcore.data.datadict_storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../tools/index.html">labcore.data.tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../instruments/index.html">labcore.instruments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../instruments/opx/index.html">labcore.instruments.opx</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/opx/config/index.html">labcore.instruments.opx.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/opx/machines/index.html">labcore.instruments.opx.machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/opx/mixer/index.html">labcore.instruments.opx.mixer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/opx/sweep/index.html">labcore.instruments.opx.sweep</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../instruments/qcodes_drivers/index.html">labcore.instruments.qcodes_drivers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/qcodes_drivers/Keysight/index.html">labcore.instruments.qcodes_drivers.Keysight</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/qcodes_drivers/SignalCore/index.html">labcore.instruments.qcodes_drivers.SignalCore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/qcodes_drivers/SignalHound/index.html">labcore.instruments.qcodes_drivers.SignalHound</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/qcodes_drivers/ThorLabs/index.html">labcore.instruments.qcodes_drivers.ThorLabs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/qcodes_drivers/Yokogawa/index.html">labcore.instruments.qcodes_drivers.Yokogawa</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../instruments/qick/index.html">labcore.instruments.qick</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/qick/config/index.html">labcore.instruments.qick.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../instruments/qick/qick_sweep_v2/index.html">labcore.instruments.qick.qick_sweep_v2</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../measurement/index.html">labcore.measurement</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../measurement/record/index.html">labcore.measurement.record</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../measurement/storage/index.html">labcore.measurement.storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../measurement/sweep/index.html">labcore.measurement.sweep</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../setup_measurements/index.html">labcore.setup_measurements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../setup_opx_measurements/index.html">labcore.setup_opx_measurements</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../testing/index.html">labcore.testing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../testing/dispersive_qubit_readout_data/index.html">labcore.testing.dispersive_qubit_readout_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../testing/resonator_readout_data/index.html">labcore.testing.resonator_readout_data</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../utils/index.html">labcore.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/misc/index.html">labcore.utils.misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../utils/num/index.html">labcore.utils.num</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">labcore</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">labcore.data</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.data.datadict_storage</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-labcore.data.datadict_storage">
+<span id="labcore-data-datadict-storage"></span><h1>labcore.data.datadict_storage<a class="headerlink" href="#module-labcore.data.datadict_storage" title="Link to this heading">#</a></h1>
+<p>plottr.data.datadict_storage</p>
+<p>Provides file-storage tools for the DataDict class.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Any function in this module that interacts with a ddh5 file, will create a lock file while it is using the file.
+The lock file has the following format: ~&lt;file_name&gt;.lock. The file lock will get deleted even if the program
+crashes. If the process is suddenly stopped however, we cannot guarantee that the file lock will be deleted.</p>
+</div>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.DATAFILEXT" title="labcore.data.datadict_storage.DATAFILEXT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DATAFILEXT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.TIMESTRFORMAT" title="labcore.data.datadict_storage.TIMESTRFORMAT"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TIMESTRFORMAT</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.logger" title="labcore.data.datadict_storage.logger"><code class="xref py py-obj docutils literal notranslate"><span class="pre">logger</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.NumpyEncoder" title="labcore.data.datadict_storage.NumpyEncoder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NumpyEncoder</span></code></a></p></td>
+<td><p>Extensible JSON &lt;<a class="reference external" href="https://json.org">https://json.org</a>&gt; encoder for Python data structures.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.AppendMode" title="labcore.data.datadict_storage.AppendMode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AppendMode</span></code></a></p></td>
+<td><p>How/Whether to append data to existing data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.FileOpener" title="labcore.data.datadict_storage.FileOpener"><code class="xref py py-obj docutils literal notranslate"><span class="pre">FileOpener</span></code></a></p></td>
+<td><p>Context manager for opening files, creates its own file lock to indicate other programs that the file is being</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.DDH5Writer" title="labcore.data.datadict_storage.DDH5Writer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DDH5Writer</span></code></a></p></td>
+<td><p>Context manager for writing data to DDH5.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.h5ify" title="labcore.data.datadict_storage.h5ify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">h5ify</span></code></a>(→ Any)</p></td>
+<td><p>Convert an object into something that we can assign to an HDF5 attribute.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.deh5ify" title="labcore.data.datadict_storage.deh5ify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">deh5ify</span></code></a>(→ Any)</p></td>
+<td><p>Convert slightly mangled types back to more handy ones.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.set_attr" title="labcore.data.datadict_storage.set_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_attr</span></code></a>(→ None)</p></td>
+<td><p>Set attribute <cite>name</cite> of object <cite>h5obj</cite> to <cite>val</cite></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.add_cur_time_attr" title="labcore.data.datadict_storage.add_cur_time_attr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">add_cur_time_attr</span></code></a>(→ None)</p></td>
+<td><p>Add current time information to the given HDF5 object, following the format of:</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.datadict_to_hdf5" title="labcore.data.datadict_storage.datadict_to_hdf5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datadict_to_hdf5</span></code></a>(→ None)</p></td>
+<td><p>Write a DataDict to DDH5</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.init_file" title="labcore.data.datadict_storage.init_file"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init_file</span></code></a>(→ None)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.datadict_from_hdf5" title="labcore.data.datadict_storage.datadict_from_hdf5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">datadict_from_hdf5</span></code></a>(→ labcore.data.datadict.DataDict)</p></td>
+<td><p>Load a DataDict from file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.all_datadicts_from_hdf5" title="labcore.data.datadict_storage.all_datadicts_from_hdf5"><code class="xref py py-obj docutils literal notranslate"><span class="pre">all_datadicts_from_hdf5</span></code></a>(→ Dict[str, Any])</p></td>
+<td><p>Loads all the DataDicts contained on a single HDF5 file. Returns a dictionary with the group names as keys and</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.reconstruct_safe_write_data" title="labcore.data.datadict_storage.reconstruct_safe_write_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reconstruct_safe_write_data</span></code></a>(...)</p></td>
+<td><p>Creates a new DataDict from the data saved in the .tmp folder. This is used when the data is saved in the safe</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.data_info" title="labcore.data.datadict_storage.data_info"><code class="xref py py-obj docutils literal notranslate"><span class="pre">data_info</span></code></a>(folder[, fn, do_print])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.timestamp_from_path" title="labcore.data.datadict_storage.timestamp_from_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">timestamp_from_path</span></code></a>(→ datetime.datetime)</p></td>
+<td><p>Return a <cite>datetime</cite> timestamp from a standard-formatted path.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.find_data" title="labcore.data.datadict_storage.find_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_data</span></code></a>(→ List[pathlib.Path])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.most_recent_data_path" title="labcore.data.datadict_storage.most_recent_data_path"><code class="xref py py-obj docutils literal notranslate"><span class="pre">most_recent_data_path</span></code></a>(→ pathlib.Path)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.load_as_xr" title="labcore.data.datadict_storage.load_as_xr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_as_xr</span></code></a>(→ xarray.Dataset)</p></td>
+<td><p>Load ddh5 data as xarray (only for gridable data).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.data.datadict_storage.load_as_df" title="labcore.data.datadict_storage.load_as_df"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_as_df</span></code></a>(folder[, fn])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="module-contents">
+<h2>Module Contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<dl class="py data">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DATAFILEXT">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">DATAFILEXT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ddh5'</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DATAFILEXT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DATAFILEXT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.TIMESTRFORMAT">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">TIMESTRFORMAT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'%Y-%m-%d</span> <span class="pre">%H:%M:%S'</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#TIMESTRFORMAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.TIMESTRFORMAT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.logger">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">logger</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#logger"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.logger" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.NumpyEncoder">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">NumpyEncoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">skipkeys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ensure_ascii</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_circular</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_nan</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">separators</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#NumpyEncoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.NumpyEncoder" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/json.html#json.JSONEncoder" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">json.JSONEncoder</span></code></a></p>
+<p>Extensible JSON &lt;<a class="reference external" href="https://json.org">https://json.org</a>&gt; encoder for Python data structures.</p>
+<p>Supports the following objects and types by default:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Python</p></th>
+<th class="head"><p>JSON</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>dict</p></td>
+<td><p>object</p></td>
+</tr>
+<tr class="row-odd"><td><p>list, tuple</p></td>
+<td><p>array</p></td>
+</tr>
+<tr class="row-even"><td><p>str</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-odd"><td><p>int, float</p></td>
+<td><p>number</p></td>
+</tr>
+<tr class="row-even"><td><p>True</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>False</p></td>
+<td><p>false</p></td>
+</tr>
+<tr class="row-even"><td><p>None</p></td>
+<td><p>null</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>To extend this to recognize other objects, subclass and implement a
+<code class="docutils literal notranslate"><span class="pre">.default()</span></code> method with another method that returns a serializable
+object for <code class="docutils literal notranslate"><span class="pre">o</span></code> if possible, otherwise it should call the superclass
+implementation (to raise <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>).</p>
+<p>Constructor for JSONEncoder, with sensible defaults.</p>
+<p>If skipkeys is false, then it is a TypeError to attempt
+encoding of keys that are not str, int, float, bool or None.
+If skipkeys is True, such items are simply skipped.</p>
+<p>If ensure_ascii is true, the output is guaranteed to be str objects
+with all incoming non-ASCII and non-printable characters escaped.
+If ensure_ascii is false, the output can contain non-ASCII and
+non-printable characters.</p>
+<p>If check_circular is true, then lists, dicts, and custom encoded
+objects will be checked for circular references during encoding to
+prevent an infinite recursion (which would cause an RecursionError).
+Otherwise, no such check takes place.</p>
+<p>If allow_nan is true, then NaN, Infinity, and -Infinity will be
+encoded as such.  This behavior is not JSON specification compliant,
+but is consistent with most JavaScript based encoders and decoders.
+Otherwise, it will be a ValueError to encode such floats.</p>
+<p>If sort_keys is true, then the output of dictionaries will be
+sorted by key; this is useful for regression tests to ensure
+that JSON serializations can be compared on a day-to-day basis.</p>
+<p>If indent is a non-negative integer, then JSON array
+elements and object members will be pretty-printed with that
+indent level.  An indent level of 0 will only insert newlines.
+None is the most compact representation.</p>
+<p>If specified, separators should be an (item_separator,
+key_separator) tuple.  The default is (’, ‘, ‘: ‘) if <em>indent</em> is
+<code class="docutils literal notranslate"><span class="pre">None</span></code> and (‘,’, ‘: ‘) otherwise.  To get the most compact JSON
+representation, you should specify (‘,’, ‘:’) to eliminate
+whitespace.</p>
+<p>If specified, default is a function that gets called for objects
+that can’t otherwise be serialized.  It should return a JSON
+encodable version of the object or raise a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.NumpyEncoder.default">
+<span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#NumpyEncoder.default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.NumpyEncoder.default" title="Link to this definition">#</a></dt>
+<dd><p>Implement this method in a subclass such that it returns
+a serializable object for <code class="docutils literal notranslate"><span class="pre">o</span></code>, or calls the base implementation
+(to raise a <code class="docutils literal notranslate"><span class="pre">TypeError</span></code>).</p>
+<p>For example, to support arbitrary iterators, you could
+implement default like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">iterable</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">iterable</span><span class="p">)</span>
+    <span class="c1"># Let the base class default method raise the TypeError</span>
+    <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">default</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.AppendMode">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">AppendMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwds</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#AppendMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.AppendMode" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">enum.Enum</span></code></a></p>
+<p>How/Whether to append data to existing data.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.AppendMode.new">
+<span class="sig-name descname"><span class="pre">new</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#AppendMode.new"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.AppendMode.new" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.AppendMode.all">
+<span class="sig-name descname"><span class="pre">all</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#AppendMode.all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.AppendMode.all" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.AppendMode.none">
+<span class="sig-name descname"><span class="pre">none</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#AppendMode.none"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.AppendMode.none" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.h5ify">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">h5ify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#h5ify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.h5ify" title="Link to this definition">#</a></dt>
+<dd><p>Convert an object into something that we can assign to an HDF5 attribute.</p>
+<p>Performs the following conversions:
+- list/array of strings -&gt; numpy chararray of unicode type</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> – Input object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object, converted if necessary.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.deh5ify">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">deh5ify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#deh5ify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.deh5ify" title="Link to this definition">#</a></dt>
+<dd><p>Convert slightly mangled types back to more handy ones.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> – Input object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.set_attr">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">set_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h5obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">val</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#set_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.set_attr" title="Link to this definition">#</a></dt>
+<dd><p>Set attribute <cite>name</cite> of object <cite>h5obj</cite> to <cite>val</cite></p>
+<p>Use <a class="reference internal" href="#labcore.data.datadict_storage.h5ify" title="labcore.data.datadict_storage.h5ify"><code class="xref py py-func docutils literal notranslate"><span class="pre">h5ify()</span></code></a> to convert the object, then try to set the attribute
+to the returned value. If that does not succeed due to a HDF5 typing
+restriction, set the attribute to the string representation of the value.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.add_cur_time_attr">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">add_cur_time_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">h5obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'creation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'__'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'__'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#add_cur_time_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.add_cur_time_attr" title="Link to this definition">#</a></dt>
+<dd><p>Add current time information to the given HDF5 object, following the format of:
+<code class="docutils literal notranslate"><span class="pre">&lt;prefix&gt;&lt;name&gt;_time_sec&lt;suffix&gt;</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>h5obj</strong> – The HDF5 object.</p></li>
+<li><p><strong>name</strong> – The name of the attribute.</p></li>
+<li><p><strong>prefix</strong> – Prefix of the attribute.</p></li>
+<li><p><strong>suffix</strong> – Suffix of the attribute.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.datadict_to_hdf5">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">datadict_to_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datadict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../datadict/index.html#labcore.data.datadict.DataDict" title="labcore.data.datadict.DataDict"><span class="pre">labcore.data.datadict.DataDict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">append_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.data.datadict_storage.AppendMode" title="labcore.data.datadict_storage.AppendMode"><span class="pre">AppendMode</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">AppendMode.new</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#datadict_to_hdf5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.datadict_to_hdf5" title="Link to this definition">#</a></dt>
+<dd><p>Write a DataDict to DDH5</p>
+<p>Note: Meta data is only written during initial writing of the dataset.
+If we’re appending to existing datasets, we’re not setting meta
+data anymore.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>datadict</strong> – Datadict to write to disk.</p></li>
+<li><p><strong>path</strong> – Path of the file (extension may be omitted).</p></li>
+<li><p><strong>groupname</strong> – Name of the top level group to store the data in.</p></li>
+<li><p><strong>append_mode</strong> – <ul>
+<li><p><cite>AppendMode.none</cite> : Delete and re-create group.</p></li>
+<li><p><cite>AppendMode.new</cite> : Append rows in the datadict that exceed
+the number of existing rows in the dataset already stored.
+Note: we’re not checking for content, only length!</p></li>
+<li><p><cite>AppendMode.all</cite> : Append all data in datadict to file data sets.</p></li>
+</ul>
+</p></li>
+<li><p><strong>file_timeout</strong> – How long the function will wait for the ddh5 file to unlock. Only relevant if you are
+writing to a file that already exists and some other program is trying to read it at the same time.
+If none uses the default value from the <a class="reference internal" href="#labcore.data.datadict_storage.FileOpener" title="labcore.data.datadict_storage.FileOpener"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileOpener</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.init_file">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">init_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">h5py.File</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#init_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.init_file" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.datadict_from_hdf5">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">datadict_from_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">startidx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stopidx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ignore_unequal_lengths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../datadict/index.html#labcore.data.datadict.DataDict" title="labcore.data.datadict.DataDict"><span class="pre">labcore.data.datadict.DataDict</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#datadict_from_hdf5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.datadict_from_hdf5" title="Link to this definition">#</a></dt>
+<dd><p>Load a DataDict from file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – Full filepath without the file extension.</p></li>
+<li><p><strong>groupname</strong> – Name of hdf5 group.</p></li>
+<li><p><strong>startidx</strong> – Start row.</p></li>
+<li><p><strong>stopidx</strong> – End row + 1.</p></li>
+<li><p><strong>structure_only</strong> – If <cite>True</cite>, don’t load the data values.</p></li>
+<li><p><strong>ignore_unequal_lengths</strong> – If <cite>True</cite>, don’t fail when the rows have
+unequal length; will return the longest consistent DataDict possible.</p></li>
+<li><p><strong>file_timeout</strong> – How long the function will wait for the ddh5 file to unlock. If none uses the default
+value from the <a class="reference internal" href="#labcore.data.datadict_storage.FileOpener" title="labcore.data.datadict_storage.FileOpener"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileOpener</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Validated DataDict.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.all_datadicts_from_hdf5">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">all_datadicts_from_hdf5</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#all_datadicts_from_hdf5"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.all_datadicts_from_hdf5" title="Link to this definition">#</a></dt>
+<dd><p>Loads all the DataDicts contained on a single HDF5 file. Returns a dictionary with the group names as keys and
+the DataDicts as the values of that key.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – The path of the HDF5 file.</p></li>
+<li><p><strong>file_timeout</strong> – How long the function will wait for the ddh5 file to unlock. If none uses the default
+value from the <a class="reference internal" href="#labcore.data.datadict_storage.FileOpener" title="labcore.data.datadict_storage.FileOpener"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileOpener</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with group names as key, and the DataDicts inside them as values.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.reconstruct_safe_write_data">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">reconstruct_safe_write_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">unification_from_scratch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="../datadict/index.html#labcore.data.datadict.DataDictBase" title="labcore.data.datadict.DataDictBase"><span class="pre">labcore.data.datadict.DataDictBase</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#reconstruct_safe_write_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.reconstruct_safe_write_data" title="Link to this definition">#</a></dt>
+<dd><p>Creates a new DataDict from the data saved in the .tmp folder. This is used when the data is saved in the safe
+writing mode. The data is saved in individual files in the .tmp folder. This function reconstructs the data from
+these files and returns a DataDict with the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – The path to the folder containing the .tmp path</p></li>
+<li><p><strong>unification_from_scratch</strong> – If True, will reconstruct the data from scratch. If False, will try to load the
+data from the last reconstructed file.</p></li>
+<li><p><strong>file_timeout</strong> – How long the function will wait for the ddh5 file to unlock. If none uses the default value</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.FileOpener">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">FileOpener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'r'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_delay</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#FileOpener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.FileOpener" title="Link to this definition">#</a></dt>
+<dd><p>Context manager for opening files, creates its own file lock to indicate other programs that the file is being
+used. The lock file follows the following structure: “~&lt;file_name&gt;.lock”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> – The file path.</p></li>
+<li><p><strong>mode</strong> – The opening file mode. Only the following modes are supported: ‘r’, ‘w’, ‘w-’, ‘a’. Defaults to ‘r’.</p></li>
+<li><p><strong>timeout</strong> – Time, in seconds, the context manager waits for the file to unlock. Defaults to 30.</p></li>
+<li><p><strong>test_delay</strong> – Length of time in between checks. I.e. how long the FileOpener waits to see if a file got
+unlocked again</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.FileOpener.path">
+<span class="sig-name descname"><span class="pre">path</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#FileOpener.path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.FileOpener.path" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.FileOpener.lock_path">
+<span class="sig-name descname"><span class="pre">lock_path</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#FileOpener.lock_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.FileOpener.lock_path" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.FileOpener.mode">
+<span class="sig-name descname"><span class="pre">mode</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'r'</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#FileOpener.mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.FileOpener.mode" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.FileOpener.default_timeout">
+<span class="sig-name descname"><span class="pre">default_timeout</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">300.0</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#FileOpener.default_timeout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.FileOpener.default_timeout" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.FileOpener.test_delay">
+<span class="sig-name descname"><span class="pre">test_delay</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.1</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#FileOpener.test_delay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.FileOpener.test_delay" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.FileOpener.file">
+<span class="sig-name descname"><span class="pre">file</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">h5py.File</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#FileOpener.file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.FileOpener.file" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.FileOpener.open_when_unlocked">
+<span class="sig-name descname"><span class="pre">open_when_unlocked</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">h5py.File</span></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#FileOpener.open_when_unlocked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.FileOpener.open_when_unlocked" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">DDH5Writer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">datadict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../datadict/index.html#labcore.data.datadict.DataDict" title="labcore.data.datadict.DataDict"><span class="pre">labcore.data.datadict.DataDict</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">basedir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">safe_write_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Context manager for writing data to DDH5.
+Based on typical needs in taking data in an experimental physics lab.</p>
+<p>Creates lock file when writing data.</p>
+<p>Can be used in safe_write_mode to make sure the experiment and data will be saved even if the ddh5 is being used by
+other programs. In this mode, the data is individually saved in files in a .tmp folder. When the experiment is
+finished, the data is unified and saved in the original file.
+If the data is correctly reconstructed, the .tmp folder is deleted. If not you can use the function unify_safe_write_data
+to reconstruct the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>basedir</strong> – The root directory in which data is stored.
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">create_file_structure()</span></code> is creating the structure inside this root and
+determines the file name of the data. The default structure implemented here is
+<code class="docutils literal notranslate"><span class="pre">&lt;root&gt;/YYYY-MM-DD/YYYY-mm-dd_THHMMSS_&lt;ID&gt;-&lt;name&gt;/&lt;filename&gt;.ddh5</span></code>,
+where &lt;ID&gt; is a short identifier string and &lt;name&gt; is the value of parameter <cite>name</cite>.
+To change this, re-implement <a class="reference internal" href="#labcore.data.datadict_storage.DDH5Writer.data_folder" title="labcore.data.datadict_storage.DDH5Writer.data_folder"><code class="xref py py-meth docutils literal notranslate"><span class="pre">data_folder()</span></code></a> and/or
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">create_file_structure()</span></code>.</p></li>
+<li><p><strong>datadict</strong> – Initial data object. Must contain at least the structure of the
+data to be able to use <a class="reference internal" href="#labcore.data.datadict_storage.DDH5Writer.add_data" title="labcore.data.datadict_storage.DDH5Writer.add_data"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add_data()</span></code></a> to add data.</p></li>
+<li><p><strong>groupname</strong> – Name of the top-level group in the file container. An existing
+group of that name will be deleted.</p></li>
+<li><p><strong>name</strong> – Name of this dataset. Used in path/file creation and added as meta data.</p></li>
+<li><p><strong>filename</strong> – Filename to use. Defaults to ‘data.ddh5’.</p></li>
+<li><p><strong>file_timeout</strong> – How long the function will wait for the ddh5 file to unlock. If none uses the default
+value from the <a class="reference internal" href="#labcore.data.datadict_storage.FileOpener" title="labcore.data.datadict_storage.FileOpener"><code class="xref py py-class docutils literal notranslate"><span class="pre">FileOpener</span></code></a>.</p></li>
+<li><p><strong>safe_write_mode</strong> – If True, will save the data in the safe writing mode. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Constructor for <a class="reference internal" href="#labcore.data.datadict_storage.DDH5Writer" title="labcore.data.datadict_storage.DDH5Writer"><code class="xref py py-class docutils literal notranslate"><span class="pre">DDH5Writer</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.n_files_per_dir">
+<span class="sig-name descname"><span class="pre">n_files_per_dir</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.n_files_per_dir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.n_files_per_dir" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.n_files_per_reconstruction">
+<span class="sig-name descname"><span class="pre">n_files_per_reconstruction</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1000</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.n_files_per_reconstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.n_files_per_reconstruction" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.n_seconds_per_reconstruction">
+<span class="sig-name descname"><span class="pre">n_seconds_per_reconstruction</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.n_seconds_per_reconstruction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.n_seconds_per_reconstruction" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.basedir">
+<span class="sig-name descname"><span class="pre">basedir</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.basedir"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.basedir" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.datadict">
+<span class="sig-name descname"><span class="pre">datadict</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.datadict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.datadict" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.groupname">
+<span class="sig-name descname"><span class="pre">groupname</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'data'</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.groupname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.groupname" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.filename">
+<span class="sig-name descname"><span class="pre">filename</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.filename" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.filepath">
+<span class="sig-name descname"><span class="pre">filepath</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.filepath"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.filepath" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.file_timeout">
+<span class="sig-name descname"><span class="pre">file_timeout</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.file_timeout"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.file_timeout" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.uuid">
+<span class="sig-name descname"><span class="pre">uuid</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.uuid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.uuid" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.safe_write_mode">
+<span class="sig-name descname"><span class="pre">safe_write_mode</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.safe_write_mode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.safe_write_mode" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.n_files">
+<span class="sig-name descname"><span class="pre">n_files</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.n_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.n_files" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.last_update_n_files">
+<span class="sig-name descname"><span class="pre">last_update_n_files</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.last_update_n_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.last_update_n_files" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.last_reconstruction_time">
+<span class="sig-name descname"><span class="pre">last_reconstruction_time</span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.last_reconstruction_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.last_reconstruction_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.data_folder">
+<span class="sig-name descname"><span class="pre">data_folder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.data_folder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.data_folder" title="Link to this definition">#</a></dt>
+<dd><p>Return the folder, relative to the data root path, in which data will
+be saved.</p>
+<p>Default format:
+<code class="docutils literal notranslate"><span class="pre">&lt;basedir&gt;/YYYY-MM-DD/YYYY-mm-ddTHHMMSS_&lt;ID&gt;-&lt;name&gt;</span></code>.
+In this implementation we use the first 8 characters of a UUID as ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The folder path.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.data_file_path">
+<span class="sig-name descname"><span class="pre">data_file_path</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.data_file_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.data_file_path" title="Link to this definition">#</a></dt>
+<dd><p>Determine the filepath of the data file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The filepath of the data file.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.add_data">
+<span class="sig-name descname"><span class="pre">add_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.add_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.add_data" title="Link to this definition">#</a></dt>
+<dd><p>Add data to the file (and the internal <cite>DataDict</cite>).</p>
+<p>Requires one keyword argument per data field in the <cite>DataDict</cite>, with
+the key being the name, and value the data to add. It is required that
+all added data has the same number of ‘rows’, i.e., the most outer dimension
+has to match for data to be inserted faithfully.
+If some data is scalar and others are not, then the data should be reshaped
+to (1, ) for the scalar data, and (1, …) for the others; in other words,
+an outer dimension with length 1 is added for all.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.add_tag">
+<span class="sig-name descname"><span class="pre">add_tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Collection</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.add_tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.add_tag" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.backup_file">
+<span class="sig-name descname"><span class="pre">backup_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Collection</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.backup_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.backup_file" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.save_text">
+<span class="sig-name descname"><span class="pre">save_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.save_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.save_text" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.DDH5Writer.save_dict">
+<span class="sig-name descname"><span class="pre">save_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">d</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#DDH5Writer.save_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.DDH5Writer.save_dict" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.data_info">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">data_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data.ddh5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">do_print</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#data_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.data_info" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.timestamp_from_path">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">timestamp_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.14)"><span class="pre">datetime.datetime</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#timestamp_from_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.timestamp_from_path" title="Link to this definition">#</a></dt>
+<dd><p>Return a <cite>datetime</cite> timestamp from a standard-formatted path.
+Assumes that the path stem has a timestamp that begins in ISO-like format
+<code class="docutils literal notranslate"><span class="pre">YYYY-mm-ddTHHMMSS</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.find_data">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">find_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">newer_than</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.14)"><span class="pre">datetime.datetime</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">older_than</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.14)"><span class="pre">datetime.datetime</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#find_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.find_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.most_recent_data_path">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">most_recent_data_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">older_than</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.14)"><span class="pre">datetime.datetime</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#most_recent_data_path"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.most_recent_data_path" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.load_as_xr">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">load_as_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">pathlib.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data.ddh5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">xarray.Dataset</span></a></span></span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#load_as_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.load_as_xr" title="Link to this definition">#</a></dt>
+<dd><p>Load ddh5 data as xarray (only for gridable data).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>folder</strong> – data folder</p></li>
+<li><p><strong>fn</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><em>str</em></a><em>, </em><em>optional</em>) – filename, by default ‘data.ddh5’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>_description_</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_type_</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.data.datadict_storage.load_as_df">
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">load_as_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data.ddh5'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/labcore/data/datadict_storage.html#load_as_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.load_as_df" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../datadict/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">labcore.data.datadict</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../tools/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">labcore.data.tools</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DATAFILEXT"><code class="docutils literal notranslate"><span class="pre">DATAFILEXT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.TIMESTRFORMAT"><code class="docutils literal notranslate"><span class="pre">TIMESTRFORMAT</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.logger"><code class="docutils literal notranslate"><span class="pre">logger</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.NumpyEncoder"><code class="docutils literal notranslate"><span class="pre">NumpyEncoder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.NumpyEncoder.default"><code class="docutils literal notranslate"><span class="pre">NumpyEncoder.default()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.AppendMode"><code class="docutils literal notranslate"><span class="pre">AppendMode</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.AppendMode.new"><code class="docutils literal notranslate"><span class="pre">AppendMode.new</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.AppendMode.all"><code class="docutils literal notranslate"><span class="pre">AppendMode.all</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.AppendMode.none"><code class="docutils literal notranslate"><span class="pre">AppendMode.none</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.h5ify"><code class="docutils literal notranslate"><span class="pre">h5ify()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.deh5ify"><code class="docutils literal notranslate"><span class="pre">deh5ify()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.set_attr"><code class="docutils literal notranslate"><span class="pre">set_attr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.add_cur_time_attr"><code class="docutils literal notranslate"><span class="pre">add_cur_time_attr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.datadict_to_hdf5"><code class="docutils literal notranslate"><span class="pre">datadict_to_hdf5()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.init_file"><code class="docutils literal notranslate"><span class="pre">init_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.datadict_from_hdf5"><code class="docutils literal notranslate"><span class="pre">datadict_from_hdf5()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.all_datadicts_from_hdf5"><code class="docutils literal notranslate"><span class="pre">all_datadicts_from_hdf5()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.reconstruct_safe_write_data"><code class="docutils literal notranslate"><span class="pre">reconstruct_safe_write_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.FileOpener"><code class="docutils literal notranslate"><span class="pre">FileOpener</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.FileOpener.path"><code class="docutils literal notranslate"><span class="pre">FileOpener.path</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.FileOpener.lock_path"><code class="docutils literal notranslate"><span class="pre">FileOpener.lock_path</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.FileOpener.mode"><code class="docutils literal notranslate"><span class="pre">FileOpener.mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.FileOpener.default_timeout"><code class="docutils literal notranslate"><span class="pre">FileOpener.default_timeout</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.FileOpener.test_delay"><code class="docutils literal notranslate"><span class="pre">FileOpener.test_delay</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.FileOpener.file"><code class="docutils literal notranslate"><span class="pre">FileOpener.file</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.FileOpener.open_when_unlocked"><code class="docutils literal notranslate"><span class="pre">FileOpener.open_when_unlocked()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer"><code class="docutils literal notranslate"><span class="pre">DDH5Writer</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.n_files_per_dir"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.n_files_per_dir</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.n_files_per_reconstruction"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.n_files_per_reconstruction</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.n_seconds_per_reconstruction"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.n_seconds_per_reconstruction</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.basedir"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.basedir</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.datadict"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.datadict</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.name"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.groupname"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.groupname</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.filename"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.filename</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.filepath"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.filepath</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.file_timeout"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.file_timeout</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.uuid"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.uuid</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.safe_write_mode"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.safe_write_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.n_files"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.n_files</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.last_update_n_files"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.last_update_n_files</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.last_reconstruction_time"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.last_reconstruction_time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.data_folder"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.data_folder()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.data_file_path"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.data_file_path()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.add_data"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.add_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.add_tag"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.add_tag()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.backup_file"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.backup_file()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.save_text"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.save_text()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.DDH5Writer.save_dict"><code class="docutils literal notranslate"><span class="pre">DDH5Writer.save_dict()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.data_info"><code class="docutils literal notranslate"><span class="pre">data_info()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.timestamp_from_path"><code class="docutils literal notranslate"><span class="pre">timestamp_from_path()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.find_data"><code class="docutils literal notranslate"><span class="pre">find_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.most_recent_data_path"><code class="docutils literal notranslate"><span class="pre">most_recent_data_path()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.load_as_xr"><code class="docutils literal notranslate"><span class="pre">load_as_xr()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.data.datadict_storage.load_as_df"><code class="docutils literal notranslate"><span class="pre">load_as_df()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../../_sources/autoapi/labcore/data/datadict_storage/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

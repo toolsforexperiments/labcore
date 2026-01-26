@@ -1,0 +1,17 @@
+labcore.instruments
+===================
+
+.. py:module:: labcore.instruments
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/labcore/instruments/opx/index
+   /autoapi/labcore/instruments/qcodes_drivers/index
+   /autoapi/labcore/instruments/qick/index
+
+

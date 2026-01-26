@@ -1,0 +1,251 @@
+labcore.measurement
+===================
+
+.. py:module:: labcore.measurement
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/labcore/measurement/record/index
+   /autoapi/labcore/measurement/storage/index
+   /autoapi/labcore/measurement/sweep/index
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   labcore.measurement.ds
+   labcore.measurement.dep
+   labcore.measurement.indep
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.measurement.DataSpec
+   labcore.measurement.Sweep
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   labcore.measurement.recording
+   labcore.measurement.record_as
+   labcore.measurement.dependent
+   labcore.measurement.independent
+   labcore.measurement.get_parameter
+   labcore.measurement.sweep_parameter
+   labcore.measurement.once
+   labcore.measurement.pointer
+
+
+Package Contents
+----------------
+
+.. py:function:: recording(*data_specs: DataSpecCreationType) -> Callable
+
+   Returns a decorator that allows adding data parameter specs to a
+   function.
+
+
+.. py:function:: record_as(obj: Union[Callable, Iterable, Iterator], *specs: DataSpecCreationType)
+
+   Annotate produced data as records.
+
+   :param obj: a function that returns data or an iterable/iterator that
+       produces data at each iteration step
+   :param specs: specs for the data produced (see :func:`.make_data_specs`)
+
+
+.. py:class:: DataSpec
+
+   Specification for data parameters to be recorded.
+
+
+   .. py:attribute:: name
+      :type:  str
+
+
+   .. py:attribute:: depends_on
+      :type:  Union[None, List[str], Tuple[str]]
+      :value: None
+
+
+
+   .. py:attribute:: type
+      :type:  Union[str, DataType]
+      :value: 'scalar'
+
+
+
+   .. py:attribute:: unit
+      :type:  str
+      :value: ''
+
+
+
+   .. py:method:: copy() -> DataSpec
+
+      return a deep copy of the DataSpec instance.
+
+
+
+.. py:data:: ds
+
+.. py:data:: dep
+
+.. py:data:: indep
+
+.. py:function:: dependent(name: str, depends_on: List[str] = [], unit: str = '', type: str = 'scalar')
+
+   Create a the spec for a dependent parameter.
+   All arguments are forwarded to the :class:`.DataSpec` constructor.
+   ``depends_on`` may not be set to ``None``.
+
+
+.. py:function:: independent(name: str, unit: str = '', type: str = 'scalar') -> DataSpec
+
+   Create a the spec for an independent parameter.
+   All arguments are forwarded to the :class:`.DataSpec` constructor.
+   ``depends_on`` is set to ``None``.
+
+
+.. py:function:: get_parameter(param: qcodes.Parameter)
+
+.. py:class:: Sweep(pointer: Optional[Iterable], *actions: Callable)
+
+   Base class for sweeps.
+
+   Can be iterated over; for each pointer value the associated actions are
+   executed. Each iteration step produces a record, containing all values
+   produced by pointer and actions that have been annotated as such.
+   (see: :func:`.record_as`)
+
+   :param pointer: An iterable that defines the steps over which we iterate
+   :param actions: A variable number of functions. Each will be called for
+       each iteration step, with the pointer value(s) as arguments, provided
+       the function can accept it.
+
+   Constructor of :class:`.Sweep`.
+
+
+   .. py:attribute:: record_none
+      :value: True
+
+
+
+   .. py:attribute:: pass_on_returns
+      :value: True
+
+
+
+   .. py:attribute:: pass_on_none
+      :value: False
+
+
+
+   .. py:method:: update_option_dict(src: Dict[str, Any], target: Dict[str, Any], level: int) -> None
+      :staticmethod:
+
+
+      Rules: work in progress :).
+
+
+
+
+   .. py:method:: propagate_sweep_options(sweep: Sweep)
+      :staticmethod:
+
+
+
+   .. py:method:: copy_sweep_options(src: Sweep, target: Optional[Sweep])
+      :staticmethod:
+
+
+
+   .. py:method:: link_sweep_properties(src: Sweep, target: Sweep) -> None
+      :staticmethod:
+
+
+      Share state properties between sweeps.
+
+
+
+   .. py:attribute:: actions
+      :value: []
+
+
+
+   .. py:property:: state
+
+
+   .. py:property:: pass_kwargs
+
+
+   .. py:property:: action_kwargs
+
+
+   .. py:method:: append_action(action: Callable)
+
+      Add an action to the sweep.
+
+
+
+   .. py:method:: run() -> SweepIterator
+
+      Create the iterator for the sweep.
+
+
+
+   .. py:method:: set_options(**action_kwargs: Dict[str, Any])
+
+      Configure the sweep actions.
+
+      :param action_kwargs: Keyword arguments to pass to action functions
+          format: {'<action_name>': {'key': 'value'}
+          <action_name> is what action_function.__name__ returns.
+
+
+
+   .. py:method:: get_data_specs() -> Tuple[labcore.measurement.record.DataSpec, Ellipsis]
+
+      Return the data specs of the sweep.
+
+
+
+.. py:function:: sweep_parameter(param: ParamSpecType, sweep_iterable: Iterable, *actions: Callable) -> Sweep
+
+   Create a sweep over a parameter.
+
+   :param param: One of:
+
+       * A string: Generates an independent, scalar data parameter.
+       * A tuple or list: will be passed to the constructor of :class:`.DataSpec`; see :func:`.make_data_spec`.
+       * A :class:`.DataSpec` instance.
+       * A qcodes parameter. In this case the parameter's ``set`` method is called for each value during the iteration.
+
+   :param sweep_iterable: An iterable that generates the values the parameter
+       will be set to.
+   :param actions: An arbitrary number of action functions.
+
+
+.. py:function:: once(action: Callable) -> Sweep
+
+   Return a sweep that executes the action once.
+
+
+.. py:function:: pointer(*data_specs: labcore.measurement.record.DataSpecCreationType) -> Callable
+
+   Create a decorator for functions that return pointer generators.
+
+

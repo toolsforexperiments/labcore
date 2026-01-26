@@ -1,0 +1,1011 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>labcore.measurement &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/labcore/measurement/index';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/autoapi/labcore/measurement/index.html" />
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="labcore.measurement.record" href="record/index.html" />
+    <link rel="prev" title="labcore.instruments.qick.qick_sweep_v2" href="../instruments/qick/qick_sweep_v2/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="../../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../triton/index.html">triton</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">labcore</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="../analysis/index.html">labcore.analysis</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../analysis/analysis_base/index.html">labcore.analysis.analysis_base</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../analysis/fit/index.html">labcore.analysis.fit</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../analysis/fitfuncs/index.html">labcore.analysis.fitfuncs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../analysis/fitfuncs/generic/index.html">labcore.analysis.fitfuncs.generic</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../analysis/hv_pretty/index.html">labcore.analysis.hv_pretty</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../analysis/hvapps/index.html">labcore.analysis.hvapps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../analysis/hvplotting/index.html">labcore.analysis.hvplotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../analysis/mpl/index.html">labcore.analysis.mpl</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../data/index.html">labcore.data</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../data/datadict/index.html">labcore.data.datadict</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/datadict_storage/index.html">labcore.data.datadict_storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../data/tools/index.html">labcore.data.tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../instruments/index.html">labcore.instruments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../instruments/opx/index.html">labcore.instruments.opx</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/opx/config/index.html">labcore.instruments.opx.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/opx/machines/index.html">labcore.instruments.opx.machines</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/opx/mixer/index.html">labcore.instruments.opx.mixer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/opx/sweep/index.html">labcore.instruments.opx.sweep</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../instruments/qcodes_drivers/index.html">labcore.instruments.qcodes_drivers</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/qcodes_drivers/Keysight/index.html">labcore.instruments.qcodes_drivers.Keysight</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/qcodes_drivers/SignalCore/index.html">labcore.instruments.qcodes_drivers.SignalCore</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/qcodes_drivers/SignalHound/index.html">labcore.instruments.qcodes_drivers.SignalHound</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/qcodes_drivers/ThorLabs/index.html">labcore.instruments.qcodes_drivers.ThorLabs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/qcodes_drivers/Yokogawa/index.html">labcore.instruments.qcodes_drivers.Yokogawa</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../instruments/qick/index.html">labcore.instruments.qick</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/qick/config/index.html">labcore.instruments.qick.config</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../instruments/qick/qick_sweep_v2/index.html">labcore.instruments.qick.qick_sweep_v2</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="current reference internal" href="#">labcore.measurement</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="record/index.html">labcore.measurement.record</a></li>
+<li class="toctree-l3"><a class="reference internal" href="storage/index.html">labcore.measurement.storage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="sweep/index.html">labcore.measurement.sweep</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup_measurements/index.html">labcore.setup_measurements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../setup_opx_measurements/index.html">labcore.setup_opx_measurements</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../testing/index.html">labcore.testing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../testing/dispersive_qubit_readout_data/index.html">labcore.testing.dispersive_qubit_readout_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../testing/resonator_readout_data/index.html">labcore.testing.resonator_readout_data</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../utils/index.html">labcore.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../utils/misc/index.html">labcore.utils.misc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../utils/num/index.html">labcore.utils.num</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">labcore</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.measurement</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-labcore.measurement">
+<span id="labcore-measurement"></span><h1>labcore.measurement<a class="headerlink" href="#module-labcore.measurement" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="record/index.html">labcore.measurement.record</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage/index.html">labcore.measurement.storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sweep/index.html">labcore.measurement.sweep</a></li>
+</ul>
+</div>
+</section>
+<section id="attributes">
+<h2>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.measurement.ds" title="labcore.measurement.ds"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ds</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.measurement.dep" title="labcore.measurement.dep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dep</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.measurement.indep" title="labcore.measurement.indep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">indep</span></code></a></p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="classes">
+<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.measurement.DataSpec" title="labcore.measurement.DataSpec"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataSpec</span></code></a></p></td>
+<td><p>Specification for data parameters to be recorded.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.measurement.Sweep" title="labcore.measurement.Sweep"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sweep</span></code></a></p></td>
+<td><p>Base class for sweeps.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="functions">
+<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.measurement.recording" title="labcore.measurement.recording"><code class="xref py py-obj docutils literal notranslate"><span class="pre">recording</span></code></a>(→ Callable)</p></td>
+<td><p>Returns a decorator that allows adding data parameter specs to a</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.measurement.record_as" title="labcore.measurement.record_as"><code class="xref py py-obj docutils literal notranslate"><span class="pre">record_as</span></code></a>(obj, *specs)</p></td>
+<td><p>Annotate produced data as records.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.measurement.dependent" title="labcore.measurement.dependent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dependent</span></code></a>(name[, depends_on, unit, type])</p></td>
+<td><p>Create a the spec for a dependent parameter.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.measurement.independent" title="labcore.measurement.independent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">independent</span></code></a>(→ DataSpec)</p></td>
+<td><p>Create a the spec for an independent parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.measurement.get_parameter" title="labcore.measurement.get_parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_parameter</span></code></a>(param)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.measurement.sweep_parameter" title="labcore.measurement.sweep_parameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sweep_parameter</span></code></a>(→ Sweep)</p></td>
+<td><p>Create a sweep over a parameter.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.measurement.once" title="labcore.measurement.once"><code class="xref py py-obj docutils literal notranslate"><span class="pre">once</span></code></a>(→ Sweep)</p></td>
+<td><p>Return a sweep that executes the action once.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.measurement.pointer" title="labcore.measurement.pointer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pointer</span></code></a>(→ Callable)</p></td>
+<td><p>Create a decorator for functions that return pointer generators.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="package-contents">
+<h2>Package Contents<a class="headerlink" href="#package-contents" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.measurement.recording">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">recording</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data_specs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="record/index.html#labcore.measurement.record.DataSpecCreationType" title="labcore.measurement.record.DataSpecCreationType"><span class="pre">DataSpecCreationType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#recording"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.recording" title="Link to this definition">#</a></dt>
+<dd><p>Returns a decorator that allows adding data parameter specs to a
+function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.measurement.record_as">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">record_as</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterator</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">specs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="record/index.html#labcore.measurement.record.DataSpecCreationType" title="labcore.measurement.record.DataSpecCreationType"><span class="pre">DataSpecCreationType</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#record_as"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.record_as" title="Link to this definition">#</a></dt>
+<dd><p>Annotate produced data as records.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> – a function that returns data or an iterable/iterator that
+produces data at each iteration step</p></li>
+<li><p><strong>specs</strong> – specs for the data produced (see <a class="reference internal" href="record/index.html#labcore.measurement.record.make_data_specs" title="labcore.measurement.record.make_data_specs"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_data_specs()</span></code></a>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.measurement.DataSpec">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">DataSpec</span></span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#DataSpec"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.DataSpec" title="Link to this definition">#</a></dt>
+<dd><p>Specification for data parameters to be recorded.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.measurement.DataSpec.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#labcore.measurement.DataSpec.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.measurement.DataSpec.depends_on">
+<span class="sig-name descname"><span class="pre">depends_on</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#labcore.measurement.DataSpec.depends_on" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.measurement.DataSpec.type">
+<span class="sig-name descname"><span class="pre">type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="record/index.html#labcore.measurement.record.DataType" title="labcore.measurement.record.DataType"><span class="pre">DataType</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'scalar'</span></span><a class="headerlink" href="#labcore.measurement.DataSpec.type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.measurement.DataSpec.unit">
+<span class="sig-name descname"><span class="pre">unit</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#labcore.measurement.DataSpec.unit" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.measurement.DataSpec.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.measurement.DataSpec" title="labcore.measurement.DataSpec"><span class="pre">DataSpec</span></a></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#DataSpec.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.DataSpec.copy" title="Link to this definition">#</a></dt>
+<dd><p>return a deep copy of the DataSpec instance.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="labcore.measurement.ds">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">ds</span></span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#ds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.ds" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="labcore.measurement.dep">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">dep</span></span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#dep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.dep" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="labcore.measurement.indep">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">indep</span></span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#indep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.indep" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.measurement.dependent">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">dependent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">depends_on</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'scalar'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#dependent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.dependent" title="Link to this definition">#</a></dt>
+<dd><p>Create a the spec for a dependent parameter.
+All arguments are forwarded to the <a class="reference internal" href="#labcore.measurement.DataSpec" title="labcore.measurement.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a> constructor.
+<code class="docutils literal notranslate"><span class="pre">depends_on</span></code> may not be set to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.measurement.independent">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">independent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'scalar'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.measurement.DataSpec" title="labcore.measurement.DataSpec"><span class="pre">DataSpec</span></a></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#independent"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.independent" title="Link to this definition">#</a></dt>
+<dd><p>Create a the spec for an independent parameter.
+All arguments are forwarded to the <a class="reference internal" href="#labcore.measurement.DataSpec" title="labcore.measurement.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a> constructor.
+<code class="docutils literal notranslate"><span class="pre">depends_on</span></code> is set to <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.measurement.get_parameter">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">get_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">qcodes.Parameter</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/labcore/measurement/record.html#get_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.get_parameter" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">Sweep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pointer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">actions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#Sweep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.Sweep" title="Link to this definition">#</a></dt>
+<dd><p>Base class for sweeps.</p>
+<p>Can be iterated over; for each pointer value the associated actions are
+executed. Each iteration step produces a record, containing all values
+produced by pointer and actions that have been annotated as such.
+(see: <a class="reference internal" href="#labcore.measurement.record_as" title="labcore.measurement.record_as"><code class="xref py py-func docutils literal notranslate"><span class="pre">record_as()</span></code></a>)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pointer</strong> – An iterable that defines the steps over which we iterate</p></li>
+<li><p><strong>actions</strong> – A variable number of functions. Each will be called for
+each iteration step, with the pointer value(s) as arguments, provided
+the function can accept it.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Constructor of <a class="reference internal" href="#labcore.measurement.Sweep" title="labcore.measurement.Sweep"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sweep</span></code></a>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.record_none">
+<span class="sig-name descname"><span class="pre">record_none</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></span><a class="headerlink" href="#labcore.measurement.Sweep.record_none" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.pass_on_returns">
+<span class="sig-name descname"><span class="pre">pass_on_returns</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></span><a class="headerlink" href="#labcore.measurement.Sweep.pass_on_returns" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.pass_on_none">
+<span class="sig-name descname"><span class="pre">pass_on_none</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></span><a class="headerlink" href="#labcore.measurement.Sweep.pass_on_none" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.update_option_dict">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">update_option_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#Sweep.update_option_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.Sweep.update_option_dict" title="Link to this definition">#</a></dt>
+<dd><p>Rules: work in progress :).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.propagate_sweep_options">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">propagate_sweep_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sweep</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.measurement.Sweep" title="labcore.measurement.Sweep"><span class="pre">Sweep</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#Sweep.propagate_sweep_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.Sweep.propagate_sweep_options" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.copy_sweep_options">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">copy_sweep_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.measurement.Sweep" title="labcore.measurement.Sweep"><span class="pre">Sweep</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.measurement.Sweep" title="labcore.measurement.Sweep"><span class="pre">Sweep</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#Sweep.copy_sweep_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.Sweep.copy_sweep_options" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.link_sweep_properties">
+<span class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">link_sweep_properties</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.measurement.Sweep" title="labcore.measurement.Sweep"><span class="pre">Sweep</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.measurement.Sweep" title="labcore.measurement.Sweep"><span class="pre">Sweep</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#Sweep.link_sweep_properties"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.Sweep.link_sweep_properties" title="Link to this definition">#</a></dt>
+<dd><p>Share state properties between sweeps.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.actions">
+<span class="sig-name descname"><span class="pre">actions</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></span><a class="headerlink" href="#labcore.measurement.Sweep.actions" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.state">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">state</span></span><a class="headerlink" href="#labcore.measurement.Sweep.state" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.pass_kwargs">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">pass_kwargs</span></span><a class="headerlink" href="#labcore.measurement.Sweep.pass_kwargs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.action_kwargs">
+<span class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">action_kwargs</span></span><a class="headerlink" href="#labcore.measurement.Sweep.action_kwargs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.append_action">
+<span class="sig-name descname"><span class="pre">append_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#Sweep.append_action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.Sweep.append_action" title="Link to this definition">#</a></dt>
+<dd><p>Add an action to the sweep.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.run">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="sweep/index.html#labcore.measurement.sweep.SweepIterator" title="labcore.measurement.sweep.SweepIterator"><span class="pre">SweepIterator</span></a></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#Sweep.run"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.Sweep.run" title="Link to this definition">#</a></dt>
+<dd><p>Create the iterator for the sweep.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.set_options">
+<span class="sig-name descname"><span class="pre">set_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">action_kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#Sweep.set_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.Sweep.set_options" title="Link to this definition">#</a></dt>
+<dd><p>Configure the sweep actions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>action_kwargs</strong> – Keyword arguments to pass to action functions
+format: {‘&lt;action_name&gt;’: {‘key’: ‘value’}
+&lt;action_name&gt; is what action_function.__name__ returns.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.measurement.Sweep.get_data_specs">
+<span class="sig-name descname"><span class="pre">get_data_specs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="record/index.html#labcore.measurement.record.DataSpec" title="labcore.measurement.record.DataSpec"><span class="pre">labcore.measurement.record.DataSpec</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Ellipsis</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#Sweep.get_data_specs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.Sweep.get_data_specs" title="Link to this definition">#</a></dt>
+<dd><p>Return the data specs of the sweep.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.measurement.sweep_parameter">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">sweep_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="sweep/index.html#labcore.measurement.sweep.ParamSpecType" title="labcore.measurement.sweep.ParamSpecType"><span class="pre">ParamSpecType</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sweep_iterable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">actions</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.measurement.Sweep" title="labcore.measurement.Sweep"><span class="pre">Sweep</span></a></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#sweep_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.sweep_parameter" title="Link to this definition">#</a></dt>
+<dd><p>Create a sweep over a parameter.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>param</strong> – <p>One of:</p>
+<ul>
+<li><p>A string: Generates an independent, scalar data parameter.</p></li>
+<li><p>A tuple or list: will be passed to the constructor of <a class="reference internal" href="#labcore.measurement.DataSpec" title="labcore.measurement.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a>; see <a class="reference internal" href="record/index.html#labcore.measurement.record.make_data_spec" title="labcore.measurement.record.make_data_spec"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_data_spec()</span></code></a>.</p></li>
+<li><p>A <a class="reference internal" href="#labcore.measurement.DataSpec" title="labcore.measurement.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a> instance.</p></li>
+<li><p>A qcodes parameter. In this case the parameter’s <code class="docutils literal notranslate"><span class="pre">set</span></code> method is called for each value during the iteration.</p></li>
+</ul>
+</p></li>
+<li><p><strong>sweep_iterable</strong> – An iterable that generates the values the parameter
+will be set to.</p></li>
+<li><p><strong>actions</strong> – An arbitrary number of action functions.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.measurement.once">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">once</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.measurement.Sweep" title="labcore.measurement.Sweep"><span class="pre">Sweep</span></a></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#once"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.once" title="Link to this definition">#</a></dt>
+<dd><p>Return a sweep that executes the action once.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.measurement.pointer">
+<span class="sig-prename descclassname"><span class="pre">labcore.measurement.</span></span><span class="sig-name descname"><span class="pre">pointer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">data_specs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="record/index.html#labcore.measurement.record.DataSpecCreationType" title="labcore.measurement.record.DataSpecCreationType"><span class="pre">labcore.measurement.record.DataSpecCreationType</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="../../../_modules/labcore/measurement/sweep.html#pointer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.measurement.pointer" title="Link to this definition">#</a></dt>
+<dd><p>Create a decorator for functions that return pointer generators.</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../instruments/qick/qick_sweep_v2/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">labcore.instruments.qick.qick_sweep_v2</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="record/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">labcore.measurement.record</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#attributes">Attributes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functions">Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#package-contents">Package Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.recording"><code class="docutils literal notranslate"><span class="pre">recording()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.record_as"><code class="docutils literal notranslate"><span class="pre">record_as()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.DataSpec"><code class="docutils literal notranslate"><span class="pre">DataSpec</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.DataSpec.name"><code class="docutils literal notranslate"><span class="pre">DataSpec.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.DataSpec.depends_on"><code class="docutils literal notranslate"><span class="pre">DataSpec.depends_on</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.DataSpec.type"><code class="docutils literal notranslate"><span class="pre">DataSpec.type</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.DataSpec.unit"><code class="docutils literal notranslate"><span class="pre">DataSpec.unit</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.DataSpec.copy"><code class="docutils literal notranslate"><span class="pre">DataSpec.copy()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.ds"><code class="docutils literal notranslate"><span class="pre">ds</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.dep"><code class="docutils literal notranslate"><span class="pre">dep</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.indep"><code class="docutils literal notranslate"><span class="pre">indep</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.dependent"><code class="docutils literal notranslate"><span class="pre">dependent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.independent"><code class="docutils literal notranslate"><span class="pre">independent()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.get_parameter"><code class="docutils literal notranslate"><span class="pre">get_parameter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep"><code class="docutils literal notranslate"><span class="pre">Sweep</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.record_none"><code class="docutils literal notranslate"><span class="pre">Sweep.record_none</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.pass_on_returns"><code class="docutils literal notranslate"><span class="pre">Sweep.pass_on_returns</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.pass_on_none"><code class="docutils literal notranslate"><span class="pre">Sweep.pass_on_none</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.update_option_dict"><code class="docutils literal notranslate"><span class="pre">Sweep.update_option_dict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.propagate_sweep_options"><code class="docutils literal notranslate"><span class="pre">Sweep.propagate_sweep_options()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.copy_sweep_options"><code class="docutils literal notranslate"><span class="pre">Sweep.copy_sweep_options()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.link_sweep_properties"><code class="docutils literal notranslate"><span class="pre">Sweep.link_sweep_properties()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.actions"><code class="docutils literal notranslate"><span class="pre">Sweep.actions</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.state"><code class="docutils literal notranslate"><span class="pre">Sweep.state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.pass_kwargs"><code class="docutils literal notranslate"><span class="pre">Sweep.pass_kwargs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.action_kwargs"><code class="docutils literal notranslate"><span class="pre">Sweep.action_kwargs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.append_action"><code class="docutils literal notranslate"><span class="pre">Sweep.append_action()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.run"><code class="docutils literal notranslate"><span class="pre">Sweep.run()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.set_options"><code class="docutils literal notranslate"><span class="pre">Sweep.set_options()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.Sweep.get_data_specs"><code class="docutils literal notranslate"><span class="pre">Sweep.get_data_specs()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.sweep_parameter"><code class="docutils literal notranslate"><span class="pre">sweep_parameter()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.once"><code class="docutils literal notranslate"><span class="pre">once()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.measurement.pointer"><code class="docutils literal notranslate"><span class="pre">pointer()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/autoapi/labcore/measurement/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

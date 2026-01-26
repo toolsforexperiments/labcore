@@ -1,0 +1,18 @@
+labcore.instruments.opx
+=======================
+
+.. py:module:: labcore.instruments.opx
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /autoapi/labcore/instruments/opx/config/index
+   /autoapi/labcore/instruments/opx/machines/index
+   /autoapi/labcore/instruments/opx/mixer/index
+   /autoapi/labcore/instruments/opx/sweep/index
+
+

@@ -1,0 +1,101 @@
+labcore.setup_opx_measurements
+==============================
+
+.. py:module:: labcore.setup_opx_measurements
+
+.. autoapi-nested-parse::
+
+   general setup file for OPX measurements.
+
+   Use by importing and then configuring the options object.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   labcore.setup_opx_measurements.options
+   labcore.setup_opx_measurements.run_measurement
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.setup_opx_measurements.Options
+   labcore.setup_opx_measurements.Mixer
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   labcore.setup_opx_measurements.add_mixer_config
+   labcore.setup_opx_measurements.mixer_tuning_tool
+
+
+Module Contents
+---------------
+
+.. py:class:: Options
+
+   Bases: :py:obj:`labcore.setup_measurements.Options`
+
+
+   .. py:property:: qm_config
+
+
+.. py:data:: options
+
+.. py:class:: Mixer
+
+   .. py:attribute:: config
+      :type:  labcore.instruments.opx.mixer.MixerConfig
+
+
+   .. py:attribute:: qm
+      :type:  labcore.setup_measurements.Optional[qm.QuantumMachinesManager.QuantumMachine]
+      :value: None
+
+
+
+   .. py:attribute:: qmm
+      :type:  labcore.setup_measurements.Optional[qm.QuantumMachinesManager.QuantumMachinesManager]
+      :value: None
+
+
+
+   .. py:method:: run_constant_waveform(**kwargs)
+
+      When using this with the octaves, the fields `cluster_name` and `octave` with their corresponding values need to be in the kwargs.
+
+
+
+   .. py:method:: step_of(di, dq)
+
+
+   .. py:method:: step_imb(dg, dp)
+
+
+.. py:function:: add_mixer_config(qubit_name, analyzer, generator, readout=False, element_to_param_map=None, **config_kwargs)
+
+   FIXME: add docu (@wpfff)
+   TODO: make sure we document the meaning of `element_to_param_map`.
+
+   contributor(s): Michael Mollenhaur
+
+   :param qubit_name - string; name of the qubit listed in the parameter manager you are going to work with:
+   :param analyzer - instrument; instrument module for the spectrum analyzer used for the mixer:
+   :param generator - instrument; instrument module for the LO generator used for the mixer:
+   :param readout - boolean; whether you are calibrating the readout mixer for the specified qubit:
+   :param element_to_param_map - string; specifies whether to call the qubit or readout parameter manager values:
+
+
+.. py:function:: mixer_tuning_tool(mixer)
+
+.. py:data:: run_measurement
+

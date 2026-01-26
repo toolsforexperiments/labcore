@@ -1,0 +1,1217 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>labcore.instruments.qcodes_drivers.Yokogawa.GS200 &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/graphviz.css?v=4ae1632d" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/instruments/qcodes_drivers/Yokogawa/GS200';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/instruments/qcodes_drivers/Yokogawa/GS200.html" />
+    <link rel="author" title="About these documents" href="../../../../../about.html" />
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../instruments/index.html">
+    Instruments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../measurement/index.html">
+    Measurement
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../data/index.html">
+    Data Handling
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../about.html">
+    About page
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../autoapi/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.instruments.qcodes_drivers.Yokogawa.GS200</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for labcore.instruments.qcodes_drivers.Yokogawa.GS200</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcodes.instrument.parameter</span><span class="w"> </span><span class="kn">import</span> <span class="n">DelegateParameter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcodes.instrument.visa</span><span class="w"> </span><span class="kn">import</span> <span class="n">VisaInstrument</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcodes.instrument.channel</span><span class="w"> </span><span class="kn">import</span> <span class="n">InstrumentChannel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qcodes.utils.validators</span><span class="w"> </span><span class="kn">import</span> <span class="n">Numbers</span><span class="p">,</span> <span class="n">Bool</span><span class="p">,</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">Ints</span>
+
+
+<div class="viewcode-block" id="float_round">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.float_round">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">float_round</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rounds a floating number</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        val: number to be rounded</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Rounded integer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="GS200Exception">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200Exception">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GS200Exception</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+
+<div class="viewcode-block" id="GS200_Monitor">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200_Monitor">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GS200_Monitor</span><span class="p">(</span><span class="n">InstrumentChannel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Monitor part of the GS200. This is only enabled if it is</span>
+<span class="sd">    installed in the GS200 (it is an optional extra).</span>
+
+<span class="sd">    The units will be automatically updated as required.</span>
+
+<span class="sd">    To measure:</span>
+<span class="sd">    `GS200.measure.measure()`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        parent (GS200)</span>
+<span class="sd">        name: instrument name</span>
+<span class="sd">        present</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="s1">&#39;GS200&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">present</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GS200_Monitor.present">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200_Monitor.present">[docs]</a>
+        <span class="bp">self</span><span class="o">.</span><span class="n">present</span> <span class="o">=</span> <span class="n">present</span></div>
+
+
+        <span class="c1"># Start off with all disabled</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Set up mode cache. These will be filled in once the parent</span>
+        <span class="c1"># is fully initialized.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_range</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Set up monitoring parameters</span>
+        <span class="k">if</span> <span class="n">present</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;enabled&#39;</span><span class="p">,</span>
+                               <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measurement Enabled&#39;</span><span class="p">,</span>
+                               <span class="n">get_cmd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
+                               <span class="n">set_cmd</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">on</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">off</span><span class="p">(),</span>
+                               <span class="n">val_mapping</span><span class="o">=</span><span class="p">{</span>
+                                    <span class="s1">&#39;off&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                    <span class="s1">&#39;on&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                               <span class="p">})</span>
+
+            <span class="c1"># Note: Measurement will only run if source and</span>
+            <span class="c1"># measurement is enabled.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;measure&#39;</span><span class="p">,</span>
+                               <span class="n">label</span><span class="o">=</span><span class="s1">&#39;&lt;unset&gt;&#39;</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;V/I&#39;</span><span class="p">,</span>
+                               <span class="n">get_cmd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_measurement</span><span class="p">,</span>
+                               <span class="n">snapshot_get</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;NPLC&#39;</span><span class="p">,</span>
+                               <span class="n">label</span><span class="o">=</span><span class="s1">&#39;NPLC&#39;</span><span class="p">,</span>
+                               <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;1/LineFreq&#39;</span><span class="p">,</span>
+                               <span class="n">vals</span><span class="o">=</span><span class="n">Ints</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">25</span><span class="p">),</span>
+                               <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:NPLC </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                               <span class="n">set_parser</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                               <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:NPLC?&#39;</span><span class="p">,</span>
+                               <span class="n">get_parser</span><span class="o">=</span><span class="n">float_round</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;delay&#39;</span><span class="p">,</span>
+                               <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measurement Delay&#39;</span><span class="p">,</span>
+                               <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;ms&#39;</span><span class="p">,</span>
+                               <span class="n">vals</span><span class="o">=</span><span class="n">Ints</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">999999</span><span class="p">),</span>
+                               <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:DEL </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                               <span class="n">set_parser</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                               <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:DEL?&#39;</span><span class="p">,</span>
+                               <span class="n">get_parser</span><span class="o">=</span><span class="n">float_round</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;trigger&#39;</span><span class="p">,</span>
+                               <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Trigger Source&#39;</span><span class="p">,</span>
+                               <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:TRIG </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                               <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:TRIG?&#39;</span><span class="p">,</span>
+                               <span class="n">val_mapping</span><span class="o">=</span><span class="p">{</span>
+                                    <span class="s1">&#39;READY&#39;</span><span class="p">:</span> <span class="s1">&#39;READ&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;READ&#39;</span><span class="p">:</span> <span class="s1">&#39;READ&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;TIMER&#39;</span><span class="p">:</span> <span class="s1">&#39;TIM&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;TIM&#39;</span><span class="p">:</span> <span class="s1">&#39;TIM&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;COMMUNICATE&#39;</span><span class="p">:</span> <span class="s1">&#39;COMM&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;IMMEDIATE&#39;</span><span class="p">:</span> <span class="s1">&#39;IMM&#39;</span><span class="p">,</span>
+                                    <span class="s1">&#39;IMM&#39;</span><span class="p">:</span> <span class="s1">&#39;IMM&#39;</span>
+                               <span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;interval&#39;</span><span class="p">,</span>
+                               <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Measurement Interval&#39;</span><span class="p">,</span>
+                               <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                               <span class="n">vals</span><span class="o">=</span><span class="n">Numbers</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">3600</span><span class="p">),</span>
+                               <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:INT </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                               <span class="n">set_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                               <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:INT?&#39;</span><span class="p">,</span>
+                               <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GS200_Monitor.off">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200_Monitor.off">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">off</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Turn measurement off&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;:SENS 0&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="GS200_Monitor.on">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200_Monitor.on">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Turn measurement on&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;:SENS 1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="GS200_Monitor.state">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200_Monitor.state">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check measurement state&quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s1">&#39;:SENS?&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_measurement</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">GS200Exception</span><span class="p">(</span><span class="s2">&quot;Measurement module not initialized.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parent</span><span class="o">.</span><span class="n">auto_range</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">==</span> <span class="s1">&#39;VOLT&#39;</span>
+                                             <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_range</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="c1"># Measurements will not work with autorange, or when</span>
+            <span class="c1"># range is &lt;1V.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">raise</span> <span class="n">GS200Exception</span><span class="p">(</span><span class="s2">&quot;Measurements will not work when range is &lt;1V&quot;</span>
+                                 <span class="s2">&quot;or when in auto range mode.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">GS200Exception</span><span class="p">(</span><span class="s2">&quot;Output is off.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">GS200Exception</span><span class="p">(</span><span class="s2">&quot;Measurements are disabled.&quot;</span><span class="p">)</span>
+        <span class="c1"># If enabled and output is on, then we can perform a measurement.</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s1">&#39;:MEAS?&#39;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="GS200_Monitor.update_measurement_enabled">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200_Monitor.update_measurement_enabled">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_measurement_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unit</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                                   <span class="n">output_range</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            unit</span>
+<span class="sd">            output_range</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Recheck measurement state next time we do a measurement</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Update units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_range</span> <span class="o">=</span> <span class="n">output_range</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">=</span> <span class="n">unit</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unit</span> <span class="o">==</span> <span class="s1">&#39;VOLT&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Source Current&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s1">&#39;I&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;Source Voltage&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">unit</span> <span class="o">=</span> <span class="s1">&#39;V&#39;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GS200Program">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200Program">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GS200Program</span><span class="p">(</span><span class="n">InstrumentChannel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="s1">&#39;GS200&#39;</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_repeat</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_file_name</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;interval&quot;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s2">&quot;the program interval time&quot;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Numbers</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">3600.0</span><span class="p">),</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:INT?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:INT </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;slope&quot;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s2">&quot;the program slope time&quot;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Numbers</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">3600.0</span><span class="p">),</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:SLOP?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:SLOP </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;trigger&quot;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s2">&quot;the program trigger&quot;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:TRIG?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:TRIG </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="s1">&#39;mend&#39;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;save&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:SAVE &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+                           <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;save the program to the system memory &quot;</span>
+                                     <span class="s2">&quot;(.csv file)&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;load&quot;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:LOAD?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:LOAD &#39;</span><span class="si">{}</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+                           <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;load the program (.csv file) from the &quot;</span>
+                                     <span class="s2">&quot;system memory&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;repeat&quot;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s2">&quot;program execution repetition&quot;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:REP?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:REP </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+                           <span class="n">val_mapping</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;OFF&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                        <span class="s1">&#39;ON&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;count&quot;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s2">&quot;step of the current program&quot;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:COUN?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:COUN </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Ints</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s1">&#39;start&#39;</span><span class="p">,</span>
+                          <span class="n">call_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:EDIT:STAR&quot;</span><span class="p">,</span>
+                          <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;start program editing&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s1">&#39;end&#39;</span><span class="p">,</span>
+                          <span class="n">call_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:EDIT:END&quot;</span><span class="p">,</span>
+                          <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;end program editing&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">,</span>
+                          <span class="n">call_cmd</span><span class="o">=</span><span class="s2">&quot;:PROG:RUN&quot;</span><span class="p">,</span>
+                          <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;run the program&quot;</span><span class="p">,)</span></div>
+
+
+
+<div class="viewcode-block" id="GS200">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GS200</span><span class="p">(</span><span class="n">VisaInstrument</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This is the QCoDeS driver for the Yokogawa GS200 voltage and current source.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      name: What this instrument is called locally.</span>
+<span class="sd">      address: The GPIB or USB address of this instrument</span>
+<span class="sd">      kwargs: kwargs to be passed to VisaInstrument class</span>
+<span class="sd">      terminator: read terminator for reads/writes to the instrument.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">address</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">terminator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">,</span> <span class="n">terminator</span><span class="o">=</span><span class="n">terminator</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;output&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Output State&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">on</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">off</span><span class="p">(),</span>
+                           <span class="n">val_mapping</span><span class="o">=</span><span class="p">{</span>
+                               <span class="s1">&#39;off&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                               <span class="s1">&#39;on&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                           <span class="p">})</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;source_mode&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Source Mode&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SOUR:FUNC?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_set_source_mode</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Enum</span><span class="p">(</span><span class="s1">&#39;VOLT&#39;</span><span class="p">,</span> <span class="s1">&#39;CURR&#39;</span><span class="p">))</span>
+
+        <span class="c1"># We need to get the source_mode value here as we cannot rely on the</span>
+        <span class="c1"># default value that may have been changed before we connect to the</span>
+        <span class="c1"># instrument (in a previous session or via the frontpanel).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;voltage_range&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Voltage Source Range&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;V&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range</span><span class="p">,</span> <span class="s2">&quot;VOLT&quot;</span><span class="p">),</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_set_range</span><span class="p">,</span> <span class="s2">&quot;VOLT&quot;</span><span class="p">),</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Enum</span><span class="p">(</span><span class="mf">10e-3</span><span class="p">,</span> <span class="mf">100e-3</span><span class="p">,</span> <span class="mf">1e0</span><span class="p">,</span> <span class="mf">10e0</span><span class="p">,</span> <span class="mf">30e0</span><span class="p">),</span>
+                           <span class="n">snapshot_exclude</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;CURR&#39;</span>
+                           <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;current_range&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Current Source Range&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;I&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_range</span><span class="p">,</span> <span class="s2">&quot;CURR&quot;</span><span class="p">),</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_set_range</span><span class="p">,</span> <span class="s2">&quot;CURR&quot;</span><span class="p">),</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Enum</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">10e-3</span><span class="p">,</span> <span class="mf">100e-3</span><span class="p">,</span> <span class="mf">200e-3</span><span class="p">),</span>
+                           <span class="n">snapshot_exclude</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;VOLT&quot;</span>
+                           <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;range&#39;</span><span class="p">,</span>
+                           <span class="n">parameter_class</span><span class="o">=</span><span class="n">DelegateParameter</span><span class="p">,</span>
+                           <span class="n">source</span><span class="o">=</span><span class="kc">None</span>
+                           <span class="p">)</span>
+
+        <span class="c1"># The instrument does not support auto range. The parameter</span>
+        <span class="c1"># auto_range is introduced to add this capability with</span>
+        <span class="c1"># setting the initial state at False mode.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;auto_range&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Auto Range&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_set_auto_range</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">initial_cache_value</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Bool</span><span class="p">()</span>
+                           <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;voltage&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Voltage&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;V&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_set_output</span><span class="p">,</span> <span class="s2">&quot;VOLT&quot;</span><span class="p">),</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_set_output</span><span class="p">,</span> <span class="s2">&quot;VOLT&quot;</span><span class="p">),</span>
+                           <span class="n">snapshot_exclude</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;CURR&quot;</span>
+                           <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;current&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Current&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;I&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_set_output</span><span class="p">,</span> <span class="s2">&quot;CURR&quot;</span><span class="p">),</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_get_set_output</span><span class="p">,</span> <span class="s2">&quot;CURR&quot;</span><span class="p">),</span>
+                           <span class="n">snapshot_exclude</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;VOLT&#39;</span>
+                           <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;output_level&#39;</span><span class="p">,</span>
+                           <span class="n">parameter_class</span><span class="o">=</span><span class="n">DelegateParameter</span><span class="p">,</span>
+                           <span class="n">source</span><span class="o">=</span><span class="kc">None</span>
+                           <span class="p">)</span>
+
+        <span class="c1"># We need to pass the source parameter for delegate parameters</span>
+        <span class="c1"># (range and output_level) here according to the present</span>
+        <span class="c1"># source_mode.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;VOLT&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">voltage_range</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_range</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;voltage_limit&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Voltage Protection Limit&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;V&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Ints</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">),</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:SOUR:PROT:VOLT?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:SOUR:PROT:VOLT </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="n">float_round</span><span class="p">,</span>
+                           <span class="n">set_parser</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;current_limit&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Current Protection Limit&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;I&#39;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Numbers</span><span class="p">(</span><span class="mf">1e-3</span><span class="p">,</span> <span class="mf">200e-3</span><span class="p">),</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:SOUR:PROT:CURR?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:SOUR:PROT:CURR </span><span class="si">{:.3f}</span><span class="s2">&quot;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                           <span class="n">set_parser</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;four_wire&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Four Wire Sensing&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:REM?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:REM </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">val_mapping</span><span class="o">=</span><span class="p">{</span>
+                              <span class="s1">&#39;off&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                              <span class="s1">&#39;on&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                           <span class="p">})</span>
+
+        <span class="c1"># Note: The guard feature can be used to remove common mode noise.</span>
+        <span class="c1"># Read the manual to see if you would like to use it</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s1">&#39;guard&#39;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Guard Terminal&#39;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:GUAR?&#39;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s1">&#39;:SENS:GUAR </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span>
+                           <span class="n">val_mapping</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;off&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                        <span class="s1">&#39;on&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+
+        <span class="c1"># Return measured line frequency</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;line_freq&quot;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Line Frequency&#39;</span><span class="p">,</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;Hz&quot;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;SYST:LFR?&quot;</span><span class="p">,</span>
+                           <span class="n">get_parser</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># Check if monitor is present, and if so enable measurement</span>
+        <span class="n">monitor_present</span> <span class="o">=</span> <span class="s1">&#39;/MON&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;*OPT?&quot;</span><span class="p">)</span>
+        <span class="n">measure</span> <span class="o">=</span> <span class="n">GS200_Monitor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;measure&#39;</span><span class="p">,</span> <span class="n">monitor_present</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_submodule</span><span class="p">(</span><span class="s1">&#39;measure&#39;</span><span class="p">,</span> <span class="n">measure</span><span class="p">)</span>
+
+        <span class="c1"># Reset function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_function</span><span class="p">(</span><span class="s1">&#39;reset&#39;</span><span class="p">,</span> <span class="n">call_cmd</span><span class="o">=</span><span class="s1">&#39;*RST&#39;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_submodule</span><span class="p">(</span><span class="s1">&#39;program&#39;</span><span class="p">,</span> <span class="n">GS200Program</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;program&#39;</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;BNC_out&quot;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s2">&quot;BNC trigger out&quot;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:ROUT:BNCO?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:ROUT:BNCO </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Enum</span><span class="p">(</span><span class="s2">&quot;trigger&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="s2">&quot;ready&quot;</span><span class="p">),</span>
+                           <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;Sets or queries the output BNC signal&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span><span class="s2">&quot;BNC_in&quot;</span><span class="p">,</span>
+                           <span class="n">label</span><span class="o">=</span><span class="s2">&quot;BNC trigger in&quot;</span><span class="p">,</span>
+                           <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:ROUT:BNCI?&quot;</span><span class="p">,</span>
+                           <span class="n">set_cmd</span><span class="o">=</span><span class="s2">&quot;:ROUT:BNCI </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span>
+                           <span class="n">vals</span><span class="o">=</span><span class="n">Enum</span><span class="p">(</span><span class="s2">&quot;trigger&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">),</span>
+                           <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;Sets or queries the input BNC signal&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_parameter</span><span class="p">(</span>
+            <span class="s2">&quot;system_errors&quot;</span><span class="p">,</span>
+            <span class="n">get_cmd</span><span class="o">=</span><span class="s2">&quot;:SYSTem:ERRor?&quot;</span><span class="p">,</span>
+            <span class="n">docstring</span><span class="o">=</span><span class="s2">&quot;returns the oldest unread error message from the event &quot;</span>
+                      <span class="s2">&quot;log and removes it from the log.&quot;</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">connect_message</span><span class="p">()</span>
+
+<div class="viewcode-block" id="GS200.on">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200.on">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Turn output on&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;OUTPUT 1&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="GS200.off">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200.off">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">off</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Turn output off&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;OUTPUT 0&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="GS200.state">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200.state">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check state&quot;&quot;&quot;</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s1">&#39;OUTPUT?&#39;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">state</span></div>
+
+
+<div class="viewcode-block" id="GS200.ramp_voltage">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200.ramp_voltage">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ramp_voltage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ramp_to</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ramp the voltage from the current level to the specified output.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ramp_to: The ramp target in Volt</span>
+<span class="sd">            step: The ramp steps in Volt</span>
+<span class="sd">            delay: The time between finishing one step and</span>
+<span class="sd">                starting another in seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_mode</span><span class="p">(</span><span class="s2">&quot;VOLT&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ramp_source</span><span class="p">(</span><span class="n">ramp_to</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GS200.ramp_current">
+<a class="viewcode-back" href="../../../../../autoapi/labcore/instruments/qcodes_drivers/Yokogawa/GS200/index.html#labcore.instruments.qcodes_drivers.Yokogawa.GS200.GS200.ramp_current">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ramp_current</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ramp_to</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ramp the current from the current level to the specified output.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ramp_to: The ramp target in Ampere</span>
+<span class="sd">            step: The ramp steps in Ampere</span>
+<span class="sd">            delay: The time between finishing one step and starting</span>
+<span class="sd">                another in seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_mode</span><span class="p">(</span><span class="s2">&quot;CURR&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ramp_source</span><span class="p">(</span><span class="n">ramp_to</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">delay</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_ramp_source</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ramp_to</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">step</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Ramp the output from the current level to the specified output</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ramp_to: The ramp target in volts/amps</span>
+<span class="sd">            step: The ramp steps in volts/ampere</span>
+<span class="sd">            delay: The time between finishing one step and</span>
+<span class="sd">                starting another in seconds.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">saved_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">step</span>
+        <span class="n">saved_inter_delay</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">inter_delay</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="n">step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">inter_delay</span> <span class="o">=</span> <span class="n">delay</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="p">(</span><span class="n">ramp_to</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">step</span> <span class="o">=</span> <span class="n">saved_step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">inter_delay</span> <span class="o">=</span> <span class="n">saved_inter_delay</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_set_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                        <span class="n">output_level</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get or set the output level.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mode: &quot;CURR&quot; or &quot;VOLT&quot;</span>
+<span class="sd">            output_level: If missing, we assume that we are getting the</span>
+<span class="sd">                current level. Else we are setting it</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">output_level</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_output</span><span class="p">(</span><span class="n">output_level</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;:SOUR:LEV?&quot;</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_level</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the output of the instrument.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            output_level: output level in Volt or Ampere, depending</span>
+<span class="sd">                on the current mode.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">auto_enabled</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_range</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">auto_enabled</span><span class="p">:</span>
+            <span class="n">self_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">self_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Trying to set output but not in&quot;</span>
+                                   <span class="s2">&quot; auto mode and range is unknown.&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="o">.</span><span class="n">get_latest</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;CURR&quot;</span><span class="p">:</span>
+                <span class="n">self_range</span> <span class="o">=</span> <span class="mf">200E-3</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">self_range</span> <span class="o">=</span> <span class="mf">30.0</span>
+
+        <span class="c1"># Check we are not trying to set an out of range value</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">abs</span><span class="p">(</span><span class="n">output_level</span><span class="p">)</span>\
+                <span class="o">&gt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">self_range</span><span class="p">):</span>
+            <span class="c1"># Check that the range hasn&#39;t changed</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">auto_enabled</span><span class="p">:</span>
+                <span class="n">self_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">get_latest</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">self_range</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Trying to set output but not in&quot;</span>
+                                       <span class="s2">&quot; auto mode and range is unknown.&quot;</span><span class="p">)</span>
+            <span class="c1"># If we are still out of range, raise a value error</span>
+            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">output_level</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">abs</span><span class="p">(</span><span class="n">self_range</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Desired output level not in range&quot;</span>
+                                 <span class="s2">&quot; [-</span><span class="si">{self_range:.3}</span><span class="s2">, </span><span class="si">{self_range:.3}</span><span class="s2">]&quot;</span><span class="o">.</span>
+                                 <span class="nb">format</span><span class="p">(</span><span class="n">self_range</span><span class="o">=</span><span class="n">self_range</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">auto_enabled</span><span class="p">:</span>
+            <span class="n">auto_str</span> <span class="o">=</span> <span class="s2">&quot;:AUTO&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">auto_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">cmd_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;:SOUR:LEV</span><span class="si">{</span><span class="n">auto_str</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">output_level</span><span class="si">:</span><span class="s2">.5e</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">cmd_str</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_measurement_module</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_mode</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                   <span class="n">source_range</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+                                   <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update validators/units as source mode/range changes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            source_mode: &quot;CURR&quot; or &quot;VOLT&quot;</span>
+<span class="sd">            source_range</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">present</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="k">if</span> <span class="n">source_mode</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">source_mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="o">.</span><span class="n">get_latest</span><span class="p">()</span>
+        <span class="c1"># Get source range if auto-range is off</span>
+        <span class="k">if</span> <span class="n">source_range</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">auto_range</span><span class="p">():</span>
+            <span class="n">source_range</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">update_measurement_enabled</span><span class="p">(</span><span class="n">source_mode</span><span class="p">,</span> <span class="n">source_range</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_auto_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enable/disable auto range.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            val: auto range on or off</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_auto_range</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="c1"># Disable measurement if auto range is on</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">present</span><span class="p">:</span>
+            <span class="c1"># Disable the measurement module if auto range is enabled,</span>
+            <span class="c1"># because the measurement does not work in the</span>
+            <span class="c1"># 10mV/100mV ranges.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="o">.</span><span class="n">_enabled</span> <span class="o">&amp;=</span> <span class="ow">not</span> <span class="n">val</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assert_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assert that we are in the correct mode to perform an operation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mode: &quot;CURR&quot; or &quot;VOLT&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="o">.</span><span class="n">get_latest</span><span class="p">()</span> <span class="o">!=</span> <span class="n">mode</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot get/set </span><span class="si">{}</span><span class="s2"> settings while in </span><span class="si">{}</span><span class="s2"> mode&quot;</span><span class="o">.</span>
+                             <span class="nb">format</span><span class="p">(</span><span class="n">mode</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="o">.</span><span class="n">get_latest</span><span class="p">()))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_source_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set output mode and change delegate parameters&#39; source accordingly.</span>
+<span class="sd">        Also, exclude/include the parameters from snapshot depending on the</span>
+<span class="sd">        mode. The instrument does not support &#39;current&#39;, &#39;current_range&#39;</span>
+<span class="sd">        parameters in &quot;VOLT&quot; mode and &#39;voltage&#39;, &#39;voltage_range&#39; parameters</span>
+<span class="sd">        in &quot;CURR&quot; mode.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mode: &quot;CURR&quot; or &quot;VOLT&quot;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;on&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">GS200Exception</span><span class="p">(</span><span class="s2">&quot;Cannot switch mode while source is on&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;VOLT&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">voltage_range</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">voltage_range</span><span class="o">.</span><span class="n">snapshot_exclude</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span><span class="o">.</span><span class="n">snapshot_exclude</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_range</span><span class="o">.</span><span class="n">snapshot_exclude</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">snapshot_exclude</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_range</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_level</span><span class="o">.</span><span class="n">source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">voltage_range</span><span class="o">.</span><span class="n">snapshot_exclude</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">voltage</span><span class="o">.</span><span class="n">snapshot_exclude</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_range</span><span class="o">.</span><span class="n">snapshot_exclude</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="n">snapshot_exclude</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SOUR:FUNC </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># We set the cache here since `_update_measurement_module`</span>
+        <span class="c1"># needs the current value which would otherwise only be set</span>
+        <span class="c1"># after this method exits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_mode</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+        <span class="c1"># Update the measurement mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_measurement_module</span><span class="p">(</span><span class="n">source_mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_range</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Update range</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mode: &quot;CURR&quot; or &quot;VOLT&quot;</span>
+<span class="sd">            output_range: Range to set. For voltage, we have the ranges [10e-3,</span>
+<span class="sd">                100e-3, 1e0, 10e0, 30e0]. For current, we have the ranges [1e-3,</span>
+<span class="sd">                10e-3, 100e-3, 200e-3]. If auto_range = False, then setting the</span>
+<span class="sd">                output can only happen if the set value is smaller than the</span>
+<span class="sd">                present range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+        <span class="n">output_range</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">output_range</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_measurement_module</span><span class="p">(</span><span class="n">source_mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+                                        <span class="n">source_range</span><span class="o">=</span><span class="n">output_range</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;:SOUR:RANG </span><span class="si">{</span><span class="n">output_range</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Query the present range.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mode: &quot;CURR&quot; or &quot;VOLT&quot;</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            range: For voltage, we have the ranges [10e-3, 100e-3, 1e0, 10e0,</span>
+<span class="sd">                30e0]. For current, we have the ranges [1e-3, 10e-3, 100e-3,</span>
+<span class="sd">                200e-3]. If auto_range = False, then setting the output can only</span>
+<span class="sd">                happen if the set value is smaller than the present range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assert_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="s2">&quot;:SOUR:RANG?&quot;</span><span class="p">))</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+labcore.instruments.qcodes_drivers.ThorLabs.TSP_01B
+===================================================
+
+.. py:module:: labcore.instruments.qcodes_drivers.ThorLabs.TSP_01B
+
+.. autoapi-nested-parse::
+
+   Basic driver to access the ThorLabs TSP-01B temperature sensor probe (TSP) via qcodes
+
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   labcore.instruments.qcodes_drivers.ThorLabs.TSP_01B.ThorLabs_TSP01B
+
+
+Module Contents
+---------------
+
+.. py:class:: ThorLabs_TSP01B(name, serial=None, **kwargs)
+
+   Bases: :py:obj:`qcodes.Instrument`
+
+
+   .. py:attribute:: sensor
+
+
+   .. py:method:: get_idn()
+
+
+   .. py:method:: measure_temp1()
+
+
+   .. py:method:: measure_temp2()
+
+
+   .. py:method:: measure_temp3()
+
+
+   .. py:method:: measure_humid()
+
+

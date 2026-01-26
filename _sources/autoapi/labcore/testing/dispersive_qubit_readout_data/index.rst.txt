@@ -1,0 +1,103 @@
+labcore.testing.dispersive_qubit_readout_data
+=============================================
+
+.. py:module:: labcore.testing.dispersive_qubit_readout_data
+
+.. autoapi-nested-parse::
+
+   This modules helps generate fake data that resembles dispersive qubit readout in
+   circuit QED.
+
+   If you don't know what dispersive readout is, it might be helpful to review
+   the basics of it before using this module. See, for example:
+   https://arxiv.org/pdf/2005.12667.pdf (Fig 18 is a good illustration).
+
+   :func:`.angle_data` generates noisy complex fake readout data. Specifying
+   the qubit rotation angle will result in an appropriately weighted distribution
+   of |0> and |1> results. For each 0 or 1 result the output is a complex data point
+   sampled from a normal distribution, where the means for 0 and 1 results depend
+   on the readout settings.
+
+   Readout settings can be changed through module-level variables:
+
+   * :data:`.angle` is the rotation angle in the complex plane between the means
+       of the ground- and excited state distributions.
+   * :data:`.amp` is the displacement amplitude for the readout signal.
+   * :data:`.noise` is the standard deviation for the noise of the complex signal.
+
+
+
+Attributes
+----------
+
+.. autoapisummary::
+
+   labcore.testing.dispersive_qubit_readout_data.angle
+   labcore.testing.dispersive_qubit_readout_data.amp
+   labcore.testing.dispersive_qubit_readout_data.noise
+   labcore.testing.dispersive_qubit_readout_data.data
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   labcore.testing.dispersive_qubit_readout_data.gs_probability
+   labcore.testing.dispersive_qubit_readout_data.state_data
+   labcore.testing.dispersive_qubit_readout_data.angle_data
+   labcore.testing.dispersive_qubit_readout_data.probability_data
+   labcore.testing.dispersive_qubit_readout_data.rabi
+   labcore.testing.dispersive_qubit_readout_data.chevron_dataset
+
+
+Module Contents
+---------------
+
+.. py:data:: angle
+
+.. py:data:: amp
+   :value: 2.0
+
+
+.. py:data:: noise
+   :value: 0.5
+
+
+.. py:function:: gs_probability(theta: Union[numpy.ndarray, float]) -> Union[numpy.ndarray, float]
+
+   Compute ground state probability for given rotation angle.
+
+
+.. py:function:: state_data(state: numpy.ndarray) -> numpy.ndarray
+
+   Readout data for a set of states.
+
+   :param state: array of states (0 or 1, typically).
+   :returns: array of complex readout results.
+
+
+.. py:function:: angle_data(theta: float, n: int = 100) -> numpy.ndarray
+
+   Readout data for given qubit rotation angle.
+
+   :param theta: rotation angle (in rad)
+   :param n: number of samples
+   :returns: complex readout data for each sample
+
+
+.. py:function:: probability_data(p_e: float, n: int = 100) -> numpy.ndarray
+
+   Readout data for given qubit excitation probability.
+
+   :param p_e: probability for qubit being in the excited state
+   :param n: number of samples
+   :returns: complex readout data for each sample
+
+
+.. py:function:: rabi(Omega_0, Delta, t)
+
+.. py:function:: chevron_dataset(Omega_0, Delta_vals, t_vals, n)
+
+.. py:data:: data
+
