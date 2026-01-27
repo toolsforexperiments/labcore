@@ -45,6 +45,31 @@ description = "toolkit for acquiring, processing, and analyzing data in a CM/QI 
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
+dependencies = [
+    "jupyterlab",
+    "jupyter_bokeh",
+    "qcodes==0.44.1",
+    "bokeh",
+    "pandas",
+    "xarray",
+    "matplotlib",
+    "numpy==1.26.4",
+    "scipy",
+    "scikit-learn",
+    "seaborn",
+    "lmfit",
+    "h5py==3.10.0",
+    "xhistogram",
+    "holoviews",
+    "panel",
+    "param",
+    "hvplot",
+    "versioningit",
+    "qtpy",
+    "gitpython",
+    "watchdog",
+    "pywavelets",
+]
 
 [project.scripts]
 autoplot = "scripts.monitr_server:run_autoplot"
