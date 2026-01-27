@@ -1,0 +1,35 @@
+labcore.data.datadict\_storage
+==============================
+
+.. automodule:: labcore.data.datadict_storage
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_cur_time_attr
+      all_datadicts_from_hdf5
+      data_info
+      datadict_from_hdf5
+      datadict_to_hdf5
+      deh5ify
+      find_data
+      h5ify
+      init_file
+      load_as_df
+      load_as_xr
+      most_recent_data_path
+      reconstruct_safe_write_data
+      set_attr
+      timestamp_from_path
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AppendMode
+      DDH5Writer
+      FileOpener
+      NumpyEncoder
+   

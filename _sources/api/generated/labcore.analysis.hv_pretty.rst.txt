@@ -1,0 +1,17 @@
+labcore.analysis.hv\_pretty
+===========================
+
+.. automodule:: labcore.analysis.hv_pretty
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_legend
+      correctly_sized_figure
+      format_ax
+      save_plot_as_png
+      set_arial_font
+      setup_plotting
+   

@@ -1,0 +1,861 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>labcore.analysis.hvapps &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/labcore.analysis.hvapps';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/api/generated/labcore.analysis.hvapps.html" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="labcore.analysis.hvplotting" href="labcore.analysis.hvplotting.html" />
+    <link rel="prev" title="labcore.analysis.hv_pretty" href="labcore.analysis.hv_pretty.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.data.html">labcore.data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict.html">labcore.data.datadict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict_storage.html">labcore.data.datadict_storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.tools.html">labcore.data.tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.measurement.html">labcore.measurement</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.measurement.record.html">labcore.measurement.record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.measurement.storage.html">labcore.measurement.storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.measurement.sweep.html">labcore.measurement.sweep</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="labcore.analysis.html">labcore.analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.analysis_base.html">labcore.analysis.analysis_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.fit.html">labcore.analysis.fit</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="labcore.analysis.fitfuncs.html">labcore.analysis.fitfuncs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="labcore.analysis.fitfuncs.generic.html">labcore.analysis.fitfuncs.generic</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.hv_pretty.html">labcore.analysis.hv_pretty</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">labcore.analysis.hvapps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.hvplotting.html">labcore.analysis.hvplotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.mpl.html">labcore.analysis.mpl</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.utils.html">labcore.utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.utils.misc.html">labcore.utils.misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.utils.num.html">labcore.utils.num</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="labcore.analysis.html" class="nav-link">labcore.analysis</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.analysis.hvapps</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-labcore.analysis.hvapps">
+<span id="labcore-analysis-hvapps"></span><h1>labcore.analysis.hvapps<a class="headerlink" href="#module-labcore.analysis.hvapps" title="Link to this heading">#</a></h1>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.analysis.hvapps.DDH5LoaderNode" title="labcore.analysis.hvapps.DDH5LoaderNode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DDH5LoaderNode</span></code></a>([path])</p></td>
+<td><p>A node that loads data from a specified file location.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.analysis.hvapps.DataSelect" title="labcore.analysis.hvapps.DataSelect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataSelect</span></code></a>(data_root[, size])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.analysis.hvapps.Handler" title="labcore.analysis.hvapps.Handler"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Handler</span></code></a>(update_callback)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.analysis.hvapps.LoaderNodeBase" title="labcore.analysis.hvapps.LoaderNodeBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LoaderNodeBase</span></code></a>([path])</p></td>
+<td><p>A node that loads data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DDH5LoaderNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvapps.</span></span><span class="sig-name descname"><span class="pre">DDH5LoaderNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DDH5LoaderNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DDH5LoaderNode" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#labcore.analysis.hvapps.LoaderNodeBase" title="labcore.analysis.hvapps.LoaderNodeBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">LoaderNodeBase</span></code></a></p>
+<p>A node that loads data from a specified file location.</p>
+<p>the panel of the node consists of UI options for loading and pre-processing.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DDH5LoaderNode.file_path">
+<span class="sig-name descname"><span class="pre">file_path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#labcore.analysis.hvapps.DDH5LoaderNode.file_path" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DDH5LoaderNode.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="labcore.data.datadict.html#labcore.data.datadict.DataDict" title="labcore.data.datadict.DataDict"><span class="pre">DataDict</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DDH5LoaderNode.load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DDH5LoaderNode.load_data" title="Link to this definition">#</a></dt>
+<dd><p>Load data from the file location specified</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DDH5LoaderNode.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DDH5LoaderNode'</span></em><a class="headerlink" href="#labcore.analysis.hvapps.DDH5LoaderNode.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvapps.</span></span><span class="sig-name descname"><span class="pre">DataSelect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_root</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">15</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Viewer</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.DATAFILE">
+<span class="sig-name descname"><span class="pre">DATAFILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'data.ddh5'</span></em><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.DATAFILE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.SYM">
+<span class="sig-name descname"><span class="pre">SYM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'bad':</span> <span class="pre">'😭',</span> <span class="pre">'complete':</span> <span class="pre">'✅',</span> <span class="pre">'star':</span> <span class="pre">'😁',</span> <span class="pre">'trash':</span> <span class="pre">'❌'}</span></em><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.SYM" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.data_select">
+<span class="sig-name descname"><span class="pre">data_select</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect.data_select"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.data_select" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.date2label">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">date2label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_tuple</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect.date2label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.date2label" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.event_lock">
+<span class="sig-name descname"><span class="pre">event_lock</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.event_lock" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.get_data_options">
+<span class="sig-name descname"><span class="pre">get_data_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">active_search</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">re.compile('.*')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect.get_data_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.get_data_options" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.group_data">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">group_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect.group_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.group_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.group_options">
+<span class="sig-name descname"><span class="pre">group_options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.group_options" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.info_panel">
+<span class="sig-name descname"><span class="pre">info_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect.info_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.info_panel" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.label2date">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">label2date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect.label2date"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.label2date" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'DataSelect'</span></em><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.search_term">
+<span class="sig-name descname"><span class="pre">search_term</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.search_term" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.selected_path">
+<span class="sig-name descname"><span class="pre">selected_path</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.selected_path" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect.start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.start" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.text_input_repeater">
+<span class="sig-name descname"><span class="pre">text_input_repeater</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect.text_input_repeater"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.text_input_repeater" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.DataSelect.update_group_options">
+<span class="sig-name descname"><span class="pre">update_group_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#DataSelect.update_group_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.DataSelect.update_group_options" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.Handler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvapps.</span></span><span class="sig-name descname"><span class="pre">Handler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">update_callback</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#Handler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.Handler" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FileSystemEventHandler</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.Handler.on_created">
+<span class="sig-name descname"><span class="pre">on_created</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#Handler.on_created"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.Handler.on_created" title="Link to this definition">#</a></dt>
+<dd><p>Called when a file or directory is created.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>event</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">DirCreatedEvent</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">FileCreatedEvent</span></code>) – Event representing file/directory creation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvapps.</span></span><span class="sig-name descname"><span class="pre">LoaderNodeBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node" title="labcore.analysis.hvplotting.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></a></p>
+<p>A node that loads data.</p>
+<p>the panel of the node consists of UI options for loading and pre-processing.</p>
+<p>Each subclass must implement <code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.load_data</span></code>.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.can_save">
+<span class="sig-name descname"><span class="pre">can_save</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.can_save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.can_save" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.display_info">
+<span class="sig-name descname"><span class="pre">display_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.display_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.display_info" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.load_and_preprocess">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_and_preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Event</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.load_and_preprocess"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.load_and_preprocess" title="Link to this definition">#</a></dt>
+<dd><p>Call load data and perform pre-processing.</p>
+<p>Function is triggered by clicking the “Load data” button.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="labcore.data.datadict.html#labcore.data.datadict.DataDict" title="labcore.data.datadict.DataDict"><span class="pre">DataDict</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.load_data" title="Link to this definition">#</a></dt>
+<dd><p>Load data. Needs to be implemented by subclasses.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – if not implemented by subclass.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LoaderNodeBase'</span></em><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.on_refresh_changed">
+<span class="sig-name descname"><span class="pre">on_refresh_changed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.on_refresh_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.on_refresh_changed" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.plot_obj">
+<span class="sig-name descname"><span class="pre">plot_obj</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.plot_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.plot_obj" title="Link to this definition">#</a></dt>
+<dd><p>The actual plot object.</p>
+<p>Updates on change of <code class="docutils literal notranslate"><span class="pre">data_out</span></code> or the selection of the plot value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dedicated plotting node.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.run_auto_refresh">
+<em class="property"><span class="pre">async</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">run_auto_refresh</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.run_auto_refresh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.run_auto_refresh" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.save_html">
+<span class="sig-name descname"><span class="pre">save_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.save_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.save_html" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.save_png">
+<span class="sig-name descname"><span class="pre">save_png</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.save_png"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.save_png" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvapps.LoaderNodeBase.toggle_save_buttons">
+<span class="sig-name descname"><span class="pre">toggle_save_buttons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvapps.html#LoaderNodeBase.toggle_save_buttons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvapps.LoaderNodeBase.toggle_save_buttons" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="labcore.analysis.hv_pretty.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">labcore.analysis.hv_pretty</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="labcore.analysis.hvplotting.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">labcore.analysis.hvplotting</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DDH5LoaderNode"><code class="docutils literal notranslate"><span class="pre">DDH5LoaderNode</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DDH5LoaderNode.file_path"><code class="docutils literal notranslate"><span class="pre">DDH5LoaderNode.file_path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DDH5LoaderNode.load_data"><code class="docutils literal notranslate"><span class="pre">DDH5LoaderNode.load_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DDH5LoaderNode.name"><code class="docutils literal notranslate"><span class="pre">DDH5LoaderNode.name</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect"><code class="docutils literal notranslate"><span class="pre">DataSelect</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.DATAFILE"><code class="docutils literal notranslate"><span class="pre">DataSelect.DATAFILE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.SYM"><code class="docutils literal notranslate"><span class="pre">DataSelect.SYM</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.data_select"><code class="docutils literal notranslate"><span class="pre">DataSelect.data_select()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.date2label"><code class="docutils literal notranslate"><span class="pre">DataSelect.date2label()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.event_lock"><code class="docutils literal notranslate"><span class="pre">DataSelect.event_lock</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.get_data_options"><code class="docutils literal notranslate"><span class="pre">DataSelect.get_data_options()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.group_data"><code class="docutils literal notranslate"><span class="pre">DataSelect.group_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.group_options"><code class="docutils literal notranslate"><span class="pre">DataSelect.group_options</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.info_panel"><code class="docutils literal notranslate"><span class="pre">DataSelect.info_panel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.label2date"><code class="docutils literal notranslate"><span class="pre">DataSelect.label2date()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.name"><code class="docutils literal notranslate"><span class="pre">DataSelect.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.search_term"><code class="docutils literal notranslate"><span class="pre">DataSelect.search_term</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.selected_path"><code class="docutils literal notranslate"><span class="pre">DataSelect.selected_path</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.start"><code class="docutils literal notranslate"><span class="pre">DataSelect.start()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.text_input_repeater"><code class="docutils literal notranslate"><span class="pre">DataSelect.text_input_repeater()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.DataSelect.update_group_options"><code class="docutils literal notranslate"><span class="pre">DataSelect.update_group_options()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.Handler"><code class="docutils literal notranslate"><span class="pre">Handler</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.Handler.on_created"><code class="docutils literal notranslate"><span class="pre">Handler.on_created()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.can_save"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.can_save()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.display_info"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.display_info()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.load_and_preprocess"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.load_and_preprocess()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.load_data"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.load_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.name"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.on_refresh_changed"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.on_refresh_changed()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.plot_obj"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.plot_obj()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.run_auto_refresh"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.run_auto_refresh()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.save_html"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.save_html()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.save_png"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.save_png()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvapps.LoaderNodeBase.toggle_save_buttons"><code class="docutils literal notranslate"><span class="pre">LoaderNodeBase.toggle_save_buttons()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/generated/labcore.analysis.hvapps.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

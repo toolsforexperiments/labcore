@@ -1,0 +1,19 @@
+labcore.data.tools
+==================
+
+.. automodule:: labcore.data.tools
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      Data
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      data_dims
+      split_complex
+   

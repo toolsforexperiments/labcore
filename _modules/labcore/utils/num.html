@@ -30,7 +30,6 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,8 +38,8 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/utils/num';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/utils/num.html" />
@@ -134,29 +133,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../about.html">
-    About page
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -164,6 +149,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../examples/index.html">
     Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
   </a>
 </li>
 
@@ -175,20 +174,6 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../../autoapi/index.html">
-    API Reference
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
-    Tools for Experiments
-  </a>
-</li>
-
-
 <li class=" ">
   <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
     Instrumentserver
@@ -293,29 +278,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../about.html">
-    About page
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -328,7 +299,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
     API Reference
   </a>
 </li>
@@ -459,23 +430,14 @@
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">unwrap_optional</span>
 
-<div class="viewcode-block" id="INTTYPES">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.INTTYPES">[docs]</a>
-<span class="n">INTTYPES</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="FLOATTYPES">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.FLOATTYPES">[docs]</a>
+<span class="n">INTTYPES</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">]</span>
 <span class="n">FLOATTYPES</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float16</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
-              <span class="nb">complex</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">]</span></div>
-
-<div class="viewcode-block" id="NUMTYPES">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.NUMTYPES">[docs]</a>
-<span class="n">NUMTYPES</span> <span class="o">=</span> <span class="n">INTTYPES</span> <span class="o">+</span> <span class="n">FLOATTYPES</span></div>
-
+              <span class="nb">complex</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complex64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">complex128</span><span class="p">]</span>
+<span class="n">NUMTYPES</span> <span class="o">=</span> <span class="n">INTTYPES</span> <span class="o">+</span> <span class="n">FLOATTYPES</span>
 
 
 <div class="viewcode-block" id="largest_numtype">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.largest_numtype">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.largest_numtype">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">largest_numtype</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">include_integers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> \
         <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="nb">type</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -517,7 +479,7 @@
 
 
 <div class="viewcode-block" id="is_invalid">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.is_invalid">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.is_invalid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_invalid</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="c1"># really use == None to do an element wise</span>
     <span class="c1"># check for None</span>
@@ -535,7 +497,7 @@
 
 
 <div class="viewcode-block" id="arrays_equal">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.arrays_equal">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.arrays_equal">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">arrays_equal</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                  <span class="n">rtol</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if two numpy arrays are equal, content-wise.</span>
@@ -568,7 +530,7 @@
 
 
 <div class="viewcode-block" id="array1d_to_meshgrid">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.array1d_to_meshgrid">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.array1d_to_meshgrid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">array1d_to_meshgrid</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
                         <span class="n">target_shape</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
                         <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -640,7 +602,7 @@
 
 
 <div class="viewcode-block" id="find_direction_period">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.find_direction_period">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.find_direction_period">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_direction_period</span><span class="p">(</span><span class="n">vals</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">ignore_last</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> \
         <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -684,7 +646,7 @@
 
 
 <div class="viewcode-block" id="guess_grid_from_sweep_direction">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.guess_grid_from_sweep_direction">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.guess_grid_from_sweep_direction">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">guess_grid_from_sweep_direction</span><span class="p">(</span><span class="o">**</span><span class="n">axes</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> \
         <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -786,7 +748,7 @@
 
 
 <div class="viewcode-block" id="crop2d_rows_cols">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.crop2d_rows_cols">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.crop2d_rows_cols">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">crop2d_rows_cols</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get row and col idxs that are completely invalid in a 2d array.</span>
@@ -807,7 +769,7 @@
 
 
 <div class="viewcode-block" id="joint_crop2d_rows_cols">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.joint_crop2d_rows_cols">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.joint_crop2d_rows_cols">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">joint_crop2d_rows_cols</span><span class="p">(</span><span class="o">*</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get idxs where full rows/cols are invalid in any of the input arrays.</span>
@@ -832,7 +794,7 @@
 
 
 <div class="viewcode-block" id="crop2d_from_xy">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.crop2d_from_xy">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.crop2d_from_xy">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">crop2d_from_xy</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">xs</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                    <span class="n">ys</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -855,7 +817,7 @@
 
 
 <div class="viewcode-block" id="crop2d">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.crop2d">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.crop2d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">crop2d</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">*</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> \
         <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -877,7 +839,7 @@
 
 
 <div class="viewcode-block" id="interp_meshgrid_2d">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.interp_meshgrid_2d">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.interp_meshgrid_2d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">interp_meshgrid_2d</span><span class="p">(</span><span class="n">xx</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
                        <span class="n">yy</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -899,7 +861,7 @@
 
 
 <div class="viewcode-block" id="centers2edges_1d">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.centers2edges_1d">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.centers2edges_1d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">centers2edges_1d</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given an array of center coordinates, return the array of</span>
@@ -921,7 +883,7 @@
 
 
 <div class="viewcode-block" id="centers2edges_2d">
-<a class="viewcode-back" href="../../../autoapi/labcore/utils/num/index.html#labcore.utils.num.centers2edges_2d">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.utils.num.html#labcore.utils.num.centers2edges_2d">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">centers2edges_2d</span><span class="p">(</span><span class="n">centers</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Given a 2d array of coordinates, return the array of bounding vertices for</span>
@@ -1034,7 +996,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>

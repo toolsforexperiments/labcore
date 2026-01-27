@@ -30,7 +30,6 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,8 +38,8 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/analysis/hvapps';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/analysis/hvapps.html" />
@@ -134,29 +133,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../about.html">
-    About page
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -164,6 +149,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../examples/index.html">
     Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
   </a>
 </li>
 
@@ -175,20 +174,6 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../../autoapi/index.html">
-    API Reference
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
-    Tools for Experiments
-  </a>
-</li>
-
-
 <li class=" ">
   <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
     Instrumentserver
@@ -293,29 +278,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../about.html">
-    About page
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -328,7 +299,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
     API Reference
   </a>
 </li>
@@ -481,23 +452,17 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_end_number_to_repeated_file</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.hvplotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">labeled_widget</span><span class="p">,</span> <span class="n">PlotNode</span>
 
-<div class="viewcode-block" id="logger">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.logger">[docs]</a>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
-
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Handler">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.Handler">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.Handler">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Handler</span><span class="p">(</span><span class="n">FileSystemEventHandler</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_callback</span><span class="p">):</span>
-<div class="viewcode-block" id="Handler.update_callback">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.Handler.update_callback">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">update_callback</span> <span class="o">=</span> <span class="n">update_callback</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_callback</span> <span class="o">=</span> <span class="n">update_callback</span>
 
 <div class="viewcode-block" id="Handler.on_created">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.Handler.on_created">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.Handler.on_created">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_created</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">is_directory</span><span class="p">:</span>
             <span class="c1"># Get file extension and compare to data file type, ddh5</span>
@@ -510,59 +475,41 @@
 
 
 <div class="viewcode-block" id="DataSelect">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DataSelect</span><span class="p">(</span><span class="n">pn</span><span class="o">.</span><span class="n">viewable</span><span class="o">.</span><span class="n">Viewer</span><span class="p">):</span>
 
-<div class="viewcode-block" id="DataSelect.SYM">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.SYM">[docs]</a>
     <span class="n">SYM</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;complete&#39;</span><span class="p">:</span> <span class="s1">&#39;✅&#39;</span><span class="p">,</span>
         <span class="s1">&#39;star&#39;</span><span class="p">:</span> <span class="s1">&#39;😁&#39;</span><span class="p">,</span>
         <span class="s1">&#39;bad&#39;</span><span class="p">:</span> <span class="s1">&#39;😭&#39;</span><span class="p">,</span>
         <span class="s1">&#39;trash&#39;</span><span class="p">:</span> <span class="s1">&#39;❌&#39;</span><span class="p">,</span>
-    <span class="p">}</span></div>
+    <span class="p">}</span>
+    <span class="n">DATAFILE</span> <span class="o">=</span> <span class="s1">&#39;data.ddh5&#39;</span>
 
-<div class="viewcode-block" id="DataSelect.DATAFILE">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.DATAFILE">[docs]</a>
-    <span class="n">DATAFILE</span> <span class="o">=</span> <span class="s1">&#39;data.ddh5&#39;</span></div>
-
-
-<div class="viewcode-block" id="DataSelect.selected_path">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.selected_path">[docs]</a>
-    <span class="n">selected_path</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="DataSelect.search_term">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.search_term">[docs]</a>
-    <span class="n">search_term</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="DataSelect.group_options">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.group_options">[docs]</a>
-    <span class="n">group_options</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
-
+    <span class="n">selected_path</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">search_term</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">group_options</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="c1"># Used to combat Watchdogs duplicate calling events</span>
-<div class="viewcode-block" id="DataSelect.event_lock">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.event_lock">[docs]</a>
-    <span class="n">event_lock</span> <span class="o">=</span> <span class="kc">False</span></div>
+    <span class="n">event_lock</span> <span class="o">=</span> <span class="kc">False</span>
 
-
-    <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="DataSelect.date2label">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.date2label">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.date2label">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">date2label</span><span class="p">(</span><span class="n">date_tuple</span><span class="p">):</span>
         <span class="k">return</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">date_tuple</span><span class="p">))</span></div>
 
 
-    <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="DataSelect.label2date">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.label2date">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.label2date">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">label2date</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">label</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">))</span></div>
 
 
-    <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="DataSelect.group_data">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.group_data">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.group_data">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">group_data</span><span class="p">(</span><span class="n">data_list</span><span class="p">):</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">data_list</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -580,57 +527,33 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_root</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
-<div class="viewcode-block" id="DataSelect.size">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.size">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
 
         <span class="c1"># this contains a dict with the structure:</span>
         <span class="c1"># { date (as tuple):</span>
         <span class="c1">#    { path of the dataset folder : (list of subdirs, list of files) }</span>
         <span class="c1"># }</span>
-<div class="viewcode-block" id="DataSelect.data_root">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.data_root">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_root</span> <span class="o">=</span> <span class="n">data_root</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_root</span> <span class="o">=</span> <span class="n">data_root</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_sets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_data</span><span class="p">(</span><span class="n">find_data</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">data_root</span><span class="p">))</span>
 
-<div class="viewcode-block" id="DataSelect.data_sets">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.data_sets">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_sets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_data</span><span class="p">(</span><span class="n">find_data</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="n">data_root</span><span class="p">))</span></div>
-
-
-<div class="viewcode-block" id="DataSelect.layout">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.layout">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">()</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">()</span>
 
         <span class="c1"># a search bar for data</span>
-<div class="viewcode-block" id="DataSelect.text_input">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.text_input">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">text_input</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Search&#39;</span><span class="p">,</span>
             <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;Enter a search term here...&#39;</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="p">)</span>
 
         <span class="c1"># Display the current search term</span>
-<div class="viewcode-block" id="DataSelect.typed_value">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.typed_value">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">typed_value</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span>
             <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">],</span>
             <span class="n">css_classes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ttlabel&#39;</span><span class="p">],</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input_repeater</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DataSelect.image_feed_width">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.image_feed_width">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">image_feed_width</span> <span class="o">=</span> <span class="mi">400</span>  <span class="c1"># The width of images in the feed</span></div>
-
-<div class="viewcode-block" id="DataSelect.feed_scroll_width">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.feed_scroll_width">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">feed_scroll_width</span> <span class="o">=</span> <span class="mi">40</span>  <span class="c1"># Extra width of the feed itself for the scroll bar</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_feed_width</span> <span class="o">=</span> <span class="mi">400</span>  <span class="c1"># The width of images in the feed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feed_scroll_width</span> <span class="o">=</span> <span class="mi">40</span>  <span class="c1"># Extra width of the feed itself for the scroll bar</span>
 
         <span class="c1"># two selectors for data selection</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_group_select_widget</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">CheckBoxGroup</span><span class="p">(</span>
@@ -662,27 +585,18 @@
         <span class="p">)</span>
 
         <span class="c1"># Scrollable feed of images stored with this data</span>
-<div class="viewcode-block" id="DataSelect.data_images_feed">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.data_images_feed">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_images_feed</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">Feed</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">sizing_mode</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">)</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_images_feed</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">Feed</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">sizing_mode</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">)</span>
         <span class="c1"># Data frame showing axes &amp; dependencies</span>
-<div class="viewcode-block" id="DataSelect.data_info">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.data_info">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data_info</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_info</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_group_select</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_select</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_images_feed</span><span class="p">))</span>
 
         <span class="c1"># a simple info panel about the selection</span>
-<div class="viewcode-block" id="DataSelect.lbl">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.lbl">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">lbl</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span>
             <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">],</span>
             <span class="n">css_classes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ttlabel&#39;</span><span class="p">],</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info_panel</span><span class="p">))</span>
 
@@ -694,31 +608,22 @@
 
         <span class="c1"># WATCHDOG INCORPORATION</span>
         <span class="c1"># This allows for monitoring when files are created</span>
-<div class="viewcode-block" id="DataSelect.DIRECTORY_TO_WATCH">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.DIRECTORY_TO_WATCH">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DIRECTORY_TO_WATCH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;.&quot;</span></div>
-
-<div class="viewcode-block" id="DataSelect.observer">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.observer">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span> <span class="o">=</span> <span class="n">Observer</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="DataSelect.handler">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.handler">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">handler</span> <span class="o">=</span> <span class="n">Handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_group_options</span><span class="p">)</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">DIRECTORY_TO_WATCH</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;.&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span> <span class="o">=</span> <span class="n">Observer</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">handler</span> <span class="o">=</span> <span class="n">Handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">update_group_options</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
 <div class="viewcode-block" id="DataSelect.start">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.start">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.start">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">DIRECTORY_TO_WATCH</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
 
 
-    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;_group_select_widget.value&quot;</span><span class="p">)</span>
 <div class="viewcode-block" id="DataSelect.data_select">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.data_select">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.data_select">[docs]</a>
+    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;_group_select_widget.value&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">data_select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># setup global variables for search function</span>
         <span class="n">active_search</span> <span class="o">=</span> <span class="kc">False</span>
@@ -736,7 +641,7 @@
 
 
 <div class="viewcode-block" id="DataSelect.get_data_options">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.get_data_options">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.get_data_options">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_data_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_search</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;.*&#39;</span><span class="p">)):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
@@ -760,9 +665,9 @@
         <span class="k">return</span> <span class="n">opts</span></div>
 
 
-    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;_data_select_widget.value&quot;</span><span class="p">)</span>
 <div class="viewcode-block" id="DataSelect.info_panel">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.info_panel">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.info_panel">[docs]</a>
+    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;_data_select_widget.value&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">info_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_select_widget</span><span class="o">.</span><span class="n">value</span>
         <span class="c1"># Setup data preview panel</span>
@@ -810,9 +715,9 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lbl</span></div>
 
 
-    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;text_input.value_input&quot;</span><span class="p">)</span>
 <div class="viewcode-block" id="DataSelect.text_input_repeater">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.text_input_repeater">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.text_input_repeater">[docs]</a>
+    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;text_input.value_input&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">text_input_repeater</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typed_value</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Current Search: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="o">.</span><span class="n">value_input</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">search_term</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="o">.</span><span class="n">value_input</span>
@@ -820,7 +725,7 @@
 
 
 <div class="viewcode-block" id="DataSelect.update_group_options">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DataSelect.update_group_options">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.update_group_options">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_group_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
         <span class="c1"># Refresh self.data_sets</span>
         <span class="n">new_data_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_data</span><span class="p">(</span><span class="n">find_data</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_root</span><span class="p">))</span>
@@ -838,8 +743,6 @@
 
 
 
-<div class="viewcode-block" id="selector_stylesheet">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.selector_stylesheet">[docs]</a>
 <span class="n">selector_stylesheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">:host .bk-input {</span>
 <span class="s2">    font-family: monospace;</span>
@@ -848,12 +751,11 @@
 <span class="s2">:host(.ttlabel) .bk-clearfix {</span>
 <span class="s2">    font-family: monospace;</span>
 <span class="s2">}</span>
-<span class="s2">&quot;&quot;&quot;</span></div>
-
+<span class="s2">&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="LoaderNodeBase">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LoaderNodeBase</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A node that loads data.</span>
 
@@ -873,14 +775,9 @@
 <span class="sd">            passed to ``Node``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># LoaderNodes need a datapath- this lets the super access said path</span>
-<div class="viewcode-block" id="LoaderNodeBase.file_path">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.file_path">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span> <span class="n">path</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span> <span class="n">path</span>
 
         <span class="c1"># to be able to watch, this needs to be defined before super().__init__</span>
-<div class="viewcode-block" id="LoaderNodeBase.refresh">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.refresh">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Auto-refresh&quot;</span><span class="p">,</span>
             <span class="n">options</span><span class="o">=</span><span class="p">{</span>
@@ -893,103 +790,64 @@
             <span class="p">},</span>
             <span class="n">value</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
             <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-<div class="viewcode-block" id="LoaderNodeBase.task">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.task">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="kc">None</span></div>
-
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Determines if save_buttons need to be disabled. Must be run early</span>
         <span class="c1"># to avoid an &#39;attribute does not exist&#39; error.</span>
-<div class="viewcode-block" id="LoaderNodeBase.disable_buttons">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.disable_buttons">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">disable_buttons</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">can_save</span><span class="p">()</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">disable_buttons</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">can_save</span><span class="p">()</span>
 
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># Store whether or not each graph type can be saved as html/png.</span>
         <span class="c1"># Must be created before plot_col column</span>
-<div class="viewcode-block" id="LoaderNodeBase.graph_type_savable">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.graph_type_savable">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">graph_type_savable</span> <span class="o">=</span> <span class="p">{}</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph_type_savable</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_types</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">graph_type_savable</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">graph_types</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="s1">&#39;get_plot&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LoaderNodeBase.pre_process_opts">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.pre_process_opts">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">pre_process_opts</span> <span class="o">=</span> <span class="n">RBG</span><span class="p">(</span>
             <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Average&quot;</span><span class="p">],</span>
             <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Average&quot;</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pre-processing&quot;</span><span class="p">,</span>
             <span class="n">align</span><span class="o">=</span><span class="s2">&quot;end&quot;</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-<div class="viewcode-block" id="LoaderNodeBase.pre_process_dim_input">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.pre_process_dim_input">[docs]</a>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pre_process_dim_input</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span>
             <span class="n">value</span><span class="o">=</span><span class="s2">&quot;repetition&quot;</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pre-process dim.&quot;</span><span class="p">,</span>
             <span class="n">width</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
             <span class="n">align</span><span class="o">=</span><span class="s2">&quot;end&quot;</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
-<div class="viewcode-block" id="LoaderNodeBase.grid_on_load_toggle">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.grid_on_load_toggle">[docs]</a>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">grid_on_load_toggle</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">Toggle</span><span class="p">(</span>
             <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Auto-grid&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;end&quot;</span>
-        <span class="p">)</span></div>
-
-<div class="viewcode-block" id="LoaderNodeBase.generate_button">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.generate_button">[docs]</a>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">generate_button</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Load data&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="n">button_type</span><span class="o">=</span><span class="s2">&quot;primary&quot;</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
 
         <span class="c1"># Button to save graph as html</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">generate_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_and_preprocess</span><span class="p">)</span>
-<div class="viewcode-block" id="LoaderNodeBase.html_button">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.html_button">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">html_button</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Make HTML&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="n">button_type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">html_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_html</span><span class="p">)</span>
 
         <span class="c1"># Button to save graph as png</span>
-<div class="viewcode-block" id="LoaderNodeBase.png_button">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.png_button">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">png_button</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">Button</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Make PNG&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;end&quot;</span><span class="p">,</span> <span class="n">button_type</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">disabled</span><span class="o">=</span><span class="kc">True</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">png_button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">save_png</span><span class="p">)</span>
 
-<div class="viewcode-block" id="LoaderNodeBase.info_label">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.info_label">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">info_label</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Info&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">)</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">info_label</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Info&quot;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s2">&quot;start&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">info_label</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;No data loaded.&quot;</span>
 
         <span class="c1"># This is needed to tell the site that it needs more vertical space.</span>
         <span class="c1"># If there&#39;s no buffer column, the screen will jitter up and down</span>
         <span class="c1"># when it auto refreshes.</span>
-<div class="viewcode-block" id="LoaderNodeBase.buffer_col">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.buffer_col">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_col</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="LoaderNodeBase.plot_col">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.plot_col">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">plot_col</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">)</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">buffer_col</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot_col</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">)</span>
 
         <span class="c1"># The Leading pn.Row is used to make the fit box appear at right</span>
-<div class="viewcode-block" id="LoaderNodeBase.layout">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.layout">[docs]</a>
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span> 
             <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
                 <span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span>
@@ -1008,22 +866,15 @@
                 <span class="p">)</span>
             <span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit_obj</span><span class="p">,</span>
-        <span class="p">)</span></div>
-
+        <span class="p">)</span>
 
         <span class="c1">#Create var to collect the fitfunc inputs</span>
-<div class="viewcode-block" id="LoaderNodeBase.fit_inputs">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.fit_inputs">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">fit_inputs</span> <span class="o">=</span> <span class="kc">None</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit_inputs</span> <span class="o">=</span> <span class="kc">None</span>
 
-
-<div class="viewcode-block" id="LoaderNodeBase.lock">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.lock">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
 <div class="viewcode-block" id="LoaderNodeBase.load_and_preprocess">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.load_and_preprocess">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.load_and_preprocess">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">load_and_preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">parameterized</span><span class="o">.</span><span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Call load data and perform pre-processing.</span>
 
@@ -1075,9 +926,9 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">plot_type_select</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">save_val</span></div>
 
 
-    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;data_out&quot;</span><span class="p">,</span> <span class="s2">&quot;plot_type_select.value&quot;</span><span class="p">)</span>
 <div class="viewcode-block" id="LoaderNodeBase.plot_obj">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.plot_obj">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.plot_obj">[docs]</a>
+    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;data_out&quot;</span><span class="p">,</span> <span class="s2">&quot;plot_type_select.value&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">plot_obj</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">toggle_save_buttons</span><span class="p">()</span>
@@ -1085,7 +936,7 @@
 
 
 <div class="viewcode-block" id="LoaderNodeBase.can_save">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.can_save">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.can_save">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">can_save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1"># Returns TRUE is the necessary packages for saving html and images are installed</span>
         <span class="c1"># Returns FALSE and prints a notice about the uninstalled packages otherwise</span>
@@ -1114,7 +965,7 @@
 
 
 <div class="viewcode-block" id="LoaderNodeBase.toggle_save_buttons">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.toggle_save_buttons">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.toggle_save_buttons">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">toggle_save_buttons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disable_buttons</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
             <span class="c1"># If the packages aren&#39;t installed, keep button disabled</span>
@@ -1127,7 +978,7 @@
 
 
 <div class="viewcode-block" id="LoaderNodeBase.save_html">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.save_html">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.save_html">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">parameterized</span><span class="o">.</span><span class="n">Event</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plot_obj</span><span class="p">,</span> <span class="n">PlotNode</span><span class="p">):</span>
             <span class="n">file_name</span> <span class="o">=</span> <span class="n">add_end_number_to_repeated_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.html&quot;</span><span class="p">)</span>
@@ -1135,7 +986,7 @@
 
 
 <div class="viewcode-block" id="LoaderNodeBase.save_png">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.save_png">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.save_png">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_png</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">parameterized</span><span class="o">.</span><span class="n">Event</span><span class="p">):</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">save_p</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
             <span class="n">path</span> <span class="o">=</span> <span class="n">add_end_number_to_repeated_file</span><span class="p">(</span>
@@ -1169,16 +1020,16 @@
                 <span class="n">save_p</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span></div>
 
 
-    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;info_label.value&quot;</span><span class="p">)</span>
 <div class="viewcode-block" id="LoaderNodeBase.display_info">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.display_info">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.display_info">[docs]</a>
+    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;info_label.value&quot;</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">display_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">info_label</span></div>
 
 
-    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;refresh.value&quot;</span><span class="p">,</span> <span class="n">watch</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <div class="viewcode-block" id="LoaderNodeBase.on_refresh_changed">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.on_refresh_changed">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.on_refresh_changed">[docs]</a>
+    <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;refresh.value&quot;</span><span class="p">,</span> <span class="n">watch</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_refresh_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1189,7 +1040,7 @@
 
 
 <div class="viewcode-block" id="LoaderNodeBase.run_auto_refresh">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.run_auto_refresh">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.run_auto_refresh">[docs]</a>
     <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_auto_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
@@ -1198,7 +1049,7 @@
 
 
 <div class="viewcode-block" id="LoaderNodeBase.load_data">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.LoaderNodeBase.load_data">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.load_data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataDict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Load data. Needs to be implemented by subclasses.</span>
 
@@ -1211,18 +1062,15 @@
 </div>
 
 
-<div class="viewcode-block" id="Label_stylesheet">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.Label_stylesheet">[docs]</a>
 <span class="n">Label_stylesheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">:host {</span>
 <span class="s2">    font-family: monospace;</span>
 <span class="s2">    font-size: 20px;</span>
 <span class="s2">}</span>
-<span class="s2">&quot;&quot;&quot;</span></div>
-
+<span class="s2">&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="DDH5LoaderNode">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DDH5LoaderNode">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DDH5LoaderNode">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DDH5LoaderNode</span><span class="p">(</span><span class="n">LoaderNodeBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A node that loads data from a specified file location.</span>
 
@@ -1230,10 +1078,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="DDH5LoaderNode.file_path">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DDH5LoaderNode.file_path">[docs]</a>
-    <span class="n">file_path</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span></div>
-
+    <span class="n">file_path</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor for ``LoaderNodePath``.</span>
@@ -1249,7 +1094,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span> <span class="n">path</span>
 
 <div class="viewcode-block" id="DDH5LoaderNode.load_data">
-<a class="viewcode-back" href="../../../autoapi/labcore/analysis/hvapps/index.html#labcore.analysis.hvapps.DDH5LoaderNode.load_data">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DDH5LoaderNode.load_data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataDict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load data from the file location specified</span>
@@ -1317,7 +1162,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>

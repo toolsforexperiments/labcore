@@ -1,0 +1,18 @@
+labcore.measurement.storage
+===========================
+
+.. automodule:: labcore.measurement.storage
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      run_and_save_sweep
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      NumpyEncoder
+   

@@ -1,0 +1,1403 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>labcore.analysis.hvplotting &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/labcore.analysis.hvplotting';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/api/generated/labcore.analysis.hvplotting.html" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="labcore.analysis.mpl" href="labcore.analysis.mpl.html" />
+    <link rel="prev" title="labcore.analysis.hvapps" href="labcore.analysis.hvapps.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.data.html">labcore.data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict.html">labcore.data.datadict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict_storage.html">labcore.data.datadict_storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.tools.html">labcore.data.tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.measurement.html">labcore.measurement</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.measurement.record.html">labcore.measurement.record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.measurement.storage.html">labcore.measurement.storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.measurement.sweep.html">labcore.measurement.sweep</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="labcore.analysis.html">labcore.analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.analysis_base.html">labcore.analysis.analysis_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.fit.html">labcore.analysis.fit</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="labcore.analysis.fitfuncs.html">labcore.analysis.fitfuncs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="labcore.analysis.fitfuncs.generic.html">labcore.analysis.fitfuncs.generic</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.hv_pretty.html">labcore.analysis.hv_pretty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.hvapps.html">labcore.analysis.hvapps</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">labcore.analysis.hvplotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.mpl.html">labcore.analysis.mpl</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.utils.html">labcore.utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.utils.misc.html">labcore.utils.misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.utils.num.html">labcore.utils.num</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="labcore.analysis.html" class="nav-link">labcore.analysis</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.analysis.hvplotting</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-labcore.analysis.hvplotting">
+<span id="labcore-analysis-hvplotting"></span><h1>labcore.analysis.hvplotting<a class="headerlink" href="#module-labcore.analysis.hvplotting" title="Link to this heading">#</a></h1>
+<p>HoloViews-based plotting for labstack.
+Contains a set of classes and functions that can be used to plot labstack-style data.</p>
+<dl class="simple">
+<dt>Important Classes:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>Nodes:</dt><dd><ul>
+<li><dl class="simple">
+<dt>Node: a base class for all nodes. Nodes are the basic blocks we use for</dt><dd><p>processing data. They can be chained together to form a pipeline.</p>
+</dd>
+</dl>
+</li>
+<li><p>LoaderNode: a node that loads and preprocesses data.</p></li>
+<li><p>ReduxNode: a node that reduces data dimensionality (e.g. by averaging).</p></li>
+<li><p>ValuePlot: plots data values.</p></li>
+<li><p>ComplexHist: plots histograms of complex data (‘IQ readout histograms’).</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Widgets:</dt><dd><ul>
+<li><p>XYSelect: a widget for selecting x and y axes.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>#TODO:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>When fitting real and imaginary data, the color of the dot and line between data crosses. For example if the imaginary line is red with dots red, after adding a fit to the real data, the dots of imaginary will remain red, but the lines will be orange and the dots of the fit will orange but the lines red</p></li>
+<li><p>Program refuses to open if it cannot find the config file.</p></li>
+<li><p>Program refuses to open if it cannot find data properly formatted. This might be ok but a nice error message should appear.</p></li>
+</ul>
+</div></blockquote>
+<p class="rubric">Module Attributes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.Data" title="labcore.analysis.hvplotting.Data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Data</span></code></a></p></td>
+<td><p>Type alias for valid data.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.DataDisplay" title="labcore.analysis.hvplotting.DataDisplay"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DataDisplay</span></code></a></p></td>
+<td><p>Type alias for displaying raw data.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Functions</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.labeled_widget" title="labcore.analysis.hvplotting.labeled_widget"><code class="xref py py-obj docutils literal notranslate"><span class="pre">labeled_widget</span></code></a>(w[, lbl])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.plot_data" title="labcore.analysis.hvplotting.plot_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_data</span></code></a>(data)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.plot_df_as_2d" title="labcore.analysis.hvplotting.plot_df_as_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_df_as_2d</span></code></a>(df, x, y[, dim_labels, graph_axes])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.plot_xr_as_2d" title="labcore.analysis.hvplotting.plot_xr_as_2d"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot_xr_as_2d</span></code></a>(ds, x, y[, dim_labels, graph_axes])</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.ComplexHist" title="labcore.analysis.hvplotting.ComplexHist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ComplexHist</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.MagnitudePhasePlot" title="labcore.analysis.hvplotting.MagnitudePhasePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MagnitudePhasePlot</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.Node" title="labcore.analysis.hvplotting.Node"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Node</span></code></a>([path, data_in])</p></td>
+<td><p>Node base class.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.PlotNode" title="labcore.analysis.hvplotting.PlotNode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlotNode</span></code></a>([path])</p></td>
+<td><p>PlotNode, Node subclass</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.ReduxNode" title="labcore.analysis.hvplotting.ReduxNode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReduxNode</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.ValuePlot" title="labcore.analysis.hvplotting.ValuePlot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ValuePlot</span></code></a>(*args, **kwargs)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.analysis.hvplotting.XYSelect" title="labcore.analysis.hvplotting.XYSelect"><code class="xref py py-obj docutils literal notranslate"><span class="pre">XYSelect</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ComplexHist">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">ComplexHist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ComplexHist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ComplexHist" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#labcore.analysis.hvplotting.PlotNode" title="labcore.analysis.hvplotting.PlotNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlotNode</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ComplexHist.fit_axis_options">
+<span class="sig-name descname"><span class="pre">fit_axis_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ComplexHist.fit_axis_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ComplexHist.fit_axis_options" title="Link to this definition">#</a></dt>
+<dd><p>Returns a list of the different axes you can
+make a fit for in this node.</p>
+<p>Should be overridden by subclasses to return the appropriate object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ComplexHist.get_plot">
+<span class="sig-name descname"><span class="pre">get_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ComplexHist.get_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ComplexHist.get_plot" title="Link to this definition">#</a></dt>
+<dd><p>Returns the plot as a holoviews object</p>
+<p>Used for saving the plot as html or png.</p>
+<p>Can/Should be overridden by subclasses to return the appropriate object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ComplexHist.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ComplexHist'</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.ComplexHist.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ComplexHist.plot_panel">
+<span class="sig-name descname"><span class="pre">plot_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ComplexHist.plot_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ComplexHist.plot_panel" title="Link to this definition">#</a></dt>
+<dd><p>Creates and returns a panel with the class’s plot</p>
+<p>Should be overridden by subclasses to return the desired plot.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Data">
+<span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><a class="headerlink" href="#labcore.analysis.hvplotting.Data" title="Link to this definition">#</a></dt>
+<dd><p>Type alias for valid data. Can be either a pandas DataFrame or an xarray Dataset.</p>
+<p>alias of <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd></dl>
+
+<dl class="py data">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.DataDisplay">
+<span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">DataDisplay</span></span><a class="headerlink" href="#labcore.analysis.hvplotting.DataDisplay" title="Link to this definition">#</a></dt>
+<dd><p>Type alias for displaying raw data.</p>
+<p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> | <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.MagnitudePhasePlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">MagnitudePhasePlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#MagnitudePhasePlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.MagnitudePhasePlot" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#labcore.analysis.hvplotting.PlotNode" title="labcore.analysis.hvplotting.PlotNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlotNode</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.MagnitudePhasePlot.fit_axis_options">
+<span class="sig-name descname"><span class="pre">fit_axis_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#MagnitudePhasePlot.fit_axis_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.fit_axis_options" title="Link to this definition">#</a></dt>
+<dd><p>Returns a list of the different axes you can
+make a fit for in this node.</p>
+<p>Should be overridden by subclasses to return the appropriate object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.MagnitudePhasePlot.get_data_fit_names">
+<span class="sig-name descname"><span class="pre">get_data_fit_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#MagnitudePhasePlot.get_data_fit_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.get_data_fit_names" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.MagnitudePhasePlot.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'MagnitudePhasePlot'</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.MagnitudePhasePlot.plot_options_panel">
+<span class="sig-name descname"><span class="pre">plot_options_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#MagnitudePhasePlot.plot_options_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.plot_options_panel" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.MagnitudePhasePlot.plot_panel">
+<span class="sig-name descname"><span class="pre">plot_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#MagnitudePhasePlot.plot_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.plot_panel" title="Link to this definition">#</a></dt>
+<dd><p>Creates and returns a panel with the class’s plot</p>
+<p>Should be overridden by subclasses to return the desired plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.MagnitudePhasePlot.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#MagnitudePhasePlot.process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.process" title="Link to this definition">#</a></dt>
+<dd><p>Make a copy of the data so that changes (added fits) don’t carry
+to other graphs/other analysis.
+Add saved arguments for all fits/axes.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">Node</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_in</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Viewer</span></code></p>
+<p>Node base class.</p>
+<p>A simple wrapper class that we use to standardize the way we process data.
+Aim: whenever input data is set/updated, <code class="docutils literal notranslate"><span class="pre">Node.process</span></code> is called (in the
+base class it simply sets output equal to input).
+User-defined nodes may watch <code class="docutils literal notranslate"><span class="pre">data_in</span></code> and <code class="docutils literal notranslate"><span class="pre">data_out</span></code> to update UI or
+anything else.
+Pipelines are formed by appending nodes to each other using <code class="docutils literal notranslate"><span class="pre">Node.append</span></code>.</p>
+<p>Nodes with graphs must implement a <code class="docutils literal notranslate"><span class="pre">get_plot()</span></code> function that returns
+a holoviews graph object in order for that graph to be able to be saved
+as either an html or png file.</p>
+<section id="params">
+<h2>Params<a class="headerlink" href="#params" title="Link to this heading">#</a></h2>
+<dl class="simple">
+<dt>data_in</dt><dd><p>input data. Must be either a pandas DataFrame or an xarray Dataset.</p>
+</dd>
+<dt>data_out</dt><dd><p>processed output data. Must be either a pandas DataFrame or an xarray Dataset.</p>
+</dd>
+<dt>units_in</dt><dd><p>units of input data. Must be a dictionary with keys corresponding to dimensions,
+and values corresponding to units.</p>
+</dd>
+<dt>units_out</dt><dd><p>units of output data. Must be a dictionary with keys corresponding to dimensions,
+and values corresponding to units.</p>
+</dd>
+<dt>meta_in</dt><dd><p>any input metadata. Arbitrary keys/value.</p>
+</dd>
+<dt>meta_out</dt><dd><p>any output metadata. Arbitrary keys/value.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.analysis.hvplotting.Node" title="labcore.analysis.hvplotting.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.append" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.complex_dependents">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">complex_dependents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.complex_dependents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.complex_dependents" title="Link to this definition">#</a></dt>
+<dd><p>Returns a dictionary of complex dependents and their real/imaginary parts.</p>
+<p>Requires that complex data has already been split.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – input data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>“<cite>dependent</cite>”: {“real”: “<cite>dependent_Re</cite>”, “imag”: “<cite>dependent_Im</cite>”}}
+<cite>dependent_Re</cite> and <cite>dependent_Im</cite> are the dimensions actually present
+in the data.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary of the form</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.data_dims">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.data_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.data_dims" title="Link to this definition">#</a></dt>
+<dd><p>Returns the dimensions of the data.</p>
+<p>Format: (independents, dependents); both as lists of strings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – if data is not a pandas DataFrame or an xarray Dataset.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.data_in">
+<span class="sig-name descname"><span class="pre">data_in</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.Node.data_in" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.data_in_view">
+<span class="sig-name descname"><span class="pre">data_in_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.data_in_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.data_in_view" title="Link to this definition">#</a></dt>
+<dd><p>Updating view of input data (as table; as provided by the data type).</p>
+<p>Updates on change of <code class="docutils literal notranslate"><span class="pre">data_in</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.data_out">
+<span class="sig-name descname"><span class="pre">data_out</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.Node.data_out" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.data_out_view">
+<span class="sig-name descname"><span class="pre">data_out_view</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.data_out_view"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.data_out_view" title="Link to this definition">#</a></dt>
+<dd><p>Updating view of output data (as table; as provided by the data type).</p>
+<p>Updates on change of <code class="docutils literal notranslate"><span class="pre">data_out</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.detach">
+<span class="sig-name descname"><span class="pre">detach</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.analysis.hvplotting.Node" title="labcore.analysis.hvplotting.Node"><span class="pre">Node</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.detach"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.detach" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.dim_label">
+<span class="sig-name descname"><span class="pre">dim_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">which</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'out'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.dim_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.dim_label" title="Link to this definition">#</a></dt>
+<dd><p>Generate dimension label for use in plots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dim</strong> – dimension name.</p></li>
+<li><p><strong>which</strong> – Either “in” or “out”, depending on whether we want the input or
+output data of the Node. Default is “out”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dimension label, including units if available.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.dim_labels">
+<span class="sig-name descname"><span class="pre">dim_labels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">which</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'out'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.dim_labels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.dim_labels" title="Link to this definition">#</a></dt>
+<dd><p>Generate dimension labels for use in plots.</p>
+<p>Generates all dimension labels for the data.
+See <code class="docutils literal notranslate"><span class="pre">Node.dim_label</span></code> for more information.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.fit_obj">
+<span class="sig-name descname"><span class="pre">fit_obj</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.fit_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.fit_obj" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.mean">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">dims</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.mean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.mean" title="Link to this definition">#</a></dt>
+<dd><p>Takes the mean of data along the given dimensions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – input data.</p></li>
+<li><p><strong>*dims</strong> – dimensions to take the mean along</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>data after taking the mean</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – if data is not a pandas DataFrame or an xarray Dataset.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.meta_in">
+<span class="sig-name descname"><span class="pre">meta_in</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.Node.meta_in" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.meta_out">
+<span class="sig-name descname"><span class="pre">meta_out</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.Node.meta_out" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Node'</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.Node.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.plot">
+<span class="sig-name descname"><span class="pre">plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Viewable</span></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.plot" title="Link to this definition">#</a></dt>
+<dd><p>A reactive panel object that allows selecting a plot type, and shows the plot.</p>
+<p>Updates on change of <code class="docutils literal notranslate"><span class="pre">data_out</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.plot_obj">
+<span class="sig-name descname"><span class="pre">plot_obj</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.analysis.hvplotting.Node" title="labcore.analysis.hvplotting.Node"><span class="pre">Node</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.plot_obj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.plot_obj" title="Link to this definition">#</a></dt>
+<dd><p>The actual plot object.</p>
+<p>Updates on change of <code class="docutils literal notranslate"><span class="pre">data_out</span></code> or the selection of the plot value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dedicated plotting node.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.process" title="Link to this definition">#</a></dt>
+<dd><p>Process data.</p>
+<p>By default, simply sets <code class="docutils literal notranslate"><span class="pre">data_out</span></code> equal to <code class="docutils literal notranslate"><span class="pre">data_in</span></code>.</p>
+<p>Can/Should be overridden by subclasses to do more complicated things.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.render_data">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">render_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.render_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.render_data" title="Link to this definition">#</a></dt>
+<dd><p>Shows data as renderable object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – if data is not a pandas DataFrame or an xarray Dataset.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.split_complex">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_complex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.split_complex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.split_complex" title="Link to this definition">#</a></dt>
+<dd><p>Split complex dependents into real and imaginary parts.</p>
+<p>TODO: should update units as well</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – input data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>data with complex dependents split into real and imaginary parts.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#NotImplementedError" title="(in Python v3.14)"><strong>NotImplementedError</strong></a> – if data is not a pandas DataFrame or an xarray Dataset.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.units_in">
+<span class="sig-name descname"><span class="pre">units_in</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.Node.units_in" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.units_out">
+<span class="sig-name descname"><span class="pre">units_out</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.Node.units_out" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.Node.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Event</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#Node.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.Node.update" title="Link to this definition">#</a></dt>
+<dd><p>Update the node using external events.</p>
+<p>If event contains <code class="docutils literal notranslate"><span class="pre">data_out</span></code>, <code class="docutils literal notranslate"><span class="pre">units_out</span></code>, or <code class="docutils literal notranslate"><span class="pre">meta_out</span></code>,
+will set them as <code class="docutils literal notranslate"><span class="pre">data_in</span></code>, <code class="docutils literal notranslate"><span class="pre">units_in</span></code>, or <code class="docutils literal notranslate"><span class="pre">meta_in</span></code> respectively.</p>
+</dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">PlotNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#labcore.analysis.hvplotting.Node" title="labcore.analysis.hvplotting.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></a></p>
+<p>PlotNode, Node subclass</p>
+<p>A superclass of all nodes that make plots of some sort. Mostly
+deals with define/creating fits for whatever graph subnode is instantiated.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.FITS">
+<span class="sig-name descname"><span class="pre">FITS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.FITS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.add_fit_box">
+<span class="sig-name descname"><span class="pre">add_fit_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.add_fit_box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.add_fit_box" title="Link to this definition">#</a></dt>
+<dd><p>Create a widget box for creating a fit.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.fit_axis_options">
+<span class="sig-name descname"><span class="pre">fit_axis_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.fit_axis_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.fit_axis_options" title="Link to this definition">#</a></dt>
+<dd><p>Returns a list of the different axes you can
+make a fit for in this node.</p>
+<p>Should be overridden by subclasses to return the appropriate object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.get_ansatz">
+<span class="sig-name descname"><span class="pre">get_ansatz</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.get_ansatz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.get_ansatz" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.get_arguments">
+<span class="sig-name descname"><span class="pre">get_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.get_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.get_arguments" title="Link to this definition">#</a></dt>
+<dd><p>Gets argument values for the currently selected fit and
+fit axis. Pulls data from the json if one exists, otherwise
+runs fit.guess and takes those values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.get_data_fit_names">
+<span class="sig-name descname"><span class="pre">get_data_fit_names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">omit_axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.get_data_fit_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.get_data_fit_names" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.get_fit_panel">
+<span class="sig-name descname"><span class="pre">get_fit_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.get_fit_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.get_fit_panel" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.get_plot">
+<span class="sig-name descname"><span class="pre">get_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.get_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.get_plot" title="Link to this definition">#</a></dt>
+<dd><p>Returns the plot as a holoviews object</p>
+<p>Used for saving the plot as html or png.</p>
+<p>Can/Should be overridden by subclasses to return the appropriate object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.get_values">
+<span class="sig-name descname"><span class="pre">get_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.get_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.get_values" title="Link to this definition">#</a></dt>
+<dd><p>Gets a dictionary of values from the result of the FitResult’s params_to_dict() function.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.indep_dims">
+<span class="sig-name descname"><span class="pre">indep_dims</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.indep_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.indep_dims" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.load_fits_from_config">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_fits_from_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.load_fits_from_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.load_fits_from_config" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.model_fit">
+<span class="sig-name descname"><span class="pre">model_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.model_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.model_fit" title="Link to this definition">#</a></dt>
+<dd><p>Models the fit starting with the arguments already created</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'PlotNode'</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.plot_panel">
+<span class="sig-name descname"><span class="pre">plot_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.plot_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.plot_panel" title="Link to this definition">#</a></dt>
+<dd><p>Creates and returns a panel with the class’s plot</p>
+<p>Should be overridden by subclasses to return the desired plot.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.process" title="Link to this definition">#</a></dt>
+<dd><p>Make a copy of the data so that changes (added fits) don’t carry
+to other graphs/other analysis.
+Add saved arguments for all fits/axes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.refresh_graph">
+<span class="sig-name descname"><span class="pre">refresh_graph</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.refresh_graph" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.reguess_fit">
+<span class="sig-name descname"><span class="pre">reguess_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.reguess_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.reguess_fit" title="Link to this definition">#</a></dt>
+<dd><p>Resets the current args to the results of the Fit.guess() function for the
+current fit class.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.remove_fit_box">
+<span class="sig-name descname"><span class="pre">remove_fit_box</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.remove_fit_box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.remove_fit_box" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.save_fit">
+<span class="sig-name descname"><span class="pre">save_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.save_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.save_fit" title="Link to this definition">#</a></dt>
+<dd><p>Saves only the currently selected fit axis to the json file</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.set_fit_box">
+<span class="sig-name descname"><span class="pre">set_fit_box</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.set_fit_box"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.set_fit_box" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.set_fit_box_helper">
+<span class="sig-name descname"><span class="pre">set_fit_box_helper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_func_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fitted</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.set_fit_box_helper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.set_fit_box_helper" title="Link to this definition">#</a></dt>
+<dd><p>Removes and/or creates a fit box. If new_box == True this
+will (re)create the fit box.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.update_dataset_by_data">
+<span class="sig-name descname"><span class="pre">update_dataset_by_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.update_dataset_by_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.update_dataset_by_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.update_dataset_by_fit_and_axis">
+<span class="sig-name descname"><span class="pre">update_dataset_by_fit_and_axis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="labcore.analysis.fit.html#labcore.analysis.fit.Fit" title="labcore.analysis.fit.Fit"><span class="pre">Fit</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_axis_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">saved</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.update_dataset_by_fit_and_axis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.update_dataset_by_fit_and_axis" title="Link to this definition">#</a></dt>
+<dd><p>Updates the data for fit in the self.data_out dataset based
+on the given arguments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.PlotNode.update_fit_args">
+<span class="sig-name descname"><span class="pre">update_fit_args</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#PlotNode.update_fit_args"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.PlotNode.update_fit_args" title="Link to this definition">#</a></dt>
+<dd><p>Updates the temporary saved value for all of the fit’s starting arguments.</p>
+<p>Called whenever a float input’s value is changed, when the fitbox is
+created, or when the fit_axis changes.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ReduxNode">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">ReduxNode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ReduxNode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ReduxNode" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#labcore.analysis.hvplotting.Node" title="labcore.analysis.hvplotting.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ReduxNode.OPTS">
+<span class="sig-name descname"><span class="pre">OPTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['None',</span> <span class="pre">'Mean']</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.ReduxNode.OPTS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ReduxNode.coordinates">
+<span class="sig-name descname"><span class="pre">coordinates</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.ReduxNode.coordinates" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ReduxNode.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ReduxNode'</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.ReduxNode.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ReduxNode.on_input_update">
+<span class="sig-name descname"><span class="pre">on_input_update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ReduxNode.on_input_update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ReduxNode.on_input_update" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ReduxNode.on_operations_change">
+<span class="sig-name descname"><span class="pre">on_operations_change</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ReduxNode.on_operations_change"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ReduxNode.on_operations_change" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ReduxNode.on_widget_change">
+<span class="sig-name descname"><span class="pre">on_widget_change</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">events</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ReduxNode.on_widget_change"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ReduxNode.on_widget_change" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ReduxNode.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.ReduxNode.operations" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ReduxNode.process">
+<span class="sig-name descname"><span class="pre">process</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ReduxNode.process"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ReduxNode.process" title="Link to this definition">#</a></dt>
+<dd><p>Process data.</p>
+<p>By default, simply sets <code class="docutils literal notranslate"><span class="pre">data_out</span></code> equal to <code class="docutils literal notranslate"><span class="pre">data_in</span></code>.</p>
+<p>Can/Should be overridden by subclasses to do more complicated things.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ValuePlot">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">ValuePlot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ValuePlot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ValuePlot" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#labcore.analysis.hvplotting.PlotNode" title="labcore.analysis.hvplotting.PlotNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">PlotNode</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ValuePlot.fit_axis_options">
+<span class="sig-name descname"><span class="pre">fit_axis_options</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ValuePlot.fit_axis_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ValuePlot.fit_axis_options" title="Link to this definition">#</a></dt>
+<dd><p>Returns a list of the different axes you can
+make a fit for in this node.</p>
+<p>Should be overridden by subclasses to return the appropriate object.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ValuePlot.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'ValuePlot'</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.ValuePlot.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ValuePlot.plot_options_panel">
+<span class="sig-name descname"><span class="pre">plot_options_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ValuePlot.plot_options_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ValuePlot.plot_options_panel" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.ValuePlot.plot_panel">
+<span class="sig-name descname"><span class="pre">plot_panel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#ValuePlot.plot_panel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.ValuePlot.plot_panel" title="Link to this definition">#</a></dt>
+<dd><p>Creates and returns a panel with the class’s plot</p>
+<p>Should be overridden by subclasses to return the desired plot.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.XYSelect">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">XYSelect</span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#XYSelect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.XYSelect" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Viewer</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.XYSelect.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'XYSelect'</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.XYSelect.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.XYSelect.on_option_change">
+<span class="sig-name descname"><span class="pre">on_option_change</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#XYSelect.on_option_change"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.XYSelect.on_option_change" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.XYSelect.options">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['None']</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.XYSelect.options" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.XYSelect.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">('None',</span> <span class="pre">'None')</span></em><a class="headerlink" href="#labcore.analysis.hvplotting.XYSelect.value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.labeled_widget">
+<span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">labeled_widget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lbl</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#labeled_widget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.labeled_widget" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.plot_data">
+<span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">plot_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Viewable</span></span></span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#plot_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.plot_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.plot_df_as_2d">
+<span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">plot_df_as_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#plot_df_as_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.plot_df_as_2d" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.analysis.hvplotting.plot_xr_as_2d">
+<span class="sig-prename descclassname"><span class="pre">labcore.analysis.hvplotting.</span></span><span class="sig-name descname"><span class="pre">plot_xr_as_2d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph_axes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/analysis/hvplotting.html#plot_xr_as_2d"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.analysis.hvplotting.plot_xr_as_2d" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="labcore.analysis.hvapps.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">labcore.analysis.hvapps</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="labcore.analysis.mpl.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">labcore.analysis.mpl</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ComplexHist"><code class="docutils literal notranslate"><span class="pre">ComplexHist</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ComplexHist.fit_axis_options"><code class="docutils literal notranslate"><span class="pre">ComplexHist.fit_axis_options()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ComplexHist.get_plot"><code class="docutils literal notranslate"><span class="pre">ComplexHist.get_plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ComplexHist.name"><code class="docutils literal notranslate"><span class="pre">ComplexHist.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ComplexHist.plot_panel"><code class="docutils literal notranslate"><span class="pre">ComplexHist.plot_panel()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Data"><code class="docutils literal notranslate"><span class="pre">Data</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.DataDisplay"><code class="docutils literal notranslate"><span class="pre">DataDisplay</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.MagnitudePhasePlot"><code class="docutils literal notranslate"><span class="pre">MagnitudePhasePlot</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.fit_axis_options"><code class="docutils literal notranslate"><span class="pre">MagnitudePhasePlot.fit_axis_options()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.get_data_fit_names"><code class="docutils literal notranslate"><span class="pre">MagnitudePhasePlot.get_data_fit_names()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.name"><code class="docutils literal notranslate"><span class="pre">MagnitudePhasePlot.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.plot_options_panel"><code class="docutils literal notranslate"><span class="pre">MagnitudePhasePlot.plot_options_panel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.plot_panel"><code class="docutils literal notranslate"><span class="pre">MagnitudePhasePlot.plot_panel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.MagnitudePhasePlot.process"><code class="docutils literal notranslate"><span class="pre">MagnitudePhasePlot.process()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.append"><code class="docutils literal notranslate"><span class="pre">Node.append()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.complex_dependents"><code class="docutils literal notranslate"><span class="pre">Node.complex_dependents()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.data_dims"><code class="docutils literal notranslate"><span class="pre">Node.data_dims()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.data_in"><code class="docutils literal notranslate"><span class="pre">Node.data_in</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.data_in_view"><code class="docutils literal notranslate"><span class="pre">Node.data_in_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.data_out"><code class="docutils literal notranslate"><span class="pre">Node.data_out</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.data_out_view"><code class="docutils literal notranslate"><span class="pre">Node.data_out_view()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.detach"><code class="docutils literal notranslate"><span class="pre">Node.detach()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.dim_label"><code class="docutils literal notranslate"><span class="pre">Node.dim_label()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.dim_labels"><code class="docutils literal notranslate"><span class="pre">Node.dim_labels()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.fit_obj"><code class="docutils literal notranslate"><span class="pre">Node.fit_obj()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.mean"><code class="docutils literal notranslate"><span class="pre">Node.mean()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.meta_in"><code class="docutils literal notranslate"><span class="pre">Node.meta_in</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.meta_out"><code class="docutils literal notranslate"><span class="pre">Node.meta_out</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.name"><code class="docutils literal notranslate"><span class="pre">Node.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.plot"><code class="docutils literal notranslate"><span class="pre">Node.plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.plot_obj"><code class="docutils literal notranslate"><span class="pre">Node.plot_obj()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.process"><code class="docutils literal notranslate"><span class="pre">Node.process()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.render_data"><code class="docutils literal notranslate"><span class="pre">Node.render_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.split_complex"><code class="docutils literal notranslate"><span class="pre">Node.split_complex()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.units_in"><code class="docutils literal notranslate"><span class="pre">Node.units_in</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.units_out"><code class="docutils literal notranslate"><span class="pre">Node.units_out</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.Node.update"><code class="docutils literal notranslate"><span class="pre">Node.update()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode"><code class="docutils literal notranslate"><span class="pre">PlotNode</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.FITS"><code class="docutils literal notranslate"><span class="pre">PlotNode.FITS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.add_fit_box"><code class="docutils literal notranslate"><span class="pre">PlotNode.add_fit_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.fit_axis_options"><code class="docutils literal notranslate"><span class="pre">PlotNode.fit_axis_options()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.get_ansatz"><code class="docutils literal notranslate"><span class="pre">PlotNode.get_ansatz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.get_arguments"><code class="docutils literal notranslate"><span class="pre">PlotNode.get_arguments()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.get_data_fit_names"><code class="docutils literal notranslate"><span class="pre">PlotNode.get_data_fit_names()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.get_fit_panel"><code class="docutils literal notranslate"><span class="pre">PlotNode.get_fit_panel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.get_plot"><code class="docutils literal notranslate"><span class="pre">PlotNode.get_plot()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.get_values"><code class="docutils literal notranslate"><span class="pre">PlotNode.get_values()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.indep_dims"><code class="docutils literal notranslate"><span class="pre">PlotNode.indep_dims()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.load_fits_from_config"><code class="docutils literal notranslate"><span class="pre">PlotNode.load_fits_from_config()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.model_fit"><code class="docutils literal notranslate"><span class="pre">PlotNode.model_fit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.name"><code class="docutils literal notranslate"><span class="pre">PlotNode.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.plot_panel"><code class="docutils literal notranslate"><span class="pre">PlotNode.plot_panel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.process"><code class="docutils literal notranslate"><span class="pre">PlotNode.process()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.refresh_graph"><code class="docutils literal notranslate"><span class="pre">PlotNode.refresh_graph</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.reguess_fit"><code class="docutils literal notranslate"><span class="pre">PlotNode.reguess_fit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.remove_fit_box"><code class="docutils literal notranslate"><span class="pre">PlotNode.remove_fit_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.save_fit"><code class="docutils literal notranslate"><span class="pre">PlotNode.save_fit()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.set_fit_box"><code class="docutils literal notranslate"><span class="pre">PlotNode.set_fit_box()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.set_fit_box_helper"><code class="docutils literal notranslate"><span class="pre">PlotNode.set_fit_box_helper()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.update_dataset_by_data"><code class="docutils literal notranslate"><span class="pre">PlotNode.update_dataset_by_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.update_dataset_by_fit_and_axis"><code class="docutils literal notranslate"><span class="pre">PlotNode.update_dataset_by_fit_and_axis()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.PlotNode.update_fit_args"><code class="docutils literal notranslate"><span class="pre">PlotNode.update_fit_args()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ReduxNode"><code class="docutils literal notranslate"><span class="pre">ReduxNode</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ReduxNode.OPTS"><code class="docutils literal notranslate"><span class="pre">ReduxNode.OPTS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ReduxNode.coordinates"><code class="docutils literal notranslate"><span class="pre">ReduxNode.coordinates</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ReduxNode.name"><code class="docutils literal notranslate"><span class="pre">ReduxNode.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ReduxNode.on_input_update"><code class="docutils literal notranslate"><span class="pre">ReduxNode.on_input_update()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ReduxNode.on_operations_change"><code class="docutils literal notranslate"><span class="pre">ReduxNode.on_operations_change()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ReduxNode.on_widget_change"><code class="docutils literal notranslate"><span class="pre">ReduxNode.on_widget_change()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ReduxNode.operations"><code class="docutils literal notranslate"><span class="pre">ReduxNode.operations</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ReduxNode.process"><code class="docutils literal notranslate"><span class="pre">ReduxNode.process()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ValuePlot"><code class="docutils literal notranslate"><span class="pre">ValuePlot</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ValuePlot.fit_axis_options"><code class="docutils literal notranslate"><span class="pre">ValuePlot.fit_axis_options()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ValuePlot.name"><code class="docutils literal notranslate"><span class="pre">ValuePlot.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ValuePlot.plot_options_panel"><code class="docutils literal notranslate"><span class="pre">ValuePlot.plot_options_panel()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.ValuePlot.plot_panel"><code class="docutils literal notranslate"><span class="pre">ValuePlot.plot_panel()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.XYSelect"><code class="docutils literal notranslate"><span class="pre">XYSelect</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.XYSelect.name"><code class="docutils literal notranslate"><span class="pre">XYSelect.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.XYSelect.on_option_change"><code class="docutils literal notranslate"><span class="pre">XYSelect.on_option_change()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.XYSelect.options"><code class="docutils literal notranslate"><span class="pre">XYSelect.options</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.XYSelect.value"><code class="docutils literal notranslate"><span class="pre">XYSelect.value</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.labeled_widget"><code class="docutils literal notranslate"><span class="pre">labeled_widget()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.plot_data"><code class="docutils literal notranslate"><span class="pre">plot_data()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.plot_df_as_2d"><code class="docutils literal notranslate"><span class="pre">plot_df_as_2d()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.analysis.hvplotting.plot_xr_as_2d"><code class="docutils literal notranslate"><span class="pre">plot_xr_as_2d()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/generated/labcore.analysis.hvplotting.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

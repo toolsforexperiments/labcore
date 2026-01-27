@@ -1,0 +1,19 @@
+﻿labcore.analysis
+================
+
+.. automodule:: labcore.analysis
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   analysis_base
+   fit
+   fitfuncs
+   hv_pretty
+   hvapps
+   hvplotting
+   mpl

@@ -1,0 +1,18 @@
+labcore.analysis.analysis\_base
+===============================
+
+.. automodule:: labcore.analysis.analysis_base
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      DatasetAnalysis
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      AnalysisExistsError
+   

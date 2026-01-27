@@ -1,0 +1,13 @@
+labcore.analysis.fitfuncs
+=========================
+
+.. automodule:: labcore.analysis.fitfuncs
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   generic

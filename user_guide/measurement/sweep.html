@@ -1,0 +1,1282 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Sweeping &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/measurement/sweep';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/user_guide/measurement/sweep.html" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Data Handling" href="../data/index.html" />
+    <link rel="prev" title="Measurement" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Measurement</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Sweeping</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../data/index.html">Data Handling</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../data/data_formats.html">Data Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/analysis_example.html">Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../instruments/index.html">Instruments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instruments/instrumentserver.html">Instrumentserver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instruments/instrumentmonitoring.html">Instrument Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instruments/qcodes_instruments/instruments.html">Our QCoDeS Drivers</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Measurement</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Sweeping</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="sweeping">
+<h1>Sweeping<a class="headerlink" href="#sweeping" title="Link to this heading">#</a></h1>
+<section id="basic-example">
+<h2>Basic Example<a class="headerlink" href="#basic-example" title="Link to this heading">#</a></h2>
+<p>A Sweep is created out of two main components, an iterable <strong>pointer</strong> and a variable number of <strong>actions</strong>.
+Both <strong>pointer</strong> and <strong>actions</strong> may generate <strong>records</strong>.</p>
+<p>The most bare example would look like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">Sweep</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{}</span>
+<span class="go">{}</span>
+<span class="go">{}</span>
+</pre></div>
+</div>
+<p>In this example, the <code class="docutils literal notranslate"><span class="pre">range(3)</span></code> iterable object is our <strong>pointer</strong>.
+This Sweep does not contain any <strong>actions</strong> or generate any <strong>records</strong>, but instead simply loops over the iterable <strong>pointer</strong>.</p>
+</section>
+<section id="recording-data">
+<h2>Recording Data<a class="headerlink" href="#recording-data" title="Link to this heading">#</a></h2>
+<section id="concepts">
+<h3>Concepts<a class="headerlink" href="#concepts" title="Link to this heading">#</a></h3>
+<p>Even though the <strong>pointer</strong> in the previous example does generate data, we cannot see it when we iterate through the sweep.
+To have <strong>pointers</strong> and <strong>actions</strong> generate visible data, we need to annotate them so that they generate <strong>records</strong>.</p>
+<p>For a Sweep to know that either a <strong>pointer</strong> (an iterable object), or an <strong>action</strong> (a callable object) they need to be wrapped by an instance of <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec" title="labcore.measurement.record.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a>.
+<a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec" title="labcore.measurement.record.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a> is a <a class="reference external" href="https://docs.python.org/3/library/dataclasses.html">data class</a> that holds information about the variable itself.
+Understanding the inner workings are not necessary to fully utilize Sweeps, however, it is good to know they exists and what information they hold.</p>
+<p>Annotating a function or generator does not change what they do, it gets the values generated by them and places them inside a dictionary with the key for those values being the name of the variable we assign.</p>
+<p>The important fields of a <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec" title="labcore.measurement.record.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a> are its <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">depends_on</span></code> fields.
+<code class="docutils literal notranslate"><span class="pre">name</span></code> simply indicates the name of the variable, e.i. the key that the sweep will have for the value of this variable.
+<code class="docutils literal notranslate"><span class="pre">depends_on</span></code> indicates whether the variable is an independent variable (we control) or a dependent variable (the things we are trying to measure).
+If <code class="docutils literal notranslate"><span class="pre">depends_on=None</span></code> it means this variable is an independent variable.
+If <code class="docutils literal notranslate"><span class="pre">depends_on=['x']</span></code>, this variable is dependent on a separate variable with name <code class="docutils literal notranslate"><span class="pre">x</span></code>.
+If <code class="docutils literal notranslate"><span class="pre">depends_on=[]</span></code>, the variable will be automatically assigned as a dependent of all other independents in the same Sweep.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec" title="labcore.measurement.record.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a> also contains two more fields: <code class="docutils literal notranslate"><span class="pre">unit</span></code> and <code class="docutils literal notranslate"><span class="pre">types</span></code>, these however, have no impact in the way the code behaves and are for adding extra metadata for the user.</p>
+</div>
+<p>While this might seem like a lot of information, its use is very intuitive and easy to use once you get used to it.</p>
+</section>
+<section id="implementation">
+<h3>Implementation<a class="headerlink" href="#implementation" title="Link to this heading">#</a></h3>
+<p>To wrap functions we use the <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.recording" title="labcore.measurement.record.recording"><code class="xref py py-func docutils literal notranslate"><span class="pre">recording</span></code></a> decorator on the function we want to annotate:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@recording</span><span class="p">(</span><span class="n">DataSpec</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">),</span> <span class="n">DataSpec</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">depends_on</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;array&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">measure_stuff</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">n</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">measure_stuff</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: array([0.70663348])}</span>
+</pre></div>
+</div>
+<p>In the example above we annotate the function <code class="docutils literal notranslate"><span class="pre">measure_stuff()</span></code> indicating that the first item it returns is <code class="docutils literal notranslate"><span class="pre">x</span></code>, an independent variable since it does not have a <code class="docutils literal notranslate"><span class="pre">depends_on</span></code> field, and the second item is <code class="docutils literal notranslate"><span class="pre">y</span></code>, a variable that depends on <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+<p>We can annotate generators in the same way:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@recording</span><span class="p">(</span><span class="n">DataSpec</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">make_sequence</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">yield</span> <span class="n">i</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">make_sequence</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: 0}</span>
+<span class="go">{&#39;a&#39;: 1}</span>
+<span class="go">{&#39;a&#39;: 2}</span>
+</pre></div>
+</div>
+<p>A nicer way of creating <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec" title="labcore.measurement.record.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a> instances is to use the functions <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.independent" title="labcore.measurement.record.independent"><code class="xref py py-func docutils literal notranslate"><span class="pre">independent</span></code></a> and <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.dependent" title="labcore.measurement.record.dependent"><code class="xref py py-func docutils literal notranslate"><span class="pre">dependent</span></code></a>.
+This function just makes the recording of data easier to read.
+<a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.independent" title="labcore.measurement.record.independent"><code class="xref py py-func docutils literal notranslate"><span class="pre">independent</span></code></a> does not let you indicate the <code class="docutils literal notranslate"><span class="pre">depends_on</span></code> field while <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.dependent" title="labcore.measurement.record.dependent"><code class="xref py py-func docutils literal notranslate"><span class="pre">dependent</span></code></a>, has an empty list (indicating that it depends an all other independents) as a default.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@recording</span><span class="p">(</span><span class="n">independent</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;array&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">measure_stuff</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="k">return</span> <span class="n">n</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">measure_stuff</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: array([1.60113794])}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can also use the shorter versions of these functions:
+* <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.ds" title="labcore.measurement.record.ds"><code class="xref py py-func docutils literal notranslate"><span class="pre">labcore.measurement.record.ds()</span></code></a> for shorter <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec" title="labcore.measurement.record.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a>
+* <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.indep" title="labcore.measurement.record.indep"><code class="xref py py-func docutils literal notranslate"><span class="pre">labcore.measurement.record.indep()</span></code></a> for shorter <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.independent" title="labcore.measurement.record.independent"><code class="xref py py-func docutils literal notranslate"><span class="pre">independent</span></code></a>
+* <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.dep" title="labcore.measurement.record.dep"><code class="xref py py-func docutils literal notranslate"><span class="pre">labcore.measurement.record.dep()</span></code></a> for shorter <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.dependent" title="labcore.measurement.record.dependent"><code class="xref py py-func docutils literal notranslate"><span class="pre">dependent</span></code></a></p>
+</div>
+<p>Sometimes we don’t want to annotate a function or generator itself, but instead we want to annotate at the moment of execution.
+For this we can use the function <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.record_as" title="labcore.measurement.record.record_as"><code class="xref py py-func docutils literal notranslate"><span class="pre">record_as</span></code></a> to annotate any function or generator on the fly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">get_some_data</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">record_as</span><span class="p">(</span><span class="n">get_some_data</span><span class="p">,</span> <span class="n">independent</span><span class="p">(</span><span class="s1">&#39;random_var&#39;</span><span class="p">))(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">{&#39;random_var&#39;: array([0.16099358, 0.74873271, 0.01160423])}</span>
+</pre></div>
+</div>
+<p>You can add multiple <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec" title="labcore.measurement.record.DataSpec"><code class="xref py py-class docutils literal notranslate"><span class="pre">DataSpec</span></code></a> with in a single <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.record_as" title="labcore.measurement.record.record_as"><code class="xref py py-func docutils literal notranslate"><span class="pre">record_as</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">record_as</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">)),</span> <span class="n">indep</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">),</span> <span class="n">dep</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 0.0, &#39;y&#39;: 0}</span>
+<span class="go">{&#39;x&#39;: 0.2, &#39;y&#39;: 1}</span>
+<span class="go">{&#39;x&#39;: 0.4, &#39;y&#39;: 2}</span>
+</pre></div>
+</div>
+<p>It will also make sure to add items for annotated <strong>records</strong> (by adding <code class="docutils literal notranslate"><span class="pre">None</span></code> items to any empty <strong>record</strong>) that do not have any values assigned to them:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">record_as</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">indep</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">),</span> <span class="n">dep</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 0.0, &#39;y&#39;: None}</span>
+<span class="go">{&#39;x&#39;: 0.5, &#39;y&#39;: None}</span>
+<span class="go">{&#39;x&#39;: 1.0, &#39;y&#39;: None}</span>
+</pre></div>
+</div>
+<p>And it will ignore any extra values that are not annotated:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">record_as</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">)),</span> <span class="n">indep</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 0.0}</span>
+<span class="go">{&#39;x&#39;: 0.5}</span>
+<span class="go">{&#39;x&#39;: 1.0}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="construction-of-sweeps">
+<h2>Construction of Sweeps<a class="headerlink" href="#construction-of-sweeps" title="Link to this heading">#</a></h2>
+<p>Now that we know how to annotate data so that it generates records, we can finally start creating Sweeps that creates some data.
+A Sweep is composed of two main parts: <strong>pointers</strong> and <strong>actions</strong>:</p>
+<ul class="simple">
+<li><p><strong>Pointers</strong> are iterables that the Sweep iterates through, these usually represent the independent variables of our experiments.</p></li>
+<li><p><strong>Actions</strong> are callables that get called after each iteration of our <strong>pointer</strong> and usually are in charge of performing anything that needs to happen at every iteration of the experiment. This can be either set up a instruments and usually includes measuring a dependent variable too.</p></li>
+</ul>
+<p>Both <strong>pointers</strong> and <strong>actions</strong> can generate <strong>records</strong> if annotated correctly, but it is not a requirement.</p>
+<section id="basic-sweeps">
+<h3>Basic Sweeps<a class="headerlink" href="#basic-sweeps" title="Link to this heading">#</a></h3>
+<p>A basic annotated Sweep looks something like this:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">my_func</span><span class="p">():</span>
+    <span class="k">return</span> <span class="mi">0</span>
+
+<span class="n">sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span>
+    <span class="n">record_as</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">independent</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)),</span> <span class="c1"># This is the pointer. We specify &#39;x&#39; as an independent (we control it).</span>
+    <span class="n">record_as</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)))</span> <span class="c1"># my_func is an action. We specify &#39;y&#39; as a dependent.</span>
+</pre></div>
+</div>
+<p>Once the Sweep is created we can see the <strong>records</strong> it will produce by using the function method <a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.get_data_specs" title="labcore.measurement.sweep.Sweep.get_data_specs"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_data_specs</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">()</span>
+<span class="go">(x, y(x))</span>
+</pre></div>
+</div>
+<p>Printing a Sweep will also display more information about, specifying the pointers, the actions taken afterwards and the <strong>records</strong> it will produce:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sweep</span><span class="p">)</span>
+<span class="go">range(0, 3) as {x} &gt;&gt; my_func() as {y}</span>
+<span class="go">==&gt; {x, y(x)}</span>
+</pre></div>
+</div>
+<p>Now to run the Sweep we just have to iterate through it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 0, &#39;y&#39;: 0}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: 0}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;y&#39;: 0}</span>
+</pre></div>
+</div>
+<p>If you are trying to sweep over a single parameter, a more convenient syntax for creating Sweep is to utilize the <a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.sweep_parameter" title="labcore.measurement.sweep.sweep_parameter"><code class="xref py py-func docutils literal notranslate"><span class="pre">sweep_parameter</span></code></a> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 0, &#39;y&#39;: 0}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: 0}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;y&#39;: 0}</span>
+</pre></div>
+</div>
+<p>There is no restriction on how many parameters a <strong>pointer</strong> or an <strong>action</strong> can generate as long as each parameter is properly annotated.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">my_func</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">record_as</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">]),</span> <span class="n">independent</span><span class="p">(</span><span class="s1">&#39;number&#39;</span><span class="p">),</span> <span class="n">independent</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">)),</span> <span class="c1"># a pointer with two parameters</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">record_as</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="s1">&#39;one&#39;</span><span class="p">,</span> <span class="s1">&#39;two&#39;</span><span class="p">))</span> <span class="c1"># an action with two parameters</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">(number, string, one(number, string), two(number, string))</span>
+<span class="go">{&#39;number&#39;: 0, &#39;string&#39;: &#39;a&#39;, &#39;one&#39;: 1, &#39;two&#39;: 2}</span>
+<span class="go">{&#39;number&#39;: 1, &#39;string&#39;: &#39;b&#39;, &#39;one&#39;: 1, &#39;two&#39;: 2}</span>
+<span class="go">{&#39;number&#39;: 2, &#39;string&#39;: &#39;c&#39;, &#39;one&#39;: 1, &#39;two&#39;: 2}</span>
+</pre></div>
+</div>
+</section>
+<section id="specifying-options-before-executing-a-sweep">
+<h3>Specifying Options Before Executing a Sweep<a class="headerlink" href="#specifying-options-before-executing-a-sweep" title="Link to this heading">#</a></h3>
+<p>Many <strong>actions</strong> we are using take optional parameters that we only want to specify just before executing the Sweep (but are constant throughout the Sweep).</p>
+<p>If we don’t want to resort to global variables we can do so by using the method <a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.set_options" title="labcore.measurement.sweep.Sweep.set_options"><code class="xref py py-meth docutils literal notranslate"><span class="pre">set_options</span></code></a>.
+It accepts the names of any <strong>action</strong> function in that Sweep as keywords, and dictionaries containing keyword arguments to pass to those functions as values.
+Keywords specified in this way always override keywords that are passed around internally in the sweep (for more information see the <a class="reference internal" href="#passing-parameters-in-a-sweep"><span class="std std-ref">Passing Parameters in a Sweep</span></a> section):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">test_fun</span><span class="p">(</span><span class="n">a_property</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;inside test_fun:&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;a_property: </span><span class="si">{</span><span class="n">a_property</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;other stuff:&quot;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">test_fun</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="n">test_fun</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">a_property</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">another_property</span><span class="o">=</span><span class="s1">&#39;Hello&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Data:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----&#39;</span><span class="p">)</span>
+<span class="go">inside test_fun:</span>
+<span class="go">property: True</span>
+<span class="go">other stuff: () {&#39;value&#39;: 0, &#39;another_property&#39;: &#39;Hello&#39;}</span>
+<span class="go">----</span>
+<span class="go">Data: {&#39;value&#39;: 0, &#39;data&#39;: 0}</span>
+<span class="go">----</span>
+<span class="go">inside test_fun:</span>
+<span class="go">property: True</span>
+<span class="go">other stuff: () {&#39;value&#39;: 1, &#39;data&#39;: 0, &#39;another_property&#39;: &#39;Hello&#39;}</span>
+<span class="go">----</span>
+<span class="go">Data: {&#39;value&#39;: 1, &#39;data&#39;: 0}</span>
+<span class="go">----</span>
+<span class="go">inside test_fun:</span>
+<span class="go">property: True</span>
+<span class="go">other stuff: () {&#39;value&#39;: 2, &#39;data&#39;: 0, &#39;another_property&#39;: &#39;Hello&#39;}</span>
+<span class="go">----</span>
+<span class="go">Data: {&#39;value&#39;: 2, &#39;data&#39;: 0}</span>
+</pre></div>
+</div>
+</section>
+<section id="a-qcodes-parameter-sweep">
+<h3>A QCoDeS Parameter Sweep<a class="headerlink" href="#a-qcodes-parameter-sweep" title="Link to this heading">#</a></h3>
+<p>If you are using QCoDeS to interact with hardware, it is very common to want to do a sweep over a QCoDeS parameter.
+In this minimal example we set a parameter (<code class="docutils literal notranslate"><span class="pre">x</span></code>) to a range of values, and get data from another parameter for each set value.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">measure_stuff</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">set_cmd</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;setting x to </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">),</span> <span class="n">initial_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># QCoDeS Parameter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">Parameter</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="n">get_cmd</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">())</span> <span class="c1"># QCoDeS Parameter</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">get_parameter</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+<span class="go">setting x to 0</span>
+<span class="go">setting x to 0</span>
+<span class="go">{&#39;x&#39;: 0, &#39;data&#39;: -0.4990053668503893}</span>
+<span class="go">setting x to 1</span>
+<span class="go">{&#39;x&#39;: 1, &#39;data&#39;: -0.5132204673887943}</span>
+<span class="go">setting x to 2</span>
+<span class="go">{&#39;x&#39;: 2, &#39;data&#39;: 1.8634243556469932}</span>
+</pre></div>
+</div>
+</section>
+<section id="sweep-combinations">
+<h3>Sweep Combinations<a class="headerlink" href="#sweep-combinations" title="Link to this heading">#</a></h3>
+<p>One of the most valuable features of Sweeps is their ability to be combined through the use of operators.
+This allows us to mix and match different aspects of an experiment without having to rewrite code.
+We can combine different Sweeps with each other or different annotated <strong>actions</strong></p>
+</section>
+<section id="appending">
+<h3>Appending<a class="headerlink" href="#appending" title="Link to this heading">#</a></h3>
+<p>The most basic combination of Sweeps is appending them.
+When appending two Sweeps, the resulting sweep will execute the first Sweep to completion followed by the second Sweep to completion.
+To append two Sweeps or actions we use the <code class="docutils literal notranslate"><span class="pre">+</span></code> symbol:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">get_random_number</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sweep</span><span class="o">.</span><span class="n">record_none</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># See note on what this does.</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep_1</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">get_random_number</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep_2</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">get_random_number</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_sweep</span> <span class="o">=</span> <span class="n">sweep_1</span> <span class="o">+</span> <span class="n">sweep_2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">my_sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 0, &#39;y&#39;: 0.34404570192577155}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: 0.02104831292457654}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;y&#39;: 0.9006367857458307}</span>
+<span class="go">{&#39;a&#39;: 0, &#39;b&#39;: 0.10539935409724577}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: 0.9368463758729733}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: 0.9550070757291859}</span>
+<span class="go">{&#39;a&#39;: 3, &#39;b&#39;: 0.9812445448108895}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.record_none" title="labcore.measurement.sweep.Sweep.record_none"><code class="xref py py-attr docutils literal notranslate"><span class="pre">record_none</span></code></a> controls whether we include data fields that have returned nothing during setting a pointer or executing an action.
+Setting it to true (the default) guarantees that each data spec of the sweep has an entry per sweep point, even if it is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>For more information see: [Passing Parameters in a Sweep](#passing-parameters-in-a-sweep) section.
+</pre></div>
+</div>
+</section>
+<section id="multiplying">
+<h3>Multiplying<a class="headerlink" href="#multiplying" title="Link to this heading">#</a></h3>
+<p>By multiplying we refer to an inner product, i.e. the result is what you’d expect from <a class="reference external" href="https://docs.python.org/3.3/library/functions.html#zip%5D"><code class="docutils literal notranslate"><span class="pre">zip</span></code></a> two iterables.
+To multiply two Sweeps or actions we use the <code class="docutils literal notranslate"><span class="pre">*</span></code> symbol.
+A basic example is if we have a sweep and want to attach another action to each sweep point:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_sweep</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">get_random_number</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;data_1&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">*</span> <span class="n">record_as</span><span class="p">(</span><span class="n">get_random_number</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;data_2&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">my_sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">(x, data_1(x), data_2(x))</span>
+<span class="go">----</span>
+<span class="go">{&#39;x&#39;: 0, &#39;data_1&#39;: 0.12599818360565485, &#39;data_2&#39;: 0.09261266841087679}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;data_1&#39;: 0.5665798938860637, &#39;data_2&#39;: 0.7493750740615404}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;data_1&#39;: 0.9035085438172156, &#39;data_2&#39;: 0.5419023528195611}</span>
+</pre></div>
+</div>
+<p>If you are combining two different Sweeps, then we get zip-like behavior while maintain the dependency structure separate:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">my_sweep</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">get_random_number</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;data_1&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">*</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">get_random_number</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;data_2&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">my_sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">(x, data_1(x), y, data_2(y))</span>
+<span class="go">----</span>
+<span class="go">{&#39;x&#39;: 0, &#39;data_1&#39;: 0.3808452915069015, &#39;y&#39;: 0, &#39;data_2&#39;: 0.14309246334791337}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;data_1&#39;: 0.6094608905204076, &#39;y&#39;: 1, &#39;data_2&#39;: 0.3560530722571186}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;data_1&#39;: 0.15950240245080072, &#39;y&#39;: 2, &#39;data_2&#39;: 0.2477391943438858}</span>
+</pre></div>
+</div>
+</section>
+<section id="nesting">
+<h3>Nesting<a class="headerlink" href="#nesting" title="Link to this heading">#</a></h3>
+<p>Nesting two Sweeps runs the entire second Sweep for each point of the first Sweep.
+A basic example is if we have multiple Sweep parameters against each other and we want to perform a measurement at each point.
+To nest two Sweeps we use the <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> symbol:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">measure_something</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_sweep</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">@</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">@</span> <span class="n">record_as</span><span class="p">(</span><span class="n">measure_something</span><span class="p">,</span> <span class="s1">&#39;my_data&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">my_sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 0, &#39;y&#39;: 0.0, &#39;my_data&#39;: 0.727404046865409}</span>
+<span class="go">{&#39;x&#39;: 0, &#39;y&#39;: 0.5, &#39;my_data&#39;: 0.11112429412122715}</span>
+<span class="go">{&#39;x&#39;: 0, &#39;y&#39;: 1.0, &#39;my_data&#39;: 0.09081900115421426}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: 0.0, &#39;my_data&#39;: 0.8160224024098803}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: 0.5, &#39;my_data&#39;: 0.1517092154216605}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: 1.0, &#39;my_data&#39;: 0.9253018251769569}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;y&#39;: 0.0, &#39;my_data&#39;: 0.881089486629102}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;y&#39;: 0.5, &#39;my_data&#39;: 0.3897577898200387}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;y&#39;: 1.0, &#39;my_data&#39;: 0.6895312744116066}</span>
+</pre></div>
+</div>
+<p>Nested sweeps can be as complex as needed, with as many actions as they need.
+An example of this can be executing measurements on each nested level:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">measure_something</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep_1</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">measure_something</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep_2</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">measure_something</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_sweep</span> <span class="o">=</span> <span class="n">sweep_1</span> <span class="o">@</span> <span class="n">sweep_2</span> <span class="o">@</span> <span class="n">record_as</span><span class="p">(</span><span class="n">get_random_number</span><span class="p">,</span> <span class="s1">&#39;more_data&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">my_sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">{&#39;x&#39;: 0, &#39;a&#39;: 0.09522178419462424, &#39;y&#39;: 0, &#39;b&#39;: 0.1821505218348034, &#39;more_data&#39;: 0.13257002268089835}</span>
+<span class="go">{&#39;x&#39;: 0, &#39;a&#39;: 0.09522178419462424, &#39;y&#39;: 1, &#39;b&#39;: 0.014940266372080457, &#39;more_data&#39;: 0.9460879863404558}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;a&#39;: 0.13994892182170526, &#39;y&#39;: 0, &#39;b&#39;: 0.4708657480125388, &#39;more_data&#39;: 0.12792337523097086}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;a&#39;: 0.13994892182170526, &#39;y&#39;: 1, &#39;b&#39;: 0.8209492135277935, &#39;more_data&#39;: 0.23270477191895111}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;a&#39;: 0.06159208933324678, &#39;y&#39;: 0, &#39;b&#39;: 0.651545802505077, &#39;more_data&#39;: 0.8944257582518365}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;a&#39;: 0.06159208933324678, &#39;y&#39;: 1, &#39;b&#39;: 0.9064557565446919, &#39;more_data&#39;: 0.8258102740474211}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All operators symbols are just there for syntactic brevity.
+All three of them have corresponding functions attached to them:</p>
+<ul class="simple">
+<li><p>Appending: <a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.append_sweeps" title="labcore.measurement.sweep.append_sweeps"><code class="xref py py-func docutils literal notranslate"><span class="pre">append_sweeps</span></code></a></p></li>
+<li><p>Multiplying: <a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.zip_sweeps" title="labcore.measurement.sweep.zip_sweeps"><code class="xref py py-func docutils literal notranslate"><span class="pre">zip_sweeps</span></code></a></p></li>
+<li><p>Nesting: <a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.nest_sweeps" title="labcore.measurement.sweep.nest_sweeps"><code class="xref py py-func docutils literal notranslate"><span class="pre">nest_sweeps</span></code></a></p></li>
+</ul>
+</div>
+</section>
+</section>
+<section id="passing-parameters-in-a-sweep">
+<h2>Passing Parameters in a Sweep<a class="headerlink" href="#passing-parameters-in-a-sweep" title="Link to this heading">#</a></h2>
+<p>Often times our measurement actions depend on the states of previous steps.
+Because of that, everything that is generated by <strong>pointers</strong>, <strong>actions</strong> or other Sweeps can be passed on subsequently executed elements.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There are two different Sweep configuration related to passing arguments in Sweeps. For more information on them see the <a class="reference internal" href="#configuring-sweeps"><span class="std std-ref">Configuring Sweeps</span></a>.</p>
+</div>
+<section id="positional-arguments">
+<h3>Positional Arguments<a class="headerlink" href="#positional-arguments" title="Link to this heading">#</a></h3>
+<p>When there are no record annotations, the values generated <code class="docutils literal notranslate"><span class="pre">only</span></code> by <strong>pointers</strong> are passed as positional arguments to all actions, but values generated by <strong>actions</strong> are not passed to other <strong>actions</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;test:&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="mi">101</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">test_2</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;test_2:&#39;</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="mi">102</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">Sweep</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">test</span><span class="p">,</span> <span class="n">test_2</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">test: (0,) {}</span>
+<span class="go">test_2: (0,) {}</span>
+<span class="go">{}</span>
+<span class="go">test: (1,) {}</span>
+<span class="go">test_2: (1,) {}</span>
+<span class="go">{}</span>
+<span class="go">test: (2,) {}</span>
+<span class="go">test_2: (2,) {}</span>
+<span class="go">{}</span>
+</pre></div>
+</div>
+<p>Because it would get too confusing otherwise, positional arguments only get passed when originating from a <strong>pointer</strong> to all <strong>actions</strong> in a single sweep.
+Meaning that if we combine two or more sweeps, positional arguments would only get to the <strong>actions</strong> of their respective Sweeps:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">Sweep</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">test</span><span class="p">)</span> <span class="o">*</span> <span class="n">Sweep</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">],</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]),</span> <span class="n">test</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>   <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">(0,) {}</span>
+<span class="go">(&#39;x&#39;, True) {}</span>
+<span class="go">{}</span>
+<span class="go">(1,) {}</span>
+<span class="go">(&#39;y&#39;, False) {}</span>
+<span class="go">{}</span>
+<span class="go">(2,) {}</span>
+</pre></div>
+</div>
+<p>As we can see the <code class="docutils literal notranslate"><span class="pre">test</span></code> function in the second sweep is only getting (<code class="docutils literal notranslate"><span class="pre">x</span></code>, <code class="docutils literal notranslate"><span class="pre">True</span></code>) or (<code class="docutils literal notranslate"><span class="pre">y</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code>) but not any arguments from the first Sweep.
+It is also important to note that hte values generated by either <code class="docutils literal notranslate"><span class="pre">test</span></code> function are not being passed to any other object.</p>
+<p>In previous examples, the functions we used were accepting the arguments because their signature included variation positional arguments (<code class="docutils literal notranslate"><span class="pre">*args</span></code>). The situation changes when this is not the case.
+<strong>Actions</strong> only receive arguments that they can accept:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">test_3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">Sweep</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]),</span> <span class="n">test_3</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">pass</span>
+<span class="go">1</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>As we can see, <code class="docutils literal notranslate"><span class="pre">test_3</span></code> only accepted the first argument.</p>
+</section>
+<section id="keyword-arguments">
+<h3>Keyword Arguments<a class="headerlink" href="#keyword-arguments" title="Link to this heading">#</a></h3>
+<p>Passing keyword arguments is more flexible.
+Any <strong>record</strong> that gets produced is passed to all subsequent <strong>pointers</strong> or <strong>actions</strong> in the sweep that accept that keyword.
+This is true even across different sub-sweeps.
+If a <strong>pointer</strong> yields non-annotated values, these are still used as positional arguments, but only when accepted, and with higher priority given to keywords.</p>
+<p>In the following example we can see this in action:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">test</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;my three arguments, x: </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s1">, y: </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s1">, z: </span><span class="si">{</span><span class="n">z</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">print_all_args</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;arguments at the end of the line, args: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="s1">, kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">dep</span><span class="p">(</span><span class="s1">&#39;xx&#39;</span><span class="p">),</span> <span class="n">dep</span><span class="p">(</span><span class="s1">&#39;yy&#39;</span><span class="p">),</span> <span class="n">dep</span><span class="p">(</span><span class="s1">&#39;zz&#39;</span><span class="p">)))</span> <span class="o">*</span> \
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">Sweep</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">print_all_args</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">pass</span>
+<span class="go">my three arguments, x: 0, y: None, z: 5</span>
+<span class="go">arguments at the end of the line, args:(0,), kwargs:{&#39;x&#39;: 0, &#39;xx&#39;: 0, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments, x: 1, y: None, z: 5</span>
+<span class="go">arguments at the end of the line, args:(1,), kwargs:{&#39;x&#39;: 1, &#39;xx&#39;: 1, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments, x: 2, y: None, z: 5</span>
+<span class="go">arguments at the end of the line, args:(2,), kwargs:{&#39;x&#39;: 2, &#39;xx&#39;: 2, &#39;zz&#39;: 5}</span>
+</pre></div>
+</div>
+<p>In the example above we have two different sweeps.
+The <strong>pointer</strong> of the first one is producing <strong>records</strong> which is why we see its value in the test function for <code class="docutils literal notranslate"><span class="pre">x</span></code>.
+Since the first sweep is being multiplied to the second sweep we can see how all the <strong>records</strong> (both produced by the <strong>pointer</strong> and <strong>action</strong>) of the first sweep reach the second sweep as keyword arguments, and the non-annotated value of its own <strong>pointer</strong> reaches the action of the second sweep as a positional argument.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When creating <strong>records</strong>, it is very important that each <strong>record</strong> has a <em>unique</em> name. Having multiple variables
+create <strong>records</strong> with the same names, will make the passing of arguments behave in unpredictable ways.</p>
+</div>
+<p>A simple way of renaming conflicting arguments and <strong>records</strong> is to use the combination of <code class="docutils literal notranslate"><span class="pre">lambda</span></code> and <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.record_as" title="labcore.measurement.record.record_as"><code class="xref py py-func docutils literal notranslate"><span class="pre">record_as</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">Sweep</span><span class="p">(</span><span class="n">record_as</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">13</span><span class="p">)),</span> <span class="n">independent</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">),</span> <span class="n">independent</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;xx&#39;</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;yy&#39;</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;zz&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">@</span> <span class="n">record_as</span><span class="p">(</span><span class="k">lambda</span> <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">:</span> <span class="n">test</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">zz</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;some&#39;</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;different&#39;</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;names&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">@</span> <span class="n">print_all_args</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">+</span> <span class="n">print_all_args</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sweep</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="go">(x, y, xx(x, y), yy(x, y), zz(x, y), some(x, y), different(x, y), names(x, y))</span>
+<span class="go">my three arguments: 0 10 5</span>
+<span class="go">my three arguments: 0 10 5</span>
+<span class="go">arguments at the end of the line: () {&#39;x&#39;: 0, &#39;y&#39;: 10, &#39;xx&#39;: 0, &#39;yy&#39;: 10, &#39;zz&#39;: 5, &#39;some&#39;: 0, &#39;different&#39;: 10, &#39;names&#39;: 5}</span>
+<span class="go">data: {&#39;x&#39;: 0, &#39;y&#39;: 10, &#39;xx&#39;: 0, &#39;yy&#39;: 10, &#39;zz&#39;: 5, &#39;some&#39;: 0, &#39;different&#39;: 10, &#39;names&#39;: 5}</span>
+<span class="go">my three arguments: 1 11 5</span>
+<span class="go">my three arguments: 1 11 5</span>
+<span class="go">arguments at the end of the line: () {&#39;x&#39;: 1, &#39;y&#39;: 11, &#39;xx&#39;: 1, &#39;yy&#39;: 11, &#39;zz&#39;: 5, &#39;some&#39;: 1, &#39;different&#39;: 11, &#39;names&#39;: 5}</span>
+<span class="go">data: {&#39;x&#39;: 1, &#39;y&#39;: 11, &#39;xx&#39;: 1, &#39;yy&#39;: 11, &#39;zz&#39;: 5, &#39;some&#39;: 1, &#39;different&#39;: 11, &#39;names&#39;: 5}</span>
+<span class="go">my three arguments: 2 12 5</span>
+<span class="go">my three arguments: 2 12 5</span>
+<span class="go">arguments at the end of the line: () {&#39;x&#39;: 2, &#39;y&#39;: 12, &#39;xx&#39;: 2, &#39;yy&#39;: 12, &#39;zz&#39;: 5, &#39;some&#39;: 2, &#39;different&#39;: 12, &#39;names&#39;: 5}</span>
+<span class="go">data: {&#39;x&#39;: 2, &#39;y&#39;: 12, &#39;xx&#39;: 2, &#39;yy&#39;: 12, &#39;zz&#39;: 5, &#39;some&#39;: 2, &#39;different&#39;: 12, &#39;names&#39;: 5}</span>
+<span class="go">arguments at the end of the line: () {&#39;x&#39;: 2, &#39;y&#39;: 12, &#39;xx&#39;: 2, &#39;yy&#39;: 12, &#39;zz&#39;: 5, &#39;some&#39;: 2, &#39;different&#39;: 12, &#39;names&#39;: 5}</span>
+<span class="go">data: {}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="configuring-sweeps">
+<h2>Configuring Sweeps<a class="headerlink" href="#configuring-sweeps" title="Link to this heading">#</a></h2>
+<p>The class <a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep" title="labcore.measurement.sweep.Sweep"><code class="xref py py-class docutils literal notranslate"><span class="pre">Sweep</span></code></a> has three global parameters that are used to configure the behavior of it.</p>
+<section id="record-none">
+<h3>record_none<a class="headerlink" href="#record-none" title="Link to this heading">#</a></h3>
+<p><a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.record_none" title="labcore.measurement.sweep.Sweep.record_none"><code class="xref py py-attr docutils literal notranslate"><span class="pre">record_none</span></code></a>, <code class="docutils literal notranslate"><span class="pre">True</span></code> by default, adds <code class="docutils literal notranslate"><span class="pre">None</span></code> to any <strong>action</strong> or <strong>pointer</strong> that didn’t generate any <strong>record</strong> that iteration.
+This is useful if we want every variable we are storing to be composed of arrays of the same number of items:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">get_random_number</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep_1</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">get_random_number</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep_2</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">get_random_number</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">my_sweep</span> <span class="o">=</span> <span class="n">sweep_1</span> <span class="o">+</span> <span class="n">sweep_2</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sweep</span><span class="o">.</span><span class="n">record_none</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;----record_none=False----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">my_sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sweep</span><span class="o">.</span><span class="n">record_none</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;----record_none=True----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">my_sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">----record_none=False----</span>
+<span class="go">{&#39;x&#39;: 0, &#39;y&#39;: 0.804635124804199}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: 0.24410055642545125}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;y&#39;: 0.10828652013926787}</span>
+<span class="go">{&#39;a&#39;: 0, &#39;b&#39;: 0.4303128288315823}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: 0.9498154942316515}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: 0.7150406031589893}</span>
+<span class="go">{&#39;a&#39;: 3, &#39;b&#39;: 0.2012281139956017}</span>
+<span class="go">----record_none=True----</span>
+<span class="go">{&#39;x&#39;: 0, &#39;y&#39;: 0.22753548379033073, &#39;a&#39;: None, &#39;b&#39;: None}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: 0.9024597689210428, &#39;a&#39;: None, &#39;b&#39;: None}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;y&#39;: 0.11393941613249503, &#39;a&#39;: None, &#39;b&#39;: None}</span>
+<span class="go">{&#39;x&#39;: None, &#39;y&#39;: None, &#39;a&#39;: 0, &#39;b&#39;: 0.8678669225696442}</span>
+<span class="go">{&#39;x&#39;: None, &#39;y&#39;: None, &#39;a&#39;: 1, &#39;b&#39;: 0.3537275760737344}</span>
+<span class="go">{&#39;x&#39;: None, &#39;y&#39;: None, &#39;a&#39;: 2, &#39;b&#39;: 0.23555393946522196}</span>
+<span class="go">{&#39;x&#39;: None, &#39;y&#39;: None, &#39;a&#39;: 3, &#39;b&#39;: 0.19388827122308672}</span>
+</pre></div>
+</div>
+</section>
+<section id="pass-on-returns">
+<h3>pass_on_returns<a class="headerlink" href="#pass-on-returns" title="Link to this heading">#</a></h3>
+<p><a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.pass_on_returns" title="labcore.measurement.sweep.Sweep.pass_on_returns"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pass_on_returns</span></code></a>, <code class="docutils literal notranslate"><span class="pre">True</span></code> by default, specifies if we want arguments to be passed between sweeps.
+When it is set to <code class="docutils literal notranslate"><span class="pre">False</span></code> no <strong>record</strong> will be passed either as positional arguments or as keyword arguments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;xx&#39;</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;yy&#39;</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;zz&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">@</span> <span class="n">print_all_args</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sweep</span><span class="o">.</span><span class="n">pass_on_returns</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;----pass_on_returns=False----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sweep</span><span class="o">.</span><span class="n">pass_on_returns</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;----pass_on_returns=True----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="go">----pass_on_returns=False----</span>
+<span class="go">my three arguments: None None 5</span>
+<span class="go">arguments at the end of the line: () {}</span>
+<span class="go">data: {&#39;y&#39;: 0, &#39;xx&#39;: None, &#39;yy&#39;: None, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments: None None 5</span>
+<span class="go">arguments at the end of the line: () {}</span>
+<span class="go">data: {&#39;y&#39;: 1, &#39;xx&#39;: None, &#39;yy&#39;: None, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments: None None 5</span>
+<span class="go">arguments at the end of the line: () {}</span>
+<span class="go">data: {&#39;y&#39;: 2, &#39;xx&#39;: None, &#39;yy&#39;: None, &#39;zz&#39;: 5}</span>
+<span class="go">----pass_on_returns=True----</span>
+<span class="go">my three arguments: None 0 5</span>
+<span class="go">arguments at the end of the line: () {&#39;zz&#39;: 5, &#39;y&#39;: 0, &#39;yy&#39;: 0}</span>
+<span class="go">data: {&#39;y&#39;: 0, &#39;xx&#39;: None, &#39;yy&#39;: 0, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments: None 1 5</span>
+<span class="go">arguments at the end of the line: () {&#39;zz&#39;: 5, &#39;y&#39;: 1, &#39;yy&#39;: 1}</span>
+<span class="go">data: {&#39;y&#39;: 1, &#39;xx&#39;: None, &#39;yy&#39;: 1, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments: None 2 5</span>
+<span class="go">arguments at the end of the line: () {&#39;zz&#39;: 5, &#39;y&#39;: 2, &#39;yy&#39;: 2}</span>
+<span class="go">data: {&#39;y&#39;: 2, &#39;xx&#39;: None, &#39;yy&#39;: 2, &#39;zz&#39;: 5}</span>
+</pre></div>
+</div>
+</section>
+<section id="pass-on-none">
+<h3>pass_on_none<a class="headerlink" href="#pass-on-none" title="Link to this heading">#</a></h3>
+<p><a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.pass_on_none" title="labcore.measurement.sweep.Sweep.pass_on_none"><code class="xref py py-attr docutils literal notranslate"><span class="pre">pass_on_none</span></code></a>, <code class="docutils literal notranslate"><span class="pre">False</span></code> by default, specifies if variables that return <code class="docutils literal notranslate"><span class="pre">None</span></code> should be passed as arguments to other <strong>actions</strong> or Sweeps (Because <code class="docutils literal notranslate"><span class="pre">None</span></code> is typically indicating that function did not return anything as data even though a record was declared using <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.recording" title="labcore.measurement.record.recording"><code class="xref py py-func docutils literal notranslate"><span class="pre">recording</span></code></a> or <a class="reference internal" href="../../api/generated/labcore.measurement.record.html#labcore.measurement.record.record_as" title="labcore.measurement.record.record_as"><code class="xref py py-func docutils literal notranslate"><span class="pre">record_as</span></code></a>):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span> <span class="o">=</span> <span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;xx&#39;</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;yy&#39;</span><span class="p">),</span> <span class="n">dependent</span><span class="p">(</span><span class="s1">&#39;zz&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">@</span> <span class="n">print_all_args</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sweep</span><span class="o">.</span><span class="n">pass_on_none</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;----pass_on_none=False----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sweep</span><span class="o">.</span><span class="n">pass_on_none</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;----pass_on_returns=True----&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;data:&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+<span class="go">----pass_on_none=False----</span>
+<span class="go">my three arguments: None 0 5</span>
+<span class="go">arguments at the end of the line: () {&#39;y&#39;: 0, &#39;yy&#39;: 0, &#39;zz&#39;: 5}</span>
+<span class="go">data: {&#39;y&#39;: 0, &#39;xx&#39;: None, &#39;yy&#39;: 0, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments: None 1 5</span>
+<span class="go">arguments at the end of the line: () {&#39;y&#39;: 1, &#39;yy&#39;: 1, &#39;zz&#39;: 5}</span>
+<span class="go">data: {&#39;y&#39;: 1, &#39;xx&#39;: None, &#39;yy&#39;: 1, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments: None 2 5</span>
+<span class="go">arguments at the end of the line: () {&#39;y&#39;: 2, &#39;yy&#39;: 2, &#39;zz&#39;: 5}</span>
+<span class="go">data: {&#39;y&#39;: 2, &#39;xx&#39;: None, &#39;yy&#39;: 2, &#39;zz&#39;: 5}</span>
+<span class="go">----pass_on_returns=True----</span>
+<span class="go">my three arguments: None 0 5</span>
+<span class="go">arguments at the end of the line: (None,) {&#39;y&#39;: 0, &#39;yy&#39;: 0, &#39;zz&#39;: 5, &#39;xx&#39;: None}</span>
+<span class="go">data: {&#39;y&#39;: 0, &#39;xx&#39;: None, &#39;yy&#39;: 0, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments: None 1 5</span>
+<span class="go">arguments at the end of the line: (None,) {&#39;y&#39;: 1, &#39;yy&#39;: 1, &#39;zz&#39;: 5, &#39;xx&#39;: None}</span>
+<span class="go">data: {&#39;y&#39;: 1, &#39;xx&#39;: None, &#39;yy&#39;: 1, &#39;zz&#39;: 5}</span>
+<span class="go">my three arguments: None 2 5</span>
+<span class="go">arguments at the end of the line: (None,) {&#39;y&#39;: 2, &#39;yy&#39;: 2, &#39;zz&#39;: 5, &#39;xx&#39;: None}</span>
+<span class="go">data: {&#39;y&#39;: 2, &#39;xx&#39;: None, &#39;yy&#39;: 2, &#39;zz&#39;: 5}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="running-sweeps">
+<h2>Running Sweeps<a class="headerlink" href="#running-sweeps" title="Link to this heading">#</a></h2>
+<p>As seen in previous examples, the most basic way of running a Sweep is to just iterate through it.
+This is simple but does not do much else. If we only want to store the data generated by a Sweep in disk for later analysis we can use the function <a class="reference internal" href="../../api/generated/labcore.measurement.storage.html#labcore.measurement.storage.run_and_save_sweep" title="labcore.measurement.storage.run_and_save_sweep"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_and_save_sweep</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">run_and_save_sweep</span><span class="p">(</span><span class="n">sweep</span><span class="p">,</span> <span class="s1">&#39;./data&#39;</span><span class="p">,</span> <span class="s1">&#39;my_data&#39;</span><span class="p">)</span>
+<span class="go">Data location:  data/2022-12-05/2022-12-05T142539_fbfce3e4-my_data/data.ddh5</span>
+<span class="go">The measurement has finished successfully and all of the data has been saved.</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because this guide has been ported from an older page plottr is not being used anymore, a fix will come.</p>
+</div>
+<p><a class="reference internal" href="../../api/generated/labcore.measurement.storage.html#labcore.measurement.storage.run_and_save_sweep" title="labcore.measurement.storage.run_and_save_sweep"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_and_save_sweep</span></code></a> automatically runs the Sweep indicated, stores the <strong>records</strong> generated by it in a :class:<code class="docutils literal notranslate"><span class="pre">DataDict</span> <span class="pre">&lt;plottr.data.datadict.DataDict&gt;</span></code> in a ddh5 file with time tag followed by a random sequence followed by the third argument, in the directory passed by the second argument.
+Internally the function utilizes the :class:<code class="docutils literal notranslate"><span class="pre">DDH5Writer</span> <span class="pre">&lt;plottr.data.datadict_storage.DDH5Writer&gt;</span></code> from <code class="docutils literal notranslate"><span class="pre">plottr</span></code>.
+For more information on how <code class="docutils literal notranslate"><span class="pre">plottr</span></code> handles data please see: :doc:<code class="docutils literal notranslate"><span class="pre">../plottr/data</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="../../api/generated/labcore.measurement.storage.html#labcore.measurement.storage.run_and_save_sweep" title="labcore.measurement.storage.run_and_save_sweep"><code class="xref py py-func docutils literal notranslate"><span class="pre">run_and_save_sweep</span></code></a> can save multiple objects to disk by accepting them as extra arguments.
+It is a good idea to read over its documentation if you want to be able to save things with it.</p>
+</div>
+<p>Sometimes we have an <strong>action</strong> that we want to run a single time, some kind of setup function or maybe a closing function (or any single <strong>action</strong> in between sweeps).
+If we also need this <strong>action</strong> to be a Sweep, the function <a class="reference internal" href="../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.once" title="labcore.measurement.sweep.once"><code class="xref py py-func docutils literal notranslate"><span class="pre">once</span></code></a> will create a Sweep with no <strong>pointer</strong> that runs an <strong>action</strong> a single time:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">startup_function</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;starting an instrument&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span><span class="w"> </span><span class="nf">closing_function</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;closing an instrument&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep_parameter</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">record_as</span><span class="p">(</span><span class="n">my_func</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">starting_sweep</span> <span class="o">=</span> <span class="n">once</span><span class="p">(</span><span class="n">startup_function</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">closing_sweep</span> <span class="o">=</span> <span class="n">once</span><span class="p">(</span><span class="n">closing_function</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">starting_sweep</span> <span class="o">+</span> <span class="n">sweep</span> <span class="o">+</span> <span class="n">closing_sweep</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="go">starting an instrument</span>
+<span class="go">{}</span>
+<span class="go">{&#39;x&#39;: 0, &#39;y&#39;: 1}</span>
+<span class="go">{&#39;x&#39;: 1, &#39;y&#39;: 1}</span>
+<span class="go">{&#39;x&#39;: 2, &#39;y&#39;: 1}</span>
+<span class="go">closing an instrument</span>
+<span class="go">{}</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Measurement</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../data/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Handling</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-example">Basic Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recording-data">Recording Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#concepts">Concepts</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implementation">Implementation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#construction-of-sweeps">Construction of Sweeps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-sweeps">Basic Sweeps</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-options-before-executing-a-sweep">Specifying Options Before Executing a Sweep</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-qcodes-parameter-sweep">A QCoDeS Parameter Sweep</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#sweep-combinations">Sweep Combinations</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#appending">Appending</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multiplying">Multiplying</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nesting">Nesting</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#passing-parameters-in-a-sweep">Passing Parameters in a Sweep</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#positional-arguments">Positional Arguments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#keyword-arguments">Keyword Arguments</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-sweeps">Configuring Sweeps</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#record-none">record_none</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pass-on-returns">pass_on_returns</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pass-on-none">pass_on_none</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-sweeps">Running Sweeps</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/user_guide/measurement/sweep.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

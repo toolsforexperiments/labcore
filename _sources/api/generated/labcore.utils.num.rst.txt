@@ -1,0 +1,24 @@
+labcore.utils.num
+=================
+
+.. automodule:: labcore.utils.num
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      array1d_to_meshgrid
+      arrays_equal
+      centers2edges_1d
+      centers2edges_2d
+      crop2d
+      crop2d_from_xy
+      crop2d_rows_cols
+      find_direction_period
+      guess_grid_from_sweep_direction
+      interp_meshgrid_2d
+      is_invalid
+      joint_crop2d_rows_cols
+      largest_numtype
+   

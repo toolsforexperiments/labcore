@@ -1,0 +1,32 @@
+labcore.measurement.sweep
+=========================
+
+.. automodule:: labcore.measurement.sweep
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      append_sweeps
+      as_pointer
+      nest_sweeps
+      null_action
+      once
+      pointer
+      sweep_parameter
+      zip_sweeps
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AppendSweeps
+      AsyncRecord
+      CombineSweeps
+      NestSweeps
+      PointerFunction
+      Sweep
+      SweepIterator
+      ZipSweeps
+   

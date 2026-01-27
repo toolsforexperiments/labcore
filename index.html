@@ -32,7 +32,6 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
   
   <!-- So that users can add custom icons -->
   <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,15 +40,17 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/index.html" />
     <link rel="author" title="About these documents" href="about.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Instruments" href="instruments/index.html" />
+    <link rel="next" title="First Steps" href="first_steps/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -137,29 +138,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="about.html">
-    About page
+  <a class="nav-link nav-internal" href="user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -167,6 +154,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="examples/index.html">
     Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
   </a>
 </li>
 
@@ -178,20 +179,6 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="autoapi/index.html">
-    API Reference
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
-    Tools for Experiments
-  </a>
-</li>
-
-
 <li class=" ">
   <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
     Instrumentserver
@@ -296,29 +283,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="about.html">
-    About page
+  <a class="nav-link nav-internal" href="user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -331,7 +304,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="autoapi/index.html">
+  <a class="nav-link nav-internal" href="api/index.html">
     API Reference
   </a>
 </li>
@@ -452,21 +425,18 @@
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="instruments/index.html">Instruments</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="instruments/index.html#instrumentserver">Instrumentserver</a></li>
-<li class="toctree-l2"><a class="reference internal" href="instruments/index.html#qcodes-drivers">QCoDeS Drivers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="first_steps/index.html">First Steps</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="first_steps/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_steps/first_data.html">Creating Basic Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="first_steps/first_analysis.html">Basic Analysis</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="measurement/index.html">Measurement</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="measurement/sweep.html">Sweeping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/measurement/index.html">Measurement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/data/index.html">Data Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_guide/instruments/index.html">Instruments</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="data/index.html">Data Handling</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="data/index.html#data-formats">Data Formats</a></li>
-<li class="toctree-l2"><a class="reference internal" href="data/index.html#analysis">Analysis</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="about.html">About page</a></li>
 </ul>
 </div>
 </section>
@@ -485,7 +455,7 @@
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="autoapi/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a></li>
 </ul>
 </div>
 </section>
@@ -502,11 +472,11 @@
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="instruments/index.html"
+       href="first_steps/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Instruments</p>
+        <p class="prev-next-title">First Steps</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -554,7 +524,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>

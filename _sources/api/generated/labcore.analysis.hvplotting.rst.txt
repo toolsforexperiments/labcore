@@ -1,0 +1,34 @@
+labcore.analysis.hvplotting
+===========================
+
+.. automodule:: labcore.analysis.hvplotting
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      Data
+      DataDisplay
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      labeled_widget
+      plot_data
+      plot_df_as_2d
+      plot_xr_as_2d
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      ComplexHist
+      MagnitudePhasePlot
+      Node
+      PlotNode
+      ReduxNode
+      ValuePlot
+      XYSelect
+   

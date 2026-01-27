@@ -1,0 +1,25 @@
+labcore.analysis.fit
+====================
+
+.. automodule:: labcore.analysis.fit
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      fit_and_add_to_ds
+      plot_ds_2d_with_fit
+      xr2fitinput
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Analysis
+      AnalysisResult
+      Fit
+      FitResult
+      Parameter
+      Parameters
+   

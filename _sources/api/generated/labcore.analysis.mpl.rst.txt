@@ -1,0 +1,21 @@
+labcore.analysis.mpl
+====================
+
+.. automodule:: labcore.analysis.mpl
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_legend
+      centers2edges
+      correctly_sized_figure
+      fit_and_plot_1d
+      format_ax
+      format_right_cb
+      get_color_cycle
+      pcolorgrid
+      plot_fit_1d
+      setup_plotting
+   

@@ -1,0 +1,15 @@
+﻿labcore.data
+============
+
+.. automodule:: labcore.data
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   datadict
+   datadict_storage
+   tools

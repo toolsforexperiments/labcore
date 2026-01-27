@@ -30,7 +30,6 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,8 +38,8 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/measurement/storage';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/measurement/storage.html" />
@@ -134,29 +133,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../about.html">
-    About page
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -164,6 +149,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../examples/index.html">
     Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
   </a>
 </li>
 
@@ -175,20 +174,6 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../../autoapi/index.html">
-    API Reference
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
-    Tools for Experiments
-  </a>
-</li>
-
-
 <li class=" ">
   <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
     Instrumentserver
@@ -293,29 +278,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../about.html">
-    About page
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -328,7 +299,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
     API Reference
   </a>
 </li>
@@ -487,15 +458,9 @@
 <span class="n">__author__</span> <span class="o">=</span> <span class="s1">&#39;Wolfgang Pfaff&#39;</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;MIT&#39;</span>
 
-<div class="viewcode-block" id="TIMESTRFORMAT">
-<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.TIMESTRFORMAT">[docs]</a>
-<span class="n">TIMESTRFORMAT</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H%M%S&quot;</span></div>
+<span class="n">TIMESTRFORMAT</span> <span class="o">=</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H%M%S&quot;</span>
 
-
-<div class="viewcode-block" id="logger">
-<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.logger">[docs]</a>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
-
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_create_datadict_structure</span><span class="p">(</span><span class="n">sweep</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataDict</span><span class="p">:</span>
@@ -562,10 +527,10 @@
 
 
 <div class="viewcode-block" id="NumpyEncoder">
-<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.NumpyEncoder">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.measurement.storage.html#labcore.measurement.storage.NumpyEncoder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NumpyEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
 <div class="viewcode-block" id="NumpyEncoder.default">
-<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.NumpyEncoder.default">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.measurement.storage.html#labcore.measurement.storage.NumpyEncoder.default">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -575,7 +540,7 @@
 
 
 <div class="viewcode-block" id="run_and_save_sweep">
-<a class="viewcode-back" href="../../../autoapi/labcore/measurement/storage/index.html#labcore.measurement.storage.run_and_save_sweep">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.measurement.storage.html#labcore.measurement.storage.run_and_save_sweep">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">run_and_save_sweep</span><span class="p">(</span><span class="n">sweep</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">,</span>
                        <span class="n">data_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -755,7 +720,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>

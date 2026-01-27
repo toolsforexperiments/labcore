@@ -30,7 +30,6 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,8 +38,8 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/data/datadict';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/data/datadict.html" />
@@ -134,29 +133,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../about.html">
-    About page
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -164,6 +149,20 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../examples/index.html">
     Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
   </a>
 </li>
 
@@ -175,20 +174,6 @@
                 </button>
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-<li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../../autoapi/index.html">
-    API Reference
-  </a>
-</li>
-
-
-<li class=" ">
-  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/">
-    Tools for Experiments
-  </a>
-</li>
-
-
 <li class=" ">
   <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
     Instrumentserver
@@ -293,29 +278,15 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../instruments/index.html">
-    Instruments
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../measurement/index.html">
-    Measurement
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../data/index.html">
-    Data Handling
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../about.html">
-    About page
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
   </a>
 </li>
 
@@ -328,7 +299,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../autoapi/index.html">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
     API Reference
   </a>
 </li>
@@ -471,10 +442,7 @@
 <span class="n">__license__</span> <span class="o">=</span> <span class="s1">&#39;MIT&#39;</span>
 
 
-<div class="viewcode-block" id="logger">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.logger">[docs]</a>
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span></div>
-
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <span class="c1"># TODO: direct slicing of full datasets. implement getitem/setitem?</span>
@@ -483,7 +451,7 @@
 
 
 <div class="viewcode-block" id="is_meta_key">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.is_meta_key">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.is_meta_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">is_meta_key</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Checks if ``key`` is meta information.</span>
 
@@ -498,7 +466,7 @@
 
 
 <div class="viewcode-block" id="meta_key_to_name">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.meta_key_to_name">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.meta_key_to_name">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">meta_key_to_name</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts a meta data key to just the name.</span>
@@ -519,7 +487,7 @@
 
 
 <div class="viewcode-block" id="meta_name_to_key">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.meta_name_to_key">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.meta_name_to_key">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">meta_name_to_key</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts ``name`` into a meta data key. E.g: &quot;meta&quot; gets converted to &quot;__meta__&quot;</span>
@@ -531,21 +499,18 @@
 
 
 
-<div class="viewcode-block" id="T">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.T">[docs]</a>
-<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;DataDictBase&#39;</span><span class="p">)</span></div>
-
+<span class="n">T</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;DataDictBase&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="GriddingError">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.GriddingError">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.GriddingError">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">GriddingError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
 
 <div class="viewcode-block" id="DataDictBase">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DataDictBase</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Simple data storage class that is based on a regular dictionary.</span>
@@ -556,10 +521,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
-<div class="viewcode-block" id="DataDictBase.d_">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.d_">[docs]</a>
-        <span class="bp">self</span><span class="o">.</span><span class="n">d_</span> <span class="o">=</span> <span class="n">DataDictBase</span><span class="o">.</span><span class="n">_DataAccess</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> </div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">d_</span> <span class="o">=</span> <span class="n">DataDictBase</span><span class="o">.</span><span class="n">_DataAccess</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check for content equality of two datadicts.&quot;&quot;&quot;</span>
@@ -592,9 +554,9 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">_meta_name_to_key</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">meta_name_to_key</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
-    <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="DataDictBase.to_records">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.to_records">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.to_records">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_records</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert data to records that can be added to the ``DataDict``.</span>
 <span class="sd">        All data is converted to np.array, and reshaped such that the first dimension of all resulting</span>
@@ -647,7 +609,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.data_items">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.data_items">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.data_items">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">data_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generator for data field items.</span>
@@ -662,7 +624,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.meta_items">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.meta_items">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.meta_items">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">meta_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                    <span class="n">clean_keys</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -698,7 +660,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.data_vals">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.data_vals">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.data_vals">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">data_vals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the data values of field ``key``.</span>
@@ -714,7 +676,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.has_meta">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.has_meta">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.has_meta">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">has_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check whether meta field exists in the dataset.</span>
 
@@ -731,7 +693,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.meta_val">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.meta_val">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.meta_val">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">meta_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the value of meta field ``key`` (given without underscore).</span>
@@ -748,7 +710,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.add_meta">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.add_meta">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.add_meta">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Add meta info to the dataset.</span>
@@ -768,13 +730,10 @@
             <span class="bp">self</span><span class="p">[</span><span class="n">data</span><span class="p">][</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
 
 
-<div class="viewcode-block" id="DataDictBase.set_meta">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.set_meta">[docs]</a>
-    <span class="n">set_meta</span> <span class="o">=</span> <span class="n">add_meta</span></div>
-
+    <span class="n">set_meta</span> <span class="o">=</span> <span class="n">add_meta</span>
 
 <div class="viewcode-block" id="DataDictBase.delete_meta">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.delete_meta">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.delete_meta">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">delete_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Deletes specific meta data.</span>
@@ -792,7 +751,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.clear_meta">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.clear_meta">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.clear_meta">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">clear_meta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Deletes all meta data.</span>
@@ -818,7 +777,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.extract">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.extract">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.extract">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">extract</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">include_meta</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                 <span class="n">copy</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sanitize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -871,9 +830,9 @@
 
     <span class="c1"># info about structure</span>
 
-    <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="DataDictBase.same_structure">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.same_structure">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.same_structure">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">same_structure</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span>
                        <span class="n">check_shape</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -908,7 +867,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.structure">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.structure">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.structure">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">add_shape</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                   <span class="n">include_meta</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
                   <span class="n">same_type</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -966,7 +925,7 @@
     
 
 <div class="viewcode-block" id="DataDictBase.nbytes">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.nbytes">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.nbytes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">nbytes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the size of data.</span>
 <span class="sd">        </span>
@@ -986,7 +945,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.label">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.label">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.label">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the label for a data field. If no label is present returns the</span>
@@ -1013,7 +972,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.axes_are_compatible">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.axes_are_compatible">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.axes_are_compatible">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">axes_are_compatible</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if all dependent data fields have the same axes.</span>
@@ -1033,7 +992,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.axes">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.axes">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.axes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return a list of axes.</span>
@@ -1065,7 +1024,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.dependents">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.dependents">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.dependents">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">dependents</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get all dependents in the dataset.</span>
@@ -1080,7 +1039,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.shapes">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.shapes">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.shapes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">shapes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the shapes of all data fields.</span>
@@ -1099,7 +1058,7 @@
     <span class="c1"># validation and sanitizing</span>
 
 <div class="viewcode-block" id="DataDictBase.validate">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.validate">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.validate">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check the validity of the dataset.</span>
@@ -1152,7 +1111,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.remove_unused_axes">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.remove_unused_axes">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.remove_unused_axes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_unused_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Removes axes not associated with dependents.</span>
@@ -1180,7 +1139,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.sanitize">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.sanitize">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.sanitize">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sanitize</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clean-up tasks:</span>
@@ -1194,7 +1153,7 @@
     <span class="c1"># axes order tools</span>
 
 <div class="viewcode-block" id="DataDictBase.reorder_axes_indices">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.reorder_axes_indices">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.reorder_axes_indices">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reorder_axes_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                              <span class="o">**</span><span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1213,7 +1172,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.reorder_axes">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.reorder_axes">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.reorder_axes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reorder_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">data_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                      <span class="o">**</span><span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1240,7 +1199,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.copy">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.copy">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.copy">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Make a copy of the dataset.</span>
@@ -1257,7 +1216,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.astype">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.astype">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.astype">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">astype</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert all data values to given dtype.</span>
@@ -1275,7 +1234,7 @@
 
 
 <div class="viewcode-block" id="DataDictBase.mask_invalid">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDictBase.mask_invalid">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.mask_invalid">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">mask_invalid</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">T</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mask all invalid data in all values.</span>
@@ -1325,7 +1284,7 @@
 
 
 <div class="viewcode-block" id="DataDict">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DataDict</span><span class="p">(</span><span class="n">DataDictBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The most basic implementation of the DataDict class.</span>
@@ -1367,7 +1326,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Incompatible data structures.&#39;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="DataDict.append">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict.append">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.append">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">newdata</span><span class="p">:</span> <span class="s2">&quot;DataDict&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Append a datadict to this one by appending data values.</span>
@@ -1396,7 +1355,7 @@
 
 
 <div class="viewcode-block" id="DataDict.add_data">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict.add_data">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.add_data">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># TODO: fill non-given data with nan or none</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1429,7 +1388,7 @@
     <span class="c1"># shape information and expansion</span>
 
 <div class="viewcode-block" id="DataDict.nrecords">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict.nrecords">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.nrecords">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">nrecords</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Gets the number of records in the dataset.</span>
@@ -1447,7 +1406,7 @@
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">shapes</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
 <div class="viewcode-block" id="DataDict.is_expanded">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict.is_expanded">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.is_expanded">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_expanded</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determine if the DataDict is expanded.</span>
@@ -1462,7 +1421,7 @@
 
 
 <div class="viewcode-block" id="DataDict.is_expandable">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict.is_expandable">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.is_expandable">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_expandable</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Determine if the DataDict can be expanded.</span>
@@ -1485,7 +1444,7 @@
 
 
 <div class="viewcode-block" id="DataDict.expand">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict.expand">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.expand">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">expand</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DataDict&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Expand nested values in the data fields.</span>
@@ -1524,7 +1483,7 @@
     <span class="c1"># validation and sanitizing</span>
 
 <div class="viewcode-block" id="DataDict.validate">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict.validate">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.validate">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check dataset validity.</span>
@@ -1561,7 +1520,7 @@
 
 
 <div class="viewcode-block" id="DataDict.sanitize">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict.sanitize">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.sanitize">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sanitize</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;DataDict&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clean-up.</span>
@@ -1576,7 +1535,7 @@
 
 
 <div class="viewcode-block" id="DataDict.remove_invalid_entries">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.DataDict.remove_invalid_entries">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.remove_invalid_entries">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_invalid_entries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DataDict&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove all rows that are ``None`` or ``np.nan`` in *all* dependents.</span>
@@ -1630,7 +1589,7 @@
 
 
 <div class="viewcode-block" id="MeshgridDataDict">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.MeshgridDataDict">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.MeshgridDataDict">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MeshgridDataDict</span><span class="p">(</span><span class="n">DataDictBase</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Implementation of DataDictBase meant to be used for when the axes form</span>
@@ -1640,7 +1599,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="MeshgridDataDict.shape">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.MeshgridDataDict.shape">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.MeshgridDataDict.shape">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the shape of the meshgrid.</span>
@@ -1653,7 +1612,7 @@
 
 
 <div class="viewcode-block" id="MeshgridDataDict.validate">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.MeshgridDataDict.validate">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.MeshgridDataDict.validate">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Validation of the dataset.</span>
@@ -1740,7 +1699,7 @@
 
 
 <div class="viewcode-block" id="MeshgridDataDict.reorder_axes">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.MeshgridDataDict.reorder_axes">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.MeshgridDataDict.reorder_axes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reorder_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_names</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                      <span class="o">**</span><span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MeshgridDataDict&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1781,7 +1740,7 @@
 
     
 <div class="viewcode-block" id="MeshgridDataDict.mean">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.MeshgridDataDict.mean">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.MeshgridDataDict.mean">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">mean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;MeshgridDataDict&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Take the mean over the given axis.</span>
 <span class="sd">        </span>
@@ -1792,7 +1751,7 @@
 
     
 <div class="viewcode-block" id="MeshgridDataDict.slice">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.MeshgridDataDict.slice">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.MeshgridDataDict.slice">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">slice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="nb">int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="s1">&#39;MeshgridDataDict&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a N-d slice of the data.</span>
 
@@ -1805,7 +1764,7 @@
 
     
 <div class="viewcode-block" id="MeshgridDataDict.squeeze">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.MeshgridDataDict.squeeze">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.MeshgridDataDict.squeeze">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove size-1 dimensions.&quot;&quot;&quot;</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
@@ -1857,7 +1816,7 @@
 <span class="c1"># Tools for converting between different data types</span>
 
 <div class="viewcode-block" id="guess_shape_from_datadict">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.guess_shape_from_datadict">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.guess_shape_from_datadict">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">guess_shape_from_datadict</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">DataDict</span><span class="p">)</span> <span class="o">-&gt;</span> \
         <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1882,7 +1841,7 @@
 
 
 <div class="viewcode-block" id="datadict_to_meshgrid">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.datadict_to_meshgrid">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.datadict_to_meshgrid">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">datadict_to_meshgrid</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">DataDict</span><span class="p">,</span>
                          <span class="n">target_shape</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                          <span class="n">inner_axis_order</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1964,7 +1923,7 @@
 
 
 <div class="viewcode-block" id="meshgrid_to_datadict">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.meshgrid_to_datadict">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.meshgrid_to_datadict">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">meshgrid_to_datadict</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">MeshgridDataDict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataDict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Make a DataDict from a MeshgridDataDict by reshaping the data.</span>
@@ -2008,7 +1967,7 @@
 
 
 <div class="viewcode-block" id="combine_datadicts">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.combine_datadicts">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.combine_datadicts">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">combine_datadicts</span><span class="p">(</span><span class="o">*</span><span class="n">dicts</span><span class="p">:</span> <span class="n">DataDict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">DataDictBase</span><span class="p">,</span> <span class="n">DataDict</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Try to make one datadict out of multiple.</span>
@@ -2088,7 +2047,7 @@
 
 
 <div class="viewcode-block" id="datastructure_from_string">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.datastructure_from_string">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.datastructure_from_string">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">datastructure_from_string</span><span class="p">(</span><span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataDict</span><span class="p">:</span>
 <span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;Construct a DataDict from a string description.</span>
 
@@ -2206,14 +2165,11 @@
 
 
 <span class="c1">#: shortcut to :func:`.datastructure_from_string`.</span>
-<div class="viewcode-block" id="str2dd">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.str2dd">[docs]</a>
-<span class="n">str2dd</span> <span class="o">=</span> <span class="n">datastructure_from_string</span></div>
-
+<span class="n">str2dd</span> <span class="o">=</span> <span class="n">datastructure_from_string</span>
 
 
 <div class="viewcode-block" id="datasets_are_equal">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.datasets_are_equal">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.datasets_are_equal">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">datasets_are_equal</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">DataDictBase</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">DataDictBase</span><span class="p">,</span>
                        <span class="n">ignore_meta</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether two datasets are equal.</span>
@@ -2282,7 +2238,7 @@
 
 
 <div class="viewcode-block" id="dd2df">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.dd2df">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.dd2df">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dd2df</span><span class="p">(</span><span class="n">dd</span><span class="p">:</span> <span class="n">DataDict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;make a pandas Dataframe from a datadict.</span>
 <span class="sd">    Uses MultiIndex, and assumes that all data fields are compatible.</span>
@@ -2308,7 +2264,7 @@
 
 
 <div class="viewcode-block" id="dd2xr">
-<a class="viewcode-back" href="../../../autoapi/labcore/data/datadict/index.html#labcore.data.datadict.dd2xr">[docs]</a>
+<a class="viewcode-back" href="../../../api/generated/labcore.data.datadict.html#labcore.data.datadict.dd2xr">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">dd2xr</span><span class="p">(</span><span class="n">dd</span><span class="p">:</span> <span class="n">MeshgridDataDict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;makes an xarray Dataset from a MeshgridDataDict.</span>
 
@@ -2400,7 +2356,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>

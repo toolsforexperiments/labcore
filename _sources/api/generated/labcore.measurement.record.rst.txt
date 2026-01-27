@@ -1,0 +1,42 @@
+labcore.measurement.record
+==========================
+
+.. automodule:: labcore.measurement.record
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      ds
+      DataSpecFromTupleType
+      DataSpecFromDictType
+      DataSpecCreationType
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      combine_data_specs
+      data_specs_label
+      dep
+      dependent
+      get_parameter
+      indep
+      independent
+      make_data_spec
+      make_data_specs
+      produces_record
+      record_as
+      recording
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      DataSpec
+      DataType
+      FunctionToRecords
+      IteratorToRecords
+      ds
+   

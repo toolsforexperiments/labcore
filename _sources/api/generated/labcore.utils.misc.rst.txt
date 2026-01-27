@@ -1,0 +1,26 @@
+labcore.utils.misc
+==================
+
+.. automodule:: labcore.utils.misc
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      add_end_number_to_repeated_file
+      commit_changes_in_repo
+      get_environment_packages
+      indent_text
+      map_input_to_signature
+      reorder_indices
+      reorder_indices_from_new_positions
+      unwrap_optional
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AutoEnum
+      LabeledOptions
+   

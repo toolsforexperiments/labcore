@@ -1,0 +1,17 @@
+labcore.analysis.fitfuncs.generic
+=================================
+
+.. automodule:: labcore.analysis.fitfuncs.generic
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Cosine
+      Exponential
+      ExponentialDecay
+      ExponentiallyDecayingSine
+      Gaussian
+      Linear
+   

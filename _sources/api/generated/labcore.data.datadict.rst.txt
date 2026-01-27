@@ -1,0 +1,43 @@
+labcore.data.datadict
+=====================
+
+.. automodule:: labcore.data.datadict
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      str2dd
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      combine_datadicts
+      datadict_to_meshgrid
+      datasets_are_equal
+      datastructure_from_string
+      dd2df
+      dd2xr
+      guess_shape_from_datadict
+      is_meta_key
+      meshgrid_to_datadict
+      meta_key_to_name
+      meta_name_to_key
+      str2dd
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      DataDict
+      DataDictBase
+      MeshgridDataDict
+   
+   .. rubric:: Exceptions
+
+   .. autosummary::
+   
+      GriddingError
+   
