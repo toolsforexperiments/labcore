@@ -13,8 +13,8 @@ sys.path.insert(0, os.path.abspath('..'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Labcore'
-copyright = '2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan'
-author = 'Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan'
+copyright = '2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff'
+author = 'Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

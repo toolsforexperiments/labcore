@@ -17,7 +17,7 @@ Site under construction
 
 ## Overview
 
-Labcore and the whole [Tools For Experiments](https://github.com/toolsforexperiments) are the software efforts of [Pfaff-lab at the University of Illinois at Urbana-Champaign](https://pfaff.physics.illinois.edu/).
+Labcore and the whole [Tools For Experiments](https://github.com/toolsforexperiments) are the software efforts of [Pfafflab at the University of Illinois at Urbana-Champaign](https://pfaff.physics.illinois.edu/).
 
 ### Full Stack Toolset
 
@@ -31,7 +31,9 @@ Only use the tools that you need. Labcore modular designs lets you choose which 
 
 Labcore is developed by Physicists for real needs happening inside of our lab.
 
-## Documentation
+## Getting started
+
+To begin using Labcore, check out the [Getting Started Guide](first_steps/index.md) which will give a tutorial to install and begin using Labcore.
 
 ```{toctree}
 :maxdepth: 2
