@@ -31,7 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,9 +42,6 @@
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/Holoviz-based plotting in the lab - Primer';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/examples/Holoviz-based%20plotting%20in%20the%20lab%20-%20Primer.html" />
     <link rel="author" title="About these documents" href="../about.html" />
@@ -442,26 +439,28 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="Holoviz-based-plotting-in-the-lab---Primer">
-<h1>Holoviz-based plotting in the lab - Primer<a class="headerlink" href="#Holoviz-based-plotting-in-the-lab---Primer" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="holoviz-based-plotting-in-the-lab-primer">
+<h1>Holoviz-based plotting in the lab - Primer<a class="headerlink" href="#holoviz-based-plotting-in-the-lab-primer" title="Link to this heading">#</a></h1>
 <p>This notebook gives a brief intro to using holoviz-based plotting, incl our own tools that work with it.</p>
 <p>To make sure interactivity works correctly, run this notebook in an environment that has all the right stuff installed (i.e., your labcore environment)</p>
-<section id="Some-basic-preliminaries">
-<h2>Some basic preliminaries<a class="headerlink" href="#Some-basic-preliminaries" title="Link to this heading">#</a></h2>
-<p>We assume that <code class="docutils literal notranslate"><span class="pre">raw</span></code> data is in DataDict formats. For processing and plotting we convert to either <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> (for ungridded data) or <code class="docutils literal notranslate"><span class="pre">xarray.Dataset</span></code> (for gridded data). This approach should be the general way we handle data in the lab.</p>
+<section id="some-basic-preliminaries">
+<h2>Some basic preliminaries<a class="headerlink" href="#some-basic-preliminaries" title="Link to this heading">#</a></h2>
+<p>We assume that <code class="docutils literal notranslate"><span class="pre">raw</span></code> data is in DataDict formats.
+For processing and plotting we convert to either <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> (for ungridded data) or <code class="docutils literal notranslate"><span class="pre">xarray.Dataset</span></code> (for gridded data).
+This approach should be the general way we handle data in the lab.</p>
 </section>
 </section>
-<section id="Brief-primer-on-vanilla-holoviz">
-<h1>Brief primer on vanilla holoviz<a class="headerlink" href="#Brief-primer-on-vanilla-holoviz" title="Link to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="brief-primer-on-vanilla-holoviz">
+<h1>Brief primer on vanilla holoviz<a class="headerlink" href="#brief-primer-on-vanilla-holoviz" title="Link to this heading">#</a></h1>
 <p>We have some tools on top of it for general easy data exploration.</p>
-<p>But for data analysis it’s probably very wise for everyone to learn how to use holoviz directly. It allows making custom plots extremely easily.</p>
+<p>But for data analysis it’s probably very wise for everyone to learn how to use holoviz directly.
+It allows making custom plots extremely easily.</p>
 <p>Docs are here: <a class="reference external" href="https://holoviz.org">https://holoviz.org</a>; see in particular <code class="docutils literal notranslate"><span class="pre">holoviews</span></code> and <code class="docutils literal notranslate"><span class="pre">hvplot</span></code>.</p>
-<p>Here is a very simple example – we use synthetic Rabi/Chevron data for that. But much more is possible – check out the examples in the documentation for how to do different things.</p>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># first, make a dataset in datadict</span>
+<p>Here is a very simple example – we use synthetic Rabi/Chevron data for that.
+But much more is possible – check out the examples in the documentation for how to do different things.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># first, make a dataset in datadict</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">labcore.testing.dispersive_qubit_readout_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">chevron_dataset</span>
@@ -477,24 +476,19 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(labcore.data.datadict.DataDict,
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(labcore.data.datadict.DataDict,
  signal: (400, 20)
    ⌙ repetition: (400, 20)
    ⌙ detuning (Hz): (400,)
    ⌙ time (s): (400,))
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># next -- convert into xarray. since we know its a nice regular grid, that&#39;s the easiest choice here.</span>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># next -- convert into xarray. since we know its a nice regular grid, that&#39;s the easiest choice here.</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">labcore.data.datadict</span><span class="w"> </span><span class="kn">import</span> <span class="n">datadict_to_meshgrid</span><span class="p">,</span> <span class="n">dd2xr</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">labcore.data.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">split_complex</span>
 
@@ -506,14 +500,8 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-(function(root) {
+<div class="cell_output docutils container">
+<script type="application/javascript">(function(root) {
   function now() {
     return new Date();
   }
@@ -579,33 +567,33 @@ var element = document.currentScript.previousSibling.previousSibling;
     if (window.requirejs) {
       window.requirejs.config({'packages': {}, 'paths': {'jspanel': 'https://cdn.jsdelivr.net/npm/jspanel4@4.12.0/dist/jspanel', 'jspanel-modal': 'https://cdn.jsdelivr.net/npm/jspanel4@4.12.0/dist/extensions/modal/jspanel.modal', 'jspanel-tooltip': 'https://cdn.jsdelivr.net/npm/jspanel4@4.12.0/dist/extensions/tooltip/jspanel.tooltip', 'jspanel-hint': 'https://cdn.jsdelivr.net/npm/jspanel4@4.12.0/dist/extensions/hint/jspanel.hint', 'jspanel-layout': 'https://cdn.jsdelivr.net/npm/jspanel4@4.12.0/dist/extensions/layout/jspanel.layout', 'jspanel-contextmenu': 'https://cdn.jsdelivr.net/npm/jspanel4@4.12.0/dist/extensions/contextmenu/jspanel.contextmenu', 'jspanel-dock': 'https://cdn.jsdelivr.net/npm/jspanel4@4.12.0/dist/extensions/dock/jspanel.dock', 'gridstack': 'https://cdn.jsdelivr.net/npm/gridstack@7.2.3/dist/gridstack-all', 'notyf': 'https://cdn.jsdelivr.net/npm/notyf@3/notyf.min'}, 'shim': {'jspanel': {'exports': 'jsPanel'}, 'gridstack': {'exports': 'GridStack'}}});
       require(["jspanel"], function(jsPanel) {
-    window.jsPanel = jsPanel
-    on_load()
+	window.jsPanel = jsPanel
+	on_load()
       })
       require(["jspanel-modal"], function() {
-    on_load()
+	on_load()
       })
       require(["jspanel-tooltip"], function() {
-    on_load()
+	on_load()
       })
       require(["jspanel-hint"], function() {
-    on_load()
+	on_load()
       })
       require(["jspanel-layout"], function() {
-    on_load()
+	on_load()
       })
       require(["jspanel-contextmenu"], function() {
-    on_load()
+	on_load()
       })
       require(["jspanel-dock"], function() {
-    on_load()
+	on_load()
       })
       require(["gridstack"], function(GridStack) {
-    window.GridStack = GridStack
-    on_load()
+	window.GridStack = GridStack
+	on_load()
       })
       require(["notyf"], function() {
-    on_load()
+	on_load()
       })
       root._bokeh_is_loading = css_urls.length + 9;
     } else {
@@ -617,14 +605,14 @@ var element = document.currentScript.previousSibling.previousSibling;
     for (var i = 0; i < links.length; i++) {
       var link = links[i]
       if (link.href != null) {
-    existing_stylesheets.push(link.href)
+	existing_stylesheets.push(link.href)
       }
     }
     for (var i = 0; i < css_urls.length; i++) {
       var url = css_urls[i];
       if (existing_stylesheets.indexOf(url) !== -1) {
-    on_load()
-    continue;
+	on_load()
+	continue;
       }
       const element = document.createElement("link");
       element.onload = on_load;
@@ -654,16 +642,16 @@ var element = document.currentScript.previousSibling.previousSibling;
     for (var i = 0; i < scripts.length; i++) {
       var script = scripts[i]
       if (script.src != null) {
-    existing_scripts.push(script.src)
+	existing_scripts.push(script.src)
       }
     }
     for (var i = 0; i < js_urls.length; i++) {
       var url = js_urls[i];
       if (skip.indexOf(url) !== -1 || existing_scripts.indexOf(url) !== -1) {
-    if (!window.requirejs) {
-      on_load();
-    }
-    continue;
+	if (!window.requirejs) {
+	  on_load();
+	}
+	continue;
       }
       var element = document.createElement('script');
       element.onload = on_load;
@@ -676,10 +664,10 @@ var element = document.currentScript.previousSibling.previousSibling;
     for (var i = 0; i < js_modules.length; i++) {
       var url = js_modules[i];
       if (skip.indexOf(url) !== -1 || existing_scripts.indexOf(url) !== -1) {
-    if (!window.requirejs) {
-      on_load();
-    }
-    continue;
+	if (!window.requirejs) {
+	  on_load();
+	}
+	continue;
       }
       var element = document.createElement('script');
       element.onload = on_load;
@@ -693,10 +681,10 @@ var element = document.currentScript.previousSibling.previousSibling;
     for (const name in js_exports) {
       var url = js_exports[name];
       if (skip.indexOf(url) >= 0 || root[name] != null) {
-    if (!window.requirejs) {
-      on_load();
-    }
-    continue;
+	if (!window.requirejs) {
+	  on_load();
+	}
+	continue;
       }
       var element = document.createElement('script');
       element.onerror = on_error;
@@ -738,14 +726,14 @@ function(Bokeh) {} // ensure no trailing comma for IE
       }
       // Cache old bokeh versions
       if (Bokeh != undefined && !reloading) {
-    var NewBokeh = root.Bokeh;
-    if (Bokeh.versions === undefined) {
-      Bokeh.versions = new Map();
-    }
-    if (NewBokeh.version !== Bokeh.version) {
-      Bokeh.versions.set(NewBokeh.version, NewBokeh)
-    }
-    root.Bokeh = Bokeh;
+	var NewBokeh = root.Bokeh;
+	if (Bokeh.versions === undefined) {
+	  Bokeh.versions = new Map();
+	}
+	if (NewBokeh.version !== Bokeh.version) {
+	  Bokeh.versions.set(NewBokeh.version, NewBokeh)
+	}
+	root.Bokeh = Bokeh;
       }} else if (Date.now() < root._bokeh_timeout) {
       setTimeout(run_inline_js, 100);
     } else if (!root._bokeh_failed_load) {
@@ -776,28 +764,18 @@ function(Bokeh) {} // ensure no trailing comma for IE
       root._bokeh_is_initializing = true
       root._bokeh_onload_callbacks = []
       if (!reloading && (!bokeh_loaded || is_dev)) {
-    root.Bokeh = undefined;
+	root.Bokeh = undefined;
       }
       load_libs(css_urls, js_urls, js_modules, js_exports, function() {
-    console.debug("Bokeh: BokehJS plotting callback run at", now());
-    run_inline_js();
+	console.debug("Bokeh: BokehJS plotting callback run at", now());
+	run_inline_js();
       });
     }
   }
   // Give older versions of the autoload script a head-start to ensure
   // they initialize before we start loading newer version.
   setTimeout(load_or_wait, 100)
-}(window));
-</script></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-
+}(window));</script><script type="application/javascript">
 if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
   window.PyViz = {comms: {}, comm_status:{}, kernels:{}, receivers: {}, plot_index: []}
 }
@@ -868,7 +846,7 @@ if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
             }
             return messages.next().then(processIteratorResult);
           }
-        })
+        }) 
         var sendClosure = (data, metadata, buffers, disposeOnDone) => {
           return comm_promise.then((comm) => {
             comm.send(data, metadata, buffers, disposeOnDone);
@@ -882,7 +860,7 @@ if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
       return comm;
     }
     window.PyViz.comm_manager = new JupyterCommManager();
-
+    
 
 
 var JS_MIME_TYPE = 'application/javascript';
@@ -1036,14 +1014,7 @@ if (window.Jupyter !== undefined) {
   } catch(err) {
   }
 }
-
-</script></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area rendered_html docutils container">
-<style>*[data-root-id],
+</script><div class="output text_html"><style>*[data-root-id],
 *[data-root-id] > * {
   box-sizing: border-box;
   font-family: var(--jp-ui-font-family);
@@ -1058,13 +1029,7 @@ if (window.Jupyter !== undefined) {
 .cell-output-ipywidget-background:has(> .lm-Widget > *[data-root-id]) {
   background-color: transparent !important;
 }
-</style></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area rendered_html docutils container">
-<div id='p1002'>
+</style></div><div class="output text_html"><div id='p1002'>
   <div id="eff824ff-fc3d-46e7-a0f3-55bacfb225ab" data-root-id="p1002" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
@@ -1081,11 +1046,11 @@ if (window.Jupyter !== undefined) {
     Bokeh.embed.embed_items_notebook(docs_json, render_items);
     for (const render_item of render_items) {
       for (const root_id of render_item.root_ids) {
-    const id_el = document.getElementById(root_id)
-    if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
-      const root_el = id_el.children[0]
-      root_el.id = root_el.id + '-rendered'
-    }
+	const id_el = document.getElementById(root_id)
+	if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
+	  const root_el = id_el.children[0]
+	  root_el.id = root_el.id + '-rendered'
+	}
       }
     }
   }
@@ -1094,7 +1059,7 @@ if (window.Jupyter !== undefined) {
       return null
     } else if (root.Bokeh.version !== py_version && !is_dev) {
       if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
-    return null
+	return null
       }
       return root.Bokeh.versions.get(py_version);
     } else if (root.Bokeh.version === py_version) {
@@ -1118,25 +1083,18 @@ if (window.Jupyter !== undefined) {
         attempts++;
         if (attempts > 200) {
           clearInterval(timer);
-      var Bokeh = get_bokeh(root)
-      if (Bokeh == null || Bokeh.Panel == null) {
+	  var Bokeh = get_bokeh(root)
+	  if (Bokeh == null || Bokeh.Panel == null) {
             console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
-      } else {
-        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
-        embed_document(root)
-      }
+	  } else {
+	    console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+	    embed_document(root)
+	  }
         }
       }
     }, 25, root)
   }
-})(window);</script></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
+})(window);</script></div><div class="output text_html"><div><svg style="position: absolute; width: 0; height: 0; overflow: hidden">
 <defs>
 <symbol id="icon-database" viewBox="0 0 32 32">
 <path d="M16 0c-8.837 0-16 2.239-16 5v4c0 2.761 7.163 5 16 5s16-2.239 16-5v-4c0-2.761-7.163-5-16-5z"></path>
@@ -1609,13 +1567,11 @@ Data variables:
        1.8947368421052632e-06, 2.0526315789473687e-06, 2.2105263157894738e-06,
        2.3684210526315793e-06, 2.5263157894736844e-06, 2.6842105263157895e-06,
         2.842105263157895e-06,                  3e-06],
-      dtype=&#x27;float64&#x27;, name=&#x27;time&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-089ace0b-5f2e-4dd8-8265-3a379d899cb9' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-089ace0b-5f2e-4dd8-8265-3a379d899cb9' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div>
+      dtype=&#x27;float64&#x27;, name=&#x27;time&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-089ace0b-5f2e-4dd8-8265-3a379d899cb9' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-089ace0b-5f2e-4dd8-8265-3a379d899cb9' class='xr-section-summary'  title='Expand/collapse section'>Attributes: <span>(0)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'></dl></div></li></ul></div></div></div></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now we can directly use hvplot on this</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># now we can directly use hvplot on this</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">hvplot.xarray</span>  <span class="c1"># this import patches xarray objects so we can use hvplot on them.</span>
 
 <span class="c1"># plot: average over repetition, then plot the real part as 2d map.</span>
@@ -1627,18 +1583,8 @@ Data variables:
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div id='p1004'>
+<div class="cell_output docutils container">
+<div class="output text_html"><div id='p1004'>
   <div id="a2d9ffa3-9501-46bc-a40d-4b8b85631bb0" data-root-id="p1004" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
@@ -1655,11 +1601,11 @@ Data variables:
     Bokeh.embed.embed_items_notebook(docs_json, render_items);
     for (const render_item of render_items) {
       for (const root_id of render_item.root_ids) {
-    const id_el = document.getElementById(root_id)
-    if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
-      const root_el = id_el.children[0]
-      root_el.id = root_el.id + '-rendered'
-    }
+	const id_el = document.getElementById(root_id)
+	if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
+	  const root_el = id_el.children[0]
+	  root_el.id = root_el.id + '-rendered'
+	}
       }
     }
   }
@@ -1668,7 +1614,7 @@ Data variables:
       return null
     } else if (root.Bokeh.version !== py_version && !is_dev) {
       if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
-    return null
+	return null
       }
       return root.Bokeh.versions.get(py_version);
     } else if (root.Bokeh.version === py_version) {
@@ -1692,56 +1638,22 @@ Data variables:
         attempts++;
         if (attempts > 200) {
           clearInterval(timer);
-      var Bokeh = get_bokeh(root)
-      if (Bokeh == null || Bokeh.Panel == null) {
+	  var Bokeh = get_bokeh(root)
+	  if (Bokeh == null || Bokeh.Panel == null) {
             console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
-      } else {
-        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
-        embed_document(root)
-      }
+	  } else {
+	    console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+	    embed_document(root)
+	  }
         }
       }
     }, 25, root)
   }
-})(window);</script></div>
+})(window);</script></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># it&#39;s also pretty easy to make linecuts with sliders</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># it&#39;s also pretty easy to make linecuts with sliders</span>
 <span class="n">_data</span> <span class="o">=</span> <span class="n">xrdata</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s1">&#39;repetition&#39;</span><span class="p">)</span>
 
 <span class="c1"># here: overlay line and scatter plot</span>
@@ -1751,18 +1663,8 @@ Data variables:
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div id='p1072'>
+<div class="cell_output docutils container">
+<div class="output text_html"><div id='p1072'>
   <div id="ee2b010e-7596-4796-aa75-41b2b1fb4c1f" data-root-id="p1072" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
@@ -1779,11 +1681,11 @@ Data variables:
     Bokeh.embed.embed_items_notebook(docs_json, render_items);
     for (const render_item of render_items) {
       for (const root_id of render_item.root_ids) {
-    const id_el = document.getElementById(root_id)
-    if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
-      const root_el = id_el.children[0]
-      root_el.id = root_el.id + '-rendered'
-    }
+	const id_el = document.getElementById(root_id)
+	if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
+	  const root_el = id_el.children[0]
+	  root_el.id = root_el.id + '-rendered'
+	}
       }
     }
   }
@@ -1792,7 +1694,7 @@ Data variables:
       return null
     } else if (root.Bokeh.version !== py_version && !is_dev) {
       if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
-    return null
+	return null
       }
       return root.Bokeh.versions.get(py_version);
     } else if (root.Bokeh.version === py_version) {
@@ -1816,26 +1718,24 @@ Data variables:
         attempts++;
         if (attempts > 200) {
           clearInterval(timer);
-      var Bokeh = get_bokeh(root)
-      if (Bokeh == null || Bokeh.Panel == null) {
+	  var Bokeh = get_bokeh(root)
+	  if (Bokeh == null || Bokeh.Panel == null) {
             console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
-      } else {
-        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
-        embed_document(root)
-      }
+	  } else {
+	    console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+	    embed_document(root)
+	  }
         }
       }
     }, 25, root)
   }
-})(window);</script></div>
+})(window);</script></div></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># looking at readout histograms -- use simply all points in the set</span>
-<span class="c1"># hexbin is a very simple way to have a quick look at this.</span>
-<span class="c1"># doesn&#39;t offer too much control, but is</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># looking at readout histograms -- use simply all points in the set</span>
+<span class="c1"># hexbin is a very simple way to have a quick look at this. </span>
+<span class="c1"># doesn&#39;t offer too much control, but is </span>
 <span class="n">xrdata</span><span class="o">.</span><span class="n">hvplot</span><span class="p">(</span>
     <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hexbin&#39;</span><span class="p">,</span>
     <span class="n">aspect</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -1846,18 +1746,8 @@ Data variables:
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div id='p1470'>
+<div class="cell_output docutils container">
+<div class="output text_html"><div id='p1470'>
   <div id="b4a4a87c-9931-46df-a059-9cd724dc62bd" data-root-id="p1470" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
@@ -1874,11 +1764,11 @@ Data variables:
     Bokeh.embed.embed_items_notebook(docs_json, render_items);
     for (const render_item of render_items) {
       for (const root_id of render_item.root_ids) {
-    const id_el = document.getElementById(root_id)
-    if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
-      const root_el = id_el.children[0]
-      root_el.id = root_el.id + '-rendered'
-    }
+	const id_el = document.getElementById(root_id)
+	if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
+	  const root_el = id_el.children[0]
+	  root_el.id = root_el.id + '-rendered'
+	}
       }
     }
   }
@@ -1887,7 +1777,7 @@ Data variables:
       return null
     } else if (root.Bokeh.version !== py_version && !is_dev) {
       if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
-    return null
+	return null
       }
       return root.Bokeh.versions.get(py_version);
     } else if (root.Bokeh.version === py_version) {
@@ -1911,24 +1801,22 @@ Data variables:
         attempts++;
         if (attempts > 200) {
           clearInterval(timer);
-      var Bokeh = get_bokeh(root)
-      if (Bokeh == null || Bokeh.Panel == null) {
+	  var Bokeh = get_bokeh(root)
+	  if (Bokeh == null || Bokeh.Panel == null) {
             console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
-      } else {
-        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
-        embed_document(root)
-      }
+	  } else {
+	    console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+	    embed_document(root)
+	  }
         }
       }
     }, 25, root)
   }
-})(window);</script></div>
+})(window);</script></div></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if we want to select based on some time/detuning values...</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># if we want to select based on some time/detuning values...</span>
 <span class="n">xrdata</span><span class="o">.</span><span class="n">hvplot</span><span class="p">(</span>
     <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;hexbin&#39;</span><span class="p">,</span>
     <span class="n">aspect</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -1941,18 +1829,8 @@ Data variables:
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div id='p1534'>
+<div class="cell_output docutils container">
+<div class="output text_html"><div id='p1534'>
   <div id="a921e542-2054-4ab8-ab12-923a7850dec3" data-root-id="p1534" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
@@ -1969,11 +1847,11 @@ Data variables:
     Bokeh.embed.embed_items_notebook(docs_json, render_items);
     for (const render_item of render_items) {
       for (const root_id of render_item.root_ids) {
-    const id_el = document.getElementById(root_id)
-    if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
-      const root_el = id_el.children[0]
-      root_el.id = root_el.id + '-rendered'
-    }
+	const id_el = document.getElementById(root_id)
+	if (id_el.children.length && (id_el.children[0].className === 'bk-root')) {
+	  const root_el = id_el.children[0]
+	  root_el.id = root_el.id + '-rendered'
+	}
       }
     }
   }
@@ -1982,7 +1860,7 @@ Data variables:
       return null
     } else if (root.Bokeh.version !== py_version && !is_dev) {
       if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
-    return null
+	return null
       }
       return root.Bokeh.versions.get(py_version);
     } else if (root.Bokeh.version === py_version) {
@@ -2006,50 +1884,18 @@ Data variables:
         attempts++;
         if (attempts > 200) {
           clearInterval(timer);
-      var Bokeh = get_bokeh(root)
-      if (Bokeh == null || Bokeh.Panel == null) {
+	  var Bokeh = get_bokeh(root)
+	  if (Bokeh == null || Bokeh.Panel == null) {
             console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
-      } else {
-        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
-        embed_document(root)
-      }
+	  } else {
+	    console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+	    embed_document(root)
+	  }
         }
       }
     }, 25, root)
   }
-})(window);</script></div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
+})(window);</script></div></div>
 </div>
 </section>
 
@@ -2101,10 +1947,10 @@ Data variables:
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Holoviz-based plotting in the lab - Primer</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Some-basic-preliminaries">Some basic preliminaries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#some-basic-preliminaries">Some basic preliminaries</a></li>
 </ul>
 </li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#Brief-primer-on-vanilla-holoviz">Brief primer on vanilla holoviz</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#brief-primer-on-vanilla-holoviz">Brief primer on vanilla holoviz</a></li>
 </ul>
 
   </nav></div>
@@ -2143,7 +1989,7 @@ Data variables:
 
   <p class="copyright">
     
-      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff.
       <br/>
     
   </p>

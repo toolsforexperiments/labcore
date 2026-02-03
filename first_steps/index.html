@@ -31,6 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,13 +42,12 @@
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'first_steps/index';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/first_steps/index.html" />
     <link rel="author" title="About these documents" href="../about.html" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="next" title="15 minutes to Labcore" href="15_min_guide.html" />
     <link rel="prev" title="Labcore" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -374,6 +374,7 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="15_min_guide.html">15 minutes to Labcore</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_data.html">Creating Basic Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_analysis.html">Basic Analysis</a></li>
@@ -436,14 +437,41 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="first-steps">
 <h1>First Steps<a class="headerlink" href="#first-steps" title="Link to this heading">#</a></h1>
-<p>The following pages will help you get familiar with Labcore’s tools. They are not meant to be exhaustive but simply an introduction.</p>
+<p>This page should give you a 15 minute introduction to using some of labcore’s basic functionalities.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>To install labcore from a local clone: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-e</span> <span class="pre">/path/to/labcore</span></code> (Coming soon to a PyPI package near you!). For more detailed installation instructions, see the <a class="reference internal" href="installation.html"><span class="std std-doc">installation guide</span></a>.</p>
+</section>
+<section id="table-of-contents">
+<h2>Table of contents<a class="headerlink" href="#table-of-contents" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="15_min_guide.html">15 minutes to Labcore</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="15_min_guide.html#installing-labcore">Installing labcore</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_min_guide.html#importing-the-basics">Importing the basics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="15_min_guide.html#using-datadict-to-store-data">Using DataDict to store data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="15_min_guide.html#loading-data-from-storage">Loading data from storage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="15_min_guide.html#combining-sweeps">Combining sweeps</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="15_min_guide.html#nesting-sweeps">Nesting sweeps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="15_min_guide.html#appending-sweeps">Appending sweeps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="15_min_guide.html#zipping-sweeps">Zipping sweeps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="15_min_guide.html#d-sweeps">2d sweeps</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="15_min_guide.html#analyzing-and-visualizing-data">Analyzing and visualizing data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="15_min_guide.html#using-datasetanalysis">Using DatasetAnalysis</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_data.html">Creating Basic Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="first_analysis.html">Basic Analysis</a></li>
 </ul>
 </div>
+</section>
 </section>
 
 
@@ -466,11 +494,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="installation.html"
+       href="15_min_guide.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Installation</p>
+        <p class="prev-next-title">15 minutes to Labcore</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -484,6 +512,19 @@
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#table-of-contents">Table of contents</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
@@ -519,7 +560,7 @@
 
   <p class="copyright">
     
-      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff.
       <br/>
     
   </p>

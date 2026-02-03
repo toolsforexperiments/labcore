@@ -31,7 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -42,9 +42,6 @@
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'examples/hvplot_visualization_guide';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/examples/hvplot_visualization_guide.html" />
     <link rel="author" title="About these documents" href="../about.html" />
@@ -442,21 +439,16 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">labcore.analysis.hv_pretty</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_plotting</span><span class="p">,</span> <span class="n">format_ax</span><span class="p">,</span> <span class="n">add_legend</span><span class="p">,</span> <span class="n">correctly_sized_figure</span><span class="p">,</span> <span class="n">set_arial_font</span><span class="p">,</span> <span class="n">save_plot_as_png</span>
-<br/></pre></div>
+</pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area rendered_html docutils container">
-<script type="esms-options">{"shimMode": true}</script><style>*[data-root-id],
+<div class="cell_output docutils container">
+<div class="output text_html"><script type="esms-options">{"shimMode": true}</script><style>*[data-root-id],
 *[data-root-id] > * {
   box-sizing: border-box;
   font-family: var(--jp-ui-font-family);
@@ -471,16 +463,7 @@
 .cell-output-ipywidget-background:has(> .lm-Widget > *[data-root-id]) {
   background-color: transparent !important;
 }
-</style></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-(function(root) {
+</style></div><script type="application/javascript">(function(root) {
   function now() {
     return new Date();
   }
@@ -725,17 +708,7 @@ function(Bokeh) {} // ensure no trailing comma for IE
   // Give older versions of the autoload script a head-start to ensure
   // they initialize before we start loading newer version.
   setTimeout(load_or_wait, 100)
-}(window));
-</script></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-
+}(window));</script><script type="application/javascript">
 if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
   window.PyViz = {comms: {}, comm_status:{}, kernels:{}, receivers: {}, plot_index: []}
 }
@@ -806,7 +779,7 @@ if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
             }
             return messages.next().then(processIteratorResult);
           }
-        })
+        }) 
         var sendClosure = (data, metadata, buffers, disposeOnDone) => {
           return comm_promise.then((comm) => {
             comm.send(data, metadata, buffers, disposeOnDone);
@@ -820,7 +793,7 @@ if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
       return comm;
     }
     window.PyViz.comm_manager = new JupyterCommManager();
-
+    
 
 
 var JS_MIME_TYPE = 'application/javascript';
@@ -974,14 +947,7 @@ if (window.Jupyter !== undefined) {
   } catch(err) {
   }
 }
-
-</script></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area rendered_html docutils container">
-<div id='3922c908-2a4e-4cb1-ab16-0fedc6d4282b'>
+</script><div class="output text_html"><div id='3922c908-2a4e-4cb1-ab16-0fedc6d4282b'>
   <div id="f7061ef6-4c87-4b89-8ef7-014db58e2829" data-root-id="3922c908-2a4e-4cb1-ab16-0fedc6d4282b" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
@@ -997,16 +963,16 @@ if (window.Jupyter !== undefined) {
     await Bokeh.embed.embed_items_notebook(docs_json, render_items);
     for (const render_item of render_items) {
       for (const root_id of render_item.root_ids) {
-    const id_el = document.getElementById(root_id)
-    if (id_el.children.length && id_el.children[0].hasAttribute('data-root-id')) {
-      const root_el = id_el.children[0]
-      root_el.id = root_el.id + '-rendered'
-      for (const child of root_el.children) {
+	const id_el = document.getElementById(root_id)
+	if (id_el.children.length && id_el.children[0].hasAttribute('data-root-id')) {
+	  const root_el = id_el.children[0]
+	  root_el.id = root_el.id + '-rendered'
+	  for (const child of root_el.children) {
             // Ensure JupyterLab does not capture keyboard shortcuts
             // see: https://jupyterlab.readthedocs.io/en/4.1.x/extension/notebook.html#keyboard-interaction-model
-        child.setAttribute('data-lm-suppress-shortcuts', 'true')
-      }
-    }
+	    child.setAttribute('data-lm-suppress-shortcuts', 'true')
+	  }
+	}
       }
     }
   }
@@ -1015,7 +981,7 @@ if (window.Jupyter !== undefined) {
       return null
     } else if (root.Bokeh.version !== py_version) {
       if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
-    return null
+	return null
       }
       return root.Bokeh.versions.get(py_version);
     } else if (root.Bokeh.version === py_version) {
@@ -1039,24 +1005,18 @@ if (window.Jupyter !== undefined) {
         attempts++;
         if (attempts > 200) {
           clearInterval(timer);
-      var Bokeh = get_bokeh(root)
-      if (Bokeh == null || Bokeh.Panel == null) {
+	  var Bokeh = get_bokeh(root)
+	  if (Bokeh == null || Bokeh.Panel == null) {
             console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
-      } else {
-        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
-        embed_document(root)
-      }
+	  } else {
+	    console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+	    embed_document(root)
+	  }
         }
       }
     }, 25, root)
   }
-})(window);</script></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area rendered_html docutils container">
-<script type="esms-options">{"shimMode": true}</script><style>*[data-root-id],
+})(window);</script></div><div class="output text_html"><script type="esms-options">{"shimMode": true}</script><style>*[data-root-id],
 *[data-root-id] > * {
   box-sizing: border-box;
   font-family: var(--jp-ui-font-family);
@@ -1071,16 +1031,7 @@ if (window.Jupyter !== undefined) {
 .cell-output-ipywidget-background:has(> .lm-Widget > *[data-root-id]) {
   background-color: transparent !important;
 }
-</style></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-(function(root) {
+</style></div><script type="application/javascript">(function(root) {
   function now() {
     return new Date();
   }
@@ -1325,17 +1276,7 @@ function(Bokeh) {} // ensure no trailing comma for IE
   // Give older versions of the autoload script a head-start to ensure
   // they initialize before we start loading newer version.
   setTimeout(load_or_wait, 100)
-}(window));
-</script></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-
+}(window));</script><script type="application/javascript">
 if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
   window.PyViz = {comms: {}, comm_status:{}, kernels:{}, receivers: {}, plot_index: []}
 }
@@ -1406,7 +1347,7 @@ if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
             }
             return messages.next().then(processIteratorResult);
           }
-        })
+        }) 
         var sendClosure = (data, metadata, buffers, disposeOnDone) => {
           return comm_promise.then((comm) => {
             comm.send(data, metadata, buffers, disposeOnDone);
@@ -1420,7 +1361,7 @@ if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
       return comm;
     }
     window.PyViz.comm_manager = new JupyterCommManager();
-
+    
 
 
 var JS_MIME_TYPE = 'application/javascript';
@@ -1574,14 +1515,7 @@ if (window.Jupyter !== undefined) {
   } catch(err) {
   }
 }
-
-</script></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area rendered_html docutils container">
-<script type="esms-options">{"shimMode": true}</script><style>*[data-root-id],
+</script><div class="output text_html"><script type="esms-options">{"shimMode": true}</script><style>*[data-root-id],
 *[data-root-id] > * {
   box-sizing: border-box;
   font-family: var(--jp-ui-font-family);
@@ -1596,16 +1530,7 @@ if (window.Jupyter !== undefined) {
 .cell-output-ipywidget-background:has(> .lm-Widget > *[data-root-id]) {
   background-color: transparent !important;
 }
-</style></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-(function(root) {
+</style></div><script type="application/javascript">(function(root) {
   function now() {
     return new Date();
   }
@@ -1850,17 +1775,7 @@ function(Bokeh) {} // ensure no trailing comma for IE
   // Give older versions of the autoload script a head-start to ensure
   // they initialize before we start loading newer version.
   setTimeout(load_or_wait, 100)
-}(window));
-</script></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="output_javascript"></div>
-<script type="text/javascript">
-var element = document.currentScript.previousSibling.previousSibling;
-
+}(window));</script><script type="application/javascript">
 if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
   window.PyViz = {comms: {}, comm_status:{}, kernels:{}, receivers: {}, plot_index: []}
 }
@@ -1931,7 +1846,7 @@ if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
             }
             return messages.next().then(processIteratorResult);
           }
-        })
+        }) 
         var sendClosure = (data, metadata, buffers, disposeOnDone) => {
           return comm_promise.then((comm) => {
             comm.send(data, metadata, buffers, disposeOnDone);
@@ -1945,7 +1860,7 @@ if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
       return comm;
     }
     window.PyViz.comm_manager = new JupyterCommManager();
-
+    
 
 
 var JS_MIME_TYPE = 'application/javascript';
@@ -2099,14 +2014,11 @@ if (window.Jupyter !== undefined) {
   } catch(err) {
   }
 }
-
 </script></div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
     <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
 <span class="p">})</span>
@@ -2131,21 +2043,11 @@ if (window.Jupyter !== undefined) {
 <span class="n">plot</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">opts</span><span class="p">(</span><span class="n">hooks</span><span class="o">=</span><span class="p">[</span><span class="n">set_arial_font</span><span class="p">])</span>
 
 <span class="n">plot</span>
-<br/></pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="output_area rendered_html docutils container">
-<div id='e8607258-b869-4573-8386-713298f100f9'>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div id='e8607258-b869-4573-8386-713298f100f9'>
   <div id="ea5750d3-2d0e-4c57-a2af-8e025e641051" data-root-id="e8607258-b869-4573-8386-713298f100f9" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
@@ -2161,16 +2063,16 @@ if (window.Jupyter !== undefined) {
     await Bokeh.embed.embed_items_notebook(docs_json, render_items);
     for (const render_item of render_items) {
       for (const root_id of render_item.root_ids) {
-    const id_el = document.getElementById(root_id)
-    if (id_el.children.length && id_el.children[0].hasAttribute('data-root-id')) {
-      const root_el = id_el.children[0]
-      root_el.id = root_el.id + '-rendered'
-      for (const child of root_el.children) {
+	const id_el = document.getElementById(root_id)
+	if (id_el.children.length && id_el.children[0].hasAttribute('data-root-id')) {
+	  const root_el = id_el.children[0]
+	  root_el.id = root_el.id + '-rendered'
+	  for (const child of root_el.children) {
             // Ensure JupyterLab does not capture keyboard shortcuts
             // see: https://jupyterlab.readthedocs.io/en/4.1.x/extension/notebook.html#keyboard-interaction-model
-        child.setAttribute('data-lm-suppress-shortcuts', 'true')
-      }
-    }
+	    child.setAttribute('data-lm-suppress-shortcuts', 'true')
+	  }
+	}
       }
     }
   }
@@ -2179,7 +2081,7 @@ if (window.Jupyter !== undefined) {
       return null
     } else if (root.Bokeh.version !== py_version) {
       if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
-    return null
+	return null
       }
       return root.Bokeh.versions.get(py_version);
     } else if (root.Bokeh.version === py_version) {
@@ -2203,24 +2105,22 @@ if (window.Jupyter !== undefined) {
         attempts++;
         if (attempts > 200) {
           clearInterval(timer);
-      var Bokeh = get_bokeh(root)
-      if (Bokeh == null || Bokeh.Panel == null) {
+	  var Bokeh = get_bokeh(root)
+	  if (Bokeh == null || Bokeh.Panel == null) {
             console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
-      } else {
-        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
-        embed_document(root)
-      }
+	  } else {
+	    console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+	    embed_document(root)
+	  }
         }
       }
     }, 25, root)
   }
-})(window);</script></div>
+})(window);</script></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">save_plot_as_png</span><span class="p">(</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">save_plot_as_png</span><span class="p">(</span>
     <span class="n">plot</span><span class="o">=</span><span class="n">plot</span><span class="p">,</span>
     <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;sine_wave.png&quot;</span><span class="p">,</span>
     <span class="n">width_in</span><span class="o">=</span><span class="mf">2.75</span><span class="p">,</span>
@@ -2230,11 +2130,10 @@ if (window.Jupyter !== undefined) {
 </pre></div>
 </div>
 </div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create sample data</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create sample data</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
     <span class="s1">&#39;y1&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)),</span>
@@ -2259,18 +2158,8 @@ if (window.Jupyter !== undefined) {
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
-</pre></div>
-</div>
-<div class="output_area rendered_html docutils container">
-<div id='77078ccf-9aca-4f0e-ac7c-4d61ecde3617'>
+<div class="cell_output docutils container">
+<div class="output text_html"><div id='77078ccf-9aca-4f0e-ac7c-4d61ecde3617'>
   <div id="da513ea8-b62e-4076-94ff-d07ee9ad9264" data-root-id="77078ccf-9aca-4f0e-ac7c-4d61ecde3617" style="display: contents;"></div>
 </div>
 <script type="application/javascript">(function(root) {
@@ -2286,16 +2175,16 @@ if (window.Jupyter !== undefined) {
     await Bokeh.embed.embed_items_notebook(docs_json, render_items);
     for (const render_item of render_items) {
       for (const root_id of render_item.root_ids) {
-    const id_el = document.getElementById(root_id)
-    if (id_el.children.length && id_el.children[0].hasAttribute('data-root-id')) {
-      const root_el = id_el.children[0]
-      root_el.id = root_el.id + '-rendered'
-      for (const child of root_el.children) {
+	const id_el = document.getElementById(root_id)
+	if (id_el.children.length && id_el.children[0].hasAttribute('data-root-id')) {
+	  const root_el = id_el.children[0]
+	  root_el.id = root_el.id + '-rendered'
+	  for (const child of root_el.children) {
             // Ensure JupyterLab does not capture keyboard shortcuts
             // see: https://jupyterlab.readthedocs.io/en/4.1.x/extension/notebook.html#keyboard-interaction-model
-        child.setAttribute('data-lm-suppress-shortcuts', 'true')
-      }
-    }
+	    child.setAttribute('data-lm-suppress-shortcuts', 'true')
+	  }
+	}
       }
     }
   }
@@ -2304,7 +2193,7 @@ if (window.Jupyter !== undefined) {
       return null
     } else if (root.Bokeh.version !== py_version) {
       if (root.Bokeh.versions === undefined || !root.Bokeh.versions.has(py_version)) {
-    return null
+	return null
       }
       return root.Bokeh.versions.get(py_version);
     } else if (root.Bokeh.version === py_version) {
@@ -2328,24 +2217,22 @@ if (window.Jupyter !== undefined) {
         attempts++;
         if (attempts > 200) {
           clearInterval(timer);
-      var Bokeh = get_bokeh(root)
-      if (Bokeh == null || Bokeh.Panel == null) {
+	  var Bokeh = get_bokeh(root)
+	  if (Bokeh == null || Bokeh.Panel == null) {
             console.warn("Panel: ERROR: Unable to run Panel code because Bokeh or Panel library is missing");
-      } else {
-        console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
-        embed_document(root)
-      }
+	  } else {
+	    console.warn("Panel: WARNING: Attempting to render but not all required libraries could be resolved.")
+	    embed_document(root)
+	  }
         }
       }
     }, 25, root)
   }
-})(window);</script></div>
+})(window);</script></div></div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">save_plot_as_png</span><span class="p">(</span>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">save_plot_as_png</span><span class="p">(</span>
     <span class="n">plot</span><span class="o">=</span><span class="n">overlay</span><span class="p">,</span>
     <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;sincos_wave.png&quot;</span><span class="p">,</span>
     <span class="n">width_in</span><span class="o">=</span><span class="mf">2.75</span><span class="p">,</span>
@@ -2353,6 +2240,7 @@ if (window.Jupyter !== undefined) {
     <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span>
 <span class="p">)</span>
 </pre></div>
+</div>
 </div>
 </div>
 
@@ -2441,7 +2329,7 @@ if (window.Jupyter !== undefined) {
 
   <p class="copyright">
     
-      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff.
       <br/>
     
   </p>

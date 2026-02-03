@@ -31,6 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,7 +42,6 @@
     <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/instruments/instrumentmonitoring';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/user_guide/instruments/instrumentmonitoring.html" />
     <link rel="author" title="About these documents" href="../../about.html" />
@@ -464,22 +464,22 @@
 <p>This tool is designed to be able to facilitate the monitoring of instruments. It consists of multiple parts that must be set up:</p>
 <p><img alt="Overview" src="../../_images/instrumentmonitoring.png" /></p>
 <p>Above is a diagram showcasing the architecture for a dashboard for the monitoring of two separate instruments. The architecture consists of two PCs that communicate with the instrument using qCoDeS, which broadcast the data they receive to a central computer where the dashboard is hosted.</p>
-<p><a class="reference internal" href="#docker"><span class="std std-ref">Docker</span></a></p>
+<p><a class="reference internal" href="#docker"><span class="xref myst">Docker</span></a></p>
 <p>Docker is the service used to host Grafana and InfluxDB locally. Both of the services have a server that runs inside of a Docker container on your internet-connected device, and will be accessible through the network the computer is connected to. Both Influx and Grafana will be accessible with an internet connection to the computer running Docker.</p>
-<p><a class="reference internal" href="#grafana"><span class="std std-ref">Grafana</span></a></p>
+<p><a class="reference internal" href="#grafana"><span class="xref myst">Grafana</span></a></p>
 <p>Grafana is the service used to visualize the data gathered from your instrument(s) of choice. It has functionality to both have visualization through dashboards, and also alerting capabilities through Slack integration and more. Below is an example of what a Grafana dashboard may look like.</p>
 <p>Grafana is hosted locally on a internet-connected device, and can then be viewed while connected to the network and logging in to your Grafana account. It will live in a Docker container. (More on that later)</p>
 <p><img alt="Example Dashboard" src="../../_images/dashboard.png" /></p>
 <p>Below is a sample alert send out by Grafana on Slack. The alert notifies that a parameter (in this case MC) has passed a threshold. This is for a dilution refrigerator, and the parameter in this case is a value from a temperature sensor. This one, MC, is in the mixing chamber.</p>
 <p><img alt="Example Alert" src="../../_images/sample_alert.png" /></p>
-<p><a class="reference internal" href="#influxdb"><span class="std std-ref">InfluxDB</span></a></p>
+<p><a class="reference internal" href="#influxdb"><span class="xref myst">InfluxDB</span></a></p>
 <p>InfluxDB is the database used to store data fetched from instruments. It stores the data in time-series format (each data point has a time). It can then be accessed by Grafana in order to construct time-series plots of the various parameters in the database (as shown above).</p>
 <p>InfluxDB should be hosted on the same device as Grafana. It will also be in a Docker container. (again, more on that later)</p>
-<p><a class="reference internal" href="#the-instrumentserver"><span class="std std-ref">The Instrumentserver</span></a></p>
+<p><a class="reference internal" href="#the-instrumentserver"><span class="xref myst">The Instrumentserver</span></a></p>
 <p>The instrumentserver runs on a computer that can talk with your instrument through a network connection. The instrumentserver will ask your instrument for the data you specify, which will then be sent back to the instrumentserver by the instrument.</p>
 <p>Based on a yaml config file, the instrumentserver can then ask for the correct data from the instrument and broadcast it to the internet (to be used for visualizations).</p>
 <p>In the instrumentserver, for each instrument, the user provides a list of parameters to get values or states from, with a corresponding rate (in seconds) for how often to poll the parameter.</p>
-<p><a class="reference internal" href="#the-listener"><span class="std std-ref">The Listener</span></a></p>
+<p><a class="reference internal" href="#the-listener"><span class="xref myst">The Listener</span></a></p>
 <p>The listener is ran on the same computer that is running the Docker containers for Grafana and InfluxDB. It subscribes to the broadcasts from the instrumentservers, and then writes the data to the InfluxDB database. The listener can also be configured to write to a CSV file, however InfluxDB is recommended.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -493,19 +493,19 @@
 <h3>Step 1: Instrumentserver setup<a class="headerlink" href="#step-1-instrumentserver-setup" title="Link to this heading">#</a></h3>
 <p>First, locate or create a qCoDeS driver for your instrument. Also, make sure the instrument is connected to some sort of network (generally a switch), and find its IP address on the private network. Also, locate the correct port to communicate with the instrument (generally found in the manual for the instrument).</p>
 <p>Once you have all of this information, set up a PC (windows, linux, etc.) that is connected to the same network (switch) as the instrument you want to monitor. Install the instrumentserver and labcore on this PC.</p>
-<p>Decide on a port you want to broadcast data through on the PC. Then create a config file for the instrumentserver using the above qCoDeS driver, ports, etc. Check out the section for the instrumentserver <a class="reference internal" href="#config-file"><span class="std std-ref">config file</span></a>.</p>
-<p>Then, start the instrumentserver. See <a class="reference internal" href="#starting-the-instrument-server"><span class="std std-ref">starting the instrumentserver</span></a>.</p>
+<p>Decide on a port you want to broadcast data through on the PC. Then create a config file for the instrumentserver using the above qCoDeS driver, ports, etc. Check out the section for the instrumentserver <a class="reference internal" href="#config-file"><span class="xref myst">config file</span></a>.</p>
+<p>Then, start the instrumentserver. See <a class="reference internal" href="#starting-the-instrument-server"><span class="xref myst">starting the instrumentserver</span></a>.</p>
 </section>
 <section id="step-2-influxdb-and-grafana">
 <h3>Step 2: InfluxDB and Grafana<a class="headerlink" href="#step-2-influxdb-and-grafana" title="Link to this heading">#</a></h3>
 <p>Set up a PC that you would like to host the dashboard on. Install labcore and the instrumentserver on this PC.
-Install docker and start the docker engine. Follow the <a class="reference internal" href="#docker"><span class="std std-ref">docker section</span></a> to set up a docker compose file. Make sure that InfluxDB and Grafana are able to be accessed.</p>
+Install docker and start the docker engine. Follow the <a class="reference internal" href="#docker"><span class="xref myst">docker section</span></a> to set up a docker compose file. Make sure that InfluxDB and Grafana are able to be accessed.</p>
 </section>
 <section id="step-3-the-listener">
 <h3>Step 3: The Listener<a class="headerlink" href="#step-3-the-listener" title="Link to this heading">#</a></h3>
 <p>On the same PC that Grafana and Influx were started on:</p>
-<p>Keep track of the address and port that the instrumentserver is broadcasting to in the previous section. Use this information, the information you used to set up InfluxDB, plus the parameters you want to monitor to fill out the config file.</p>
-<p>You can then <a class="reference internal" href="#starting-the-listener"><span class="std std-ref">start the listener</span></a>.</p>
+<p>Keep track of the address and port that the instrumentserver is broadcasting to in the previous section. Use this information, the information you used to set up InfluxDB, plus the parameters you want to monitor to fill out the <a class="reference internal" href="#config-file-1"><span class="xref myst">config file</span></a>.</p>
+<p>You can then <a class="reference internal" href="#starting-the-listener"><span class="xref myst">start the listener</span></a>.</p>
 </section>
 <section id="step-4-grafana-customization">
 <h3>Step 4: Grafana Customization<a class="headerlink" href="#step-4-grafana-customization" title="Link to this heading">#</a></h3>
@@ -848,7 +848,7 @@ Under the grafana section, under “image”, replace the default image “grafa
 <section id="creating-alert-conditions-from-scratch">
 <h4>Creating Alert Conditions from Scratch<a class="headerlink" href="#creating-alert-conditions-from-scratch" title="Link to this heading">#</a></h4>
 <p>If there are no existing alert conditions for the dashboard you wish to set up, follow this portion.</p>
-<p>First, navigate to the Contact Points tab. Go to Notification Templates and make sure you have a message and title template. Examples can be found in <a class="reference internal" href="#notification-templates"><span class="std std-ref">notificationtemplates</span></a>.</p>
+<p>First, navigate to the Contact Points tab. Go to Notification Templates and make sure you have a message and title template. Examples can be found in <a class="reference internal" href="#notification-templates"><span class="xref myst">notificationtemplates</span></a>.</p>
 <p>Then, go back to the main contact points tab, and check if there is a contact point for the dashboard you are setting up alerts for. If not, select “Create Contact Point”.</p>
 <p><img alt="contactpoint" src="../../_images/new_contact_point.png" /></p>
 <p>Choose a name corresponding to the dashboard. Choose your integration type. For this guide we will choose Slack. Then, fill in the Webhook url section with the webhook of the channel you wish to send alerts to. You must have a Slack App set up. Information on how to do this can be found on Slack API website.</p>
@@ -856,7 +856,7 @@ Under the grafana section, under “image”, replace the default image “grafa
 <p>Navigate to the Notification Policies tab, under Alerting. Under the default policy, select “new child policy”.</p>
 <p><img alt="childpolicy" src="../../_images/child_policy.png" /></p>
 <p>Fill in the label portion with the name of the instrument/dashboard, and have the condition be “= 1”. Add the contact point you just created to the policy. Then, select “Override General timings”, and set the repeat interval to a high number “say 52w”. This will ensure the alert will only fire once, at the moment the threshold is passed.</p>
-<p>Then, navigate to the alert rules tab and select “New alert rule”. Follow <a class="reference internal" href="#creating-alert-conditions-in-grafana"><span class="std std-ref">creatingconditions</span></a> to fill out sections 1 and 2.</p>
+<p>Then, navigate to the alert rules tab and select “New alert rule”. Follow <a class="reference internal" href="#creating-alert-conditions-in-grafana"><span class="xref myst">creatingconditions</span></a> to fill out sections 1 and 2.</p>
 <p>Now you should be on section 3. “Set evaluation behaviour. I would recommend creating a new folder for your instrument/dashboard if one does not exist. Then, create a default evaluation group (can be used for all the elements in the folder). I have found that evaultation every 30 seconds with a 30 second pending period work well. Then, navigate to “Configure no data and error handling”. I have found that using “Keep Last State” for both will result in no false alerts if missing/bad data is encountered.</p>
 <p><img alt="evaluationbehavior" src="../../_images/evaluation_behavior.png" /></p>
 <p>Then, under “Configure labels and notifications”, set your label you created on the notification policy to 1, and under “Notifications”, select “Use notification policy”</p>
@@ -985,7 +985,7 @@ Under the grafana section, under “image”, replace the default image “grafa
 
   <p class="copyright">
     
-      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff.
       <br/>
     
   </p>

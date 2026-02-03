@@ -31,6 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -41,7 +42,6 @@
     <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/labcore.data.datadict';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/api/generated/labcore.data.datadict.html" />
     <link rel="author" title="About these documents" href="../../about.html" />
@@ -1357,7 +1357,7 @@ Uses MultiIndex, and assumes that all data fields are compatible.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="labcore.data.datadict.dd2xr">
-<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict.</span></span><span class="sig-name descname"><span class="pre">dd2xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.data.datadict.MeshgridDataDict" title="labcore.data.datadict.MeshgridDataDict"><span class="pre">MeshgridDataDict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2025.12.0)"><span class="pre">Dataset</span></a></span></span><a class="reference internal" href="../../_modules/labcore/data/datadict.html#dd2xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict.dd2xr" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict.</span></span><span class="sig-name descname"><span class="pre">dd2xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.data.datadict.MeshgridDataDict" title="labcore.data.datadict.MeshgridDataDict"><span class="pre">MeshgridDataDict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.1.0)"><span class="pre">Dataset</span></a></span></span><a class="reference internal" href="../../_modules/labcore/data/datadict.html#dd2xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict.dd2xr" title="Link to this definition">#</a></dt>
 <dd><p>makes an xarray Dataset from a MeshgridDataDict.</p>
 <dl class="simple">
 <dt>TODO: currently only supports ‘regular’ grides, i.e., all axes</dt><dd><p>are independet of each other, and can be represented by 1d arrays.
@@ -1608,7 +1608,7 @@ E.g: for <code class="docutils literal notranslate"><span class="pre">key</span>
 
   <p class="copyright">
     
-      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan.
+      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff.
       <br/>
     
   </p>
