@@ -6,7 +6,7 @@ dependencies:
   - sphinx
   - pydata-sphinx-theme
   - myst-parser
-  - nbsphinx
+  - myst-nb
   - pandoc
   - ipykernel
   - linkify-it-py
