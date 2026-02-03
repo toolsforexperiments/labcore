@@ -13,19 +13,18 @@ sys.path.insert(0, os.path.abspath('..'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Labcore'
-copyright = '2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan'
-author = 'Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan'
+copyright = '2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff'
+author = 'Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'myst_parser',            # Markdown support
     'sphinx.ext.autodoc',     # API documentation from docstrings
     'sphinx.ext.autosummary', # Generate summary tables for modules
     'sphinx.ext.napoleon',    # Support for NumPy and Google style docstrings
     'sphinx.ext.viewcode',    # Add links to source code
-    'nbsphinx',               # Jupyter notebook support
+    'myst_nb',                # Jupyter notebook + MyST support
     'sphinx.ext.intersphinx', # Link to other project docs
 ]
 
@@ -47,6 +46,10 @@ myst_enable_extensions = [
 # Allow MyST to parse Sphinx roles and directives
 myst_enable_roles = True
 
+# MyST-NB notebook execution
+jupyter_execute_notebooks = "off"  # Do not run notebooks during docs build
+nb_execution_allow_errors = True   # Continue building if a notebook cell errors
+
 # Autosummary configuration (auto-generate API docs)
 autosummary_generate = True
 autosummary_generate_overwrite = True
@@ -60,11 +63,6 @@ autodoc_default_options = {
 
 # MyST configuration for proper cross-references in Markdown
 myst_linkify_fuzzy_links = True
-
-# nbsphinx configuration (for Jupyter notebooks)
-nbsphinx_execute = 'never'  # Don't execute notebooks during build (safer)
-nbsphinx_allow_errors = True  # Continue building if notebook has errors
-nbsphinx_kernel_name = 'python3'
 
 # Intersphinx configuration (link to other docs)
 intersphinx_mapping = {
