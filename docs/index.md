@@ -17,19 +17,19 @@ Site under construction
 
 ## Overview
 
-Labcore and the whole [Tools For Experiments](https://github.com/toolsforexperiments) are the software efforts of [Pfafflab at the University of Illinois at Urbana-Champaign](https://pfaff.physics.illinois.edu/).
+Labcore and the entire [Tools For Experiments](https://github.com/toolsforexperiments) are the software efforts of [Pfafflab at the University of Illinois at Urbana-Champaign](https://pfaff.physics.illinois.edu/).
 
 ### Full Stack Toolset
 
-Labcore helps your lab function on all steps of the software stack. From controlling instruments and experiment flow, to final data analysis for publication papers, Labcore provides tools for all of them.
+Labcore helps your lab function on all levels of the software stack. Labcore provides tools all the way from controlling instruments and experiment flow to final data analysis for preparing publications.
 
 ### Modular Design
 
-Only use the tools that you need. Labcore modular designs lets you choose which parts of it are the most convenient for your workflow and gets out of the way for the rest.
+Only use the tools that you need. Labcore's modular design lets you choose the parts that are most convenient for your workflow and integrates with whichever other tools you use.
 
 ### Developed by Physicists
 
-Labcore is developed by Physicists for real needs happening inside of our lab.
+Labcore is developed by and used by physicists in experimental research groups. We understand the needs of a physics laboratory, and design Labcore to meet those needs.
 
 ## Getting started
 
