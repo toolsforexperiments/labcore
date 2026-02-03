@@ -8,8 +8,8 @@ To install labcore from a local clone: ``pip install -e /path/to/labcore`` (Comi
 ## Table of contents
 
 ```{toctree}
-15_min_guide
 installation
+15_min_guide
 first_data
 first_analysis
 ```
