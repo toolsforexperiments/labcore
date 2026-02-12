@@ -15,7 +15,7 @@ from bokeh.io.export import export_png
 import pandas
 import param
 import panel as pn
-from panel.widgets import RadioButtonGroup as RBG, Select
+from panel.widgets import ToggleGroup, Select
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -224,39 +224,51 @@ class DataSelect(pn.viewable.Viewer):
         # Setup data preview panel
         if path is not None:
             abs_path = path.absolute()
-            # Add all/any images to a scrolling feed
+            # Defer heavy operations - only load images if visible, not data dict
+            # This speeds up file selection significantly
             images = []
-            for file in Path.iterdir(abs_path):
-                # Check if the file ends with png, jpg, or jpeg
-                file = str(file)
-                img = ''
-                if file.endswith(".png"):
-                    img = pn.pane.PNG(file, sizing_mode="fixed",
-                                      width=self.image_feed_width)
-                elif file.endswith(".jpg") or file.endswith(".jpeg"):
-                    img = pn.pane.JPG(file, sizing_mode="fixed",
-                                      width=self.image_feed_width)
-                else:
-                    continue
-                images.append(img)
-                images.append(pn.Spacer(height=img.height))
+            try:
+                for file in Path.iterdir(abs_path):
+                    # Check if the file ends with png, jpg, or jpeg
+                    file = str(file)
+                    img = ''
+                    if file.endswith(".png"):
+                        img = pn.pane.PNG(file, sizing_mode="fixed",
+                                          width=self.image_feed_width)
+                    elif file.endswith(".jpg") or file.endswith(".jpeg"):
+                        img = pn.pane.JPG(file, sizing_mode="fixed",
+                                          width=self.image_feed_width)
+                    else:
+                        continue
+                    images.append(img)
+                    images.append(pn.Spacer(height=img.height))
+            except Exception as e:
+                logger.warning(f"Could not load images from {abs_path}: {e}")
+
             self.data_images_feed.objects = images
             self.data_images_feed.width = self.image_feed_width + self.feed_scroll_width
-            # Load datadict into dictionary/list
-            # FIXME: Assumes a file named 'data' exists in the desired directory. Should be generalized.
-            # FIXME: Only works for ddh5 for now. Should allow the user to specify what datatype is being loaded.
-            dd = datadict_from_hdf5(str(abs_path) + "/data")
-            dict_for_dataframe = {}
-            for key in dd.keys():
-                if len(key) < 2 or key[0:2] != "__":
-                    depends_on = dd[key]["axes"] if dd[key]["axes"] != [
-                    ] else "Independent"
-                    dict_for_dataframe[key] = [
-                        dd[key]["__shape__"], depends_on]
-            # Convert to data frame and display
-            df = pandas.DataFrame.from_dict(
-                data=dict_for_dataframe, orient="index", columns=['Shape', 'Depends on'])
-            self.data_info.object = df
+
+            # Load datadict lazily only when needed (shown) and in a thread
+            try:
+                dd = datadict_from_hdf5(str(abs_path) + "/data")
+                dict_for_dataframe = {}
+                for key in dd.keys():
+                    if len(key) < 2 or key[0:2] != "__":
+                        depends_on = dd[key]["axes"] if dd[key]["axes"] != [
+                        ] else "Independent"
+                        dict_for_dataframe[key] = [
+                            dd[key]["__shape__"], depends_on]
+                # Convert to data frame and display
+                df = pandas.DataFrame.from_dict(
+                    data=dict_for_dataframe, orient="index", columns=['Shape', 'Depends on'])
+                self.data_info.object = df
+            except Exception as e:
+                logger.warning(f"Could not load data from {abs_path}: {e}")
+                self.data_info.object = f"Error loading data: {e}"
+        else:
+            self.data_images_feed.objects = []
+            self.data_info.object = None
+
         # Get the path
         if isinstance(path, Path):
             path = path / self.DATAFILE
@@ -347,20 +359,32 @@ class LoaderNodeBase(Node):
             self.graph_type_savable[k] = hasattr(
                 self.graph_types[k], 'get_plot')
 
-        self.pre_process_opts = RBG(
-            options=[None, "Average"],
-            value="Average",
+        self.pre_process_opts = ToggleGroup(
+            options=["Average", "Rotate IQ"],
+            value=["Average"],
             name="Pre-processing",
             align="end",
         )
+        self.pre_process_opts.param.watch(self.load_and_preprocess, "value")
         self.pre_process_dim_input = pn.widgets.TextInput(
-            value="repetition",
-            name="Pre-process dim.",
+            value="rep",
+            name="Average dim.",
             width=100,
             align="end",
         )
+        self.pre_process_dim_input.param.watch(self.load_and_preprocess, "value")
+        self.rotate_iq_angle_input = pn.widgets.FloatInput(
+            value=0.0,
+            name="Rotate angle (deg)",
+            width=100,
+            align="end",
+        )
+        self.rotate_iq_angle_input.param.watch(self.load_and_preprocess, "value")
         self.grid_on_load_toggle = pn.widgets.Toggle(
             value=True, name="Auto-grid", align="end"
+        )
+        self.auto_load_toggle = pn.widgets.Toggle(
+            value=False, name="Auto-load on select", align="end"
         )
         self.generate_button = pn.widgets.Button(
             name="Load data", align="end", button_type="primary"
@@ -389,12 +413,14 @@ class LoaderNodeBase(Node):
         self.plot_col = pn.Column(objects=self.plot)
 
         # The Leading pn.Row is used to make the fit box appear at right
-        self.layout = pn.Row( 
+        self.layout = pn.Row(
             pn.Column(
                 pn.Row(
                     labeled_widget(self.pre_process_opts),
                     self.pre_process_dim_input,
+                    self.rotate_iq_angle_input,
                     self.grid_on_load_toggle,
+                    self.auto_load_toggle,
                     self.generate_button,
                     self.refresh,
                     self.html_button,
@@ -432,24 +458,28 @@ class LoaderNodeBase(Node):
                 data = self.split_complex(dd2df(dd))
                 indep, dep = self.data_dims(data)
 
-                if self.pre_process_dim_input.value in indep:
-                    if self.pre_process_opts.value == "Average":
-                        data = self.mean(
-                            data, self.pre_process_dim_input.value)
-                        indep.pop(indep.index(
-                            self.pre_process_dim_input.value))
+                if "Average" in self.pre_process_opts.value and self.pre_process_dim_input.value in indep:
+                    data = self.mean(
+                        data, self.pre_process_dim_input.value)
+                    indep.pop(indep.index(
+                        self.pre_process_dim_input.value))
+
+                if "Rotate IQ" in self.pre_process_opts.value:
+                    data = self.rotate_iq(data, self.rotate_iq_angle_input.value)
 
             # when making gridded data, can do things slightly differently
             # TODO: what if gridding goes wrong?
             else:
                 mdd = datadict_to_meshgrid(dd)
 
-                if self.pre_process_dim_input.value in mdd.axes():
-                    if self.pre_process_opts.value == "Average":
-                        mdd = mdd.mean(self.pre_process_dim_input.value)
+                if "Average" in self.pre_process_opts.value and self.pre_process_dim_input.value in mdd.axes():
+                    mdd = mdd.mean(self.pre_process_dim_input.value)
 
                 data = self.split_complex(dd2xr(mdd))
                 indep, dep = self.data_dims(data)
+
+                if "Rotate IQ" in self.pre_process_opts.value:
+                    data = self.rotate_iq(data, self.rotate_iq_angle_input.value)
 
             for dim in indep + dep:
                 self.units_out[dim] = dd.get(dim, {}).get("unit", None)
@@ -487,7 +517,7 @@ class LoaderNodeBase(Node):
 
         # Reset Plot object
         self._plot_obj = None
-        
+
         if not has_packages:
             logger.warning("SAVING IMAGES DISABLED: You have not installed the necessary packages to allow for the saving of "
                            "images. To allow this functionality, please install Selenium, PhantomJS, Firefox, and "
@@ -528,7 +558,7 @@ class LoaderNodeBase(Node):
                 # Skip objects that are not HoloViews or Panel HoloViews panes
                 logger.warning(f"Skipping object of type {type(p)} - not a HoloViews object")
                 return
-                
+
             bokeh_plot = hv.render(hv_obj)
             export_png(bokeh_plot, filename=path)
 

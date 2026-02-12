@@ -224,6 +224,62 @@ class Node(pn.viewable.Viewer):
         return split_complex(data)
 
     @staticmethod
+    def rotate_iq(data: Data, angle_deg: float) -> Data:
+        """Rotate IQ data by the specified angle in degrees.
+
+        This function rotates the real and imaginary parts of the data
+        by the given angle. Works with columns named as '*_Re' and '*_Im'.
+
+        Parameters
+        ----------
+        data
+            input data (DataFrame or xarray Dataset).
+        angle_deg
+            rotation angle in degrees.
+
+        Returns
+        -------
+        data with rotated IQ components.
+
+        Raises
+        ------
+        NotImplementedError
+            if data is not a pandas DataFrame or an xarray Dataset.
+        """
+        import numpy as np
+
+        angle_rad = np.deg2rad(angle_deg)
+        cos_a = np.cos(angle_rad)
+        sin_a = np.sin(angle_rad)
+
+        if isinstance(data, pd.DataFrame):
+            data_rot = data.copy()
+            # Find all IQ pairs (columns ending in _Re and _Im)
+            re_cols = [col for col in data.columns if col.endswith('_Re')]
+            for re_col in re_cols:
+                im_col = re_col[:-3] + '_Im'
+                if im_col in data.columns:
+                    re = data[re_col]
+                    im = data[im_col]
+                    data_rot[re_col] = cos_a * re - sin_a * im
+                    data_rot[im_col] = sin_a * re + cos_a * im
+            return data_rot
+        elif isinstance(data, xr.Dataset):
+            data_rot = data.copy()
+            # Find all IQ pairs (variables ending in _Re and _Im)
+            re_vars = [var for var in data.data_vars if var.endswith('_Re')]
+            for re_var in re_vars:
+                im_var = re_var[:-3] + '_Im'
+                if im_var in data.data_vars:
+                    re = data[re_var]
+                    im = data[im_var]
+                    data_rot[re_var] = cos_a * re - sin_a * im
+                    data_rot[im_var] = sin_a * re + cos_a * im
+            return data_rot
+        else:
+            raise NotImplementedError
+
+    @staticmethod
     def complex_dependents(data: Optional[Data]) -> dict[str, dict[str, str]]:
         """Returns a dictionary of complex dependents and their real/imaginary parts.
 
@@ -598,7 +654,7 @@ class PlotNode(Node):
 
     def get_fit_panel(self):
         return self.fit_layout
-    
+
     def process(self):
         """Make a copy of the data so that changes (added fits) don't carry
         to other graphs/other analysis.
@@ -635,7 +691,7 @@ class PlotNode(Node):
         return self.plot_panel()
 
     def fit_axis_options(self) -> list:
-        """Returns a list of the different axes you can 
+        """Returns a list of the different axes you can
         make a fit for in this node.
 
         Should be overridden by subclasses to return the appropriate object.
@@ -648,7 +704,7 @@ class PlotNode(Node):
             if self.select_fit_axis.value in self.fit_dict.keys():
                 if 'start_params' not in self.fit_dict[self.select_fit_axis.value].keys():
                     fitted = True
-        # Delete start parameters when refreshing the fit box. Creating the 
+        # Delete start parameters when refreshing the fit box. Creating the
         # fit box will regenerate these.
         if self.select_fit_axis.value in self.fit_dict.keys():
             if 'start_params' in self.fit_dict[self.select_fit_axis.value].keys():
@@ -807,7 +863,7 @@ class PlotNode(Node):
         self.update_dataset_by_fit_and_axis(fit_class, fit_params, name, saved=True)
         self.fit_dict[self.select_fit_axis.value]['params'] = params_dict
         # switch to fitted fit_box
-        self.set_fit_box(None, fitted=True) 
+        self.set_fit_box(None, fitted=True)
         self.refresh_graph = True
 
     def get_arguments(self):
@@ -837,7 +893,7 @@ class PlotNode(Node):
     def update_fit_args(self, event):
         """Updates the temporary saved value for all of the fit's starting arguments.
 
-        Called whenever a float input's value is changed, when the fitbox is 
+        Called whenever a float input's value is changed, when the fitbox is
         created, or when the fit_axis changes. """
         if self.select_fit_axis.value not in self.fit_dict.keys():
             self.fit_dict[self.select_fit_axis.value] = {
@@ -877,7 +933,7 @@ class PlotNode(Node):
             if fit_name_temp in self.data_out.keys():
                 del self.data_out[fit_name_temp]
         self.update_dataset_by_data(fit_data, fit_name)
-    
+
     def update_dataset_by_data(self, fit_data:np.ndarray, name:str):
         # Get independent variable(s) and fit class
         indep, dep = self.data_dims(self.data_out)
@@ -918,7 +974,7 @@ class PlotNode(Node):
         for k in _dict.keys():
             values[k] = _dict[k]['value']
         return values
-    
+
     def indep_dims(self) -> int:
         indep, dep = self.data_dims(self.data_out)
         if isinstance(indep, list):
@@ -1012,7 +1068,7 @@ class ValuePlot(PlotNode):
             if d[-4:] != "_fit" and d[-5:] != "_fit*":
                 ret.append(d)
         return list(dep)
-    
+
 
 class ComplexHist(PlotNode):
     def __init__(self, *args, **kwargs):
@@ -1162,7 +1218,7 @@ class MagnitudePhasePlot(PlotNode):
             # case: if x and y are selected, we make a 2d plot of some sort
             else:
                 plot = plot_xr_as_2d(self.data_out, x, y,
-                                     dim_labels=self.dim_labels(), 
+                                     dim_labels=self.dim_labels(),
                                      graph_axes=self.get_data_fit_names(self.fit_axis_options()))
                 plot = plot.cols(2)
 

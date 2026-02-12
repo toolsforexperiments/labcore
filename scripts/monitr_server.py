@@ -16,6 +16,11 @@ def make_template(data_root='.'):
 
     def data_selected_cb(*events):
         loader.file_path = events[0].new
+        # Auto-load data if toggle is enabled
+        if loader.auto_load_toggle.value:
+            import asyncio
+            # Schedule async load in event loop
+            asyncio.create_task(loader.load_and_preprocess())
 
     watch_data_selected = ds.param.watch(data_selected_cb, ['selected_path'])
 
@@ -28,7 +33,7 @@ def make_template(data_root='.'):
         site="labcore",
         title="autoplot",
         sidebar=[],
-        main=[ds, loader] 
+        main=[ds, loader]
     )
 
     return temp
@@ -40,7 +45,8 @@ def run_autoplot():
                     " on Plottr made by Wolfgang Pfaff. Run command on it's own to start the"
                     " application, and pass an (optional) path to the data directory as a"
                     " second argument.")
-    parser.add_argument('Datapath', nargs='?', default='.')
+    parser.add_argument('Datapath', nargs='?', default='.', help='Path to the data directory (default: current directory)')
+    parser.add_argument('-p', '--port', type=int, default=19530, help='Port to run the server on (default: 5006)')
 
     args = parser.parse_args()
 
@@ -50,8 +56,9 @@ def run_autoplot():
         return
 
     logger.info(f"Running Labcore.Autoplot on data from {data_root}")
+    logger.info(f"Server running on port {args.port}")
 
     template = make_template(data_root)
-    template.show()
+    template.show(port=args.port)
 
 make_template(".").servable()
