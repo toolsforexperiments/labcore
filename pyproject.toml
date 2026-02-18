@@ -1,6 +1,6 @@
 [project]
 name = "labcore"
-version = "0.0.0"
+version = "1.0.0"
 description = "toolkit for acquiring, processing, and analyzing data in a CM/QI physics lab."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -14,21 +14,18 @@ dependencies = [
     "xarray",
     "matplotlib",
     "numpy",
-    "scipy",
-    "scikit-learn",
     "seaborn",
     "lmfit",
     "h5py",
-    "xhistogram",
     "holoviews",
     "panel",
     "param",
     "hvplot",
-    "versioningit",
-    "qtpy",
     "gitpython",
     "watchdog",
-    "pywavelets",
+    "Pillow",
+    "nest_asyncio",
+    "ruamel.yaml",
 ]
 
 [project.optional-dependencies]
@@ -44,8 +41,8 @@ docs = [
 ]
 
 [project.scripts]
-autoplot = "scripts.monitr_server:run_autoplot"
-pyro-ns = "scripts.pyro_nameserver:run_pyro_nameserver"
+autoplot = "labcore.scripts.monitr_server:run_autoplot"
+reconstruct-data = "labcore.scripts.reconstruct_safe_write_data:main"
 
 
 [build-system]
@@ -74,7 +71,6 @@ module = [
     "lmfit",
     "matplotlib.*",
     "pyqtgraph.*",
-    "xhistogram.*",
     "ruamel.*",
     "param.*",
     "holoviews.*",
@@ -93,7 +89,7 @@ package-dir = {"" = "src"}
 
 [tool.setuptools.packages.find]
 include = ["labcore*"]
-exclude = ["site*", "docs*", "scripts*", "test*"]
+exclude = ["site*", "docs*", "test*"]
 
 [tool.setuptools.package-data]
 labcore = ["py.typed"]
