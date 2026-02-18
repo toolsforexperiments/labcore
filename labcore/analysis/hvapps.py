@@ -15,7 +15,7 @@ from bokeh.io.export import export_png
 import pandas
 import param
 import panel as pn
-from panel.widgets import ToggleGroup, Select
+from panel.widgets import Select
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
@@ -54,6 +54,7 @@ class DataSelect(pn.viewable.Viewer):
         'star': '😁',
         'bad': '😭',
         'trash': '❌',
+        'poop': '💩',
     }
     DATAFILE = 'data.ddh5'
 
@@ -101,11 +102,50 @@ class DataSelect(pn.viewable.Viewer):
         self.layout = pn.Column()
 
         # a search bar for data
+        self.search_label = pn.widgets.StaticText(value="Search:", align='center')
         self.text_input = pn.widgets.TextInput(
-            name='Search',
             placeholder='Enter a search term here...'
         )
-        self.layout.append(self.text_input)
+
+        # Refresh button beside search bar
+        self.refresh_button = pn.widgets.Button(
+            name='🔄 Refresh',
+            width=100,
+            button_type='default'
+        )
+        self.refresh_button.on_click(self._on_refresh_clicked)
+
+        # Tag buttons
+        self.star_button = pn.widgets.Button(
+            name='😁 Star',
+            width=100,
+            button_type='default'
+        )
+        self.star_button.on_click(self._on_star_clicked)
+
+        self.trash_button = pn.widgets.Button(
+            name='❌ Trash',
+            width=100,
+            button_type='default'
+        )
+        self.trash_button.on_click(self._on_trash_clicked)
+
+        self.bad_button = pn.widgets.Button(
+            name='😭 Bad',
+            width=100,
+            button_type='default'
+        )
+        self.bad_button.on_click(self._on_bad_clicked)
+
+        self.poop_button = pn.widgets.Button(
+            name='💩 Error',
+            width=100,
+            button_type='default'
+        )
+        self.poop_button.on_click(self._on_poop_clicked)
+
+        # Add search bar, refresh button, and tag buttons in a row
+        self.layout.append(pn.Row(self.search_label, self.text_input, self.refresh_button, self.star_button, self.trash_button, self.bad_button, self.poop_button))
 
         # Display the current search term
         self.typed_value = pn.widgets.StaticText(
@@ -212,7 +252,7 @@ class DataSelect(pn.viewable.Viewer):
                 name = f"{dset.stem[27:]}"
                 date = f"{ts.date()}"
                 lbl = f"{date} - {time} - {uuid} - {name} "
-                for k in ['complete', 'star', 'trash']:
+                for k in ['complete', 'star', 'bad', 'trash', 'poop']:
                     if f'__{k}__.tag' in files:
                         lbl += self.SYM[k]
                 opts[lbl] = dset
@@ -297,6 +337,60 @@ class DataSelect(pn.viewable.Viewer):
         self._data_select_widget.options = self.get_data_options()
         self._group_select_feed.objects = [self._group_select_widget]
 
+    def _on_refresh_clicked(self, event):
+        """Callback for refresh button click. Refreshes the entire data selection."""
+        # Re-scan data directory
+        new_data_set = self.group_data(find_data(root=self.data_root))
+        # Repull data group options
+        new_opts = OrderedDict()
+        for k in sorted(new_data_set.keys())[::-1]:
+            lbl = self.date2label(k) + f' [{len(new_data_set[k])}]'
+            new_opts[lbl] = k
+        # Set the group and data options
+        self.data_sets = new_data_set
+        self._group_select_widget.options = new_opts
+        self._data_select_widget.options = self.get_data_options()
+        self._group_select_feed.objects = [self._group_select_widget]
+
+    def _toggle_tag(self, tag_name: str, event):
+        """Toggle a tag file for the selected dataset."""
+        selected_path = self._data_select_widget.value
+        if selected_path is None:
+            logger.warning(f"No dataset selected to add {tag_name} tag")
+            return
+
+        tag_file = selected_path / f"__{tag_name}__.tag"
+        try:
+            if tag_file.exists():
+                # Remove the tag
+                tag_file.unlink()
+                logger.info(f"Removed {tag_name} tag from {selected_path}")
+            else:
+                # Create the tag
+                tag_file.touch()
+                logger.info(f"Added {tag_name} tag to {selected_path}")
+
+            # Refresh the data display to update tag indicators
+            self._data_select_widget.options = self.get_data_options()
+        except Exception as e:
+            logger.error(f"Error toggling {tag_name} tag: {e}")
+
+    def _on_star_clicked(self, event):
+        """Callback for star button click."""
+        self._toggle_tag('star', event)
+
+    def _on_trash_clicked(self, event):
+        """Callback for trash button click."""
+        self._toggle_tag('trash', event)
+
+    def _on_bad_clicked(self, event):
+        """Callback for bad button click."""
+        self._toggle_tag('bad', event)
+
+    def _on_poop_clicked(self, event):
+        """Callback for poop/error button click."""
+        self._toggle_tag('poop', event)
+
 
 selector_stylesheet = """
 :host .bk-input {
@@ -359,13 +453,10 @@ class LoaderNodeBase(Node):
             self.graph_type_savable[k] = hasattr(
                 self.graph_types[k], 'get_plot')
 
-        self.pre_process_opts = ToggleGroup(
-            options=["Average", "Rotate IQ"],
-            value=["Average"],
-            name="Pre-processing",
-            align="end",
+        self.average_toggle = pn.widgets.Switch(
+            value=True, name="Average", align="center"
         )
-        self.pre_process_opts.param.watch(self.load_and_preprocess, "value")
+        self.average_toggle.param.watch(self.load_and_preprocess, "value")
         self.pre_process_dim_input = pn.widgets.TextInput(
             value="rep",
             name="Average dim.",
@@ -373,6 +464,10 @@ class LoaderNodeBase(Node):
             align="end",
         )
         self.pre_process_dim_input.param.watch(self.load_and_preprocess, "value")
+        self.rotate_iq_toggle = pn.widgets.Switch(
+            value=False, name="Rotate IQ", align="center"
+        )
+        self.rotate_iq_toggle.param.watch(self.load_and_preprocess, "value")
         self.rotate_iq_angle_input = pn.widgets.FloatInput(
             value=0.0,
             name="Rotate angle (deg)",
@@ -380,14 +475,14 @@ class LoaderNodeBase(Node):
             align="end",
         )
         self.rotate_iq_angle_input.param.watch(self.load_and_preprocess, "value")
-        self.grid_on_load_toggle = pn.widgets.Toggle(
+        self.grid_on_load_toggle = pn.widgets.Switch(
             value=True, name="Auto-grid", align="end"
         )
-        self.auto_load_toggle = pn.widgets.Toggle(
-            value=False, name="Auto-load on select", align="end"
+        self.auto_load_toggle = pn.widgets.Switch(
+            value=False, name="Auto-load on select", align="center"
         )
         self.generate_button = pn.widgets.Button(
-            name="Load data", align="end", button_type="primary"
+            name="Load data", align="center", button_type="primary"
         )
 
         # Button to save graph as html
@@ -413,27 +508,53 @@ class LoaderNodeBase(Node):
         self.plot_col = pn.Column(objects=self.plot)
 
         # The Leading pn.Row is used to make the fit box appear at right
-        self.layout = pn.Row(
-            pn.Column(
+        self.layout =pn.Column(
                 pn.Row(
-                    labeled_widget(self.pre_process_opts),
-                    self.pre_process_dim_input,
-                    self.rotate_iq_angle_input,
-                    self.grid_on_load_toggle,
-                    self.auto_load_toggle,
                     self.generate_button,
-                    self.refresh,
-                    self.html_button,
-                    self.png_button,
-                ),
+                    pn.Card(
+                        pn.Row(
+                            pn.Column(self.grid_on_load_toggle,self.auto_load_toggle,self.refresh,align="center"),
+                        ),
+                        title="Loading Options",
+                        collapsed=True,
+                        ),
+                        pn.Card(
+                            pn.Row(
+                                pn.Column(
+                                    self.average_toggle,
+                                    self.pre_process_dim_input,
+                                    align="center",
+                                ),
+                                pn.Column(
+                                    self.rotate_iq_toggle,
+                                    self.rotate_iq_angle_input,
+                                    align="center",
+                                ),
+                            ),
+                            title="Pre-processing",
+                            collapsed=True,
+                        ),
+                        pn.Card(
+                        self.fit_obj,
+                        title="Fit",
+                        collapsed=True,
+                        ),
+                        pn.Card(
+                            pn.Row(
+                                self.html_button,
+                                self.png_button,
+                            ),
+                            title="Save",
+                            collapsed=True,
+                        ),
+                    ),
                 self.display_info,
                 pn.Row(
                     self.buffer_col,
                     self.plot_col
                 )
-            ),
-            self.fit_obj,
-        )
+            )
+
 
         #Create var to collect the fitfunc inputs
         self.fit_inputs = None
@@ -458,13 +579,13 @@ class LoaderNodeBase(Node):
                 data = self.split_complex(dd2df(dd))
                 indep, dep = self.data_dims(data)
 
-                if "Average" in self.pre_process_opts.value and self.pre_process_dim_input.value in indep:
+                if self.average_toggle.value and self.pre_process_dim_input.value in indep:
                     data = self.mean(
                         data, self.pre_process_dim_input.value)
                     indep.pop(indep.index(
                         self.pre_process_dim_input.value))
 
-                if "Rotate IQ" in self.pre_process_opts.value:
+                if self.rotate_iq_toggle.value:
                     data = self.rotate_iq(data, self.rotate_iq_angle_input.value)
 
             # when making gridded data, can do things slightly differently
@@ -472,13 +593,13 @@ class LoaderNodeBase(Node):
             else:
                 mdd = datadict_to_meshgrid(dd)
 
-                if "Average" in self.pre_process_opts.value and self.pre_process_dim_input.value in mdd.axes():
+                if self.average_toggle.value and self.pre_process_dim_input.value in mdd.axes():
                     mdd = mdd.mean(self.pre_process_dim_input.value)
 
                 data = self.split_complex(dd2xr(mdd))
                 indep, dep = self.data_dims(data)
 
-                if "Rotate IQ" in self.pre_process_opts.value:
+                if self.rotate_iq_toggle.value:
                     data = self.rotate_iq(data, self.rotate_iq_angle_input.value)
 
             for dim in indep + dep:
