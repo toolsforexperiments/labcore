@@ -39,6 +39,11 @@ class ComplexQICKData(DataSpec):
     i_data_stream: str = 'I'
     q_data_stream: str = 'Q'
 
+    def set_name(self, name: str) -> 'ComplexQICKData':
+        """Change the name of this dataspec and return self for chaining."""
+        self.name = name
+        return self
+
 
 @dataclass
 class PulseVariable(DataSpec):

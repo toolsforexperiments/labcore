@@ -58,6 +58,11 @@ class ComplexQICKData(DataSpec):
     # sweep_dims: Optional[tuple] = None
     # n_readouts: Optional[int] = None
 
+    def set_name(self, name: str) -> 'ComplexQICKData':
+        """Change the name of this dataspec and return self for chaining."""
+        self.name = name
+        return self
+
 
 @dataclass
 class PulseVariable(DataSpec):
@@ -97,13 +102,11 @@ class QickBoardStreamingSweep(AsyncRecord):
 
     def setup(self, func, *args, **kwargs):
 
-        # follow same convention as qick_sweep_v2
-        # TODO: change this to pass config through kwargs instead of setting this constant.
         if config is None:
             raise Exception("QickSweep: config is not set")
 
         self.config = config
-        conf = config.config()
+        conf = config.config() #TODO change this to be passed from kwargs, not from global
         qick_program = func(soccfg=conf[0], reps=conf[1].get('reps'), final_delay=conf[1].get('final_delay'), cfg=conf[1])
         self.communicator['qick_program'] = qick_program
         prog = qick_program
@@ -158,6 +161,10 @@ class QickBoardStreamingSweep(AsyncRecord):
         # get number of triggers etc
         readout_spec_number = sum([1 for ds in self.unordered_nonexhaustive_specs if isinstance(ds, ComplexQICKData)])
 
+        # Extract ComplexQICKData spec names in order for use in collect()
+        complex_data_specs = [ds for ds in self.unordered_nonexhaustive_specs if isinstance(ds, ComplexQICKData)]
+        self.communicator['complex_data_spec_names'] = [ds.name for ds in complex_data_specs]
+
         readout_dict = prog.ro_chs #outputs ordered dict, 'ro_ch_number : int' : { '#trigs': int, 'length': int, 'length_us': float, ...}
         reads_per_shot = [ro['trigs'] for ro in prog.ro_chs.values()] # list of [# readouts for ro channel , # readouts for ro channel, ... ]
 
@@ -167,6 +174,7 @@ class QickBoardStreamingSweep(AsyncRecord):
         # since data_dict requires each data point with it's axes value, we create an iterator to produce those points
         # We use product since the sweep values should be nested in the order of executed loops in Qick
         self.final_iterable = it_product(*self.sweep_arrays.values())
+
 
     def collect(self, len_normalize: bool = True, stream: bool = True, **kwargs):
         """Collect streaming IQ data from QICK program and yield aggregated dictionaries.
@@ -183,6 +191,7 @@ class QickBoardStreamingSweep(AsyncRecord):
                             'loop_name' : np.array(sweep loop value corresponding to data above),}
         """
         prog = self.communicator['qick_program']
+        complex_data_spec_names = self.communicator.get('complex_data_spec_names', [])
 
         # ========== Collect streaming data ================
         stream_fn = getattr(prog, 'stream_acquire', None)
@@ -198,7 +207,6 @@ class QickBoardStreamingSweep(AsyncRecord):
                 return_end_of_exp_raw=False,
             )
             # iterate events and yield a single aggregated dictionary per data event
-            extra_data = None
             for ev in gen:
                 yield_dict: Dict[str, Any] = {}
                 if ev['event'] == 'data':
@@ -206,30 +214,43 @@ class QickBoardStreamingSweep(AsyncRecord):
                     round_idx = ev['round']
                     count_start_flat, count_stop_flat = ev.get('rep_slice', (0, 0))  #  in per-round flattened space
 
+                    # Get ComplexQICKData spec names (in definition order) to use as keys
+                    spec_idx = 0
+                    warning_logged = False
+
                     for ch in partial.keys():
                         comp_data = partial[ch].dot([1,1j]) #data in shape of (new_points, nreads)
                         for ro_no in range(comp_data.shape[1]):
-                            # key =
-                            key = f"roch{ch}_read{ro_no}"  #TODO : pull this name from ComplexQICKData spec and use this as fallback
+                            # Use spec name if available, otherwise fall back to generated key
+                            # using extra logic in case some dataspec in decorator was mislabelled/undefined. Result : still collect data but warn user.
+                            if spec_idx < len(complex_data_spec_names):
+                                key = complex_data_spec_names[spec_idx]
+                            else:
+                                if not warning_logged:
+                                    logger.warning(
+                                        f"ComplexQICKData specs mismatch: Expected more specs than defined, received more data from QICK. All collected data is probably mislabeled. ")
+                                    warning_logged = True
+                                key = f"roch{ch}_read{ro_no}"
                             yield_dict[key] = comp_data[:, ro_no]
+                            spec_idx += 1
                             # add sweep values
                     tp = [self.final_iterable.__next__() for i in range(count_stop_flat-count_start_flat)]
-                    # tp = list(it_islice(self.final_iterable, count_start_flat, count_stop_flat))
                     sweep_value_array = np.array(tp) # array of sweep values for this channel
+
                     for spec_name in self.sweep_arrays.keys():
-                        # yield_dict[key][spec_name] = sweep_value_array[:, list(sweep_arrays.keys()).index(spec_name)]
                         yield_dict[spec_name] = sweep_value_array[:, list(self.sweep_arrays.keys()).index(spec_name)]
-                    # logger.info(yield_dict)
-                    # logger.info(f"{[(key, data.shape) for key ,data in yield_dict.items()]}")
+
+                    yield yield_dict
+                    # for i in range(partial[0].shape[0]):
+                    #     r = {}
+                    #     for k, v in yield_dict.items():
+                    #         r[k] = v[i]
+                    #     yield r
 
                 elif ev.get('event') == 'round-complete':
-                    pass
-                    # gen.__next__() # finish pbars
+                    break
                     # return # end of experiment
-                if yield_dict != {} :
-                    # logger.info(f"Yielding streaming data dict. \n {yield_dict}")
-                    yield yield_dict
-                else: logger.info("Empty yield dict, skipping.")
+
 
         else: #TODO : acquire() fallback
             logger.critical("Streaming not callable, check qick libraries. Falling back to blocking acquire().")

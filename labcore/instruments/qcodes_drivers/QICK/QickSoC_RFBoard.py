@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 @author: Gaurav Agarwal
 
@@ -24,7 +23,7 @@ from typing import Optional, Dict
 from qcodes import Instrument, InstrumentChannel, ChannelList
 from qcodes.utils.validators import Numbers, Enum, Bool
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 
 class DACChannel(InstrumentChannel):
@@ -553,7 +552,7 @@ class BiasChannel(InstrumentChannel):
             'current_ramp_rate',
             get_cmd=lambda : self._voltage_step/self._resistor * 1/self.step_delay_sec * 1e6,
             set_cmd=lambda new_current_step: setattr(self, '_voltage_step', new_current_step*self._resistor* self.step_delay_sec * 1e-6),
-            vals=Numbers(0, 100),
+            vals=Numbers(0, 500),
             unit='uA per Sec',
             label='Current Ramp Rate',
             docstring='Usually around 10uA per sec'
@@ -576,7 +575,7 @@ class BiasChannel(InstrumentChannel):
 
         current_voltage = self.root_instrument._soc.rfb_get_bias(self._channel)
         step = self._voltage_step if target_voltage > current_voltage else -self._voltage_step
-        logger.info(f"Ramping bias channel {self._channel}: {current_voltage}V ({current_voltage/self._resistor * 1e3}mA) to {target_voltage}V({target_voltage/self._resistor * 1e3}mA) in steps of {step}V ({step/self._resistor * 1e3}mA) with {step_delay_sec} s delay")
+        logging.info(__name__ + f"Ramping bias channel {self._channel}: {current_voltage}V ({current_voltage/self._resistor * 1e3}mA) to {target_voltage}V({target_voltage/self._resistor * 1e3}mA) in steps of {step}V ({step/self._resistor * 1e3}mA) with {step_delay_sec} s delay")
 
         for voltage in arange(current_voltage, target_voltage, step):
             voltage = round(voltage, 7) # round off random floats to 7 decimals
@@ -641,7 +640,7 @@ class QickSoC_RFBoard(Instrument):
         # Add board-level parameters
         self._add_board_parameters()
 
-        logger.info(f"Initialized QickSoC_RFBoard driver '{name}' with "
+        logging.info(__name__ + f"Initialized QickSoC_RFBoard driver '{name}' with "
                    f"{len(self.dac_channels)} DAC channels, "
                    f"{len(self.adc_channels)} ADC channels, and "
                    f"{len(self.bias_channels) if hasattr(self, 'bias_channels') else 0} bias channels")
