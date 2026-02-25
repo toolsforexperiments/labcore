@@ -5,6 +5,10 @@ description = "toolkit for acquiring, processing, and analyzing data in a CM/QI 
 readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
+authors = [
+    {name = "Wolfgang Pfaff", email = "wolfgangpfff@gmail.com"},
+    {name = "Marcos Frenkel", email = "marcosf2@illinois.edu"},
+]
 dependencies = [
     "jupyterlab",
     "jupyter_bokeh",
