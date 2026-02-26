@@ -33,6 +33,12 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+]
 docs = [
     "sphinx",
     "pydata-sphinx-theme",
@@ -87,6 +93,9 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 testpaths = ["test"]
 log_cli = true
+
+[tool.coverage.run]
+branch = true
 
 [tool.setuptools]
 package-dir = {"" = "src"}
