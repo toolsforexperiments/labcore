@@ -90,6 +90,9 @@ class DataDictBase(dict):
 
     def __eq__(self, other: object) -> bool:
         """Check for content equality of two datadicts."""
+        # TODO: __ne__ is not overridden, so `!=` falls back to dict.__ne__ which
+        #   tries to compare numpy array values directly and raises ValueError.
+        #   Override __ne__ to return `not self.__eq__(other)`.
         if not isinstance(other, DataDictBase):
             return False
         else:
