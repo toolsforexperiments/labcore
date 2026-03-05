@@ -31,7 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -47,7 +47,7 @@
     <link rel="author" title="About these documents" href="../../about.html" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="labcore.data.tools" href="labcore.data.tools.html" />
+    <link rel="next" title="labcore.data.datagen" href="labcore.data.datagen.html" />
     <link rel="prev" title="labcore.data.datadict" href="labcore.data.datadict.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -377,6 +377,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="labcore.data.html">labcore.data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict.html">labcore.data.datadict</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">labcore.data.datadict_storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datagen.html">labcore.data.datagen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="labcore.data.tools.html">labcore.data.tools</a></li>
 </ul>
 </details></li>
@@ -873,7 +874,7 @@ If none uses the default value from the <a class="reference internal" href="#lab
 
 <dl class="py function">
 <dt class="sig sig-object py" id="labcore.data.datadict_storage.load_as_xr">
-<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">load_as_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data.ddh5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.1.0)"><span class="pre">Dataset</span></a></span></span><a class="reference internal" href="../../_modules/labcore/data/datadict_storage.html#load_as_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.load_as_xr" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict_storage.</span></span><span class="sig-name descname"><span class="pre">load_as_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">fn</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'data.ddh5'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.List" title="(in Python v3.14)"><span class="pre">List</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.2.0)"><span class="pre">Dataset</span></a></span></span><a class="reference internal" href="../../_modules/labcore/data/datadict_storage.html#load_as_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict_storage.load_as_xr" title="Link to this definition">#</a></dt>
 <dd><p>Load ddh5 data as xarray (only for gridable data).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -953,11 +954,11 @@ Assumes that the path stem has a timestamp that begins in ISO-like format
       </div>
     </a>
     <a class="right-next"
-       href="labcore.data.tools.html"
+       href="labcore.data.datagen.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">labcore.data.tools</p>
+        <p class="prev-next-title">labcore.data.datagen</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

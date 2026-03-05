@@ -12,4 +12,5 @@
 
    datadict
    datadict_storage
+   datagen
    tools

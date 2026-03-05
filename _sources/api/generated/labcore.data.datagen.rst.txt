@@ -1,0 +1,15 @@
+labcore.data.datagen
+====================
+
+.. automodule:: labcore.data.datagen
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      DataGen
+      ExponentialDataGen
+      GaussianDataGen
+      SineDataGen
+   

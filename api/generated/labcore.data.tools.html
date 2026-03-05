@@ -31,7 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -48,7 +48,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="labcore.measurement" href="labcore.measurement.html" />
-    <link rel="prev" title="labcore.data.datadict_storage" href="labcore.data.datadict_storage.html" />
+    <link rel="prev" title="labcore.data.datagen" href="labcore.data.datagen.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -377,6 +377,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="labcore.data.html">labcore.data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict.html">labcore.data.datadict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict_storage.html">labcore.data.datadict_storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datagen.html">labcore.data.datagen</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">labcore.data.tools</a></li>
 </ul>
 </details></li>
@@ -494,17 +495,17 @@
 <dt class="sig sig-object py" id="labcore.data.tools.Data">
 <span class="sig-prename descclassname"><span class="pre">labcore.data.tools.</span></span><span class="sig-name descname"><span class="pre">Data</span></span><a class="headerlink" href="#labcore.data.tools.Data" title="Link to this definition">#</a></dt>
 <dd><p>Type alias for valid data. Can be either a pandas DataFrame or an xarray Dataset.</p>
-<p>alias of <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.1.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+<p>alias of <a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.2.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Dataset</span></code></a> | <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="labcore.data.tools.data_dims">
-<span class="sig-prename descclassname"><span class="pre">labcore.data.tools.</span></span><span class="sig-name descname"><span class="pre">data_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.1.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/labcore/data/tools.html#data_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.tools.data_dims" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">labcore.data.tools.</span></span><span class="sig-name descname"><span class="pre">data_dims</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.2.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/labcore/data/tools.html#data_dims"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.tools.data_dims" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="labcore.data.tools.split_complex">
-<span class="sig-prename descclassname"><span class="pre">labcore.data.tools.</span></span><span class="sig-name descname"><span class="pre">split_complex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.1.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.1.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../../_modules/labcore/data/tools.html#split_complex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.tools.split_complex" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">labcore.data.tools.</span></span><span class="sig-name descname"><span class="pre">split_complex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.2.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.2.0)"><span class="pre">Dataset</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span></span></span><a class="reference internal" href="../../_modules/labcore/data/tools.html#split_complex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.tools.split_complex" title="Link to this definition">#</a></dt>
 <dd><p>Split complex dependents into real and imaginary parts.</p>
 <p>TODO: should update units as well</p>
 <dl class="field-list simple">
@@ -533,12 +534,12 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="labcore.data.datadict_storage.html"
+       href="labcore.data.datagen.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">labcore.data.datadict_storage</p>
+        <p class="prev-next-title">labcore.data.datagen</p>
       </div>
     </a>
     <a class="right-next"

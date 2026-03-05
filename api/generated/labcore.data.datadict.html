@@ -31,7 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -377,6 +377,7 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="labcore.data.html">labcore.data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">labcore.data.datadict</a></li>
 <li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict_storage.html">labcore.data.datadict_storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datagen.html">labcore.data.datagen</a></li>
 <li class="toctree-l2"><a class="reference internal" href="labcore.data.tools.html">labcore.data.tools</a></li>
 </ul>
 </details></li>
@@ -1357,7 +1358,7 @@ Uses MultiIndex, and assumes that all data fields are compatible.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="labcore.data.datadict.dd2xr">
-<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict.</span></span><span class="sig-name descname"><span class="pre">dd2xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.data.datadict.MeshgridDataDict" title="labcore.data.datadict.MeshgridDataDict"><span class="pre">MeshgridDataDict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.1.0)"><span class="pre">Dataset</span></a></span></span><a class="reference internal" href="../../_modules/labcore/data/datadict.html#dd2xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict.dd2xr" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">labcore.data.datadict.</span></span><span class="sig-name descname"><span class="pre">dd2xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.data.datadict.MeshgridDataDict" title="labcore.data.datadict.MeshgridDataDict"><span class="pre">MeshgridDataDict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset" title="(in xarray v2026.2.0)"><span class="pre">Dataset</span></a></span></span><a class="reference internal" href="../../_modules/labcore/data/datadict.html#dd2xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.data.datadict.dd2xr" title="Link to this definition">#</a></dt>
 <dd><p>makes an xarray Dataset from a MeshgridDataDict.</p>
 <dl class="simple">
 <dt>TODO: currently only supports ‘regular’ grides, i.e., all axes</dt><dd><p>are independet of each other, and can be represented by 1d arrays.
