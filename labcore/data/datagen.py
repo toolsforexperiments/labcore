@@ -1,7 +1,7 @@
 
 import numpy as np
 
-import dataclasses
+from dataclasses import dataclass, asdict
 from abc import ABC, abstractmethod
 
 """
@@ -36,7 +36,7 @@ coords = sine.generate(A = 5) --> uses A = 5, f = 2
 
 """
 
-@dataclasses.dataclass
+@dataclass
 class DataGen(ABC):
     noise_std : float = 1.0
     
@@ -47,7 +47,7 @@ class DataGen(ABC):
     def generate(self, coordinates, **kwargs): 
         
         # updates previously set dataclass fields
-        params = dataclasses.asdict(self) 
+        params = asdict(self) 
         params.update(kwargs)
         noise_std = params.pop('noise_std')
 
@@ -66,7 +66,7 @@ class DataGen(ABC):
         return np.random.normal(scale = std, size = len(coordinates))
     
 
-@dataclasses.dataclass
+@dataclass
 class ExponentialDataGen(DataGen):
 
     base: float = np.e
@@ -77,7 +77,7 @@ class ExponentialDataGen(DataGen):
     
 
 
-@dataclasses.dataclass
+@dataclass
 class SineDataGen(DataGen):
 
     A : float = 1
@@ -90,7 +90,7 @@ class SineDataGen(DataGen):
         return A * np.sin(2 * np.pi * coordinates * f + phi) + of
 
 
-@dataclasses.dataclass
+@dataclass
 class GaussianDataGen(DataGen):
 
     x0 : float = 0
