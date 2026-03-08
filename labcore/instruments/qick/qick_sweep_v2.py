@@ -49,6 +49,10 @@ class PulseVariable(DataSpec):
 class TimeVariable(DataSpec):
     time_parameter: str = None
 
+@dataclass
+class DecimatedVariable(DataSpec):
+    ro_index: int = None
+
 
 
 class QickBoardSweep(AsyncRecord):
@@ -98,13 +102,19 @@ class QickBoardSweep(AsyncRecord):
         sweepIdx = 0   # To specify the index of the sweep variable to return
         for ds in self.specs:
             if isinstance(ds, ComplexQICKData):
-                return_data[ds.name]= data[measIdx].dot([1,1j])
+                if any(isinstance(dss, DecimatedVariable) for dss in self.specs):
+                    return_data[ds.name]=data[:].dot([1,1j])
+                else:
+                    return_data[ds.name]= data[measIdx].dot([1,1j])
                 measIdx += 1
             elif isinstance(ds, PulseVariable):
                 return_data[ds.name]= self.communicator["qick_program"].get_pulse_param(ds.pulse_parameter, ds.sweep_parameter, as_array=True)
                 sweepIdx += 1
             elif isinstance(ds, TimeVariable):
                 return_data[ds.name]= (self.communicator["qick_program"].get_time_param(ds.time_parameter, 't', as_array=True))*(cfg['n_echoes']+1)
+                sweepIdx += 1
+            elif isinstance(ds, DecimatedVariable):
+                return_data[ds.name] = self.communicator["qick_program"].get_time_axis(ro_index=ds.ro_index)
                 sweepIdx += 1
             else:
                 return_data[ds.name] = np.arange(cfg['steps'])
