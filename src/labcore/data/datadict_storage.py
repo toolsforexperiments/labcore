@@ -788,14 +788,13 @@ class DDH5Writer(object):
                         file_timeout=self.file_timeout,
                         append_mode=AppendMode.none,
                     )
+                    with FileOpener(self.filepath, "a", timeout=self.file_timeout) as f:
+                        add_cur_time_attr(f, name="last_change")
+                        add_cur_time_attr(f[self.groupname], name="last_change")
                 except RuntimeError as e:
                     logger.warning(
                         f"Error while unifying data: {e} \nData is still getting saved in .tmp directory."
                     )
-
-                with FileOpener(self.filepath, "a", timeout=self.file_timeout) as f:
-                    add_cur_time_attr(f, name="last_change")
-                    add_cur_time_attr(f[self.groupname], name="last_change")
 
                 # Even if I fail at reconstruction, I want to wait the same amount as if it was successful to try again.
                 self.last_reconstruction_time = time.time()

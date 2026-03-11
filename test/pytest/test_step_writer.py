@@ -216,6 +216,7 @@ def test_locking_main_file(tmp_path):
     with DDH5Writer(
         datadict, str(tmp_path), safe_write_mode=True, file_timeout=5
     ) as writer:
+        writer.n_files_per_reconstruction = 100
         for i in range(500):
             writer.add_data(x=i, y=i**2, z=i**3)
 
