@@ -1,19 +1,15 @@
-from typing import Tuple, List, Optional, Union, Any, Dict
+from typing import List, Optional, Any, Dict
 import logging
 
 import numpy as np
-from numpy import ndarray
-from numpy import complexfloating
 
 import matplotlib as mpl
 from matplotlib import pyplot as plt
-from matplotlib.figure import Figure
-from matplotlib.axes import Axes
-from matplotlib import gridspec, cm, colors, ticker
+from matplotlib import gridspec, cm, ticker
 from matplotlib.colors import rgb2hex
 import seaborn as sns
 
-from .fit import FitResult, Fit, fit_and_add_to_ds
+from .fit import fit_and_add_to_ds
 
 
 logger = logging.getLogger(__name__)
@@ -59,7 +55,7 @@ def plot_fit_1d(ds, name):
     format_ax(
         ax["res"],
         xlabel=f"{dimda.name} ({dimda.attrs.get('units', '')})",
-        ylabel=f"residuals",
+        ylabel="residuals",
     )
     return fig
 

@@ -1,5 +1,5 @@
-from dataclasses import dataclass, field
-from typing import Optional, Iterable, List, Callable, Iterator, Tuple, Union, Any, Dict
+from dataclasses import dataclass
+from typing import Iterable, List, Callable, Iterator, Tuple, Union, Any, Dict
 import inspect
 from functools import update_wrapper
 import copy

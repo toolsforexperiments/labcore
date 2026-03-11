@@ -17,9 +17,7 @@ underscore pre- and suffix.
 
 import os
 import time
-from enum import Enum
-from typing import Any, Union, Optional, Dict, Type, Collection, List, Tuple
-from types import TracebackType
+from typing import Union, Optional, Dict, List, Tuple
 from pathlib import Path
 import json
 import pickle
@@ -28,9 +26,8 @@ import glob
 import logging
 
 import numpy as np
-import h5py
 
-from ..data.datadict import DataDict, is_meta_key
+from ..data.datadict import DataDict
 from ..data.datadict_storage import DDH5Writer
 
 from .sweep import Sweep

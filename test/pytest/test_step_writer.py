@@ -320,7 +320,7 @@ def test_creation_of_not_reconstructed_error_due_to_error(tmp_path):
             for file in files:
                 file.unlink()
 
-    except AssertionError as e:
+    except AssertionError:
         exception_was_raised = True
 
     assert exception_was_raised

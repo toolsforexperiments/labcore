@@ -1,7 +1,5 @@
-from typing import Union
 import numpy as np
 from labcore.data.datadict import str2dd
-from pprint import pprint
 
 # Define constants and parameters
 amplitude = 2  # Amplitude of the resonator response

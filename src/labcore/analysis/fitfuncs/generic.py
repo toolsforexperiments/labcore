@@ -1,7 +1,6 @@
-from typing import Tuple, Any, Optional, Union, Dict, List
+from typing import Tuple, Union, Dict
 
 import numpy as np
-import lmfit
 
 from ..fit import Fit
 

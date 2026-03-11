@@ -1,5 +1,4 @@
 import itertools
-import inspect
 from typing import (
     Iterable,
     Callable,
@@ -8,12 +7,11 @@ from typing import (
     Any,
     Optional,
     Dict,
-    List,
     Generator,
 )
 import collections
 import logging
-from functools import wraps, update_wrapper, partial
+from functools import update_wrapper, partial
 import copy
 
 try:
@@ -35,7 +33,6 @@ from .record import (
     make_data_spec,
     data_specs_label,
     DataSpecCreationType,
-    make_data_specs,
     FunctionToRecords,
     map_input_to_signature,
 )

@@ -13,7 +13,6 @@ import xarray as xr
 import pandas as pd
 
 # Needed to generate hvplot from a script
-import hvplot.xarray
 import holoviews as hv
 
 from ..data.datadict_storage import NumpyEncoder, timestamp_from_path

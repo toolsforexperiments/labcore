@@ -41,7 +41,7 @@ from panel.widgets import RadioButtonGroup as RBG
 from ..data.datadict_storage import NumpyEncoder
 from ..data.tools import data_dims, split_complex
 from ..utils.misc import add_end_number_to_repeated_file
-from .fit import Fit, FitResult, plot_ds_2d_with_fit
+from .fit import Fit, plot_ds_2d_with_fit
 
 logger = logging.getLogger(__name__)
 

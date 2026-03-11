@@ -391,7 +391,6 @@ def test_expand_flattens_nested_records():
 
 def test_datasets_are_equal_different_types():
     """datasets_are_equal() returns False when comparing different DataDict types."""
-    from labcore.data.datadict import MeshgridDataDict
 
     x_vals = np.array([0.0, 0.0, 1.0, 1.0])
     y_vals = np.array([0.0, 1.0, 0.0, 1.0])

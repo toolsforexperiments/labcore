@@ -1,4 +1,3 @@
-import pytest
 
 from labcore.measurement.record import record_as, recording, independent, dep
 from labcore.measurement.sweep import (
@@ -6,9 +5,6 @@ from labcore.measurement.sweep import (
     sweep_parameter,
     once,
     as_pointer,
-    append_sweeps,
-    zip_sweeps,
-    nest_sweeps,
 )
 
 

@@ -12,7 +12,6 @@ import pandas as pd
 import xarray as xr
 import numpy as np
 from functools import reduce
-from enum import Enum
 from typing import List, Tuple, Dict, Sequence, Union, Any, Iterator, Optional, TypeVar
 
 from labcore.utils import num, misc
@@ -1098,7 +1097,7 @@ class MeshgridDataDict(DataDictBase):
                 axes = self.axes(d)
             else:
                 if axes != self.axes(d):
-                    msg += f" * All dependents must have the same axes, but "
+                    msg += " * All dependents must have the same axes, but "
                     msg += f"{d} has {self.axes(d)} and {axessrc} has {axes}\n"
 
         shp = None
