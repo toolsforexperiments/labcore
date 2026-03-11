@@ -7,6 +7,7 @@ Provides file-storage tools for the DataDict class.
     The lock file has the following format: ~<file_name>.lock. The file lock will get deleted even if the program
     crashes. If the process is suddenly stopped however, we cannot guarantee that the file lock will be deleted.
 """
+
 import os
 import logging
 import time
@@ -44,6 +45,7 @@ TIMESTRFORMAT = "%Y-%m-%d %H:%M:%S"
 logger = logging.getLogger(__name__)
 
 # FIXME: need correct handling of dtypes and list/array conversion
+
 
 class NumpyEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -364,9 +366,11 @@ def all_datadicts_from_hdf5(
     return ret
 
 
-def reconstruct_safe_write_data(path: Union[str, Path],
-                          unification_from_scratch: bool = True,
-                          file_timeout: Optional[float] = None) -> DataDictBase:
+def reconstruct_safe_write_data(
+    path: Union[str, Path],
+    unification_from_scratch: bool = True,
+    file_timeout: Optional[float] = None,
+) -> DataDictBase:
     """
     Creates a new DataDict from the data saved in the .tmp folder. This is used when the data is saved in the safe
     writing mode. The data is saved in individual files in the .tmp folder. This function reconstructs the data from
@@ -388,7 +392,9 @@ def reconstruct_safe_write_data(path: Union[str, Path],
 
     files = []
     for dirpath, dirnames, filenames in os.walk(str(tmp_path)):
-        files.extend([(Path(dirpath)/file) for file in filenames if file.endswith(".ddh5")])
+        files.extend(
+            [(Path(dirpath) / file) for file in filenames if file.endswith(".ddh5")]
+        )
 
     files = sorted(files, key=lambda x: int(x.stem.split("#")[-1]))
 
@@ -397,12 +403,16 @@ def reconstruct_safe_write_data(path: Union[str, Path],
     if path.exists() and not unification_from_scratch:
         dd = datadict_from_hdf5(path, file_timeout=file_timeout)
         if not dd.has_meta("last_reconstructed_file"):
-            raise ValueError("The file does not have the meta data 'last_reconstructed_file', "
-                             "could not know where to reconstruct from.")
+            raise ValueError(
+                "The file does not have the meta data 'last_reconstructed_file', "
+                "could not know where to reconstruct from."
+            )
         last_reconstructed_file = Path(dd.meta_val("last_reconstructed_file"))
         if not last_reconstructed_file.exists() or last_reconstructed_file not in files:
-            raise ValueError("When reconstructing the data, could find the last reconstructed file. "
-                             "This indicates that something wrong happened in the tmp folder.")
+            raise ValueError(
+                "When reconstructing the data, could find the last reconstructed file. "
+                "This indicates that something wrong happened in the tmp folder."
+            )
         starting_index = files.index(last_reconstructed_file) + 1
     else:
         first = files.pop(0)
@@ -416,7 +426,9 @@ def reconstruct_safe_write_data(path: Union[str, Path],
 
     # Add shape to axes
     for name, datavals in dd.data_items():
-        datavals["__shape__"] = tuple(np.array(datavals["values"][:]).shape,)
+        datavals["__shape__"] = tuple(
+            np.array(datavals["values"][:]).shape,
+        )
 
     # Catches the edge case where there is a single file in the .tmp folder.
     # This will not happen other than the first time, so it is ok to have that first variable there.
@@ -426,6 +438,7 @@ def reconstruct_safe_write_data(path: Union[str, Path],
         dd.add_meta("last_reconstructed_file", str(first))
 
     return dd
+
 
 # File access with locking
 
@@ -616,16 +629,26 @@ class DDH5Writer(object):
         if self.safe_write_mode:
             try:
                 logger.debug("Starting reconstruction of data")
-                dd = reconstruct_safe_write_data(self.filepath, file_timeout=self.file_timeout)
+                dd = reconstruct_safe_write_data(
+                    self.filepath, file_timeout=self.file_timeout
+                )
 
                 # Makes sure the reconstructed data matches the one in the .tmp folder
                 assert datasets_are_equal(dd, self.datadict, ignore_meta=True)
 
-                datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout, append_mode=AppendMode.none)
+                datadict_to_hdf5(
+                    dd,
+                    self.filepath,
+                    groupname=self.groupname,
+                    file_timeout=self.file_timeout,
+                    append_mode=AppendMode.none,
+                )
                 shutil.rmtree(self.filepath.parent / ".tmp")
 
             except Exception as e:
-                logger.error(f"Error while unifying data. Data should be located in the .tmp directory: {e}")
+                logger.error(
+                    f"Error while unifying data. Data should be located in the .tmp directory: {e}"
+                )
                 self.add_tag("__not_reconstructed__")
                 raise e
 
@@ -701,7 +724,9 @@ class DDH5Writer(object):
                 keep_searching = True
                 while keep_searching:
                     n_secs += 1
-                    second_folder = minute_folder / (now.strftime("%S") + f"_#{str(n_secs)}")
+                    second_folder = minute_folder / (
+                        now.strftime("%S") + f"_#{str(n_secs)}"
+                    )
                     if not second_folder.exists():
                         keep_searching = False
                         second_folder.mkdir()
@@ -714,7 +739,7 @@ class DDH5Writer(object):
         filename = now.strftime("%Y-%m-%d-%H_%M_%S") + f"_{n_secs}_#{self.n_files}.ddh5"
         self.n_files += 1
 
-        return second_folder/filename
+        return second_folder / filename
 
     def add_data(self, **kwargs: Any) -> None:
         """Add data to the file (and the internal `DataDict`).
@@ -745,14 +770,28 @@ class DDH5Writer(object):
             delta_t = time.time() - self.last_reconstruction_time
 
             # Reconstructs the data every n_files_per_reconstruction files or every n_seconds_per_reconstruction seconds
-            if (self.n_files - self.last_update_n_files >= self.n_files_per_reconstruction or
-                    delta_t > self.n_seconds_per_reconstruction):
+            if (
+                self.n_files - self.last_update_n_files
+                >= self.n_files_per_reconstruction
+                or delta_t > self.n_seconds_per_reconstruction
+            ):
                 try:
-                    dd = reconstruct_safe_write_data(self.filepath, unification_from_scratch=False,
-                                                     file_timeout=self.file_timeout)
-                    datadict_to_hdf5(dd, self.filepath, groupname=self.groupname, file_timeout=self.file_timeout, append_mode=AppendMode.none)
+                    dd = reconstruct_safe_write_data(
+                        self.filepath,
+                        unification_from_scratch=False,
+                        file_timeout=self.file_timeout,
+                    )
+                    datadict_to_hdf5(
+                        dd,
+                        self.filepath,
+                        groupname=self.groupname,
+                        file_timeout=self.file_timeout,
+                        append_mode=AppendMode.none,
+                    )
                 except RuntimeError as e:
-                    logger.warning(f"Error while unifying data: {e} \nData is still getting saved in .tmp directory.")
+                    logger.warning(
+                        f"Error while unifying data: {e} \nData is still getting saved in .tmp directory."
+                    )
 
                 with FileOpener(self.filepath, "a", timeout=self.file_timeout) as f:
                     add_cur_time_attr(f, name="last_change")

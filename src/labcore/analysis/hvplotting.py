@@ -98,7 +98,9 @@ class Node(pn.viewable.Viewer):
     def __panel__(self) -> pn.viewable.Viewable:
         return self.layout
 
-    def __init__(self, path=None, data_in: Optional[Data] = None, *args: Any, **kwargs: Any):
+    def __init__(
+        self, path=None, data_in: Optional[Data] = None, *args: Any, **kwargs: Any
+    ):
         """Constructor for ``Node``.
 
         Parameters
@@ -117,10 +119,12 @@ class Node(pn.viewable.Viewer):
         self.layout = pn.Column()
 
         # -- options for plotting
-        self.graph_types = {"None": None,
-                            "Value": ValuePlot,
-                            "Readout hist.": ComplexHist,
-                            "Magnitude & Phase": MagnitudePhasePlot}
+        self.graph_types = {
+            "None": None,
+            "Value": ValuePlot,
+            "Readout hist.": ComplexHist,
+            "Magnitude & Phase": MagnitudePhasePlot,
+        }
 
         self.plot_type_select = RBG(
             options=list(self.graph_types.keys()),
@@ -334,8 +338,7 @@ class Node(pn.viewable.Viewer):
 
         Updates on change of ``data_out``.
         """
-        return [labeled_widget(self.plot_type_select),
-                self.plot_obj]
+        return [labeled_widget(self.plot_type_select), self.plot_obj]
 
     @pn.depends("data_out", "plot_type_select.value")
     def plot_obj(self) -> Optional["Node"]:
@@ -352,7 +355,8 @@ class Node(pn.viewable.Viewer):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
                 self._plot_obj = ValuePlot(
-                    name="plot", data_in=self.data_out, path=self.file_path)
+                    name="plot", data_in=self.data_out, path=self.file_path
+                )
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
@@ -361,7 +365,8 @@ class Node(pn.viewable.Viewer):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
                 self._plot_obj = MagnitudePhasePlot(
-                    name="plot", data_in=self.data_out, path=self.file_path)
+                    name="plot", data_in=self.data_out, path=self.file_path
+                )
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
@@ -370,7 +375,8 @@ class Node(pn.viewable.Viewer):
                 if self._plot_obj is not None:
                     self.detach(self._plot_obj)
                 self._plot_obj = ComplexHist(
-                    name="plot", data_in=self.data_out, path=self.file_path)
+                    name="plot", data_in=self.data_out, path=self.file_path
+                )
                 self.append(self._plot_obj)
                 self._plot_obj.data_in = self.data_out
 
@@ -382,8 +388,7 @@ class Node(pn.viewable.Viewer):
         return self._plot_obj
 
     def append(self, other: "Node") -> None:
-        watcher = self.param.watch(
-            other.update, ["data_out", "units_out", "meta_out"])
+        watcher = self.param.watch(other.update, ["data_out", "units_out", "meta_out"])
         self._watchers[other] = watcher
 
     def detach(self, other: "Node") -> None:
@@ -440,8 +445,7 @@ class ReduxNode(Node):
             self._widgets[c].value = o
 
     def on_widget_change(self, *events):
-        self.operations = [self._widgets[c]
-                           ["widget"].value for c in self.coords]
+        self.operations = [self._widgets[c]["widget"].value for c in self.coords]
 
     @pn.depends("data_in", "operations", watch=True)
     def process(self):
@@ -507,12 +511,14 @@ class XYSelect(pn.viewable.Viewer):
 
 # -- generic plot functions
 
+
 class PlotNode(Node):
     """PlotNode, Node subclass
 
     A superclass of all nodes that make plots of some sort. Mostly
     deals with define/creating fits for whatever graph subnode is instantiated.
     """
+
     refresh_graph = param.Parameter(None)
 
     FITS = None
@@ -529,10 +535,10 @@ class PlotNode(Node):
             )
         raw_config = yaml.load(config_path)
         # Add fits to PlotNode.FITS if fits in the Config
-        if 'fits' in raw_config:
-            for ff in raw_config['fits']:
+        if "fits" in raw_config:
+            for ff in raw_config["fits"]:
                 # Module and Class name from the string
-                modname = str(ff).rsplit('.', 1)
+                modname = str(ff).rsplit(".", 1)
                 mod = modname[0]
                 try:
                     module = importlib.import_module(mod)
@@ -552,7 +558,7 @@ class PlotNode(Node):
 
         self.fit_dict: dict = {}
         # Create fit_dict from json based on path
-        if path == '.' or path == '' or path is None:
+        if path == "." or path == "" or path is None:
             self.fit_data_path = None
         else:
             _dir = Path(path).parent
@@ -579,26 +585,27 @@ class PlotNode(Node):
         super().__init__(*args, **kwargs)
 
         fit_options = list(PlotNode.FITS.keys())
-        fit_options.append('None')
+        fit_options.append("None")
         self.fit_button = pn.widgets.MenuButton(
-            name="Fit", items=fit_options, button_type='success', width=100
+            name="Fit", items=fit_options, button_type="success", width=100
         )
         self.fit_button.on_click(self.set_fit_box)
 
         self.select_fit_axis = pn.widgets.Select(
-            name='Fit Axis',
-            options=self._fit_axis_options if self._fit_axis_options is not None else [],
+            name="Fit Axis",
+            options=self._fit_axis_options
+            if self._fit_axis_options is not None
+            else [],
         )
-        self.select_fit_axis.param.watch(self.set_fit_box, 'value')
+        self.select_fit_axis.param.watch(self.set_fit_box, "value")
 
         self.fit_layout = pn.Column(
-            pn.Row(self.fit_button,
-                   self.select_fit_axis),
+            pn.Row(self.fit_button, self.select_fit_axis),
         )
 
     def get_fit_panel(self):
         return self.fit_layout
-    
+
     def process(self):
         """Make a copy of the data so that changes (added fits) don't carry
         to other graphs/other analysis.
@@ -609,14 +616,16 @@ class PlotNode(Node):
         # Draw any fits that already exist
         for axis in self.fit_axis_options():
             if axis in self.fit_dict.keys():
-                func_name = self.fit_dict[axis]['fit_function']
+                func_name = self.fit_dict[axis]["fit_function"]
                 saved_args = self.get_values(axis)
                 if func_name not in PlotNode.FITS:
                     msg = f"Axis {axis} has a fit of type {func_name} saved, which you don't have access to."
                     print(msg)
                     pn.state.notifications.error(msg, duration=0)
                 else:
-                    self.update_dataset_by_fit_and_axis(PlotNode.FITS[func_name], saved_args, axis, True)
+                    self.update_dataset_by_fit_and_axis(
+                        PlotNode.FITS[func_name], saved_args, axis, True
+                    )
 
     def plot_panel(self):
         """Creates and returns a panel with the class's plot
@@ -635,28 +644,34 @@ class PlotNode(Node):
         return self.plot_panel()
 
     def fit_axis_options(self) -> list:
-        """Returns a list of the different axes you can 
+        """Returns a list of the different axes you can
         make a fit for in this node.
 
         Should be overridden by subclasses to return the appropriate object.
         """
         return []
 
-    def set_fit_box(self, *events: param.parameterized.Event, fitted:bool=None):
+    def set_fit_box(self, *events: param.parameterized.Event, fitted: bool = None):
         if fitted is None:
             fitted = False
             if self.select_fit_axis.value in self.fit_dict.keys():
-                if 'start_params' not in self.fit_dict[self.select_fit_axis.value].keys():
+                if (
+                    "start_params"
+                    not in self.fit_dict[self.select_fit_axis.value].keys()
+                ):
                     fitted = True
-        # Delete start parameters when refreshing the fit box. Creating the 
+        # Delete start parameters when refreshing the fit box. Creating the
         # fit box will regenerate these.
         if self.select_fit_axis.value in self.fit_dict.keys():
-            if 'start_params' in self.fit_dict[self.select_fit_axis.value].keys():
-                del self.fit_dict[self.select_fit_axis.value]['start_params']
-        self.set_fit_box_helper(self.fit_button.clicked !=
-                                'None', self.fit_button.clicked, fitted=fitted)
+            if "start_params" in self.fit_dict[self.select_fit_axis.value].keys():
+                del self.fit_dict[self.select_fit_axis.value]["start_params"]
+        self.set_fit_box_helper(
+            self.fit_button.clicked != "None", self.fit_button.clicked, fitted=fitted
+        )
 
-    def set_fit_box_helper(self, new_box: bool, fit_func_name: str, fitted: bool=False):
+    def set_fit_box_helper(
+        self, new_box: bool, fit_func_name: str, fitted: bool = False
+    ):
         """Removes and/or creates a fit box. If new_box == True this
         will (re)create the fit box."""
         # Check if fit_box exists & get fit_box
@@ -670,7 +685,7 @@ class PlotNode(Node):
                 self.fit_box = self.add_fit_box(fit_func_name, fitted=fitted)
 
     def remove_fit_box(self):
-        fit_box = self.fit_layout.objects[len(self.fit_layout.objects)-1]
+        fit_box = self.fit_layout.objects[len(self.fit_layout.objects) - 1]
         # Get all fit objects other than layout and set as the current objects
         no_fit_objects = self.fit_layout.objects[:-1]
         self.fit_layout.objects = no_fit_objects
@@ -683,14 +698,16 @@ class PlotNode(Node):
         if selected is None:
             selected = self.fit_button.clicked
         if self.select_fit_axis.value in self.fit_dict.keys():
-            if self.fit_dict[self.select_fit_axis.value]['fit_function'] != selected:
+            if self.fit_dict[self.select_fit_axis.value]["fit_function"] != selected:
                 fitted = False
         # Create a widget box, add the name of the fit function at top
-        objs = [pn.widgets.StaticText(
-            name='FITTED' if fitted else 'Setup',
-            value=selected,
-            align="center",
-        )]
+        objs = [
+            pn.widgets.StaticText(
+                name="FITTED" if fitted else "Setup",
+                value=selected,
+                align="center",
+            )
+        ]
         fit_class = PlotNode.FITS[selected]
         # Get guesses or saved values for all variables and make inputs
         saved_args = self.get_arguments()
@@ -700,19 +717,28 @@ class PlotNode(Node):
                 continue
             name = var
             if fitted:
-                objs.append( pn.widgets.StaticText(
-                name=var,
-                value=str(saved_args[var]) + " +/- " + str(self.fit_dict[self.select_fit_axis.value]['params'][var]['stderr']),
-                align="start",
-                ))
-            else:
-                objs.append(pn.widgets.FloatInput(
-                    name=name,
-                    # Set value to the saved_args (or Ansatz) or to 0
-                    value=saved_args[var] if var in list(saved_args.keys()) else 0,
+                objs.append(
+                    pn.widgets.StaticText(
+                        name=var,
+                        value=str(saved_args[var])
+                        + " +/- "
+                        + str(
+                            self.fit_dict[self.select_fit_axis.value]["params"][var][
+                                "stderr"
+                            ]
+                        ),
+                        align="start",
+                    )
                 )
-            )
-            objs[i].param.watch(self.update_fit_args, 'value')
+            else:
+                objs.append(
+                    pn.widgets.FloatInput(
+                        name=name,
+                        # Set value to the saved_args (or Ansatz) or to 0
+                        value=saved_args[var] if var in list(saved_args.keys()) else 0,
+                    )
+                )
+            objs[i].param.watch(self.update_fit_args, "value")
         # Add buttons to model the fit, reset the fit
         self.reguess_fit_button = pn.widgets.Button(
             name="Reguess", align="center", button_type="default", disabled=False
@@ -739,29 +765,36 @@ class PlotNode(Node):
         else:
             objs.append(pn.Row(self.model_fit_button, self.reguess_fit_button))
         # Add to the layout
-        self.fit_inputs = pn.WidgetBox(name=selected,
-                                       objects=objs
-                                       )
+        self.fit_inputs = pn.WidgetBox(name=selected, objects=objs)
         self.fit_layout.append(pn.Row(objects=[self.fit_inputs], name="fit_box"))
 
         # Save to fit_dict
         if self.select_fit_axis.value not in self.fit_dict.keys():
             self.fit_dict[self.select_fit_axis.value] = {
-                'fit_function': self.fit_button.clicked, 'start_params': saved_args, 'params': {}}
+                "fit_function": self.fit_button.clicked,
+                "start_params": saved_args,
+                "params": {},
+            }
         # Resave to json for case of new fit class
-        elif 'start_params' not in self.fit_dict[self.select_fit_axis.value]:
-            self.fit_dict[self.select_fit_axis.value]['start_params'] = saved_args
-        self.fit_dict[self.select_fit_axis.value]['fit_function'] = self.fit_button.clicked
+        elif "start_params" not in self.fit_dict[self.select_fit_axis.value]:
+            self.fit_dict[self.select_fit_axis.value]["start_params"] = saved_args
+        self.fit_dict[self.select_fit_axis.value]["fit_function"] = (
+            self.fit_button.clicked
+        )
         self.update_fit_args(None)
         return self.fit_inputs
 
     def save_fit(self, *events: param.parameterized.Event):
         """Saves only the currently selected fit axis to the json file"""
         params_dict = self.fit_result.params_to_dict()
-        params_path = add_end_number_to_repeated_file(self.path.parent.joinpath("fit_params.json"))
+        params_path = add_end_number_to_repeated_file(
+            self.path.parent.joinpath("fit_params.json")
+        )
 
         fit_result = self.fit_result.lmfit_result.fit_report()
-        result_path = add_end_number_to_repeated_file(self.path.parent.joinpath("fit_result.txt"))
+        result_path = add_end_number_to_repeated_file(
+            self.path.parent.joinpath("fit_result.txt")
+        )
 
         with open(params_path, "w") as outfile:
             json.dump(params_dict, outfile, cls=NumpyEncoder)
@@ -776,10 +809,9 @@ class PlotNode(Node):
         store_params = self.fit_dict[self.select_fit_axis.value]
         del self.fit_dict[self.select_fit_axis.value]
         # Redo the box (will add the axis back to fit_dict)
-        self.set_fit_box_helper(
-            True, store_params['fit_function'])
+        self.set_fit_box_helper(True, store_params["fit_function"])
         # Restore parameters of current saved fit and refresh graph
-        self.fit_dict[self.select_fit_axis.value]['params'] = store_params['params']
+        self.fit_dict[self.select_fit_axis.value]["params"] = store_params["params"]
         self.refresh_graph = True
 
     def model_fit(self, *events: param.parameterized.Event):
@@ -795,19 +827,19 @@ class PlotNode(Node):
         vals = self.data_out.data_vars[data_key].to_numpy()
         # Run the fit on the fit class
         fit = fit_class(coords, vals)
-        run_kwargs = self.fit_dict[self.select_fit_axis.value]['start_params']
+        run_kwargs = self.fit_dict[self.select_fit_axis.value]["start_params"]
         self.fit_result = fit.run(**run_kwargs)
         # Get the Fit Result's arguments
         params_dict = self.fit_result.params_to_dict()
         fit_params = {}
         for k, v in params_dict.items():
-            fit_params[k] = v['value']
+            fit_params[k] = v["value"]
         # Update the dataset with the new data
         name = self.select_fit_axis.value
         self.update_dataset_by_fit_and_axis(fit_class, fit_params, name, saved=True)
-        self.fit_dict[self.select_fit_axis.value]['params'] = params_dict
+        self.fit_dict[self.select_fit_axis.value]["params"] = params_dict
         # switch to fitted fit_box
-        self.set_fit_box(None, fitted=True) 
+        self.set_fit_box(None, fitted=True)
         self.refresh_graph = True
 
     def get_arguments(self):
@@ -816,7 +848,10 @@ class PlotNode(Node):
         runs fit.guess and takes those values."""
         axis = self.select_fit_axis.value
         fit_name = self.fit_button.clicked
-        if axis in self.fit_dict.keys() and self.fit_dict[axis]['fit_function'] == fit_name:
+        if (
+            axis in self.fit_dict.keys()
+            and self.fit_dict[axis]["fit_function"] == fit_name
+        ):
             return self.get_values(axis)
         else:
             return self.get_ansatz()
@@ -837,24 +872,34 @@ class PlotNode(Node):
     def update_fit_args(self, event):
         """Updates the temporary saved value for all of the fit's starting arguments.
 
-        Called whenever a float input's value is changed, when the fitbox is 
-        created, or when the fit_axis changes. """
+        Called whenever a float input's value is changed, when the fitbox is
+        created, or when the fit_axis changes."""
         if self.select_fit_axis.value not in self.fit_dict.keys():
             self.fit_dict[self.select_fit_axis.value] = {
-                'fit_function': self.fit_button.clicked, 'start_params': {}}
+                "fit_function": self.fit_button.clicked,
+                "start_params": {},
+            }
         for i, obj in enumerate(self.fit_inputs.objects):
             if isinstance(obj, pn.widgets.FloatInput):
-                self.fit_dict[self.select_fit_axis.value]['start_params'][obj.name] = self.fit_inputs[i].value
+                self.fit_dict[self.select_fit_axis.value]["start_params"][obj.name] = (
+                    self.fit_inputs[i].value
+                )
 
         fit_class = PlotNode.FITS[self.fit_button.clicked]
-        params = self.fit_dict[self.select_fit_axis.value]['start_params']
-        self.update_dataset_by_fit_and_axis(fit_class, params, self.select_fit_axis.value)
+        params = self.fit_dict[self.select_fit_axis.value]["start_params"]
+        self.update_dataset_by_fit_and_axis(
+            fit_class, params, self.select_fit_axis.value
+        )
 
         self.refresh_graph = True
 
-    def update_dataset_by_fit_and_axis(self, fit_class: Fit,
-                                       model_args: dict[str, float],
-                                       model_axis_name: str, saved: bool = False):
+    def update_dataset_by_fit_and_axis(
+        self,
+        fit_class: Fit,
+        model_args: dict[str, float],
+        model_axis_name: str,
+        saved: bool = False,
+    ):
         """Updates the data for fit in the self.data_out dataset based
         on the given arguments."""
         # Create np array of coordinates
@@ -865,8 +910,8 @@ class PlotNode(Node):
             coords = np_data[0:2]
         # Model the data, name it, and add to self.data_out
         fit_data = fit_class.model(coords, **model_args)
-        fit_name = model_axis_name+"_fit"
-        fit_name_temp = model_axis_name+"_fit*"
+        fit_name = model_axis_name + "_fit"
+        fit_name_temp = model_axis_name + "_fit*"
         if not saved:
             # If not saved, deleted save data and add * to name
             if fit_name in self.data_out.keys():
@@ -877,15 +922,15 @@ class PlotNode(Node):
             if fit_name_temp in self.data_out.keys():
                 del self.data_out[fit_name_temp]
         self.update_dataset_by_data(fit_data, fit_name)
-    
-    def update_dataset_by_data(self, fit_data:np.ndarray, name:str):
+
+    def update_dataset_by_data(self, fit_data: np.ndarray, name: str):
         # Get independent variable(s) and fit class
         indep, dep = self.data_dims(self.data_out)
         self.data_out[name] = (indep, fit_data)
 
     def get_data_fit_names(self, axis_name, omit_axes=None):
         if omit_axes is None:
-            omit_axes = ['Magnitude', 'Phase']
+            omit_axes = ["Magnitude", "Phase"]
 
         # Check if a fit axis exists. Return list of axis and fit axis (if it exists)
         if isinstance(axis_name, list):
@@ -901,24 +946,24 @@ class PlotNode(Node):
         # Check if a _fit or _fit* version of the name exists
         fit_name = axis_name + "_fit"
         ret = [axis_name]
-        if fit_name+"*" in self.data_out.data_vars.keys():
-            ret.append(fit_name+"*")
+        if fit_name + "*" in self.data_out.data_vars.keys():
+            ret.append(fit_name + "*")
         elif fit_name in self.data_out.data_vars.keys():
             ret.append(fit_name)
         return ret
 
-    def get_values(self, axis:str):
+    def get_values(self, axis: str):
         """Gets a dictionary of values from the result of the FitResult's params_to_dict() function."""
-        if 'params' not in self.fit_dict[axis].keys():
-            if 'start_params' in self.fit_dict[axis].keys():
-                return self.fit_dict[axis]['start_params']
+        if "params" not in self.fit_dict[axis].keys():
+            if "start_params" in self.fit_dict[axis].keys():
+                return self.fit_dict[axis]["start_params"]
             return []
-        _dict = self.fit_dict[axis]['params']
+        _dict = self.fit_dict[axis]["params"]
         values = {}
         for k in _dict.keys():
-            values[k] = _dict[k]['value']
+            values[k] = _dict[k]["value"]
         return values
-    
+
     def indep_dims(self) -> int:
         indep, dep = self.data_dims(self.data_out)
         if isinstance(indep, list):
@@ -975,7 +1020,8 @@ class ValuePlot(PlotNode):
         elif y in ["None", None]:
             if isinstance(self.data_out, pd.DataFrame):
                 plot = self.data_out.hvplot.line(
-                    x=x, xlabel=self.dim_label(x),
+                    x=x,
+                    xlabel=self.dim_label(x),
                     y=self.get_data_fit_names(self.fit_axis_options()),
                 ) * self.data_out.hvplot.scatter(x=x)
 
@@ -991,15 +1037,21 @@ class ValuePlot(PlotNode):
         # case: if x and y are selected, we make a 2d plot of some sort
         else:
             if isinstance(self.data_out, pd.DataFrame):
-                plot = plot_df_as_2d(self.data_out, x, y,
-                                     dim_labels=self.dim_labels(),
-                                     graph_axes=self.get_data_fit_names(self.fit_axis_options())
-                                     )
+                plot = plot_df_as_2d(
+                    self.data_out,
+                    x,
+                    y,
+                    dim_labels=self.dim_labels(),
+                    graph_axes=self.get_data_fit_names(self.fit_axis_options()),
+                )
             elif isinstance(self.data_out, xr.Dataset):
-                plot = plot_xr_as_2d(self.data_out, x, y,
-                                     dim_labels=self.dim_labels(),
-                                     graph_axes=self.get_data_fit_names(self.fit_axis_options())
-                                     )
+                plot = plot_xr_as_2d(
+                    self.data_out,
+                    x,
+                    y,
+                    dim_labels=self.dim_labels(),
+                    graph_axes=self.get_data_fit_names(self.fit_axis_options()),
+                )
             else:
                 raise NotImplementedError
             plot = plot.cols(2)
@@ -1012,7 +1064,7 @@ class ValuePlot(PlotNode):
             if d[-4:] != "_fit" and d[-5:] != "_fit*":
                 ret.append(d)
         return list(dep)
-    
+
 
 class ComplexHist(PlotNode):
     def __init__(self, *args, **kwargs):
@@ -1047,11 +1099,13 @@ class ComplexHist(PlotNode):
 
         layout = pn.Column()
         for k, v in self.complex_dependents(self.data_out).items():
-            xlim = float(self.data_out[v["real"]].min()), float(
-                self.data_out[v["real"]].max()
+            xlim = (
+                float(self.data_out[v["real"]].min()),
+                float(self.data_out[v["real"]].max()),
             )
-            ylim = float(self.data_out[v["imag"]].min()), float(
-                self.data_out[v["imag"]].max()
+            ylim = (
+                float(self.data_out[v["imag"]].min()),
+                float(self.data_out[v["imag"]].max()),
             )
             p = self.data_out.hvplot(
                 kind="hexbin",
@@ -1092,8 +1146,9 @@ class MagnitudePhasePlot(PlotNode):
         )
 
     def process(self):
-        assert isinstance(
-            self.data_in, xr.Dataset), "MagnitudePhasePlot needs an xr.Dataset, did not receive one."
+        assert isinstance(self.data_in, xr.Dataset), (
+            "MagnitudePhasePlot needs an xr.Dataset, did not receive one."
+        )
         # Convert the current dataset to one that has Magnitude and Phase columns
         indep, dep = self.data_dims(self.data_in)
         # Assign labels. This assumes the first column is the real coefficients.
@@ -1105,8 +1160,8 @@ class MagnitudePhasePlot(PlotNode):
         phase = np.arctan(imaginary / real)
         super().process()
         # Add magnitude and phase data (don't effect self.data_in)
-        self.data_out['Magnitude'] = (indep, magnitude)
-        self.data_out['Phase'] = (indep, phase)
+        self.data_out["Magnitude"] = (indep, magnitude)
+        self.data_out["Phase"] = (indep, phase)
 
     def __panel__(self):
         return self.layout
@@ -1161,15 +1216,19 @@ class MagnitudePhasePlot(PlotNode):
 
             # case: if x and y are selected, we make a 2d plot of some sort
             else:
-                plot = plot_xr_as_2d(self.data_out, x, y,
-                                     dim_labels=self.dim_labels(), 
-                                     graph_axes=self.get_data_fit_names(self.fit_axis_options()))
+                plot = plot_xr_as_2d(
+                    self.data_out,
+                    x,
+                    y,
+                    dim_labels=self.dim_labels(),
+                    graph_axes=self.get_data_fit_names(self.fit_axis_options()),
+                )
                 plot = plot.cols(2)
 
         return plot
 
     def fit_axis_options(self):
-        return ['Magnitude', 'Phase']
+        return ["Magnitude", "Phase"]
 
     def get_data_fit_names(self, axis_name):
         return super().get_data_fit_names(axis_name, [])
@@ -1229,7 +1288,7 @@ def plot_xr_as_2d(ds, x, y, dim_labels=None, graph_axes=None):
     if graph_axes:
         deps = graph_axes
 
-    if x + '_fit' in ds:
+    if x + "_fit" in ds:
         return plot_ds_2d_with_fit(ds, dim_labels.get(x, x), x, y)
     # plotting stuff vs two independent -- heatmap
     if x in indeps and y in indeps:

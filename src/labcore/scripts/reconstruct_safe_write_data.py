@@ -14,17 +14,23 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Reconstructing the safe write data')
+    parser = argparse.ArgumentParser(description="Reconstructing the safe write data")
 
-    parser.add_argument("path",
-                        help="path to directory containing a .tmp folder. .tmp doesn't have to be in the path",
-                        default=None)
-    parser.add_argument("--filename",
-                        help="Name for the newly created ddh5 file. Defaults to data.ddh5",
-                        default="data.ddh5")
-    parser.add_argument("--file_timeout",
-                        help="time before a timeout error is raised when interacting with files, in seconds",
-                        default=None)
+    parser.add_argument(
+        "path",
+        help="path to directory containing a .tmp folder. .tmp doesn't have to be in the path",
+        default=None,
+    )
+    parser.add_argument(
+        "--filename",
+        help="Name for the newly created ddh5 file. Defaults to data.ddh5",
+        default="data.ddh5",
+    )
+    parser.add_argument(
+        "--file_timeout",
+        help="time before a timeout error is raised when interacting with files, in seconds",
+        default=None,
+    )
 
     args = parser.parse_args()
 
@@ -41,14 +47,12 @@ def main():
     if not path.exists():
         raise FileNotFoundError(f"No .tmp folder found in {path}")
     if ddh5_path.exists():
-        raise FileExistsError(f"File {ddh5_path} already exists. Remove it or change filename before continuing.")
+        raise FileExistsError(
+            f"File {ddh5_path} already exists. Remove it or change filename before continuing."
+        )
 
     dd = reconstruct_safe_write_data(path, file_timeout=file_timeout)
-    
+
     datadict_to_hdf5(dd, ddh5_path)
 
     logger.info(f"Reconstruction of safe write data in {path} completed.")
-
-
-
-

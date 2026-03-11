@@ -1,6 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Optional, Iterable, List, Callable, Iterator, Tuple, Union, \
-    Any, Dict
+from typing import Optional, Iterable, List, Callable, Iterator, Tuple, Union, Any, Dict
 import inspect
 from functools import update_wrapper
 import copy
@@ -10,6 +9,7 @@ import logging
 
 try:
     from qcodes import Parameter as QCParameter
+
     QCODES_PRESENT = True
 except ImportError:
     QCParameter = None
@@ -23,23 +23,25 @@ logger = logging.getLogger(__name__)
 
 class DataType(Enum):
     """Valid options for data types used in :class:`DataSpec`"""
+
     #: scalar (single-valued) data. typically numeric, but also bool, etc.
-    scalar = 'scalar'
+    scalar = "scalar"
     #: multi-valued data. typically numpy-arrays.
-    array = 'array'
+    array = "array"
 
 
 @dataclass
 class DataSpec:
     """Specification for data parameters to be recorded."""
+
     #: name of the parameter
     name: str
     #: dependencies. if ``None``, it is independent.
     depends_on: Union[None, List[str], Tuple[str]] = None
     #: information about data format
-    type: Union[str, DataType] = 'scalar'
+    type: Union[str, DataType] = "scalar"
     #: physical unit of the data
-    unit: str = ''
+    unit: str = ""
 
     def __post_init__(self):
         if isinstance(self.type, str):
@@ -60,14 +62,12 @@ class DataSpec:
 ds = DataSpec
 #: The type for creating a ds from a tuple (i.e., what can be passed to the
 #: constructor of :class:`.DataSpec`)
-DataSpecFromTupleType = Tuple[str, Union[None, List[str], Tuple[str]], str,
-                              str]
+DataSpecFromTupleType = Tuple[str, Union[None, List[str], Tuple[str]], str, str]
 #: The type for creating a ds from a dict (i.e., what can be passed to the
 #: constructor of :class:`.DataSpec` as keywords)
 DataSpecFromDictType = Dict[str, Union[str, Union[None, List[str], Tuple[str]]]]
 #: The type from which we can create a DataSpec.
-DataSpecCreationType = Union[str, DataSpecFromTupleType,
-                             DataSpecFromDictType, DataSpec]
+DataSpecCreationType = Union[str, DataSpecFromTupleType, DataSpecFromDictType, DataSpec]
 
 
 def data_specs_label(*dspecs: DataSpec) -> str:
@@ -130,7 +130,7 @@ def combine_data_specs(*specs: DataSpec) -> Tuple[DataSpec, ...]:
     return tuple(ret)
 
 
-def independent(name: str, unit: str = '', type: str = 'scalar') -> DataSpec:
+def independent(name: str, unit: str = "", type: str = "scalar") -> DataSpec:
     """Create a the spec for an independent parameter.
     All arguments are forwarded to the :class:`.DataSpec` constructor.
     ``depends_on`` is set to ``None``."""
@@ -140,8 +140,9 @@ def independent(name: str, unit: str = '', type: str = 'scalar') -> DataSpec:
 indep = independent
 
 
-def dependent(name: str, depends_on: List[str] = [], unit: str = "",
-              type: str = 'scalar'):
+def dependent(
+    name: str, depends_on: List[str] = [], unit: str = "", type: str = "scalar"
+):
     """Create a the spec for a dependent parameter.
     All arguments are forwarded to the :class:`.DataSpec` constructor.
     ``depends_on`` may not be set to ``None``."""
@@ -157,13 +158,14 @@ def recording(*data_specs: DataSpecCreationType) -> Callable:
     """Returns a decorator that allows adding data parameter specs to a
     function.
     """
+
     def decorator(func):
         return FunctionToRecords(func, *make_data_specs(*data_specs))
+
     return decorator
 
 
-def record_as(obj: Union[Callable, Iterable, Iterator],
-              *specs: DataSpecCreationType):
+def record_as(obj: Union[Callable, Iterable, Iterator], *specs: DataSpecCreationType):
     """Annotate produced data as records.
 
     :param obj: a function that returns data or an iterable/iterator that
@@ -179,14 +181,15 @@ def record_as(obj: Union[Callable, Iterable, Iterator],
 
 def produces_record(obj: Any) -> bool:
     """Check if `obj` is annotated to generate records."""
-    if hasattr(obj, 'get_data_specs'):
+    if hasattr(obj, "get_data_specs"):
         return True
     else:
         return False
 
 
-def _to_record(value: Union[Dict, Iterable],
-               data_specs: Tuple[DataSpec]) -> Dict[str, Any]:
+def _to_record(
+    value: Union[Dict, Iterable], data_specs: Tuple[DataSpec]
+) -> Dict[str, Any]:
     """Convert data to a record using the provided DataSpecs"""
     ret = {}
 
@@ -212,8 +215,7 @@ def _to_record(value: Union[Dict, Iterable],
 class IteratorToRecords:
     """A wrapper that converts the iteration values to records."""
 
-    def __init__(self, iterable: Iterable,
-                 *data_specs: DataSpecCreationType):
+    def __init__(self, iterable: Iterable, *data_specs: DataSpecCreationType):
         self.iterable = iterable
         self.data_specs = make_data_specs(*data_specs)
 
@@ -253,8 +255,7 @@ class FunctionToRecords:
     def __call__(self, *args, **kwargs):
         args = tuple(self._args + list(args))
         kwargs.update(self._kwargs)
-        func_args, func_kwargs = map_input_to_signature(self.func_sig,
-                                                        *args, **kwargs)
+        func_args, func_kwargs = map_input_to_signature(self.func_sig, *args, **kwargs)
         ret = self.func(*func_args, **func_kwargs)
         return _to_record(ret, self.get_data_specs())
 

@@ -28,12 +28,15 @@ class AnalysisExistsError(Exception):
 
 
 class DatasetAnalysis:
-
     figure_save_format = ["png", "pdf"]
     raise_on_earlier_analysis = None
 
     def __init__(
-        self, datafolder, name, analysisfolder="./analysis/", has_period_in_name=False,
+        self,
+        datafolder,
+        name,
+        analysisfolder="./analysis/",
+        has_period_in_name=False,
         raise_on_earlier_analysis=None,
     ):
         if raise_on_earlier_analysis is not None:

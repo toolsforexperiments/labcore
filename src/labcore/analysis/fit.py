@@ -83,7 +83,7 @@ class Analysis(object):
         coordinates: Union[Tuple[np.ndarray, ...], np.ndarray],
         data: np.ndarray,
         *args: Any,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> AnalysisResult:
         """Needs to be implemented by each inheriting class."""
         raise NotImplementedError
@@ -113,7 +113,7 @@ class Fit(Analysis):
         dry: bool = False,
         params: Dict[str, Any] = {},
         *args: Any,
-        **fit_kwargs: Any
+        **fit_kwargs: Any,
     ) -> FitResult:
         model = lmfit.model.Model(self.model)
 
@@ -160,7 +160,7 @@ def fit_and_add_to_ds(
     dim_name: str,
     fit_class: Type[Fit],
     dim_order: Optional[List[int]] = None,
-    **run_kwargs: Any
+    **run_kwargs: Any,
 ) -> Tuple[xr.Dataset, FitResult]:
     arr = ds[dim_name]
     coords_, vals = xr2fitinput(arr)
@@ -191,7 +191,7 @@ def plot_ds_2d_with_fit(
     plot_kwargs: Dict[str, Any] = {},
 ):
     data = ds[dim_name]
-    fit = ds[dim_name + '_fit']
+    fit = ds[dim_name + "_fit"]
 
     if x is None:
         x = data.dims[0]
@@ -200,33 +200,25 @@ def plot_ds_2d_with_fit(
 
     dataopts = dict(
         clim=(data.min(), data.max()),
-        cmap='magma',
+        cmap="magma",
     )
     dataopts.update(**plot_kwargs)
-    
-    title = 'data'
-    folder = ds.attrs.get('raw_data_folder', None)
+
+    title = "data"
+    folder = ds.attrs.get("raw_data_folder", None)
     if folder is not None:
         title += f": {Path(folder).stem}"
 
-    plot = data.hvplot.quadmesh(
-        x=x,
-        y=y,
-        title=title,
-        **dataopts
-    ) \
-    + fit.hvplot.quadmesh(
-        x=x,
-        y=y,
-        title='fit',
-        **dataopts
-    ) \
-    + (data - fit).hvplot.quadmesh(
-        x=x,
-        y=y,
-        title='residuals',
-        cmap='bwr',
-        **plot_kwargs,
+    plot = (
+        data.hvplot.quadmesh(x=x, y=y, title=title, **dataopts)
+        + fit.hvplot.quadmesh(x=x, y=y, title="fit", **dataopts)
+        + (data - fit).hvplot.quadmesh(
+            x=x,
+            y=y,
+            title="residuals",
+            cmap="bwr",
+            **plot_kwargs,
+        )
     )
-    
+
     return plot

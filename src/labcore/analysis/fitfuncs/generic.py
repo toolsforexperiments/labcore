@@ -52,13 +52,13 @@ class ExponentialDecay(Fit):
     @staticmethod
     def model(coordinates, A, of, tau) -> np.ndarray:
         """$A * \exp(-x/\tau) + of$"""
-        return A * np.exp(-coordinates/tau) + of
+        return A * np.exp(-coordinates / tau) + of
 
     @staticmethod
     def guess(coordinates, data):
 
         # offset guess: The mean of the last 10 percent of the data
-        of = np.mean(data[-data.size//10:])
+        of = np.mean(data[-data.size // 10 :])
 
         # amplitude guess: difference between max and min.
         A = np.abs(np.max(data) - np.min(data))
@@ -66,8 +66,8 @@ class ExponentialDecay(Fit):
             A *= -1
 
         # tau guess: pick the point where we reach roughly 1/e
-        one_over_e_val = of + A/3.
-        one_over_e_idx = np.argmin(np.abs(data-one_over_e_val))
+        one_over_e_val = of + A / 3.0
+        one_over_e_idx = np.argmin(np.abs(data - one_over_e_val))
         tau = coordinates[one_over_e_idx]
 
         return dict(A=A, of=of, tau=tau)
@@ -83,7 +83,9 @@ class Linear(Fit):
     def guess(coordinates, data):
 
         # amplitude guess: difference between  max and min y over the max and min x.
-        m = np.abs(np.max(data) - np.min(data))/np.abs(np.max(coordinates) - np.min(coordinates))
+        m = np.abs(np.max(data) - np.min(data)) / np.abs(
+            np.max(coordinates) - np.min(coordinates)
+        )
 
         # offset guess: how far shifted the linear function is along y
         of = data[0] - m * coordinates[0]
@@ -95,7 +97,12 @@ class ExponentiallyDecayingSine(Fit):
     @staticmethod
     def model(coordinates, A, of, f, phi, tau) -> np.ndarray:
         """$A \sin(2*\pi*(f*x + \phi/360)) \exp(-x/\tau) + of$"""
-        return A * np.sin(2 * np.pi * (f * coordinates + phi/360)) * np.exp(-coordinates/tau) + of
+        return (
+            A
+            * np.sin(2 * np.pi * (f * coordinates + phi / 360))
+            * np.exp(-coordinates / tau)
+            + of
+        )
 
     @staticmethod
     def guess(coordinates, data):
@@ -105,13 +112,15 @@ class ExponentiallyDecayingSine(Fit):
         of = np.mean(data)
 
         # amplitude guess: difference between max and min.
-        A = np.abs(np.max(data) - np.min(data)) / 2.
+        A = np.abs(np.max(data) - np.min(data)) / 2.0
         if data[0] < data[-1]:
             A *= -1
 
         # f guess: Maximum of the absolute value of the fourier transform.
         fft_data = np.fft.rfft(data)[1:]
-        fft_coordinates = np.fft.rfftfreq(data.size, coordinates[1] - coordinates[0])[1:]
+        fft_coordinates = np.fft.rfftfreq(data.size, coordinates[1] - coordinates[0])[
+            1:
+        ]
 
         # note to confirm, could there be multiple peaks? I am always taking the first one here.
         f_max_index = np.argmax(fft_data)
@@ -121,8 +130,8 @@ class ExponentiallyDecayingSine(Fit):
         phi = -np.angle(fft_data[f_max_index], deg=True)
 
         # tau guess: pick the point where we reach roughly 1/e
-        one_over_e_val = of + A/3.
-        one_over_e_idx = np.argmin(np.abs(data-one_over_e_val))
+        one_over_e_val = of + A / 3.0
+        one_over_e_idx = np.argmin(np.abs(data - one_over_e_val))
         tau = coordinates[one_over_e_idx]
 
         return dict(A=A, of=of, phi=phi, f=f, tau=tau)
@@ -132,7 +141,7 @@ class Gaussian(Fit):
     @staticmethod
     def model(coordinates, x0, sigma, A, of):
         """$A * np.exp(-(x-x_0)^2/(2\sigma^2)) + of"""
-        return A * np.exp(-(coordinates - x0) ** 2 / (2 * sigma ** 2)) + of
+        return A * np.exp(-((coordinates - x0) ** 2) / (2 * sigma**2)) + of
 
     @staticmethod
     def guess(coordinates, data):
@@ -144,4 +153,3 @@ class Gaussian(Fit):
         A = data[i_max] - of
         sigma = np.abs((coordinates[-1] - coordinates[0])) / 20
         return dict(x0=x0, sigma=sigma, A=A, of=of)
-

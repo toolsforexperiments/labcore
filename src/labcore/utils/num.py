@@ -2,6 +2,7 @@
 
 Tools for numerical operations.
 """
+
 from typing import List, Optional, Sequence, Tuple, Union
 
 import numpy as np
@@ -10,13 +11,21 @@ import pandas as pd
 from ..utils.misc import unwrap_optional
 
 INTTYPES = [int, np.int16, np.int32, np.int64]
-FLOATTYPES = [float, np.float16, np.float32, np.float64,
-              complex, np.complex64, np.complex128]
+FLOATTYPES = [
+    float,
+    np.float16,
+    np.float32,
+    np.float64,
+    complex,
+    np.complex64,
+    np.complex128,
+]
 NUMTYPES = INTTYPES + FLOATTYPES
 
 
-def largest_numtype(arr: np.ndarray, include_integers: bool = True) \
-        -> Union[None, type]:
+def largest_numtype(
+    arr: np.ndarray, include_integers: bool = True
+) -> Union[None, type]:
     """
     Get the largest numerical type present in an array.
     :param arr: input array
@@ -46,7 +55,9 @@ def largest_numtype(arr: np.ndarray, include_integers: bool = True) \
         return None
 
 
-def _are_close(a: np.ndarray, b: np.ndarray, rtol: float = 1e-8) -> Union[np.ndarray, np.bool_]:
+def _are_close(
+    a: np.ndarray, b: np.ndarray, rtol: float = 1e-8
+) -> Union[np.ndarray, np.bool_]:
     return np.isclose(a, b, rtol=rtol)
 
 
@@ -69,8 +80,7 @@ def _are_invalid(a: np.ndarray, b: np.ndarray) -> np.ndarray:
     return is_invalid(a) & is_invalid(b)
 
 
-def arrays_equal(a: np.ndarray, b: np.ndarray,
-                 rtol: Optional[float] = None) -> bool:
+def arrays_equal(a: np.ndarray, b: np.ndarray, rtol: Optional[float] = None) -> bool:
     """Check if two numpy arrays are equal, content-wise.
 
     Perform the following checks:
@@ -99,9 +109,9 @@ def arrays_equal(a: np.ndarray, b: np.ndarray,
     return bool(np.all(equal | close | invalid))
 
 
-def array1d_to_meshgrid(arr: Union[List, np.ndarray],
-                        target_shape: Tuple[int, ...],
-                        copy: bool = True) -> np.ndarray:
+def array1d_to_meshgrid(
+    arr: Union[List, np.ndarray], target_shape: Tuple[int, ...], copy: bool = True
+) -> np.ndarray:
     """
     reshape an array to a target shape.
 
@@ -136,14 +146,12 @@ def array1d_to_meshgrid(arr: Union[List, np.ndarray],
     return localarr.reshape(target_shape)
 
 
-def _find_switches(arr: np.ndarray,
-                   rth: float = 25,
-                   ztol: float = 1e-15) -> np.ndarray:
+def _find_switches(arr: np.ndarray, rth: float = 25, ztol: float = 1e-15) -> np.ndarray:
     arr_: np.ndarray = np.ma.MaskedArray(arr, is_invalid(arr))
     deltas = arr_[1:] - arr_[:-1]
-    hi = np.percentile(arr[~is_invalid(arr)], 100.-rth)
+    hi = np.percentile(arr[~is_invalid(arr)], 100.0 - rth)
     lo = np.percentile(arr[~is_invalid(arr)], rth)
-    diff = np.abs(hi-lo)
+    diff = np.abs(hi - lo)
 
     if not diff > ztol:
         return np.array([])
@@ -157,19 +165,23 @@ def _find_switches(arr: np.ndarray,
     # importantly: switches have to opposite to the sweep direction.
     # we check the sweep direction by looking at the values prior to the
     # first suspected switch
-    sweep_direction = np.sign(np.mean(deltas[:switch_candidates[0]]))
+    sweep_direction = np.sign(np.mean(deltas[: switch_candidates[0]]))
 
     # real switches are then those where the delta is opposite to the sweep
     # direction.
     switch_candidate_vals = deltas[switch_candidates]
-    switches = [s for (s, v) in zip(switch_candidates, switch_candidate_vals)
-                if np.sign(v) == -sweep_direction]
+    switches = [
+        s
+        for (s, v) in zip(switch_candidates, switch_candidate_vals)
+        if np.sign(v) == -sweep_direction
+    ]
 
     return np.array(switches)
 
 
-def find_direction_period(vals: np.ndarray, ignore_last: bool = False) \
-        -> Optional[float]:
+def find_direction_period(
+    vals: np.ndarray, ignore_last: bool = False
+) -> Optional[float]:
     """
     Find the period with which the values in an array change direction.
 
@@ -189,14 +201,14 @@ def find_direction_period(vals: np.ndarray, ignore_last: bool = False) \
     # if there was one switch there is a period only if the switch occurred
     # in the second half of the data
     elif len(switches) == 1:
-        if switches[0] >= (vals.size / 2.) - 1:
+        if switches[0] >= (vals.size / 2.0) - 1:
             return switches[0] + 1
         else:
             return None
 
     if switches[-1] < vals.size - 1:
-        switches = np.append(switches, vals.size-1)
-    periods = (switches[1:] - switches[:-1])
+        switches = np.append(switches, vals.size - 1)
+    periods = switches[1:] - switches[:-1]
 
     if ignore_last and periods[-1] < periods[0]:
         periods = periods[:-1]
@@ -209,8 +221,9 @@ def find_direction_period(vals: np.ndarray, ignore_last: bool = False) \
         return int(periods[0])
 
 
-def guess_grid_from_sweep_direction(**axes: np.ndarray) \
-        -> Union[None, Tuple[List[str], Tuple[int, ...]]]:
+def guess_grid_from_sweep_direction(
+    **axes: np.ndarray,
+) -> Union[None, Tuple[List[str], Tuple[int, ...]]]:
     """
     Try to determine order and shape of a set of axes data
     (such as flattened meshgrid data).
@@ -235,7 +248,8 @@ def guess_grid_from_sweep_direction(**axes: np.ndarray) \
     for name, vals in axes.items():
         if len(np.array(vals).shape) > 1:
             raise ValueError(
-                f"Expect 1-dimensional axis data, not {np.array(vals).shape}")
+                f"Expect 1-dimensional axis data, not {np.array(vals).shape}"
+            )
         if size is None:
             size = np.array(vals).size
         else:
@@ -265,7 +279,7 @@ def guess_grid_from_sweep_direction(**axes: np.ndarray) \
                 else:
                     if mean == 0:
                         mean = max(np.abs(vals.max()), np.abs(vals.min()))
-                    cost = 1./np.abs(np.std(vals)/mean)
+                    cost = 1.0 / np.abs(np.std(vals) / mean)
                 sorting.append(size + cost)
         else:
             return None
@@ -280,7 +294,6 @@ def guess_grid_from_sweep_direction(**axes: np.ndarray) \
 
     divisor = 1
     for i, p in enumerate(periods):
-
         # we need to treat the non-repeating dimensions correctly.
         # if there's a rest when diving on a dimension that has no defined period,
         # that means we have to add 1 to the period to get its length.
@@ -301,7 +314,7 @@ def guess_grid_from_sweep_direction(**axes: np.ndarray) \
     # at this point, `divisor` is the size of the full grid.
     # it cannot be smaller than the total size, but can be larger
     # for incomplete grids.
-    if (divisor < size):
+    if divisor < size:
         return None
 
     # in returning, we go back to standard order, i.e., slow->fast.
@@ -318,7 +331,7 @@ def crop2d_rows_cols(arr: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     :raises: ``ValueError`` if input is not a 2d ndarray.
     """
     if len(arr.shape) != 2:
-        raise ValueError('input is not a 2d array.')
+        raise ValueError("input is not a 2d array.")
 
     invalids = is_invalid(arr)
     ys = np.where(np.all(invalids, axis=0))[0]
@@ -348,8 +361,7 @@ def joint_crop2d_rows_cols(*arr: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     )
 
 
-def crop2d_from_xy(arr: np.ndarray, xs: np.ndarray,
-                   ys: np.ndarray) -> np.ndarray:
+def crop2d_from_xy(arr: np.ndarray, xs: np.ndarray, ys: np.ndarray) -> np.ndarray:
     """
     Remove rows/cols from a 2d array.
 
@@ -360,7 +372,7 @@ def crop2d_from_xy(arr: np.ndarray, xs: np.ndarray,
     :raises: ``ValueError`` if input is not a 2d ndarray.
     """
     if len(arr.shape) != 2:
-        raise ValueError('input is not a 2d array.')
+        raise ValueError("input is not a 2d array.")
 
     a = arr.copy()
     a = np.delete(a, xs, axis=0)
@@ -368,8 +380,7 @@ def crop2d_from_xy(arr: np.ndarray, xs: np.ndarray,
     return a
 
 
-def crop2d(x: np.ndarray, y: np.ndarray, *arr: np.ndarray) \
-        -> Tuple[np.ndarray, ...]:
+def crop2d(x: np.ndarray, y: np.ndarray, *arr: np.ndarray) -> Tuple[np.ndarray, ...]:
     """
     Remove invalid rows and columns from 2d data.
 
@@ -387,8 +398,7 @@ def crop2d(x: np.ndarray, y: np.ndarray, *arr: np.ndarray) \
     return tuple(ret)
 
 
-def interp_meshgrid_2d(xx: np.ndarray,
-                       yy: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
+def interp_meshgrid_2d(xx: np.ndarray, yy: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     """
     Try to find missing vertices in a 2d meshgrid,
     where xx and yy are the x and y coordinates of each point.
@@ -419,7 +429,7 @@ def centers2edges_1d(arr: np.ndarray) -> np.ndarray:
     They are equidistantly spaced between the centers, such that the centers
     are in the middle between the vertices.
     """
-    e = (arr[1:] + arr[:-1]) / 2.
+    e = (arr[1:] + arr[:-1]) / 2.0
     e = np.concatenate(([arr[0] - (e[0] - arr[0])], e))
     e = np.concatenate((e, [arr[-1] + (arr[-1] - e[-1])]))
     return e
@@ -447,28 +457,29 @@ def centers2edges_2d(centers: np.ndarray) -> np.ndarray:
 
     # the central vertices are easy -- follow just from the means of the
     # neighboring centers
-    center = (centers[1:, 1:] + centers[:-1, :-1]
-              + centers[:-1, 1:] + centers[1:, :-1]) / 4.
+    center = (
+        centers[1:, 1:] + centers[:-1, :-1] + centers[:-1, 1:] + centers[1:, :-1]
+    ) / 4.0
     edges[1:-1, 1:-1] = center
 
     # for the outer edges we just make the vertices such that the points are
     # pretty much in the center
     # first average over neighbor centers to get the 'vertical' right
-    _left = (centers[0, 1:] + centers[0, :-1]) / 2.
+    _left = (centers[0, 1:] + centers[0, :-1]) / 2.0
     # then extrapolate to the left of the centers
     left = 2 * _left - center[0, :]
     edges[0, 1:-1] = left
 
     # and same for the other three sides
-    _right = (centers[-1, 1:] + centers[-1, :-1]) / 2.
+    _right = (centers[-1, 1:] + centers[-1, :-1]) / 2.0
     right = 2 * _right - center[-1, :]
     edges[-1, 1:-1] = right
 
-    _top = (centers[1:, 0] + centers[:-1, 0]) / 2.
+    _top = (centers[1:, 0] + centers[:-1, 0]) / 2.0
     top = 2 * _top - center[:, 0]
     edges[1:-1, 0] = top
 
-    _bottom = (centers[1:, -1] + centers[:-1, -1]) / 2.
+    _bottom = (centers[1:, -1] + centers[:-1, -1]) / 2.0
     bottom = 2 * _bottom - center[:, -1]
     edges[1:-1, -1] = bottom
 

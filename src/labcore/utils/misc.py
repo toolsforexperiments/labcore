@@ -14,6 +14,7 @@ from git import Repo, InvalidGitRepositoryError
 
 logger = logging.getLogger(__name__)
 
+
 def reorder_indices(lst: Sequence[str], target: Sequence[str]) -> Tuple[int, ...]:
     """
     Determine how to bring a list with unique entries to a different order.
@@ -26,11 +27,11 @@ def reorder_indices(lst: Sequence[str], target: Sequence[str]) -> Tuple[int, ...
     :raises: ``ValueError`` for invalid inputs.
     """
     if set([type(i) for i in lst]) != {str}:
-        raise ValueError('Only lists of strings are supported')
+        raise ValueError("Only lists of strings are supported")
     if len(set(lst)) < len(lst):
-        raise ValueError('Input list elements are not unique.')
+        raise ValueError("Input list elements are not unique.")
     if set(lst) != set(target) or len(lst) != len(target):
-        raise ValueError('Contents of input and target do not match.')
+        raise ValueError("Contents of input and target do not match.")
 
     idxs = []
     for elt in target:
@@ -39,8 +40,7 @@ def reorder_indices(lst: Sequence[str], target: Sequence[str]) -> Tuple[int, ...
     return tuple(idxs)
 
 
-def reorder_indices_from_new_positions(lst: List[str], **pos: int) \
-        -> Tuple[int, ...]:
+def reorder_indices_from_new_positions(lst: List[str], **pos: int) -> Tuple[int, ...]:
     """
     Determine how to bring a list with unique entries to a different order.
 
@@ -51,9 +51,9 @@ def reorder_indices_from_new_positions(lst: List[str], **pos: int) \
     :raises: ``ValueError`` for invalid inputs.
     """
     if set([type(i) for i in lst]) != {str}:
-        raise ValueError('Only lists of strings are supported')
+        raise ValueError("Only lists of strings are supported")
     if len(set(lst)) < len(lst):
-        raise ValueError('Input list elements are not unique.')
+        raise ValueError("Input list elements are not unique.")
 
     target = lst.copy()
     for item, newidx in pos.items():
@@ -64,7 +64,7 @@ def reorder_indices_from_new_positions(lst: List[str], **pos: int) \
     return reorder_indices(lst, target)
 
 
-T = TypeVar('T')
+T = TypeVar("T")
 
 
 def unwrap_optional(val: Optional[T]) -> T:
@@ -120,10 +120,12 @@ class LabeledOptions(AutoEnum):
                 return k
         return None
 
-
     # FIXME: 'None' should never overrides a default!
-def map_input_to_signature(func: Union[Callable, inspect.Signature],
-                           *args: Any, **kwargs: Any):
+
+
+def map_input_to_signature(
+    func: Union[Callable, inspect.Signature], *args: Any, **kwargs: Any
+):
     """Try to re-organize the positional arguments `args` and key word
     arguments `kwargs` such that `func` can be called with them.
 
@@ -170,8 +172,10 @@ def map_input_to_signature(func: Union[Callable, inspect.Signature],
         # we treat anything that can be given positionally as positional.
         # first prio to keyword-given values, second to positionally given,
         # finally default if given in signature.
-        if p_.kind in [inspect.Parameter.POSITIONAL_OR_KEYWORD,
-                       inspect.Parameter.POSITIONAL_ONLY]:
+        if p_.kind in [
+            inspect.Parameter.POSITIONAL_OR_KEYWORD,
+            inspect.Parameter.POSITIONAL_ONLY,
+        ]:
             if p in kwargs:
                 func_args.insert(idx, kwargs.pop(p))
             else:
@@ -197,8 +201,8 @@ def map_input_to_signature(func: Union[Callable, inspect.Signature],
 
 
 def indent_text(text: str, level: int = 0) -> str:
-        """Indent each line of ``text`` by ``level`` spaces."""
-        return "\n".join([" " * level + line for line in text.split('\n')])
+    """Indent each line of ``text`` by ``level`` spaces."""
+    return "\n".join([" " * level + line for line in text.split("\n")])
 
 
 def get_environment_packages():
@@ -208,20 +212,24 @@ def get_environment_packages():
     """
     packages = {}
     for dist in distributions():
-        package_name = dist.metadata['Name']
+        package_name = dist.metadata["Name"]
         version = dist.version
-        location = Path(dist.locate_file(''))
+        location = Path(dist.locate_file(""))
 
         try:
             repo = Repo(location, search_parent_directories=True)
             if repo.is_dirty():
-                raise RuntimeError(f"There are uncommitted changes in tracked files in {location}.")
+                raise RuntimeError(
+                    f"There are uncommitted changes in tracked files in {location}."
+                )
             commit = repo.head.commit.hexsha
             packages[package_name] = commit
         except (InvalidGitRepositoryError, RuntimeError) as e:
             if isinstance(e, RuntimeError):
-                logger.warning(f"The package {package_name} has uncommitted changes. Will not be tracked. Please fix")
-                packages[package_name] = 'uncommitted-changes'
+                logger.warning(
+                    f"The package {package_name} has uncommitted changes. Will not be tracked. Please fix"
+                )
+                packages[package_name] = "uncommitted-changes"
             elif isinstance(e, InvalidGitRepositoryError):
                 # Editable packages might appear twice in the list of distributions. If the one pointing to the repo appears second, it will get overwritten.
                 if package_name not in packages:
@@ -239,7 +247,9 @@ def commit_changes_in_repo(current_dir: Path) -> Optional[str]:
         repo = Repo(current_dir, search_parent_directories=True)
         if repo.is_dirty(untracked_files=True):
             repo.git.add(A=True)
-            repo.git.commit('-m', '[Auto-commit] Save changes before running measurement')
+            repo.git.commit(
+                "-m", "[Auto-commit] Save changes before running measurement"
+            )
             commit_hash = repo.head.commit.hexsha
             return commit_hash
         commit_hash = repo.head.commit.hexsha

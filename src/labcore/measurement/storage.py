@@ -14,6 +14,7 @@ are attributes of the dataset (incl., the `unit` and `axes` values). The meta
 data keys are given exactly like in the DataDict, i.e., incl the double
 underscore pre- and suffix.
 """
+
 import os
 import time
 from enum import Enum
@@ -34,8 +35,8 @@ from ..data.datadict_storage import DDH5Writer
 
 from .sweep import Sweep
 
-__author__ = 'Wolfgang Pfaff'
-__license__ = 'MIT'
+__author__ = "Wolfgang Pfaff"
+__license__ = "MIT"
 
 TIMESTRFORMAT = "%Y-%m-%dT%H%M%S"
 
@@ -52,7 +53,6 @@ def _create_datadict_structure(sweep: Sweep) -> DataDict:
     data_specs = sweep.get_data_specs()
     data_dict = DataDict()
     for spec in data_specs:
-
         depends_on = spec.depends_on
         unit = spec.unit
         name = spec.name
@@ -93,16 +93,16 @@ def _check_none(line: Dict, all: bool = True) -> bool:
 
 
 def _save_dictionary(dict: Dict, filepath: str) -> None:
-    with open(filepath, 'w') as f:
+    with open(filepath, "w") as f:
         json.dump(dict, f, indent=2, sort_keys=True, cls=NumpyEncoder)
 
 
 def _pickle_and_save(obj, filepath: str) -> None:
     try:
-        with open(filepath, 'wb') as f:
+        with open(filepath, "wb") as f:
             pickle.dump(obj, f)
     except TypeError as pickle_error:
-        print(f'Object could not be pickled: {pickle_error.args}')
+        print(f"Object could not be pickled: {pickle_error.args}")
 
 
 class NumpyEncoder(json.JSONEncoder):
@@ -112,16 +112,18 @@ class NumpyEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, obj)
 
 
-def run_and_save_sweep(sweep: Sweep,
-                       data_dir: str,
-                       name: str,
-                       ignore_all_None_results: bool = True,
-                       save_action_kwargs: bool = False,
-                       add_timestamps = False,
-                       archive_files: Optional[List[str]] = None,
-                       return_data: bool = False,
-                       safe_write_mode: bool = False,
-                       **extra_saving_items) -> Tuple[Union[str, Path], Optional[DataDict]]:
+def run_and_save_sweep(
+    sweep: Sweep,
+    data_dir: str,
+    name: str,
+    ignore_all_None_results: bool = True,
+    save_action_kwargs: bool = False,
+    add_timestamps=False,
+    archive_files: Optional[List[str]] = None,
+    return_data: bool = False,
+    safe_write_mode: bool = False,
+    **extra_saving_items,
+) -> Tuple[Union[str, Path], Optional[DataDict]]:
     """
     Iterates through a sweep, saving the data coming through it into a file called <name> at <data_dir> directory.
 
@@ -153,13 +155,14 @@ def run_and_save_sweep(sweep: Sweep,
     data_dict = _create_datadict_structure(sweep)
 
     # Creates a file even when it fails.
-    with DDH5Writer(data_dict, data_dir, name=name, safe_write_mode=safe_write_mode) as writer:
-
+    with DDH5Writer(
+        data_dict, data_dir, name=name, safe_write_mode=safe_write_mode
+    ) as writer:
         # Saving meta-data
         dir: Path = writer.filepath.parent
         if add_timestamps:
             t = time.localtime()
-            time_stamp = time.strftime(TIMESTRFORMAT, t) + '_'
+            time_stamp = time.strftime(TIMESTRFORMAT, t) + "_"
 
         for key, val in extra_saving_items.items():
             if callable(val):
@@ -168,11 +171,11 @@ def run_and_save_sweep(sweep: Sweep,
                 value = val
 
             if add_timestamps:
-                pickle_path_file = os.path.join(dir, time_stamp + key + '.pickle')
-                json_path_file = os.path.join(dir, time_stamp + key + '.json')
+                pickle_path_file = os.path.join(dir, time_stamp + key + ".pickle")
+                json_path_file = os.path.join(dir, time_stamp + key + ".json")
             else:
-                pickle_path_file = os.path.join(dir, key + '.pickle')
-                json_path_file = os.path.join(dir, key + '.json')
+                pickle_path_file = os.path.join(dir, key + ".pickle")
+                json_path_file = os.path.join(dir, key + ".json")
 
             if isinstance(value, dict):
                 try:
@@ -182,8 +185,10 @@ def run_and_save_sweep(sweep: Sweep,
                     if os.path.isfile(json_path_file):
                         os.remove(json_path_file)
 
-                    logging.info(f'{key} has not been able to save to json: {error.args}.'
-                                 f' The item will be pickled instead.')
+                    logging.info(
+                        f"{key} has not been able to save to json: {error.args}."
+                        f" The item will be pickled instead."
+                    )
                     _pickle_and_save(value, pickle_path_file)
             else:
                 _pickle_and_save(value, pickle_path_file)
@@ -191,33 +196,43 @@ def run_and_save_sweep(sweep: Sweep,
         # Save the kwargs
         if save_action_kwargs:
             if add_timestamps:
-                json_path_file = os.path.join(dir, time_stamp + 'sweep_action_kwargs.json')
+                json_path_file = os.path.join(
+                    dir, time_stamp + "sweep_action_kwargs.json"
+                )
             else:
-                json_path_file = os.path.join(dir, 'sweep_action_kwargs.json')
+                json_path_file = os.path.join(dir, "sweep_action_kwargs.json")
             _save_dictionary(sweep.action_kwargs, json_path_file)
 
         # Save archive_files
         if archive_files is not None:
-            archive_files_dir = os.path.join(dir, 'archive_files')
+            archive_files_dir = os.path.join(dir, "archive_files")
             os.mkdir(archive_files_dir)
-            if not isinstance(archive_files, list) and not isinstance(archive_files, tuple):
+            if not isinstance(archive_files, list) and not isinstance(
+                archive_files, tuple
+            ):
                 if isinstance(archive_files, str):
                     archive_files = [archive_files]
                 else:
-                    raise TypeError(f'{type(archive_files)} is not a list.')
+                    raise TypeError(f"{type(archive_files)} is not a list.")
             for path in archive_files:
                 if os.path.isdir(path):
                     folder_name = os.path.basename(path)
-                    if folder_name == '':
+                    if folder_name == "":
                         folder_name = os.path.basename(os.path.dirname(path))
 
-                    shutil.copytree(path, os.path.join(archive_files_dir, folder_name), dirs_exist_ok=True)
+                    shutil.copytree(
+                        path,
+                        os.path.join(archive_files_dir, folder_name),
+                        dirs_exist_ok=True,
+                    )
                 elif os.path.isfile(path):
                     shutil.copy(path, archive_files_dir)
                 else:
                     matches = glob.glob(path, recursive=True)
                     if len(matches) == 0:
-                        logging.info(f'{path} could not be found. Measurement will continue without archiving {path}')
+                        logging.info(
+                            f"{path} could not be found. Measurement will continue without archiving {path}"
+                        )
                     for file in matches:
                         shutil.copy(file, archive_files_dir)
 
@@ -227,11 +242,14 @@ def run_and_save_sweep(sweep: Sweep,
                 if not _check_none(line, all=ignore_all_None_results):
                     writer.add_data(**line)
         except KeyboardInterrupt:
-            logger.warning('Sweep stopped by Keyboard interrupt. Data completed before interrupt should be saved.')
+            logger.warning(
+                "Sweep stopped by Keyboard interrupt. Data completed before interrupt should be saved."
+            )
             ret = (dir, data_dict) if return_data else (dir, None)
             return ret
 
-    logger.info('The measurement has finished successfully and all of the data has been saved.')
+    logger.info(
+        "The measurement has finished successfully and all of the data has been saved."
+    )
     ret = (dir, data_dict) if return_data else (dir, None)
     return ret
-

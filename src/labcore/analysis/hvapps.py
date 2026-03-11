@@ -6,6 +6,7 @@ import logging
 
 import asyncio
 import nest_asyncio
+
 nest_asyncio.apply()
 
 import hvplot
@@ -43,19 +44,18 @@ class Handler(FileSystemEventHandler):
             # Get file extension and compare to data file type, ddh5
             file_type = Path(event.src_path).suffix
             # TODO: Generalize to other data file types
-            if file_type == '.ddh5':
+            if file_type == ".ddh5":
                 self.update_callback(event)
 
 
 class DataSelect(pn.viewable.Viewer):
-
     SYM = {
-        'complete': '✅',
-        'star': '😁',
-        'bad': '😭',
-        'trash': '❌',
+        "complete": "✅",
+        "star": "😁",
+        "bad": "😭",
+        "trash": "❌",
     }
-    DATAFILE = 'data.ddh5'
+    DATAFILE = "data.ddh5"
 
     selected_path = param.Parameter(None)
     search_term = param.Parameter(None)
@@ -102,15 +102,14 @@ class DataSelect(pn.viewable.Viewer):
 
         # a search bar for data
         self.text_input = pn.widgets.TextInput(
-            name='Search',
-            placeholder='Enter a search term here...'
+            name="Search", placeholder="Enter a search term here..."
         )
         self.layout.append(self.text_input)
 
         # Display the current search term
         self.typed_value = pn.widgets.StaticText(
             stylesheets=[selector_stylesheet],
-            css_classes=['ttlabel'],
+            css_classes=["ttlabel"],
         )
         self.layout.append(self.text_input_repeater)
 
@@ -119,31 +118,27 @@ class DataSelect(pn.viewable.Viewer):
 
         # two selectors for data selection
         self._group_select_widget = pn.widgets.CheckBoxGroup(
-            name='Date',
-            width=200-self.feed_scroll_width,
-            stylesheets=[selector_stylesheet]
+            name="Date",
+            width=200 - self.feed_scroll_width,
+            stylesheets=[selector_stylesheet],
         )
         # Wrap the CheckBoxGroup in a feed so that it can't get too long
         self._group_select_feed = pn.layout.Feed(
-            objects=[self._group_select_widget],
-            height=(self.size - 1) * 20,
-            width=200
+            objects=[self._group_select_widget], height=(self.size - 1) * 20, width=200
         )
         # Add a title to match the multiselect widget style
         self._group_select = pn.Column(
             pn.widgets.StaticText(
-                stylesheets=[selector_stylesheet],
-                css_classes=['ttlabel'],
-                value="Date"
+                stylesheets=[selector_stylesheet], css_classes=["ttlabel"], value="Date"
             ),
-            self._group_select_feed
+            self._group_select_feed,
         )
         # Data select panel
         self._data_select_widget = Select(
-            name='Data set',
+            name="Data set",
             size=self.size,
             width=800,
-            stylesheets=[selector_stylesheet]
+            stylesheets=[selector_stylesheet],
         )
 
         # Scrollable feed of images stored with this data
@@ -151,20 +146,26 @@ class DataSelect(pn.viewable.Viewer):
         # Data frame showing axes & dependencies
         self.data_info = pn.pane.DataFrame(None)
 
-        self.layout.append(pn.Row(
-            self._group_select, self.data_select, self.data_info, self.data_images_feed))
+        self.layout.append(
+            pn.Row(
+                self._group_select,
+                self.data_select,
+                self.data_info,
+                self.data_images_feed,
+            )
+        )
 
         # a simple info panel about the selection
         self.lbl = pn.widgets.StaticText(
             stylesheets=[selector_stylesheet],
-            css_classes=['ttlabel'],
+            css_classes=["ttlabel"],
         )
 
         self.layout.append(pn.Row(self.info_panel))
 
         opts = OrderedDict()
         for k in sorted(self.data_sets.keys())[::-1]:
-            lbl = self.date2label(k) + f' [{len(self.data_sets[k])}]'
+            lbl = self.date2label(k) + f" [{len(self.data_sets[k])}]"
             opts[lbl] = k
         self._group_select_widget.options = opts
 
@@ -176,8 +177,7 @@ class DataSelect(pn.viewable.Viewer):
         self.start()
 
     def start(self):
-        self.observer.schedule(
-            self.handler, self.DIRECTORY_TO_WATCH, recursive=True)
+        self.observer.schedule(self.handler, self.DIRECTORY_TO_WATCH, recursive=True)
         self.observer.start()
 
     @pn.depends("_group_select_widget.value")
@@ -186,7 +186,10 @@ class DataSelect(pn.viewable.Viewer):
         active_search = False
         r = re.compile(".*")
         if hasattr(self, "text_input"):
-            if self.text_input.value_input is not None and self.text_input.value_input != "":
+            if (
+                self.text_input.value_input is not None
+                and self.text_input.value_input != ""
+            ):
                 # Make the Regex expression for the searched string
                 r = re.compile(".*" + str(self.text_input.value_input) + ".*")
                 active_search = True
@@ -196,13 +199,15 @@ class DataSelect(pn.viewable.Viewer):
         self._data_select_widget.options = opts
         return self._data_select_widget
 
-    def get_data_options(self, active_search=True, r=re.compile('.*')):
+    def get_data_options(self, active_search=True, r=re.compile(".*")):
         if isinstance(r, str):
             r = re.compile(r)
         opts = OrderedDict()
         for d in self._group_select_widget.value:
             for dset in sorted(self.data_sets[d].keys())[::-1]:
-                if active_search and not r.match(str(dset) + " " + str(timestamp_from_path(dset))):
+                if active_search and not r.match(
+                    str(dset) + " " + str(timestamp_from_path(dset))
+                ):
                     # If Active search and this term doesn't match it, don't show
                     continue
                 (dirs, files) = self.data_sets[d][dset]
@@ -212,8 +217,8 @@ class DataSelect(pn.viewable.Viewer):
                 name = f"{dset.stem[27:]}"
                 date = f"{ts.date()}"
                 lbl = f"{date} - {time} - {uuid} - {name} "
-                for k in ['complete', 'star', 'trash']:
-                    if f'__{k}__.tag' in files:
+                for k in ["complete", "star", "trash"]:
+                    if f"__{k}__.tag" in files:
                         lbl += self.SYM[k]
                 opts[lbl] = dset
         return opts
@@ -229,13 +234,15 @@ class DataSelect(pn.viewable.Viewer):
             for file in Path.iterdir(abs_path):
                 # Check if the file ends with png, jpg, or jpeg
                 file = str(file)
-                img = ''
+                img = ""
                 if file.endswith(".png"):
-                    img = pn.pane.PNG(file, sizing_mode="fixed",
-                                      width=self.image_feed_width)
+                    img = pn.pane.PNG(
+                        file, sizing_mode="fixed", width=self.image_feed_width
+                    )
                 elif file.endswith(".jpg") or file.endswith(".jpeg"):
-                    img = pn.pane.JPG(file, sizing_mode="fixed",
-                                      width=self.image_feed_width)
+                    img = pn.pane.JPG(
+                        file, sizing_mode="fixed", width=self.image_feed_width
+                    )
                 else:
                     continue
                 images.append(img)
@@ -249,13 +256,14 @@ class DataSelect(pn.viewable.Viewer):
             dict_for_dataframe = {}
             for key in dd.keys():
                 if len(key) < 2 or key[0:2] != "__":
-                    depends_on = dd[key]["axes"] if dd[key]["axes"] != [
-                    ] else "Independent"
-                    dict_for_dataframe[key] = [
-                        dd[key]["__shape__"], depends_on]
+                    depends_on = (
+                        dd[key]["axes"] if dd[key]["axes"] != [] else "Independent"
+                    )
+                    dict_for_dataframe[key] = [dd[key]["__shape__"], depends_on]
             # Convert to data frame and display
             df = pandas.DataFrame.from_dict(
-                data=dict_for_dataframe, orient="index", columns=['Shape', 'Depends on'])
+                data=dict_for_dataframe, orient="index", columns=["Shape", "Depends on"]
+            )
             self.data_info.object = df
         # Get the path
         if isinstance(path, Path):
@@ -277,7 +285,7 @@ class DataSelect(pn.viewable.Viewer):
         # Repull data group options
         new_opts = OrderedDict()
         for k in sorted(new_data_set.keys())[::-1]:
-            lbl = self.date2label(k) + f' [{len(new_data_set[k])}]'
+            lbl = self.date2label(k) + f" [{len(new_data_set[k])}]"
             new_opts[lbl] = k
         # Set the group and data options
         self.data_sets = new_data_set
@@ -305,7 +313,7 @@ class LoaderNodeBase(Node):
     Each subclass must implement ``LoaderNodeBase.load_data``.
     """
 
-    def __init__(self, path=Path('.'), *args: Any, **kwargs: Any):
+    def __init__(self, path=Path("."), *args: Any, **kwargs: Any):
         """Constructor for ``LoaderNode``.
 
         Parameters
@@ -322,12 +330,12 @@ class LoaderNodeBase(Node):
         self.refresh = pn.widgets.Select(
             name="Auto-refresh",
             options={
-                'None': None,
-                '2 s': 2,
-                '5 s': 5,
-                '10 s': 10,
-                '1 min': 60,
-                '10 min': 600,
+                "None": None,
+                "2 s": 2,
+                "5 s": 5,
+                "10 s": 10,
+                "1 min": 60,
+                "10 min": 600,
             },
             value="None",
             width=80,
@@ -344,8 +352,7 @@ class LoaderNodeBase(Node):
         # Must be created before plot_col column
         self.graph_type_savable = {}
         for k in self.graph_types:
-            self.graph_type_savable[k] = hasattr(
-                self.graph_types[k], 'get_plot')
+            self.graph_type_savable[k] = hasattr(self.graph_types[k], "get_plot")
 
         self.pre_process_opts = RBG(
             options=[None, "Average"],
@@ -389,7 +396,7 @@ class LoaderNodeBase(Node):
         self.plot_col = pn.Column(objects=self.plot)
 
         # The Leading pn.Row is used to make the fit box appear at right
-        self.layout = pn.Row( 
+        self.layout = pn.Row(
             pn.Column(
                 pn.Row(
                     labeled_widget(self.pre_process_opts),
@@ -401,15 +408,12 @@ class LoaderNodeBase(Node):
                     self.png_button,
                 ),
                 self.display_info,
-                pn.Row(
-                    self.buffer_col,
-                    self.plot_col
-                )
+                pn.Row(self.buffer_col, self.plot_col),
             ),
             self.fit_obj,
         )
 
-        #Create var to collect the fitfunc inputs
+        # Create var to collect the fitfunc inputs
         self.fit_inputs = None
 
         self.lock = asyncio.Lock()
@@ -434,10 +438,8 @@ class LoaderNodeBase(Node):
 
                 if self.pre_process_dim_input.value in indep:
                     if self.pre_process_opts.value == "Average":
-                        data = self.mean(
-                            data, self.pre_process_dim_input.value)
-                        indep.pop(indep.index(
-                            self.pre_process_dim_input.value))
+                        data = self.mean(data, self.pre_process_dim_input.value)
+                        indep.pop(indep.index(self.pre_process_dim_input.value))
 
             # when making gridded data, can do things slightly differently
             # TODO: what if gridding goes wrong?
@@ -456,12 +458,12 @@ class LoaderNodeBase(Node):
 
             self.data_out = data
             t1 = datetime.now()
-            self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1-t0).microseconds*1e-3:.0f} ms)."
+            self.info_label.value = f"Loaded data at {t1.strftime('%Y-%m-%d %H:%M:%S')} (in {(t1 - t0).microseconds * 1e-3:.0f} ms)."
 
             # Select None so that save buttons disabled/enabled works
             # I have no clue why but there's a bug if this doesn't happen
             save_val = self.plot_type_select.value
-            self.plot_type_select.value = 'None'
+            self.plot_type_select.value = "None"
             self.plot_type_select.value = save_val
 
     @pn.depends("data_out", "plot_type_select.value")
@@ -487,11 +489,13 @@ class LoaderNodeBase(Node):
 
         # Reset Plot object
         self._plot_obj = None
-        
+
         if not has_packages:
-            logger.warning("SAVING IMAGES DISABLED: You have not installed the necessary packages to allow for the saving of "
-                           "images. To allow this functionality, please install Selenium, PhantomJS, Firefox, and "
-                           "Geckodriver")
+            logger.warning(
+                "SAVING IMAGES DISABLED: You have not installed the necessary packages to allow for the saving of "
+                "images. To allow this functionality, please install Selenium, PhantomJS, Firefox, and "
+                "Geckodriver"
+            )
 
         has_packages = True
         return has_packages
@@ -508,37 +512,43 @@ class LoaderNodeBase(Node):
 
     def save_html(self, *events: param.parameterized.Event):
         if isinstance(self._plot_obj, PlotNode):
-            file_name = add_end_number_to_repeated_file(self.file_path.parent / f"{self.file_path.parent.name}.html")
+            file_name = add_end_number_to_repeated_file(
+                self.file_path.parent / f"{self.file_path.parent.name}.html"
+            )
             hvplot.save(self._plot_obj.get_plot(), file_name)
 
     def save_png(self, *events: param.parameterized.Event):
         def save_p(p, suffix=""):
             path = add_end_number_to_repeated_file(
-                self.file_path.parent.joinpath(f"{self.file_path.parent.name}{suffix}.png"))
+                self.file_path.parent.joinpath(
+                    f"{self.file_path.parent.name}{suffix}.png"
+                )
+            )
             # FIXME: We need all of this because different plot types return different objects.
             #  It might be worth unifying it and always returning the same object.
             # If p is a Panel HoloViews pane, extract the HoloViews object
-            if hasattr(p, 'object') and hasattr(p.object, 'traverse'):
+            if hasattr(p, "object") and hasattr(p.object, "traverse"):
                 # This is a Panel HoloViews pane - extract the HoloViews object
                 hv_obj = p.object
-            elif hasattr(p, 'traverse'):
+            elif hasattr(p, "traverse"):
                 # This is already a HoloViews object
                 hv_obj = p
             else:
                 # Skip objects that are not HoloViews or Panel HoloViews panes
-                logger.warning(f"Skipping object of type {type(p)} - not a HoloViews object")
+                logger.warning(
+                    f"Skipping object of type {type(p)} - not a HoloViews object"
+                )
                 return
-                
+
             bokeh_plot = hv.render(hv_obj)
             export_png(bokeh_plot, filename=path)
 
         # TODO: What happens when this is not a Node? What should happen then?
         if isinstance(self._plot_obj, PlotNode):
-
             plot = self._plot_obj.get_plot()
             if isinstance(plot, pn.Column):
                 for i, p in enumerate(plot):
-                    suffix = f"_plot{i+1}" if len(plot) > 1 else ""
+                    suffix = f"_plot{i + 1}" if len(plot) > 1 else ""
                     save_p(p, suffix)
             else:
                 save_p(plot)
@@ -572,12 +582,14 @@ class LoaderNodeBase(Node):
         """
         raise NotImplementedError
 
+
 Label_stylesheet = """
 :host {
     font-family: monospace;
     font-size: 20px;
 }
 """
+
 
 class DDH5LoaderNode(LoaderNodeBase):
     """A node that loads data from a specified file location.
