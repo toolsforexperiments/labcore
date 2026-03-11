@@ -817,8 +817,6 @@ class DataDict(DataDictBase):
         s = misc.unwrap_optional(self.structure(add_shape=False))
         if DataDictBase.same_structure(self, newdata):
             for k, v in self.data_items():
-                val0 = self[k]["values"]
-                val1 = newdata[k]["values"]
                 s[k]["values"] = np.append(
                     self[k]["values"], newdata[k]["values"], axis=0
                 )

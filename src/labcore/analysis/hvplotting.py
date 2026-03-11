@@ -685,7 +685,6 @@ class PlotNode(Node):
                 self.fit_box = self.add_fit_box(fit_func_name, fitted=fitted)
 
     def remove_fit_box(self):
-        fit_box = self.fit_layout.objects[len(self.fit_layout.objects) - 1]
         # Get all fit objects other than layout and set as the current objects
         no_fit_objects = self.fit_layout.objects[:-1]
         self.fit_layout.objects = no_fit_objects
@@ -1093,7 +1092,7 @@ class ComplexHist(PlotNode):
     def plot_panel(self):
         self.refresh_graph = False
 
-        t0 = time.perf_counter()
+        time.perf_counter()
 
         plot = "*No valid options chosen.*"
 

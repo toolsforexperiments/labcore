@@ -19,12 +19,12 @@ def make_template(data_root="."):
     def data_selected_cb(*events):
         loader.file_path = events[0].new
 
-    watch_data_selected = ds.param.watch(data_selected_cb, ["selected_path"])
+    ds.param.watch(data_selected_cb, ["selected_path"])
 
     def refilter_data_select(*events):
         ds.data_select()
 
-    search_data_typed = ds.param.watch(refilter_data_select, ["search_term"])
+    ds.param.watch(refilter_data_select, ["search_term"])
 
     temp = pn.template.BootstrapTemplate(
         site="labcore", title="autoplot", sidebar=[], main=[ds, loader]

@@ -126,7 +126,6 @@ def test_ddh5writer_file_structure(tmp_path):
         with DDH5Writer(dd, basedir=tmp_path, name="myexp") as w:
             w.add_data(x=float(i), z=float(i * 10))
             paths.append(w.filepath)
-        after = datetime.datetime.now()
 
     for path in paths:
         # file is always named data.ddh5

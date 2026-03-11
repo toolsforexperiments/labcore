@@ -68,7 +68,7 @@ def _are_equal(a: np.ndarray, b: np.ndarray) -> np.ndarray:
 def is_invalid(a: np.ndarray) -> np.ndarray:
     # really use == None to do an element wise
     # check for None
-    isnone = a == None
+    isnone = a is None
     if a.dtype in FLOATTYPES:
         isnan = np.isnan(a)
     else:
