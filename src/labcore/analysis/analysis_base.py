@@ -4,7 +4,7 @@ import pickle
 from datetime import datetime
 from pathlib import Path
 from types import TracebackType
-from typing import Any, Dict, List, Optional, Type
+from typing import Any, Dict, List, Optional, Type, Union
 
 # Needed to generate hvplot from a script
 import holoviews as hv
@@ -30,23 +30,19 @@ class DatasetAnalysis:
 
     def __init__(
         self,
-        datafolder,
-        name,
-        analysisfolder="./analysis/",
-        has_period_in_name=False,
-        raise_on_earlier_analysis=None,
-    ):
+        datafolder: Union[str, Path],
+        name: str,
+        analysisfolder: Union[str, Path] = "./analysis/",
+        has_period_in_name: bool = False,
+        raise_on_earlier_analysis: Any = None,
+    ) -> None:
         if raise_on_earlier_analysis is not None:
             self.raise_on_earlier_analysis = raise_on_earlier_analysis
 
         self.name = name
         # The folder that contains the data we are performing an analysis
-        self.datafolder = datafolder
-        if not isinstance(self.datafolder, Path):
-            self.datafolder = Path(self.datafolder)
-        self.analysisfolder = analysisfolder
-        if not isinstance(self.analysisfolder, Path):
-            self.analysisfolder = Path(self.analysisfolder)
+        self.datafolder: Path = Path(datafolder)
+        self.analysisfolder: Path = Path(analysisfolder)
         self.timestamp = str(
             datetime.now().replace(microsecond=0).isoformat().replace(":", "")
         )
@@ -65,10 +61,10 @@ class DatasetAnalysis:
 
             self.savefolders.append(f)
 
-        self.entities = {}
-        self.files = []
+        self.entities: Dict[str, Any] = {}
+        self.files: List[Path] = []
 
-    def __enter__(self):
+    def __enter__(self) -> "DatasetAnalysis":
         earlier_exist = False
         if self.raise_on_earlier_analysis is not None:
             earlier_exist = True
@@ -96,9 +92,9 @@ class DatasetAnalysis:
     # --- loading measurement data --- #
     def load_metadata_from_json(
         self,
-        file_name,
-        key,
-    ):
+        file_name: str,
+        key: str,
+    ) -> Any:
         """Load a parameter from a metadata json file
 
         Parameters
@@ -129,10 +125,10 @@ class DatasetAnalysis:
 
     def load_saved_parameter(
         self,
-        parameter_name,
-        parameter_manager_name="parameter_manager",
-        file_name="parameters.json",
-    ):
+        parameter_name: str,
+        parameter_manager_name: str = "parameter_manager",
+        file_name: str = "parameters.json",
+    ) -> Any:
 
         fn = self.datafolder / file_name
         with open(fn, "r") as f:
@@ -153,7 +149,9 @@ class DatasetAnalysis:
                 )
             self.entities[k] = v
 
-    def add_figure(self, name, *arg, fig: Optional[Figure] = None, **kwargs) -> Figure:
+    def add_figure(
+        self, name: str, *arg: Any, fig: Optional[Figure] = None, **kwargs: Any
+    ) -> Figure:
         if name in self.entities:
             raise ValueError("element with that name already exists in this analysis.")
         if fig is None:
@@ -163,7 +161,7 @@ class DatasetAnalysis:
 
     make_figure = add_figure
 
-    def to_table(self, name, data: Dict[str, Any]):
+    def to_table(self, name: str, data: Dict[str, Any]) -> None:
         data.update(
             {
                 "data_loc": self.datafolder.name,
@@ -171,12 +169,14 @@ class DatasetAnalysis:
             }
         )
 
-        def make_table(data):
+        def make_table(data: Dict[str, Any]) -> pd.DataFrame:
             row = {k: [v] for k, v in data.items()}
             index = row.pop("data_loc")
             return pd.DataFrame(row, index=index)
 
-        def append_to_table(df, data, must_match=False):
+        def append_to_table(
+            df: pd.DataFrame, data: Dict[str, Any], must_match: bool = False
+        ) -> pd.DataFrame:
             row = make_table(data)
             if must_match:
                 if not np.all(row.columns == df.columns):
@@ -204,19 +204,19 @@ class DatasetAnalysis:
         df.to_csv(path)
 
     @staticmethod
-    def load_table(path):
+    def load_table(path: Union[str, Path]) -> pd.DataFrame:
         df = pd.read_csv(path, index_col=0)
         df["datetime"] = pd.to_datetime(df["datetime"])
         return df
 
     # --- Saving analysis results --- #
-    def save(self):
+    def save(self) -> None:
         for folder in self.savefolders:
             if not folder.exists():
                 folder.mkdir(parents=True, exist_ok=True)
 
             for name, element in self.entities.items():
-                fp = None
+                fp: Optional[Union[Path, List[Path]]] = None
                 try:
                     if isinstance(element, Figure):
                         fp = self.save_mpl_figure(element, name, folder)
@@ -362,7 +362,9 @@ class DatasetAnalysis:
             f.write(data)
         return fp
 
-    def save_np(self, data: np.ndarray, name: str, folder: Path) -> Path:
+    def save_np(
+        self, data: Union[np.ndarray, int, float, complex], name: str, folder: Path
+    ) -> Path:
         fp = self._new_file_path(folder, name, "json")
         with open(fp, "x") as f:
             json.dump({name: data}, f, cls=NumpyEncoder)
@@ -383,28 +385,28 @@ class DatasetAnalysis:
         data.to_csv(fp)
         return fp
 
-    def save_pickle(self, data: Any, name: str, folder: Path) -> Path:
+    def save_pickle(self, data: object, name: str, folder: Path) -> Path:
         fp = self._new_file_path(folder, name, "pickle")
         with open(fp, "wb") as f:
             pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
         return fp
 
     # --- loading (and managing) earlier analysis results --- #
-    def get_analysis_data_file(self, name: str, format=["json"]):
+    def get_analysis_data_file(self, name: str, format: List[str] = ["json"]) -> Path:
         files = list(self.savefolders[0].glob(f"*{name}*"))
         files = [f for f in files if f.suffix[1:] in format]
         if len(files) == 0:
             raise ValueError(f"no analysis data found for '{name}'")
         return files[-1]
 
-    def has_analysis_data(self, name: str, format=["json"]):
+    def has_analysis_data(self, name: str, format: List[str] = ["json"]) -> bool:
         try:
             self.get_analysis_data_file(name, format)
             return True
         except ValueError:
             return False
 
-    def load_analysis_data(self, name: str, format=["json"]):
+    def load_analysis_data(self, name: str, format: List[str] = ["json"]) -> Any:
         fp = self.get_analysis_data_file(name, format)
         with open(fp, "r") as f:
             data = json.load(f)

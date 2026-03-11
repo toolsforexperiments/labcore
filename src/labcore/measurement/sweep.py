@@ -9,9 +9,11 @@ from typing import (
     Dict,
     Generator,
     Iterable,
+    Iterator,
     Optional,
     Tuple,
     Union,
+    cast,
 )
 
 try:
@@ -19,7 +21,7 @@ try:
 
     QCODES_PRESENT = True
 except ImportError:
-    QCParameter = None
+    QCParameter = None  # type: ignore[assignment,misc]
     QCODES_PRESENT = False
 
 from ..utils.misc import indent_text
@@ -41,33 +43,30 @@ from .record import (
 logger = logging.getLogger(__name__)
 
 
-if QCODES_PRESENT:
-    ParamSpecType = Union[str, QCParameter, DataSpecFromTupleType, DataSpec]
-else:
-    ParamSpecType = Union[str, DataSpecFromTupleType, DataSpec]
+ParamSpecType = Union[str, Any, DataSpecFromTupleType, DataSpec]
 
 
 # Pointer tools
 class PointerFunction(FunctionToRecords):
     """A class that allows using a generator function as a pointer."""
 
-    def _iterator2records(self, *args, **kwargs):
+    def _iterator2records(self, *args: Any, **kwargs: Any) -> Any:
         func_args, func_kwargs = map_input_to_signature(self.func_sig, *args, **kwargs)
         ret = record_as(self.func(*func_args, **func_kwargs), *self.data_specs)
         return ret
 
-    def __call__(self, *args, **kwargs):
-        args = tuple(self._args + list(args))
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        all_args = tuple(self._args + list(args))
         kwargs.update(self._kwargs)
-        return self._iterator2records(*args, **kwargs)
+        return self._iterator2records(*all_args, **kwargs)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator:
         return iter(self._iterator2records(*self._args, **self._kwargs))
 
-    def get_data_specs(self):
+    def get_data_specs(self) -> Tuple[DataSpec, ...]:
         return self.data_specs
 
-    def using(self, *args, **kwargs) -> "PointerFunction":
+    def using(self, *args: Any, **kwargs: Any) -> "PointerFunction":
         """Set the default positional and keyword arguments that will be
         used when the function is called.
 
@@ -123,17 +122,19 @@ def sweep_parameter(
     if isinstance(param, str):
         param_ds = independent(param)
     elif isinstance(param, (tuple, list)):
-        param_ds = make_data_spec(*param)
+        param_ds = make_data_spec(param)  # type: ignore[arg-type]
     elif isinstance(param, DataSpec):
         param_ds = param
     elif QCODES_PRESENT and isinstance(param, QCParameter):
         param_ds = independent(param.name, unit=param.unit)
 
-        def setfunc(*args, **kwargs):
+        def setfunc(*args: Any, **kwargs: Any) -> None:
             param.set(kwargs.get(param.name))
 
-        actions = list(actions)
-        actions.insert(0, setfunc)
+        actions_list: list[Callable] = list(actions)
+        actions_list.insert(0, setfunc)
+        record_iterator = IteratorToRecords(sweep_iterable, param_ds)
+        return Sweep(record_iterator, *actions_list)
     else:
         raise TypeError(f"Cannot make parameter from type {type(param)}")
 
@@ -141,7 +142,7 @@ def sweep_parameter(
     return Sweep(record_iterator, *actions)
 
 
-def null_action():
+def null_action() -> None:
     return None
 
 
@@ -188,23 +189,23 @@ class Sweep:
                 target[k] = v
 
     @staticmethod
-    def propagate_sweep_options(sweep: "Sweep"):
+    def propagate_sweep_options(sweep: "Sweep") -> None:
 
         try:
-            first = sweep.pointer.iterable.first
+            first = sweep.pointer.iterable.first  # type: ignore[attr-defined]
             Sweep.copy_sweep_options(sweep, first)
         except AttributeError:
             pass
 
         try:
-            second = sweep.pointer.iterable.second
+            second = sweep.pointer.iterable.second  # type: ignore[attr-defined]
             Sweep.copy_sweep_options(sweep, second)
         except AttributeError:
             pass
 
     @staticmethod
-    def copy_sweep_options(src: "Sweep", target: Optional["Sweep"]):
-        if src is target:
+    def copy_sweep_options(src: "Sweep", target: Optional["Sweep"]) -> None:
+        if src is target or target is None:
             return
 
         Sweep.update_option_dict(src._action_kwargs, target._action_kwargs, level=2)
@@ -226,51 +227,51 @@ class Sweep:
 
         Sweep.copy_sweep_options(src, target)
 
-    def __init__(self, pointer: Optional[Iterable], *actions: Callable):
+    def __init__(self, pointer: Optional[Iterable], *actions: Callable) -> None:
         """Constructor of :class:`.Sweep`."""
-        self._state = {}
-        self._pass_kwargs = {}
-        self._action_kwargs = {}
+        self._state: Dict[str, Any] = {}
+        self._pass_kwargs: Dict[str, Any] = {}
+        self._action_kwargs: Dict[str, Any] = {}
 
         if pointer is None:
-            self.pointer = null_pointer
+            self.pointer: Iterable = null_pointer
         elif isinstance(pointer, (collections.abc.Iterable, Sweep)):
             self.pointer = pointer
         else:
             raise TypeError("pointer needs to be iterable.")
 
-        self.actions = []
+        self.actions: list[FunctionToRecords] = []
         for a in actions:
             self.append_action(a)
 
     @property
-    def state(self):
+    def state(self) -> Dict[str, Any]:
         return self._state
 
     @state.setter
-    def state(self, value: Dict[str, Any]):
+    def state(self, value: Dict[str, Any]) -> None:
         for k, v in value.items():
             self._state[k] = v
 
     @property
-    def pass_kwargs(self):
+    def pass_kwargs(self) -> Dict[str, Any]:
         return self._pass_kwargs
 
     @pass_kwargs.setter
-    def pass_kwargs(self, value: Dict[str, Any]):
+    def pass_kwargs(self, value: Dict[str, Any]) -> None:
         for k, v in value.items():
             self._pass_kwargs[k] = v
 
     @property
-    def action_kwargs(self):
+    def action_kwargs(self) -> Dict[str, Any]:
         return self._action_kwargs
 
     @action_kwargs.setter
-    def action_kwargs(self, value: Dict[str, Any]):
+    def action_kwargs(self, value: Dict[str, Any]) -> None:
         for k, v in value.items():
             self._action_kwargs[k] = v
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Any]:
         return self.run()
 
     def __add__(self, other: Union[Callable, "Sweep"]) -> "Sweep":
@@ -312,13 +313,13 @@ class Sweep:
         Sweep.link_sweep_properties(self, sweep2)
         return nest_sweeps(self, sweep2)
 
-    def append_action(self, action: Callable):
+    def append_action(self, action: Callable) -> None:
         """Add an action to the sweep."""
         if callable(action):
             if produces_record(action):
-                self.actions.append(action)
+                self.actions.append(cast(FunctionToRecords, action))
             else:
-                self.actions.append(record_as(action))
+                self.actions.append(cast(FunctionToRecords, record_as(action)))
         else:
             raise TypeError("action must be a callable.")
 
@@ -333,7 +334,7 @@ class Sweep:
 
     # FIXME: currently this only works for actions -- should be used also
     #   for pointer funcs?
-    def set_options(self, **action_kwargs: Dict[str, Any]):
+    def set_options(self, **action_kwargs: Any) -> None:
         """Configure the sweep actions.
 
         :param action_kwargs: Keyword arguments to pass to action functions
@@ -346,11 +347,11 @@ class Sweep:
 
     def get_data_specs(self) -> Tuple[DataSpec, ...]:
         """Return the data specs of the sweep."""
-        specs = []
-        pointer_specs = []
+        specs: list[DataSpec] = []
+        pointer_specs: Tuple[DataSpec, ...] = ()
         if produces_record(self.pointer):
             pointer_specs = self.pointer.get_data_specs()
-            specs = combine_data_specs(*(list(specs) + list(pointer_specs)))
+            specs = list(combine_data_specs(*(list(specs) + list(pointer_specs))))
 
         for a in self.actions:
             if produces_record(a):
@@ -361,13 +362,15 @@ class Sweep:
                 for aspec in action_specs:
                     aspec_ = aspec.copy()
                     if aspec_.depends_on is not None:
-                        aspec_.depends_on = pointer_independents + aspec_.depends_on
+                        aspec_.depends_on = pointer_independents + list(
+                            aspec_.depends_on
+                        )
 
-                    specs = combine_data_specs(*(list(specs) + [aspec_]))
+                    specs = list(combine_data_specs(*(list(specs) + [aspec_])))
 
         return tuple(specs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         ret = self.pointer.__repr__()
         for a in self.actions:
             ret += f" >> {a.__repr__()}"
@@ -386,15 +389,16 @@ class SweepIterator:
         self,
         sweep: Sweep,
         state: Dict[str, Any],
-        pass_kwargs=Dict[str, Any],
-        action_kwargs=Dict[str, Dict[str, Any]],
-    ):
+        pass_kwargs: Dict[str, Any] = {},
+        action_kwargs: Dict[str, Any] = {},
+    ) -> None:
 
         self.sweep = sweep
         self.state = state
         self.pass_kwargs = pass_kwargs
         self.action_kwargs = action_kwargs
 
+        self.pointer: Iterator[Any]
         if isinstance(self.sweep.pointer, Sweep):
             self.pointer = iter(self.sweep.pointer)
         elif isinstance(self.sweep.pointer, collections.abc.Iterator):
@@ -404,13 +408,13 @@ class SweepIterator:
         else:
             raise TypeError("pointer needs to be iterable.")
 
-    def __next__(self):
-        ret = {}
+    def __next__(self) -> Dict[str, Any]:
+        ret: Dict[str, Any] = {}
         next_point = next(self.pointer)
         if produces_record(self.sweep.pointer):
             ret.update(next_point)
 
-        pass_args = []
+        pass_args: list[Any] = []
         if self.sweep.pass_on_returns:
             if isinstance(next_point, (tuple, list)):
                 if not self.sweep.pass_on_none:
@@ -452,6 +456,9 @@ class SweepIterator:
                     ret.pop(k)
 
         return ret
+
+    def __iter__(self) -> "SweepIterator":
+        return self
 
 
 def append_sweeps(first: Sweep, second: Sweep) -> Sweep:
@@ -500,7 +507,7 @@ def nest_sweeps(outer: Sweep, inner: Sweep) -> Sweep:
     inner_specs = [s.copy() for s in inner.get_data_specs()]
     for s in inner_specs:
         if s.depends_on is not None:
-            s.depends_on = outer_indeps + s.depends_on
+            s.depends_on = outer_indeps + list(s.depends_on)
 
     nested = IteratorToRecords(
         NestSweeps(outer, inner),
@@ -512,16 +519,16 @@ def nest_sweeps(outer: Sweep, inner: Sweep) -> Sweep:
 
 
 class CombineSweeps:
-    _operator_symbol = None
+    _operator_symbol: Optional[str] = None
 
-    def __init__(self, first: Sweep, second: Sweep):
+    def __init__(self, first: Sweep, second: Sweep) -> None:
         self.first = first
         self.second = second
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Dict[str, Any]]:
         raise NotImplementedError
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         ret = self.__class__.__name__ + ":\n"
         ret += indent_text(self.first.__repr__(), 4) + "\n"
         sym = ""
@@ -535,7 +542,7 @@ class CombineSweeps:
             ret = ret[:-1]
         return ret
 
-    def get_data_specs(self):
+    def get_data_specs(self) -> Tuple[DataSpec, ...]:
         specs = list(self.first.get_data_specs()) + list(self.second.get_data_specs())
         return combine_data_specs(*specs)
 
@@ -543,8 +550,8 @@ class CombineSweeps:
 class ZipSweeps(CombineSweeps):
     _operator_symbol = "*"
 
-    def __iter__(self):
-        for fd, sd in zip(self.first, self.second):
+    def __iter__(self) -> Iterator[Dict[str, Any]]:
+        for fd, sd in zip(iter(self.first), iter(self.second)):
             ret = fd.copy()
             ret.update(sd)
             yield ret
@@ -553,17 +560,18 @@ class ZipSweeps(CombineSweeps):
 class AppendSweeps(CombineSweeps):
     _operator_symbol = "+"
 
-    def __iter__(self):
-        for ret in itertools.chain(self.first, self.second):
+    def __iter__(self) -> Iterator[Dict[str, Any]]:
+        ret: Dict[str, Any]
+        for ret in itertools.chain(iter(self.first), iter(self.second)):
             yield ret
 
 
 class NestSweeps(CombineSweeps):
     _operator_symbol = "@"
 
-    def __iter__(self):
-        for outer in self.first:
-            for inner in self.second:
+    def __iter__(self) -> Iterator[Dict[str, Any]]:
+        for outer in iter(self.first):
+            for inner in iter(self.second):
                 ret = outer.copy()
                 ret.update(inner)
                 yield ret
@@ -584,17 +592,17 @@ class AsyncRecord:
 
     wrapped_setup: Callable
 
-    def __init__(self, *specs):
+    def __init__(self, *specs: Any) -> None:
         self.specs = specs
-        self.communicator = {}
+        self.communicator: Dict[str, Any] = {}
 
-    def __call__(self, fun) -> Callable:
+    def __call__(self, fun: Callable) -> Callable:
         """
         When the decorator is called the experiment function gets wrapped so that it returns an Sweep object composed
         of 2 different Sweeps, the setup sweep and the collector Sweep.
         """
 
-        def sweep(collector_options={}, **setup_kwargs) -> Sweep:
+        def sweep(collector_options: Dict[str, Any] = {}, **setup_kwargs: Any) -> Sweep:
             """
             Returns a Sweep comprised of 2 different Sweeps: start_sweep and collector_sweep.
             start_sweep should perform any setup actions as well as starting the actual experiment. This sweep is only
@@ -628,8 +636,10 @@ class AsyncRecord:
         update_wrapper(self.wrapped_setup, fun)
         return self.wrapped_setup
 
-    def setup(self, fun, *args, **kwargs):
+    def setup(self, fun: Callable, *args: Any, **kwargs: Any) -> Any:
         return fun(*args, **kwargs)
 
-    def collect(self, *args, **kwargs) -> Generator[Dict, None, None]:
+    def collect(
+        self, *args: Any, **kwargs: Any
+    ) -> Generator[Dict[str, Any], None, None]:
         yield {}

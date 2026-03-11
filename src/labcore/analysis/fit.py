@@ -165,12 +165,13 @@ def fit_and_add_to_ds(
     else:
         coords = coords_
 
-    fit = fit_class(coords, vals)
+    fit = fit_class(tuple(coords) if isinstance(coords, list) else coords, vals)
     result = fit.run(**run_kwargs)
+    assert isinstance(result, FitResult)
     fit_data = result.eval()
 
     fit_darr = xr.DataArray(
-        name=arr.name + "_fit",
+        name=str(arr.name) + "_fit",
         data=fit_data.reshape(arr.shape),
         dims=arr.dims,
         coords=arr.coords,
@@ -185,14 +186,14 @@ def plot_ds_2d_with_fit(
     x: Optional[str] = None,
     y: Optional[str] = None,
     plot_kwargs: Dict[str, Any] = {},
-):
+) -> Any:
     data = ds[dim_name]
     fit = ds[dim_name + "_fit"]
 
     if x is None:
-        x = data.dims[0]
+        x = str(data.dims[0])
     if y is None:
-        y = data.dims[1]
+        y = str(data.dims[1])
 
     dataopts = dict(
         clim=(data.min(), data.max()),

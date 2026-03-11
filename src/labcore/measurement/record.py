@@ -5,14 +5,24 @@ import logging
 from dataclasses import dataclass
 from enum import Enum
 from functools import update_wrapper
-from typing import Any, Callable, Dict, Iterable, Iterator, List, Tuple, Union
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Iterable,
+    Iterator,
+    List,
+    Tuple,
+    TypeGuard,
+    Union,
+)
 
 try:
     from qcodes import Parameter as QCParameter
 
     QCODES_PRESENT = True
 except ImportError:
-    QCParameter = None
+    QCParameter = None  # type: ignore[assignment,misc]
     QCODES_PRESENT = False
 
 from ..utils.misc import map_input_to_signature
@@ -42,7 +52,7 @@ class DataSpec:
     #: physical unit of the data
     unit: str = ""
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if isinstance(self.type, str):
             self.type = DataType(self.type)
 
@@ -98,7 +108,7 @@ def make_data_spec(value: DataSpecCreationType) -> DataSpec:
     elif isinstance(value, (tuple, list)):
         return DataSpec(*value)
     elif isinstance(value, dict):
-        return DataSpec(**value)
+        return DataSpec(**value)  # type: ignore[arg-type]
     elif isinstance(value, DataSpec):
         return value
     else:
@@ -110,11 +120,10 @@ def make_data_specs(*specs: DataSpecCreationType) -> Tuple[DataSpec, ...]:
 
     :param specs: will be passed individually to :func:`.make_data_spec`
     """
-    ret = []
+    ret: List[DataSpec] = []
     for spec in specs:
         ret.append(make_data_spec(spec))
-    ret = tuple(ret)
-    return ret
+    return tuple(ret)
 
 
 def combine_data_specs(*specs: DataSpec) -> Tuple[DataSpec, ...]:
@@ -141,7 +150,7 @@ indep = independent
 
 def dependent(
     name: str, depends_on: List[str] = [], unit: str = "", type: str = "scalar"
-):
+) -> DataSpec:
     """Create a the spec for a dependent parameter.
     All arguments are forwarded to the :class:`.DataSpec` constructor.
     ``depends_on`` may not be set to ``None``."""
@@ -158,27 +167,31 @@ def recording(*data_specs: DataSpecCreationType) -> Callable:
     function.
     """
 
-    def decorator(func):
+    def decorator(func: Callable) -> FunctionToRecords:
         return FunctionToRecords(func, *make_data_specs(*data_specs))
 
     return decorator
 
 
-def record_as(obj: Union[Callable, Iterable, Iterator], *specs: DataSpecCreationType):
+def record_as(
+    obj: Union[Callable, Iterable, Iterator], *specs: DataSpecCreationType
+) -> Union["FunctionToRecords", "IteratorToRecords"]:
     """Annotate produced data as records.
 
     :param obj: a function that returns data or an iterable/iterator that
         produces data at each iteration step
     :param specs: specs for the data produced (see :func:`.make_data_specs`)
     """
-    specs = make_data_specs(*specs)
-    if isinstance(obj, Callable):
-        return recording(*specs)(obj)
+    specs_ = make_data_specs(*specs)
+    if callable(obj):
+        return recording(*specs_)(obj)
     elif isinstance(obj, collections.abc.Iterable):
-        return IteratorToRecords(obj, *specs)
+        return IteratorToRecords(obj, *specs_)
 
 
-def produces_record(obj: Any) -> bool:
+def produces_record(
+    obj: Any,
+) -> TypeGuard[Union["FunctionToRecords", "IteratorToRecords"]]:
     """Check if `obj` is annotated to generate records."""
     if hasattr(obj, "get_data_specs"):
         return True
@@ -187,10 +200,10 @@ def produces_record(obj: Any) -> bool:
 
 
 def _to_record(
-    value: Union[Dict, Iterable], data_specs: Tuple[DataSpec]
-) -> Dict[str, Any]:
+    value: Union[Dict, Iterable], data_specs: Tuple[DataSpec, ...]
+) -> Union[Dict[str, Any], "IteratorToRecords"]:
     """Convert data to a record using the provided DataSpecs"""
-    ret = {}
+    ret: Any = {}
 
     if isinstance(value, dict):
         for s in data_specs:
@@ -218,14 +231,14 @@ class IteratorToRecords:
         self.iterable = iterable
         self.data_specs = make_data_specs(*data_specs)
 
-    def get_data_specs(self):
+    def get_data_specs(self) -> Tuple[DataSpec, ...]:
         return self.data_specs
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Any]:
         for val in self.iterable:
             yield _to_record(val, self.data_specs)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         from .sweep import CombineSweeps
 
         ret = self.iterable.__repr__()
@@ -239,32 +252,35 @@ class IteratorToRecords:
 class FunctionToRecords:
     """A wrapper that converts a function return to a record."""
 
-    def __init__(self, func, *data_specs):
+    def __init__(self, func: Callable, *data_specs: DataSpecCreationType) -> None:
         self.func = func
         self.func_sig = inspect.signature(self.func)
         self.data_specs = make_data_specs(*data_specs)
+        self.__name__: str = func.__name__
         update_wrapper(self, func)
 
         self._args: List[Any] = []
         self._kwargs: Dict[str, Any] = {}
 
-    def get_data_specs(self):
+    def get_data_specs(self) -> Tuple[DataSpec, ...]:
         return self.data_specs
 
-    def __call__(self, *args, **kwargs):
-        args = tuple(self._args + list(args))
+    def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        all_args = tuple(self._args + list(args))
         kwargs.update(self._kwargs)
-        func_args, func_kwargs = map_input_to_signature(self.func_sig, *args, **kwargs)
+        func_args, func_kwargs = map_input_to_signature(
+            self.func_sig, *all_args, **kwargs
+        )
         ret = self.func(*func_args, **func_kwargs)
         return _to_record(ret, self.get_data_specs())
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         dnames = data_specs_label(*self.data_specs)
         ret = self.func.__name__ + str(self.func_sig)
         ret += f" as {dnames}"
         return ret
 
-    def using(self, *args, **kwargs) -> "FunctionToRecords":
+    def using(self, *args: Any, **kwargs: Any) -> "FunctionToRecords":
         """Set the default positional and keyword arguments that will be
         used when the function is called.
 
@@ -281,7 +297,9 @@ class FunctionToRecords:
 #   inherit shapes, dependencies (for ParameterWithSetPoints, for example)
 #   needs a function to make data specs from parameters (incl some user
 #   customization, like setting to array for regular parameters)
-def get_parameter(param: QCParameter):
+def get_parameter(
+    param: QCParameter,
+) -> Union["FunctionToRecords", "IteratorToRecords"]:
     if not QCODES_PRESENT:
         raise RuntimeError("qcodes not found.")
 

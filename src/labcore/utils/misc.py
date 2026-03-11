@@ -125,7 +125,7 @@ class LabeledOptions(AutoEnum):
 
 def map_input_to_signature(
     func: Union[Callable, inspect.Signature], *args: Any, **kwargs: Any
-):
+) -> tuple[list[Any], dict[str, Any]]:
     """Try to re-organize the positional arguments `args` and key word
     arguments `kwargs` such that `func` can be called with them.
 
@@ -154,9 +154,9 @@ def map_input_to_signature(
         ... myfunc(*args, **kwargs)
         x=5, y=1, z=2
     """
-    args = list(args)
-    func_args = []
-    func_kwargs = {}
+    args_list: list[Any] = list(args)
+    func_args: list[Any] = []
+    func_kwargs: dict[str, Any] = {}
 
     if isinstance(func, inspect.Signature):
         sig = func
@@ -179,8 +179,8 @@ def map_input_to_signature(
             if p in kwargs:
                 func_args.insert(idx, kwargs.pop(p))
             else:
-                if len(args) > 0:
-                    func_args.insert(idx, args.pop(0))
+                if len(args_list) > 0:
+                    func_args.insert(idx, args_list.pop(0))
                 elif p_.default is inspect.Parameter.empty:
                     func_args.insert(idx, None)
                 else:
@@ -191,7 +191,7 @@ def map_input_to_signature(
                 func_kwargs[p] = kwargs.pop(p)
 
         elif p_.kind is inspect.Parameter.VAR_POSITIONAL:
-            for a in args:
+            for a in args_list:
                 func_args.append(a)
 
         elif p_.kind is inspect.Parameter.VAR_KEYWORD:
@@ -205,7 +205,7 @@ def indent_text(text: str, level: int = 0) -> str:
     return "\n".join([" " * level + line for line in text.split("\n")])
 
 
-def get_environment_packages():
+def get_environment_packages() -> dict[str, str]:
     """
     Generates a dictionary with the names of the installed packages and their current version.
     It detects if a package was installed in development mode and places the current commit hash instead of the version.
@@ -214,7 +214,7 @@ def get_environment_packages():
     for dist in distributions():
         package_name = dist.metadata["Name"]
         version = dist.version
-        location = Path(dist.locate_file(""))
+        location = Path(str(dist.locate_file("")))
 
         try:
             repo = Repo(location, search_parent_directories=True)

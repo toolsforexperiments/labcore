@@ -15,7 +15,7 @@ def data_dims(data: Optional[Data]) -> tuple[list[str], list[str]]:
     if isinstance(data, pd.DataFrame):
         return list(data.index.names), data.columns.to_list()
     elif isinstance(data, xr.Dataset):
-        return [str(c) for c in list(data.coords)], list(data.data_vars)
+        return [str(c) for c in list(data.coords)], [str(v) for v in data.data_vars]
     else:
         raise NotImplementedError
 

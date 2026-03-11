@@ -1,6 +1,8 @@
+from typing import Tuple
+
 import numpy as np
 
-from labcore.data.datadict import str2dd
+from labcore.data.datadict import DataDict, str2dd
 
 # Define constants and parameters
 amplitude = 2  # Amplitude of the resonator response
@@ -8,7 +10,9 @@ noise_level = 0.2  # Noise level
 
 
 # Simulate the resonator response
-def simulate_S21(center_frequency, Q_factor, frequency_range, num_points):
+def simulate_S21(
+    center_frequency: float, Q_factor: float, frequency_range: float, num_points: int
+) -> Tuple[np.ndarray, np.ndarray]:
     frequencies = np.linspace(
         center_frequency - frequency_range / 2,
         center_frequency + frequency_range / 2,
@@ -22,8 +26,12 @@ def simulate_S21(center_frequency, Q_factor, frequency_range, num_points):
 
 
 def resonator_dataset(
-    center_frequency, Q_factor, frequency_range, reps=10, num_points: int = 100
-):
+    center_frequency: float,
+    Q_factor: float,
+    frequency_range: float,
+    reps: int = 10,
+    num_points: int = 100,
+) -> DataDict:
     data = str2dd("signal(repetition, fs); fs[Hz]; testing[s];")
     response, frequencies = simulate_S21(
         center_frequency, Q_factor, frequency_range, num_points
@@ -42,7 +50,7 @@ def resonator_dataset(
 # Plot the resonator response
 
 
-def plot_resonator_response(frequencies, response):
+def plot_resonator_response(frequencies: np.ndarray, response: np.ndarray) -> None:
     plt.figure()
     plt.plot(frequencies, np.abs(response), label="Amplitude")
     plt.xlabel("Frequency (Hz)")

@@ -1,25 +1,28 @@
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
 import matplotlib as mpl
 import numpy as np
 import seaborn as sns
+import xarray as xr
 from matplotlib import cm, gridspec, ticker
 from matplotlib import pyplot as plt
-from matplotlib.colors import rgb2hex
+from matplotlib.axes import Axes
+from matplotlib.colors import Colormap, rgb2hex
+from matplotlib.figure import Figure
 
-from .fit import fit_and_add_to_ds
+from .fit import Fit, FitResult, fit_and_add_to_ds
 
 logger = logging.getLogger(__name__)
 
 
 def fit_and_plot_1d(
-    ds,
-    name,
-    fit_class,
+    ds: xr.Dataset,
+    name: str,
+    fit_class: Type[Fit],
     dim_order: Optional[List[int]] = None,
     run_kwargs: Dict[str, Any] = {},
-):
+) -> Tuple[xr.Dataset, FitResult, Figure]:
     ds2, result = fit_and_add_to_ds(
         ds=ds,
         dim_name=name,
@@ -30,7 +33,7 @@ def fit_and_plot_1d(
     return ds2, result, plot_fit_1d(ds, name)
 
 
-def plot_fit_1d(ds, name):
+def plot_fit_1d(ds: xr.Dataset, name: str) -> Figure:
     datada = ds[name]
     fitda = ds[name + "_fit"]
 
@@ -262,25 +265,30 @@ def plot_fit_1d(ds, name):
 
 
 # color management tools
-def get_color_cycle(n, colormap, start=0.0, stop=1.0, format="hex"):
-    if isinstance(colormap, str):
-        colormap = getattr(cm, colormap)
+def get_color_cycle(
+    n: int,
+    colormap: Union[str, Colormap],
+    start: float = 0.0,
+    stop: float = 1.0,
+    format: str = "hex",
+) -> List[str]:
+    cmap: Colormap = getattr(cm, colormap) if isinstance(colormap, str) else colormap
 
     pts = np.linspace(start, stop, n)
     if format == "hex":
-        colors = [rgb2hex(colormap(pt)) for pt in pts]
+        colors = [rgb2hex(cmap(pt)) for pt in pts]
     return colors
 
 
 # tools for color plots
-def centers2edges(arr):
+def centers2edges(arr: np.ndarray) -> np.ndarray:
     e = (arr[1:] + arr[:-1]) / 2.0
     e = np.concatenate(([arr[0] - (e[0] - arr[0])], e))
     e = np.concatenate((e, [arr[-1] + (arr[-1] - e[-1])]))
     return e
 
 
-def pcolorgrid(xaxis, yaxis):
+def pcolorgrid(xaxis: np.ndarray, yaxis: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
     xedges = centers2edges(xaxis)
     yedges = centers2edges(yaxis)
     xx, yy = np.meshgrid(xedges, yedges)
@@ -289,8 +297,13 @@ def pcolorgrid(xaxis, yaxis):
 
 # creating and formatting figures
 def correctly_sized_figure(
-    widths, heights, margins=0.5, dw=0.2, dh=0.2, make_axes=True
-):
+    widths: List[float],
+    heights: List[float],
+    margins: Union[float, List[float]] = 0.5,
+    dw: float = 0.2,
+    dh: float = 0.2,
+    make_axes: bool = True,
+) -> Any:
     """
     Create a figure and grid where all dimensions are specified in inches.
     Arguments:
@@ -343,18 +356,18 @@ def correctly_sized_figure(
 
 
 def format_ax(
-    ax,
-    top=False,
-    right=False,
-    xlog=False,
-    ylog=False,
-    xlabel=None,
-    ylabel=None,
-    xlim=None,
-    ylim=None,
-    xticks=3,
-    yticks=3,
-):
+    ax: Axes,
+    top: bool = False,
+    right: bool = False,
+    xlog: bool = False,
+    ylog: bool = False,
+    xlabel: Optional[str] = None,
+    ylabel: Optional[str] = None,
+    xlim: Optional[Tuple[float, float]] = None,
+    ylim: Optional[Tuple[float, float]] = None,
+    xticks: Union[int, List[float]] = 3,
+    yticks: Union[int, List[float]] = 3,
+) -> None:
     ax.tick_params(
         axis="x",
         which="both",
@@ -408,15 +421,18 @@ def format_ax(
     ax.yaxis.labelpad = 2
 
 
-def format_right_cb(cb):
+def format_right_cb(cb: Any) -> None:
     cb.outline.set_visible(False)
     cb.ax.xaxis.set_visible(True)
     cb.ax.xaxis.set_label_position("top")
 
 
 def add_legend(
-    ax, anchor_point=(1, 1), legend_ref_point="lower right", **labels_and_handles
-):
+    ax: Axes,
+    anchor_point: Tuple[float, float] = (1, 1),
+    legend_ref_point: str = "lower right",
+    **labels_and_handles: Any,
+) -> None:
     if len(labels_and_handles) > 0:
         handles = []
         labels = []
@@ -434,7 +450,7 @@ def add_legend(
         ax.legend(bbox_to_anchor=anchor_point, borderpad=0, loc=legend_ref_point)
 
 
-def setup_plotting(sns_style="whitegrid", rcparams={}):
+def setup_plotting(sns_style: str = "whitegrid", rcparams: Dict[str, Any] = {}) -> None:
     # some sensible defaults for sizing, those are for a typical print-plot
     sns.set_style(sns_style)
 

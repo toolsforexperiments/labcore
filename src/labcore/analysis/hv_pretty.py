@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Any, Optional
 
 import holoviews as hv
 import hvplot
@@ -9,13 +10,13 @@ hv.extension("bokeh")
 
 
 # Convert inches to pixels
-def correctly_sized_figure(width=6, height=4):
+def correctly_sized_figure(width: float = 6, height: float = 4) -> dict[str, int]:
     """Returns width and height in pixels from inches."""
     return {"width": int(width * 300), "height": int(height * 300)}
 
 
 # Set Arial font for all text elements
-def set_arial_font(plot, element=None):
+def set_arial_font(plot: Any, element: Any = None) -> None:
     """Applies Arial font to all textual elements of a bokeh-based hvplot."""
     p = plot.state
     p.title.text_font = "Arial"
@@ -35,19 +36,19 @@ def set_arial_font(plot, element=None):
 
 # Axis and label formatting
 def format_ax(
-    plot,
-    title=None,
-    xlabel=None,
-    ylabel=None,
-    fontsize=12,
-    title_fontsize=14,
-    xticks=None,
-    yticks=None,
-    xlim=None,
-    ylim=None,
-    axes_pad=0.05,
-    tick_fontsize=10,
-):
+    plot: Any,
+    title: Optional[str] = None,
+    xlabel: Optional[str] = None,
+    ylabel: Optional[str] = None,
+    fontsize: int = 12,
+    title_fontsize: int = 14,
+    xticks: Any = None,
+    yticks: Any = None,
+    xlim: Any = None,
+    ylim: Any = None,
+    axes_pad: float = 0.05,
+    tick_fontsize: int = 10,
+) -> Any:
     """Apply axis and label formatting options to a hvplot object."""
     opts_dict = {
         "title": title,
@@ -73,7 +74,7 @@ def format_ax(
 
 
 # Add legend to Overlay or Layouts
-def add_legend(plot, location="top_right", show=True):
+def add_legend(plot: Any, location: str = "top_right", show: bool = True) -> Any:
     """Configure legend visibility and position."""
     if isinstance(plot, hv.Overlay) or isinstance(plot, hv.Layout):
         plot = plot.opts(show_legend=show, legend_position=location)
@@ -81,13 +82,22 @@ def add_legend(plot, location="top_right", show=True):
 
 
 # Setup seaborn style
-def setup_plotting(style="whitegrid", context="notebook", font_scale=1.2):
+def setup_plotting(
+    style: str = "whitegrid", context: str = "notebook", font_scale: float = 1.2
+) -> None:
     """Sets up seaborn styling globally for consistency with matplotlib-style aesthetics."""
     sns.set_style(style)
     sns.set_context(context, font_scale=font_scale)
 
 
-def save_plot_as_png(plot, filename, width_in=6, height_in=4, dpi=300, embed_dpi=True):
+def save_plot_as_png(
+    plot: Any,
+    filename: Any,
+    width_in: float = 6,
+    height_in: float = 4,
+    dpi: int = 300,
+    embed_dpi: bool = True,
+) -> None:
     """
     Save a Holoviews plot to a high-resolution PNG with embedded DPI metadata.
 

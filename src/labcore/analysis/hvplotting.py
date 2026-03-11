@@ -99,7 +99,11 @@ class Node(pn.viewable.Viewer):
         return self.layout
 
     def __init__(
-        self, path=None, data_in: Optional[Data] = None, *args: Any, **kwargs: Any
+        self,
+        path: Any = None,
+        data_in: Optional[Data] = None,
+        *args: Any,
+        **kwargs: Any,
     ):
         """Constructor for ``Node``.
 
@@ -333,7 +337,7 @@ class Node(pn.viewable.Viewer):
         return self.render_data(self.data_out)
 
     @pn.depends("data_out")
-    def plot(self) -> pn.viewable.Viewable:
+    def plot(self) -> Any:
         """A reactive panel object that allows selecting a plot type, and shows the plot.
 
         Updates on change of ``data_out``.
@@ -397,7 +401,7 @@ class Node(pn.viewable.Viewer):
             del self._watchers[other]
 
     @pn.depends("data_out", "plot_type_select.value")
-    def fit_obj(self):
+    def fit_obj(self) -> Any:
         # Returns the panel to select fit variables
         if isinstance(self._plot_obj, PlotNode):
             return self._plot_obj.get_fit_panel
@@ -410,16 +414,16 @@ class ReduxNode(Node):
     coordinates = param.List(default=[])
     operations = param.List(default=[])
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
-        self._widgets = {}
+        self._widgets: dict[str, Any] = {}
         self.layout = pn.Column()
 
-    def __panel__(self):
+    def __panel__(self) -> Any:
         return self.layout
 
     @pn.depends("data_in", watch=True)
-    def on_input_update(self):
+    def on_input_update(self) -> None:
         self.coords = list(self.data_in.dims.keys())
         for c in self.coords:
             if c not in self._widgets:
@@ -440,15 +444,15 @@ class ReduxNode(Node):
         self.on_widget_change()
 
     @pn.depends("operations")
-    def on_operations_change(self):
+    def on_operations_change(self) -> None:
         for c, o in zip(self.coords, self.operations):
             self._widgets[c].value = o
 
-    def on_widget_change(self, *events):
+    def on_widget_change(self, *events: Any) -> None:
         self.operations = [self._widgets[c]["widget"].value for c in self.coords]
 
     @pn.depends("data_in", "operations", watch=True)
-    def process(self):
+    def process(self) -> None:
         out = self.data_in
         for c, o in zip(self.coords, self.operations):
             if o == "Mean":
@@ -464,7 +468,7 @@ class XYSelect(pn.viewable.Viewer):
         ]
     )
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._xrbg = RBG(options=self.options, name="x")
         self._yrbg = RBG(options=self.options, name="y")
         super().__init__()
@@ -476,16 +480,16 @@ class XYSelect(pn.viewable.Viewer):
         self._sync_x()
         self._sync_y()
 
-    def __panel__(self):
+    def __panel__(self) -> Any:
         return self._layout
 
     @param.depends("options", watch=True)
-    def on_option_change(self):
+    def on_option_change(self) -> None:
         self._xrbg.options = self.options
         self._yrbg.options = self.options
 
     @param.depends("value", watch=True)
-    def _sync_widgets(self):
+    def _sync_widgets(self) -> None:
         if self.value[0] == self.value[1] and self.value[0] != "None":
             self.value = self.value[0], "None"
         self._xrbg.name = self.name
@@ -493,7 +497,7 @@ class XYSelect(pn.viewable.Viewer):
         self._yrbg.value = self.value[1]
 
     @param.depends("_xrbg.value", watch=True)
-    def _sync_x(self):
+    def _sync_x(self) -> None:
         x = self._xrbg.value
         y = self.value[1]
         if y == x:
@@ -501,7 +505,7 @@ class XYSelect(pn.viewable.Viewer):
         self.value = (x, y)
 
     @param.depends("_yrbg.value", watch=True)
-    def _sync_y(self):
+    def _sync_y(self) -> None:
         y = self._yrbg.value
         x = self.value[0]
         if y == x:
@@ -521,10 +525,10 @@ class PlotNode(Node):
 
     refresh_graph = param.Parameter(None)
 
-    FITS = None
+    FITS: Optional[dict[str, Any]] = None
 
     @staticmethod
-    def load_fits_from_config():
+    def load_fits_from_config() -> None:
         PlotNode.FITS = {}
         yaml = ruamel.yaml.YAML()
         cwd = Path.cwd()
@@ -549,14 +553,13 @@ class PlotNode(Node):
                     msg = f"Could not access Class {modname[1]} from module {modname[0]}. Exception: {e}"
                     logger.error(msg)
 
-    def __init__(self, path=None, *args, **kwargs):
+    def __init__(self, path: Any = None, *args: Any, **kwargs: Any) -> None:
 
         self.path = path
 
         if PlotNode.FITS is None:
             self.load_fits_from_config()
 
-        self.fit_dict: dict = {}
         # Create fit_dict from json based on path
         if path == "." or path == "" or path is None:
             self.fit_data_path = None
@@ -564,26 +567,27 @@ class PlotNode(Node):
             _dir = Path(path).parent
             self.fit_data_path = _dir.joinpath("fit_data.json")
 
-        self.fit_result = None
-        self.fit_dict = {}
+        self.fit_result: Any = None
+        self.fit_dict: dict[str, Any] = {}
 
         # Initialize _fit_axis_options to avoid errors when there's no data.
         # This should get properly set in the process() function
-        self._fit_axis_options = []
+        self._fit_axis_options: list[Any] = []
 
         # Initialize fit layout variables so they can be checked
-        self.fit_inputs = None
-        self.save_fit_button = None
-        self.reguess_fit_button = None
-        self.model_fit_button = None
-        self.refit_button = None
-        self.fit_box = None
+        self.fit_inputs: Any = None
+        self.save_fit_button: Any = None
+        self.reguess_fit_button: Any = None
+        self.model_fit_button: Any = None
+        self.refit_button: Any = None
+        self.fit_box: Any = None
 
         # A toggle variable to refresh the graph
         self.refresh_graph = True
 
         super().__init__(*args, **kwargs)
 
+        assert PlotNode.FITS is not None
         fit_options = list(PlotNode.FITS.keys())
         fit_options.append("None")
         self.fit_button = pn.widgets.MenuButton(
@@ -603,16 +607,17 @@ class PlotNode(Node):
             pn.Row(self.fit_button, self.select_fit_axis),
         )
 
-    def get_fit_panel(self):
+    def get_fit_panel(self) -> Any:
         return self.fit_layout
 
-    def process(self):
+    def process(self) -> None:
         """Make a copy of the data so that changes (added fits) don't carry
         to other graphs/other analysis.
         Add saved arguments for all fits/axes."""
         self.data_out = copy.copy(self.data_in)
         # Set fit_axis_options based on the function. Default to [] if returns None
         self._fit_axis_options = self.fit_axis_options()
+        assert PlotNode.FITS is not None
         # Draw any fits that already exist
         for axis in self.fit_axis_options():
             if axis in self.fit_dict.keys():
@@ -621,20 +626,20 @@ class PlotNode(Node):
                 if func_name not in PlotNode.FITS:
                     msg = f"Axis {axis} has a fit of type {func_name} saved, which you don't have access to."
                     print(msg)
-                    pn.state.notifications.error(msg, duration=0)
+                    pn.state.notifications.error(msg, duration=0)  # type: ignore[union-attr]
                 else:
                     self.update_dataset_by_fit_and_axis(
                         PlotNode.FITS[func_name], saved_args, axis, True
                     )
 
-    def plot_panel(self):
+    def plot_panel(self) -> Any:
         """Creates and returns a panel with the class's plot
 
         Should be overridden by subclasses to return the desired plot.
         """
         return NotImplementedError
 
-    def get_plot(self):
+    def get_plot(self) -> Any:
         """Returns the plot as a holoviews object
 
         Used for saving the plot as html or png.
@@ -651,7 +656,9 @@ class PlotNode(Node):
         """
         return []
 
-    def set_fit_box(self, *events: param.parameterized.Event, fitted: bool = None):
+    def set_fit_box(
+        self, *events: param.parameterized.Event, fitted: Optional[bool] = None
+    ) -> None:
         if fitted is None:
             fitted = False
             if self.select_fit_axis.value in self.fit_dict.keys():
@@ -671,7 +678,7 @@ class PlotNode(Node):
 
     def set_fit_box_helper(
         self, new_box: bool, fit_func_name: str, fitted: bool = False
-    ):
+    ) -> None:
         """Removes and/or creates a fit box. If new_box == True this
         will (re)create the fit box."""
         # Check if fit_box exists & get fit_box
@@ -684,7 +691,7 @@ class PlotNode(Node):
             if new_box:
                 self.fit_box = self.add_fit_box(fit_func_name, fitted=fitted)
 
-    def remove_fit_box(self):
+    def remove_fit_box(self) -> None:
         # Get all fit objects other than layout and set as the current objects
         no_fit_objects = self.fit_layout.objects[:-1]
         self.fit_layout.objects = no_fit_objects
@@ -692,7 +699,7 @@ class PlotNode(Node):
         self.save_fit_button = None
         self.fit_box = None
 
-    def add_fit_box(self, selected=None, fitted=False):
+    def add_fit_box(self, selected: Any = None, fitted: bool = False) -> Any:
         """Create a widget box for creating a fit."""
         if selected is None:
             selected = self.fit_button.clicked
@@ -707,6 +714,7 @@ class PlotNode(Node):
                 align="center",
             )
         ]
+        assert PlotNode.FITS is not None
         fit_class = PlotNode.FITS[selected]
         # Get guesses or saved values for all variables and make inputs
         saved_args = self.get_arguments()
@@ -783,7 +791,7 @@ class PlotNode(Node):
         self.update_fit_args(None)
         return self.fit_inputs
 
-    def save_fit(self, *events: param.parameterized.Event):
+    def save_fit(self, *events: param.parameterized.Event) -> None:
         """Saves only the currently selected fit axis to the json file"""
         params_dict = self.fit_result.params_to_dict()
         params_path = add_end_number_to_repeated_file(
@@ -801,7 +809,7 @@ class PlotNode(Node):
         with open(result_path, "w") as outfile:
             outfile.write(fit_result)
 
-    def reguess_fit(self, event):
+    def reguess_fit(self, event: Any) -> None:
         """Resets the current args to the results of the Fit.guess() function for the
         current fit class."""
         # Save the parameters from the current fit
@@ -813,9 +821,10 @@ class PlotNode(Node):
         self.fit_dict[self.select_fit_axis.value]["params"] = store_params["params"]
         self.refresh_graph = True
 
-    def model_fit(self, *events: param.parameterized.Event):
+    def model_fit(self, *events: param.parameterized.Event) -> None:
         """Models the fit starting with the arguments already created"""
         # Get fit class, axis name, coordinate values
+        assert PlotNode.FITS is not None
         fit_class = PlotNode.FITS[self.fit_button.clicked]
         data_key = self.select_fit_axis.value
         np_data = [self.data_out[var].values for var in self.data_out.coords]
@@ -841,7 +850,7 @@ class PlotNode(Node):
         self.set_fit_box(None, fitted=True)
         self.refresh_graph = True
 
-    def get_arguments(self):
+    def get_arguments(self) -> Any:
         """Gets argument values for the currently selected fit and
         fit axis. Pulls data from the json if one exists, otherwise
         runs fit.guess and takes those values."""
@@ -855,7 +864,8 @@ class PlotNode(Node):
         else:
             return self.get_ansatz()
 
-    def get_ansatz(self):
+    def get_ansatz(self) -> Any:
+        assert PlotNode.FITS is not None
         fit_class = PlotNode.FITS[self.fit_button.clicked]
         # Get the guess for this data and x
         # Set data_key to first data key & make numpy data
@@ -868,7 +878,7 @@ class PlotNode(Node):
             coords = np_data[0:2]
         return fit_class.guess(coords, self.data_out.data_vars[data_key].to_numpy())
 
-    def update_fit_args(self, event):
+    def update_fit_args(self, event: Any) -> None:
         """Updates the temporary saved value for all of the fit's starting arguments.
 
         Called whenever a float input's value is changed, when the fitbox is
@@ -884,6 +894,7 @@ class PlotNode(Node):
                     self.fit_inputs[i].value
                 )
 
+        assert PlotNode.FITS is not None
         fit_class = PlotNode.FITS[self.fit_button.clicked]
         params = self.fit_dict[self.select_fit_axis.value]["start_params"]
         self.update_dataset_by_fit_and_axis(
@@ -898,7 +909,7 @@ class PlotNode(Node):
         model_args: dict[str, float],
         model_axis_name: str,
         saved: bool = False,
-    ):
+    ) -> None:
         """Updates the data for fit in the self.data_out dataset based
         on the given arguments."""
         # Create np array of coordinates
@@ -922,19 +933,19 @@ class PlotNode(Node):
                 del self.data_out[fit_name_temp]
         self.update_dataset_by_data(fit_data, fit_name)
 
-    def update_dataset_by_data(self, fit_data: np.ndarray, name: str):
+    def update_dataset_by_data(self, fit_data: np.ndarray, name: str) -> None:
         # Get independent variable(s) and fit class
         indep, dep = self.data_dims(self.data_out)
         self.data_out[name] = (indep, fit_data)
 
-    def get_data_fit_names(self, axis_name, omit_axes=None):
+    def get_data_fit_names(self, axis_name: Any, omit_axes: Any = None) -> Any:
         if omit_axes is None:
             omit_axes = ["Magnitude", "Phase"]
 
         # Check if a fit axis exists. Return list of axis and fit axis (if it exists)
         if isinstance(axis_name, list):
             # If given name is a list, loop through all names in list
-            ret = []
+            ret: list[Any] = []
             for name in axis_name:
                 ret = ret + self.get_data_fit_names(name)
             return ret
@@ -951,7 +962,7 @@ class PlotNode(Node):
             ret.append(fit_name)
         return ret
 
-    def get_values(self, axis: str):
+    def get_values(self, axis: str) -> Any:
         """Gets a dictionary of values from the result of the FitResult's params_to_dict() function."""
         if "params" not in self.fit_dict[axis].keys():
             if "start_params" in self.fit_dict[axis].keys():
@@ -973,9 +984,9 @@ class PlotNode(Node):
 
 
 class ValuePlot(PlotNode):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         self.xy_select = XYSelect()
-        self._old_indep = []
+        self._old_indep: list[Any] = []
 
         super().__init__(*args, **kwargs)
 
@@ -984,11 +995,11 @@ class ValuePlot(PlotNode):
             self.plot_panel,
         )
 
-    def __panel__(self):
+    def __panel__(self) -> Any:
         return self.layout
 
     @pn.depends("data_out")
-    def plot_options_panel(self):
+    def plot_options_panel(self) -> Any:
         indep, dep = self.data_dims(self.data_out)
 
         opts = ["None"]
@@ -1006,7 +1017,7 @@ class ValuePlot(PlotNode):
         return self.xy_select
 
     @pn.depends("data_out", "xy_select.value", "refresh_graph")
-    def plot_panel(self):
+    def plot_panel(self) -> Any:
         self.refresh_graph = False
 
         plot = "*No valid options chosen.*"
@@ -1056,7 +1067,7 @@ class ValuePlot(PlotNode):
             plot = plot.cols(2)
         return plot
 
-    def fit_axis_options(self):
+    def fit_axis_options(self) -> Any:
         indep, dep = self.data_dims(self.data_out)
         ret = []
         for d in dep:
@@ -1066,7 +1077,7 @@ class ValuePlot(PlotNode):
 
 
 class ComplexHist(PlotNode):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         self.gb_select = pn.widgets.CheckButtonGroup(
             name="Group by",
             options=[],
@@ -1079,17 +1090,17 @@ class ComplexHist(PlotNode):
             self.plot_panel,
         )
 
-    def __panel__(self):
+    def __panel__(self) -> Any:
         return self.layout
 
     @pn.depends("data_out", watch=True)
-    def _sync_options(self):
+    def _sync_options(self) -> None:
         indep, dep = self.data_dims(self.data_out)
         if isinstance(indep, list):
             self.gb_select.options = indep
 
     @pn.depends("data_out", "gb_select.value", "refresh_graph")
-    def plot_panel(self):
+    def plot_panel(self) -> Any:
         self.refresh_graph = False
 
         time.perf_counter()
@@ -1121,21 +1132,20 @@ class ComplexHist(PlotNode):
 
         return plot
 
-    def get_plot(self):
+    def get_plot(self) -> Any:
         plt = self.plot_panel()
         return plt[0].object
 
-    def fit_axis_options(self):
-        _dict = self.complex_dependents(self.data_out).items()
-        if not isinstance(_dict, dict):
-            _dict = dict(_dict)
+    def fit_axis_options(self) -> Any:
+        _items = self.complex_dependents(self.data_out).items()
+        _dict = dict(_items)
         return list(_dict.keys())
 
 
 class MagnitudePhasePlot(PlotNode):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         self.xy_select = XYSelect()
-        self._old_indep = []
+        self._old_indep: list[Any] = []
 
         super().__init__(*args, **kwargs)
 
@@ -1144,7 +1154,7 @@ class MagnitudePhasePlot(PlotNode):
             self.plot_panel,
         )
 
-    def process(self):
+    def process(self) -> None:
         assert isinstance(self.data_in, xr.Dataset), (
             "MagnitudePhasePlot needs an xr.Dataset, did not receive one."
         )
@@ -1162,11 +1172,11 @@ class MagnitudePhasePlot(PlotNode):
         self.data_out["Magnitude"] = (indep, magnitude)
         self.data_out["Phase"] = (indep, phase)
 
-    def __panel__(self):
+    def __panel__(self) -> Any:
         return self.layout
 
     @pn.depends("data_out")
-    def plot_options_panel(self):
+    def plot_options_panel(self) -> Any:
         indep, dep = self.data_dims(self.data_out)
 
         opts = ["None"]
@@ -1184,7 +1194,7 @@ class MagnitudePhasePlot(PlotNode):
         return self.xy_select
 
     @pn.depends("data_out", "xy_select.value", "refresh_graph")
-    def plot_panel(self):
+    def plot_panel(self) -> Any:
         self.refresh_graph = False
 
         plot = "*No valid options chosen.*"
@@ -1226,14 +1236,16 @@ class MagnitudePhasePlot(PlotNode):
 
         return plot
 
-    def fit_axis_options(self):
+    def fit_axis_options(self) -> Any:
         return ["Magnitude", "Phase"]
 
-    def get_data_fit_names(self, axis_name):
+    def get_data_fit_names(self, axis_name: Any, omit_axes: Any = None) -> Any:
         return super().get_data_fit_names(axis_name, [])
 
 
-def plot_df_as_2d(df, x, y, dim_labels=None, graph_axes=None):
+def plot_df_as_2d(
+    df: Any, x: Any, y: Any, dim_labels: Any = None, graph_axes: Any = None
+) -> Any:
     if graph_axes is None:
         graph_axes = []
     if dim_labels is None:
@@ -1270,7 +1282,9 @@ def plot_df_as_2d(df, x, y, dim_labels=None, graph_axes=None):
         return "*that's currently not supported :(*"
 
 
-def plot_xr_as_2d(ds, x, y, dim_labels=None, graph_axes=None):
+def plot_xr_as_2d(
+    ds: Any, x: Any, y: Any, dim_labels: Any = None, graph_axes: Any = None
+) -> Any:
     if graph_axes is None:
         graph_axes = []
 
@@ -1281,7 +1295,7 @@ def plot_xr_as_2d(ds, x, y, dim_labels=None, graph_axes=None):
         return "Nothing to plot."
 
     indeps, deps = Node.data_dims(ds)
-    plot = None
+    plot: Any = None
 
     # Set deps to the passed axes so it graphs all desired data
     if graph_axes:
@@ -1324,7 +1338,7 @@ def plot_xr_as_2d(ds, x, y, dim_labels=None, graph_axes=None):
 # -- various tool functions
 
 
-def labeled_widget(w, lbl=None):
+def labeled_widget(w: Any, lbl: Any = None) -> Any:
     m = w.margin
 
     if lbl is None:

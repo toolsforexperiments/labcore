@@ -49,13 +49,15 @@ class Exponential(Fit):
 
 class ExponentialDecay(Fit):
     @staticmethod
-    def model(coordinates, A, of, tau) -> np.ndarray:
+    def model(coordinates: np.ndarray, A: float, of: float, tau: float) -> np.ndarray:
         """$A * \exp(-x/\tau) + of$"""
         return A * np.exp(-coordinates / tau) + of
 
     @staticmethod
-    def guess(coordinates, data):
-
+    def guess(
+        coordinates: Union[Tuple[np.ndarray, ...], np.ndarray], data: np.ndarray
+    ) -> Dict[str, float]:
+        assert isinstance(coordinates, np.ndarray)
         # offset guess: The mean of the last 10 percent of the data
         of = np.mean(data[-data.size // 10 :])
 
@@ -74,13 +76,15 @@ class ExponentialDecay(Fit):
 
 class Linear(Fit):
     @staticmethod
-    def model(coordinates, m, of) -> np.ndarray:
+    def model(coordinates: np.ndarray, m: float, of: float) -> np.ndarray:
         """$A * \exp(-x/\tau) + of$"""
         return m * coordinates + of
 
     @staticmethod
-    def guess(coordinates, data):
-
+    def guess(
+        coordinates: Union[Tuple[np.ndarray, ...], np.ndarray], data: np.ndarray
+    ) -> Dict[str, float]:
+        assert isinstance(coordinates, np.ndarray)
         # amplitude guess: difference between  max and min y over the max and min x.
         m = np.abs(np.max(data) - np.min(data)) / np.abs(
             np.max(coordinates) - np.min(coordinates)
@@ -94,7 +98,9 @@ class Linear(Fit):
 
 class ExponentiallyDecayingSine(Fit):
     @staticmethod
-    def model(coordinates, A, of, f, phi, tau) -> np.ndarray:
+    def model(
+        coordinates: np.ndarray, A: float, of: float, f: float, phi: float, tau: float
+    ) -> np.ndarray:
         """$A \sin(2*\pi*(f*x + \phi/360)) \exp(-x/\tau) + of$"""
         return (
             A
@@ -104,8 +110,11 @@ class ExponentiallyDecayingSine(Fit):
         )
 
     @staticmethod
-    def guess(coordinates, data):
+    def guess(
+        coordinates: Union[Tuple[np.ndarray, ...], np.ndarray], data: np.ndarray
+    ) -> Dict[str, float]:
         """This guess will ignore the first value because since it usually is not relaiable."""
+        assert isinstance(coordinates, np.ndarray)
 
         # offset guess: The mean of the data
         of = np.mean(data)
@@ -138,12 +147,17 @@ class ExponentiallyDecayingSine(Fit):
 
 class Gaussian(Fit):
     @staticmethod
-    def model(coordinates, x0, sigma, A, of):
+    def model(
+        coordinates: np.ndarray, x0: float, sigma: float, A: float, of: float
+    ) -> np.ndarray:
         """$A * np.exp(-(x-x_0)^2/(2\sigma^2)) + of"""
         return A * np.exp(-((coordinates - x0) ** 2) / (2 * sigma**2)) + of
 
     @staticmethod
-    def guess(coordinates, data):
+    def guess(
+        coordinates: Union[Tuple[np.ndarray, ...], np.ndarray], data: np.ndarray
+    ) -> Dict[str, float]:
+        assert isinstance(coordinates, np.ndarray)
         # TODO: very crude at the moment, not likely to work well with not-so-nice data.
         of = np.mean(data)
         dev = data - of

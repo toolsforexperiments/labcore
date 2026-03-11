@@ -19,15 +19,15 @@ import uuid
 from enum import Enum
 from pathlib import Path
 from types import TracebackType
-from typing import Any, Collection, Dict, List, Optional, Type, Union
+from typing import Any, Collection, Dict, List, Optional, Tuple, Type, Union
 
 import h5py
 import numpy as np
+import pandas as pd
 import xarray as xr
 
 from .datadict import (
     DataDict,
-    DataDictBase,
     datadict_to_meshgrid,
     datasets_are_equal,
     dd2df,
@@ -48,7 +48,7 @@ logger = logging.getLogger(__name__)
 
 
 class NumpyEncoder(json.JSONEncoder):
-    def default(self, obj):
+    def default(self, obj: Any) -> Any:
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         if isinstance(obj, np.integer):
@@ -112,7 +112,7 @@ def deh5ify(obj: Any) -> Any:
     return obj
 
 
-def set_attr(h5obj: Any, name: str, val: Any) -> None:
+def set_attr(h5obj: Union[h5py.File, h5py.Group], name: str, val: Any) -> None:
     """Set attribute `name` of object `h5obj` to `val`
 
     Use :func:`h5ify` to convert the object, then try to set the attribute
@@ -127,7 +127,10 @@ def set_attr(h5obj: Any, name: str, val: Any) -> None:
 
 
 def add_cur_time_attr(
-    h5obj: Any, name: str = "creation", prefix: str = "__", suffix: str = "__"
+    h5obj: Union[h5py.File, h5py.Group],
+    name: str = "creation",
+    prefix: str = "__",
+    suffix: str = "__",
 ) -> None:
     """Add current time information to the given HDF5 object, following the format of:
     ``<prefix><name>_time_sec<suffix>``.
@@ -342,7 +345,7 @@ def datadict_from_hdf5(
 
 def all_datadicts_from_hdf5(
     path: Union[str, Path], file_timeout: Optional[float] = None, **kwargs: Any
-) -> Dict[str, Any]:
+) -> Dict[str, DataDict]:
     """
     Loads all the DataDicts contained on a single HDF5 file. Returns a dictionary with the group names as keys and
     the DataDicts as the values of that key.
@@ -370,7 +373,7 @@ def reconstruct_safe_write_data(
     path: Union[str, Path],
     unification_from_scratch: bool = True,
     file_timeout: Optional[float] = None,
-) -> DataDictBase:
+) -> DataDict:
     """
     Creates a new DataDict from the data saved in the .tmp folder. This is used when the data is saved in the safe
     writing mode. The data is saved in individual files in the .tmp folder. This function reconstructs the data from
@@ -693,7 +696,7 @@ class DDH5Writer(object):
 
         return Path(data_folder_path, self.filename)
 
-    def _generate_next_safe_write_path(self):
+    def _generate_next_safe_write_path(self) -> Path:
         """
         Generates the next path for the data to be saved in the safe writing mode. Should not be used for other things.
         """
@@ -701,6 +704,7 @@ class DDH5Writer(object):
         now = datetime.datetime.now()
 
         # Creates tmp folder
+        assert self.filepath is not None
         tmp_folder = self.filepath.parent / ".tmp"
         tmp_folder.mkdir(exist_ok=True)
 
@@ -756,6 +760,7 @@ class DDH5Writer(object):
 
         if self.safe_write_mode:
             clean_dd_copy = self.datadict.structure()
+            assert clean_dd_copy is not None
             clean_dd_copy.add_data(**kwargs)
             filepath = self._generate_next_safe_write_path()
 
@@ -776,6 +781,7 @@ class DDH5Writer(object):
                 or delta_t > self.n_seconds_per_reconstruction
             ):
                 try:
+                    assert self.filepath is not None
                     dd = reconstruct_safe_write_data(
                         self.filepath,
                         unification_from_scratch=False,
@@ -842,11 +848,14 @@ class DDH5Writer(object):
             json.dump(d, f, indent=4, ensure_ascii=False, cls=NumpyEncoder)
 
 
-def data_info(folder: str, fn: str = "data.ddh5", do_print: bool = True):
-    fn = Path(folder, fn)
-    dataset = datadict_from_hdf5(fn)
+def data_info(
+    folder: str, fn: str = "data.ddh5", do_print: bool = True
+) -> Optional[str]:
+    fn_path = Path(folder, fn)
+    dataset = datadict_from_hdf5(fn_path)
     if do_print:
         print(dataset)
+        return None
     else:
         return str(dataset)
 
@@ -861,11 +870,11 @@ def timestamp_from_path(p: Path) -> datetime.datetime:
 
 
 def find_data(
-    root,
+    root: Union[str, Path],
     newer_than: Optional[datetime.datetime] = None,
     older_than: Optional[datetime.datetime] = None,
     folder_filter: Optional[str] = None,
-) -> List[Path]:
+) -> Dict[Path, Tuple[List[str], List[str]]]:
     if not isinstance(root, Path):
         root = Path(root)
 
@@ -888,7 +897,7 @@ def find_data(
 
 
 def most_recent_data_path(
-    root,
+    root: Union[str, Path],
     older_than: Optional[datetime.datetime] = None,
     folder_filter: Optional[str] = None,
 ) -> Path:
@@ -897,7 +906,7 @@ def most_recent_data_path(
 
 
 def load_as_xr(
-    folder: Path, fn="data.ddh5", fields: Optional[List[str]] = None
+    folder: Path, fn: str = "data.ddh5", fields: Optional[List[str]] = None
 ) -> xr.Dataset:
     """Load ddh5 data as xarray (only for gridable data).
 
@@ -913,17 +922,17 @@ def load_as_xr(
     _type_
         _description_
     """
-    fn = folder / fn
-    dd = datadict_from_hdf5(fn)
+    fn_path = folder / fn
+    dd = datadict_from_hdf5(fn_path)
     if fields is not None:
         dd = dd.extract(fields)
     xrdata = split_complex(dd2xr(datadict_to_meshgrid(dd)))
     xrdata.attrs["raw_data_folder"] = str(folder.resolve())
-    xrdata.attrs["raw_data_fn"] = str(fn)
+    xrdata.attrs["raw_data_fn"] = str(fn_path)
     return xrdata
 
 
-def load_as_df(folder, fn="data.ddh5"):
-    fn = folder / fn
-    dfdata = split_complex(dd2df(datadict_from_hdf5(fn)))
+def load_as_df(folder: Path, fn: str = "data.ddh5") -> pd.DataFrame:
+    fn_path = folder / fn
+    dfdata = split_complex(dd2df(datadict_from_hdf5(fn_path)))
     return dfdata

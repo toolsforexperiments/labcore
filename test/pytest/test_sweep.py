@@ -1,4 +1,3 @@
-
 from labcore.measurement.record import dep, independent, record_as, recording
 from labcore.measurement.sweep import (
     Sweep,

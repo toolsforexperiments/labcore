@@ -9,7 +9,18 @@ import logging
 import re
 import warnings
 from functools import reduce
-from typing import Any, Dict, Iterator, List, Optional, Sequence, Tuple, TypeVar, Union
+from typing import (
+    Any,
+    Dict,
+    Iterator,
+    List,
+    Optional,
+    Sequence,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
+)
 
 import numpy as np
 import pandas as pd
@@ -1433,8 +1444,8 @@ def combine_datadicts(*dicts: DataDict) -> Union[DataDictBase, DataDict]:
     #   axes in the return can be separated even if they match (caused
     #   by earlier mismatches)
 
-    ret = None
-    rettype = None
+    ret: Optional[DataDictBase] = None
+    rettype: Optional[Type[DataDictBase]] = None
 
     for d in dicts:
         if ret is None:
@@ -1449,6 +1460,7 @@ def combine_datadicts(*dicts: DataDict) -> Union[DataDictBase, DataDict]:
                     rettype = DataDictBase
             else:
                 rettype = DataDictBase
+            assert rettype is not None
             ret = rettype(**ret)
 
             # First, parse the axes in the to-be-added ddict.
@@ -1689,7 +1701,7 @@ def datasets_are_equal(
     return True
 
 
-def dd2df(dd: DataDict):
+def dd2df(dd: DataDict) -> pd.DataFrame:
     """make a pandas Dataframe from a datadict.
     Uses MultiIndex, and assumes that all data fields are compatible.
 
@@ -1732,7 +1744,7 @@ def dd2xr(dd: MeshgridDataDict) -> xr.Dataset:
     axes = dd.axes()
     coords = {}
     for i, a in enumerate(axes):
-        slices = [0] * len(axes)
+        slices: list[Union[int, slice]] = [0] * len(axes)
         slices[i] = slice(None)
         coords[a] = dd[a]["values"][tuple(slices)]
 

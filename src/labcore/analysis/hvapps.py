@@ -34,10 +34,10 @@ logger = logging.getLogger(__name__)
 
 
 class Handler(FileSystemEventHandler):
-    def __init__(self, update_callback):
+    def __init__(self, update_callback: Any) -> None:
         self.update_callback = update_callback
 
-    def on_created(self, event):
+    def on_created(self, event: Any) -> None:
         if not event.is_directory:
             # Get file extension and compare to data file type, ddh5
             file_type = Path(event.src_path).suffix
@@ -63,16 +63,16 @@ class DataSelect(pn.viewable.Viewer):
     event_lock = False
 
     @staticmethod
-    def date2label(date_tuple):
+    def date2label(date_tuple: Any) -> str:
         return "-".join((str(k) for k in date_tuple))
 
     @staticmethod
-    def label2date(label):
+    def label2date(label: Any) -> Any:
         return tuple(int(part) for part in label[:10].split("-"))
 
     @staticmethod
-    def group_data(data_list):
-        ret = {}
+    def group_data(data_list: Any) -> Any:
+        ret: dict[Any, Any] = {}
         for path, info in data_list.items():
             ts = timestamp_from_path(path)
             date = (ts.year, ts.month, ts.day)
@@ -81,10 +81,10 @@ class DataSelect(pn.viewable.Viewer):
             ret[date][path] = info
         return ret
 
-    def __panel__(self):
+    def __panel__(self) -> Any:
         return self.layout
 
-    def __init__(self, data_root, size=15):
+    def __init__(self, data_root: Any, size: int = 15) -> None:
         super().__init__()
 
         self.size = size
@@ -174,12 +174,12 @@ class DataSelect(pn.viewable.Viewer):
         self.handler = Handler(self.update_group_options)
         self.start()
 
-    def start(self):
+    def start(self) -> None:
         self.observer.schedule(self.handler, self.DIRECTORY_TO_WATCH, recursive=True)
         self.observer.start()
 
     @pn.depends("_group_select_widget.value")
-    def data_select(self):
+    def data_select(self) -> Any:
         # setup global variables for search function
         active_search = False
         r = re.compile(".*")
@@ -197,7 +197,9 @@ class DataSelect(pn.viewable.Viewer):
         self._data_select_widget.options = opts
         return self._data_select_widget
 
-    def get_data_options(self, active_search=True, r=re.compile(".*")):
+    def get_data_options(
+        self, active_search: bool = True, r: Any = re.compile(".*")
+    ) -> Any:
         if isinstance(r, str):
             r = re.compile(r)
         opts = OrderedDict()
@@ -222,7 +224,7 @@ class DataSelect(pn.viewable.Viewer):
         return opts
 
     @pn.depends("_data_select_widget.value")
-    def info_panel(self):
+    def info_panel(self) -> Any:
         path = self._data_select_widget.value
         # Setup data preview panel
         if path is not None:
@@ -272,12 +274,12 @@ class DataSelect(pn.viewable.Viewer):
         return self.lbl
 
     @pn.depends("text_input.value_input")
-    def text_input_repeater(self):
+    def text_input_repeater(self) -> Any:
         self.typed_value.value = f"Current Search: {self.text_input.value_input}"
         self.search_term = self.text_input.value_input
         return self.typed_value
 
-    def update_group_options(self, event):
+    def update_group_options(self, event: Any) -> None:
         # Refresh self.data_sets
         new_data_set = self.group_data(find_data(root=self.data_root))
         # Repull data group options
@@ -311,7 +313,7 @@ class LoaderNodeBase(Node):
     Each subclass must implement ``LoaderNodeBase.load_data``.
     """
 
-    def __init__(self, path=Path("."), *args: Any, **kwargs: Any):
+    def __init__(self, path: Any = Path("."), *args: Any, **kwargs: Any) -> None:
         """Constructor for ``LoaderNode``.
 
         Parameters
@@ -338,13 +340,13 @@ class LoaderNodeBase(Node):
             value="None",
             width=80,
         )
-        self.task = None
+        self.task: Any = None
 
         # Determines if save_buttons need to be disabled. Must be run early
         # to avoid an 'attribute does not exist' error.
         self.disable_buttons = not self.can_save()
 
-        super().__init__(path=path, *args, **kwargs)
+        super().__init__(path, *args, **kwargs)
 
         # Store whether or not each graph type can be saved as html/png.
         # Must be created before plot_col column
@@ -465,12 +467,12 @@ class LoaderNodeBase(Node):
             self.plot_type_select.value = save_val
 
     @pn.depends("data_out", "plot_type_select.value")
-    def plot_obj(self):
+    def plot_obj(self) -> Any:
         ret = super().plot_obj()
         self.toggle_save_buttons()
         return ret
 
-    def can_save(self):
+    def can_save(self) -> bool:
         # Returns TRUE is the necessary packages for saving html and images are installed
         # Returns FALSE and prints a notice about the uninstalled packages otherwise
 
@@ -498,7 +500,7 @@ class LoaderNodeBase(Node):
         has_packages = True
         return has_packages
 
-    def toggle_save_buttons(self):
+    def toggle_save_buttons(self) -> None:
         if (self.disable_buttons) or (self.file_path == ""):
             # If the packages aren't installed, keep button disabled
             # If no file is selected, keep button disabled
@@ -508,15 +510,15 @@ class LoaderNodeBase(Node):
         self.html_button.disabled = _disabled
         self.png_button.disabled = _disabled
 
-    def save_html(self, *events: param.parameterized.Event):
+    def save_html(self, *events: param.parameterized.Event) -> None:
         if isinstance(self._plot_obj, PlotNode):
             file_name = add_end_number_to_repeated_file(
                 self.file_path.parent / f"{self.file_path.parent.name}.html"
             )
             hvplot.save(self._plot_obj.get_plot(), file_name)
 
-    def save_png(self, *events: param.parameterized.Event):
-        def save_p(p, suffix=""):
+    def save_png(self, *events: param.parameterized.Event) -> None:
+        def save_p(p: Any, suffix: str = "") -> None:
             path = add_end_number_to_repeated_file(
                 self.file_path.parent.joinpath(
                     f"{self.file_path.parent.name}{suffix}.png"
@@ -552,11 +554,11 @@ class LoaderNodeBase(Node):
                 save_p(plot)
 
     @pn.depends("info_label.value")
-    def display_info(self):
+    def display_info(self) -> Any:
         return self.info_label
 
     @pn.depends("refresh.value", watch=True)
-    def on_refresh_changed(self):
+    def on_refresh_changed(self) -> None:
         if self.refresh.value is None:
             self.task = None
 
@@ -564,7 +566,7 @@ class LoaderNodeBase(Node):
             if self.task is None:
                 self.task = asyncio.ensure_future(self.run_auto_refresh())
 
-    async def run_auto_refresh(self):
+    async def run_auto_refresh(self) -> None:
         while self.refresh.value is not None:
             await asyncio.sleep(self.refresh.value)
             asyncio.run(self.load_and_preprocess())
@@ -611,7 +613,7 @@ class DDH5LoaderNode(LoaderNodeBase):
         super().__init__(path, *args, **kwargs)
         self.file_path = path
 
-    def load_data(self) -> DataDict:
+    def load_data(self) -> Any:
         """
         Load data from the file location specified
         """

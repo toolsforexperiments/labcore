@@ -24,7 +24,7 @@ from typing import Union
 
 import numpy as np
 
-from ..data.datadict import str2dd
+from ..data.datadict import DataDict, str2dd
 
 angle = np.pi / 2
 amp = 2.0
@@ -79,12 +79,14 @@ def probability_data(p_e: float, n: int = 100) -> np.ndarray:
     return state_data(state)
 
 
-def rabi(Omega_0, Delta, t):
+def rabi(Omega_0: float, Delta: float, t: float) -> float:
     Omega = (Omega_0**2 + Delta**2) ** 0.5
     return (Omega_0 / Omega) ** 2 * (1.0 - np.cos(Omega * t)) / 2.0
 
 
-def chevron_dataset(Omega_0, Delta_vals, t_vals, n):
+def chevron_dataset(
+    Omega_0: float, Delta_vals: np.ndarray, t_vals: np.ndarray, n: int
+) -> DataDict:
     data = str2dd("signal(repetition, detuning, time); detuning[Hz]; time[s];")
     for i, Delta in enumerate(Delta_vals):
         for j, t in enumerate(t_vals):

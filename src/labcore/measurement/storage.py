@@ -23,7 +23,7 @@ import pickle
 import shutil
 import time
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 
@@ -93,7 +93,7 @@ def _save_dictionary(dict: Dict, filepath: str) -> None:
         json.dump(dict, f, indent=2, sort_keys=True, cls=NumpyEncoder)
 
 
-def _pickle_and_save(obj, filepath: str) -> None:
+def _pickle_and_save(obj: Any, filepath: str) -> None:
     try:
         with open(filepath, "wb") as f:
             pickle.dump(obj, f)
@@ -102,7 +102,7 @@ def _pickle_and_save(obj, filepath: str) -> None:
 
 
 class NumpyEncoder(json.JSONEncoder):
-    def default(self, obj):
+    def default(self, obj: Any) -> Any:
         if isinstance(obj, np.ndarray):
             return obj.tolist()
         return json.JSONEncoder.default(self, obj)
@@ -114,11 +114,11 @@ def run_and_save_sweep(
     name: str,
     ignore_all_None_results: bool = True,
     save_action_kwargs: bool = False,
-    add_timestamps=False,
+    add_timestamps: bool = False,
     archive_files: Optional[List[str]] = None,
     return_data: bool = False,
     safe_write_mode: bool = False,
-    **extra_saving_items,
+    **extra_saving_items: Any,
 ) -> Tuple[Union[str, Path], Optional[DataDict]]:
     """
     Iterates through a sweep, saving the data coming through it into a file called <name> at <data_dir> directory.
@@ -155,6 +155,7 @@ def run_and_save_sweep(
         data_dict, data_dir, name=name, safe_write_mode=safe_write_mode
     ) as writer:
         # Saving meta-data
+        assert writer.filepath is not None
         dir: Path = writer.filepath.parent
         if add_timestamps:
             t = time.localtime()
