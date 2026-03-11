@@ -265,7 +265,7 @@ def plot_fit_1d(ds, name):
 
 # color management tools
 def get_color_cycle(n, colormap, start=0.0, stop=1.0, format="hex"):
-    if type(colormap) == str:
+    if isinstance(colormap, str):
         colormap = getattr(cm, colormap)
 
     pts = np.linspace(start, stop, n)
@@ -308,18 +308,18 @@ def correctly_sized_figure(
     hsum = sum(heights)
     nrows = len(heights)
     ncols = len(widths)
-    if type(margins) == list:
-        l, r, t, b = margins
+    if isinstance(margins, list):
+        lm, r, t, b = margins
     else:
-        l = r = t = b = margins
+        lm = r = t = b = margins
 
-    figw = wsum + (ncols - 1) * dw + l + r
+    figw = wsum + (ncols - 1) * dw + lm + r
     figh = hsum + (nrows - 1) * dh + t + b
 
     # margins in fraction of the figure
     top = 1.0 - t / figh
     bottom = b / figh
-    left = l / figw
+    left = lm / figw
     right = 1.0 - r / figw
 
     # subplot spacing in fraction of the subplot size
@@ -422,9 +422,9 @@ def add_legend(
     if len(labels_and_handles) > 0:
         handles = []
         labels = []
-        for l, h in labels_and_handles.items():
+        for lbl, h in labels_and_handles.items():
             handles.append(h)
-            labels.append(l)
+            labels.append(lbl)
         ax.legend(
             handles,
             labels,

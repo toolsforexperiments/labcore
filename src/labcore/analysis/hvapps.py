@@ -5,22 +5,17 @@ from collections import OrderedDict
 import logging
 
 import asyncio
+import re
 import nest_asyncio
-
-nest_asyncio.apply()
-
 import hvplot
 import holoviews as hv
-
-from bokeh.io.export import export_png
 import pandas
 import param
 import panel as pn
+from bokeh.io.export import export_png
 from panel.widgets import RadioButtonGroup as RBG, Select
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-
-import re
 
 from ..data.datadict_storage import find_data, timestamp_from_path, datadict_from_hdf5
 from ..data.datadict import (
@@ -31,6 +26,8 @@ from ..data.datadict import (
 )
 from ..utils.misc import add_end_number_to_repeated_file
 from .hvplotting import Node, labeled_widget, PlotNode
+
+nest_asyncio.apply()
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +67,7 @@ class DataSelect(pn.viewable.Viewer):
 
     @staticmethod
     def label2date(label):
-        return tuple(int(l) for l in label[:10].split("-"))
+        return tuple(int(part) for part in label[:10].split("-"))
 
     @staticmethod
     def group_data(data_list):

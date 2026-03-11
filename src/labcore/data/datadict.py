@@ -1636,7 +1636,7 @@ def datasets_are_equal(
     :returns: ``True`` or ``False``.
     """
 
-    if not type(a) == type(b):
+    if type(a) is not type(b):
         return False
 
     if not a.same_structure(a, b):

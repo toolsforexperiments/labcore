@@ -2,12 +2,11 @@ import argparse
 import logging
 from pathlib import Path
 
-
 import panel as pn
 
-pn.extension()
-
 from labcore.analysis.hvapps import DataSelect, DDH5LoaderNode
+
+pn.extension() # noqa: E402
 
 logger = logging.getLogger(__file__)
 

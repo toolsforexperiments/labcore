@@ -279,9 +279,9 @@ class DatasetAnalysis:
                         try:
                             n = name + f"_{str(type(element))}"
                             fp = self.save_pickle(element, n, folder)
-                        except:
+                        except Exception:
                             logger.error(f"Could not pickle {name}.")
-                except:
+                except Exception:
                     logger.warning(
                         f"data '{name}', type {type(element)}"
                         f"could not be saved regularly, try pickle instead..."
@@ -289,7 +289,7 @@ class DatasetAnalysis:
                     try:
                         n = name + f"_{str(type(element))}"
                         fp = self.save_pickle(element, n, folder)
-                    except:
+                    except Exception:
                         logger.error(f"Could not pickle {name}.")
 
                 if fp is not None:

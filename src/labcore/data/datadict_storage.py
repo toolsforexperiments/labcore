@@ -91,7 +91,7 @@ def h5ify(obj: Any) -> Any:
         if not all_string:
             obj = np.array(obj)
 
-    if type(obj) == np.ndarray and obj.dtype.kind == "U":
+    if type(obj) is np.ndarray and obj.dtype.kind == "U":
         return np.char.encode(obj, encoding="utf8")
 
     return obj
@@ -103,10 +103,10 @@ def deh5ify(obj: Any) -> Any:
     :param obj: Input object.
     :return: Object
     """
-    if type(obj) == bytes:
+    if type(obj) is bytes:
         return obj.decode()
 
-    if type(obj) == np.ndarray and obj.dtype.kind == "S":
+    if type(obj) is np.ndarray and obj.dtype.kind == "S":
         return np.char.decode(obj)
 
     return obj
