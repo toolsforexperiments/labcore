@@ -8,33 +8,33 @@ Provides file-storage tools for the DataDict class.
     crashes. If the process is suddenly stopped however, we cannot guarantee that the file lock will be deleted.
 """
 
-import os
-import logging
-import time
 import datetime
-import uuid
 import json
-import shutil
+import logging
+import os
 import re
+import shutil
+import time
+import uuid
 from enum import Enum
-from typing import Any, Union, Optional, Dict, Type, Collection, List
-from types import TracebackType
 from pathlib import Path
+from types import TracebackType
+from typing import Any, Collection, Dict, List, Optional, Type, Union
 
-import numpy as np
 import h5py
+import numpy as np
 import xarray as xr
 
-from .tools import split_complex
 from .datadict import (
     DataDict,
-    is_meta_key,
     DataDictBase,
-    dd2xr,
     datadict_to_meshgrid,
-    dd2df,
     datasets_are_equal,
+    dd2df,
+    dd2xr,
+    is_meta_key,
 )
+from .tools import split_complex
 
 __author__ = "Wolfgang Pfaff"
 __license__ = "MIT"

@@ -1,9 +1,9 @@
-from typing import Tuple, Any, Optional, Union, Dict, List, Type
 from collections import OrderedDict
 from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple, Type, Union
 
-import numpy as np
 import lmfit
+import numpy as np
 import xarray as xr
 
 

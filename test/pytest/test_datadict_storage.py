@@ -5,16 +5,16 @@ import pytest
 
 from labcore.data.datadict import DataDict, datasets_are_equal
 from labcore.data.datadict_storage import (
-    datadict_to_hdf5,
-    datadict_from_hdf5,
-    h5ify,
-    deh5ify,
     AppendMode,
     DDH5Writer,
-    load_as_xr,
-    load_as_df,
-    find_data,
     all_datadicts_from_hdf5,
+    datadict_from_hdf5,
+    datadict_to_hdf5,
+    deh5ify,
+    find_data,
+    h5ify,
+    load_as_df,
+    load_as_xr,
     most_recent_data_path,
 )
 
@@ -115,8 +115,8 @@ def test_ddh5writer_data_persisted_incrementally(tmp_path):
 def test_ddh5writer_file_structure(tmp_path):
     """DDH5Writer creates <basedir>/YYYY-MM-DD/<timestamp>-<name>/data.ddh5 structure.
     Three writers with the same name each get a separate subdirectory with a correct timestamp."""
-    import re
     import datetime
+    import re
 
     dd = DataDict(x=dict(unit="m"), z=dict(axes=["x"]))
 

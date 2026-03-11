@@ -1,10 +1,10 @@
 
-from labcore.measurement.record import record_as, recording, independent, dep
+from labcore.measurement.record import dep, independent, record_as, recording
 from labcore.measurement.sweep import (
     Sweep,
-    sweep_parameter,
-    once,
     as_pointer,
+    once,
+    sweep_parameter,
 )
 
 

@@ -1,16 +1,14 @@
-from typing import List, Optional, Any, Dict
 import logging
-
-import numpy as np
+from typing import Any, Dict, List, Optional
 
 import matplotlib as mpl
-from matplotlib import pyplot as plt
-from matplotlib import gridspec, cm, ticker
-from matplotlib.colors import rgb2hex
+import numpy as np
 import seaborn as sns
+from matplotlib import cm, gridspec, ticker
+from matplotlib import pyplot as plt
+from matplotlib.colors import rgb2hex
 
 from .fit import fit_and_add_to_ds
-
 
 logger = logging.getLogger(__name__)
 

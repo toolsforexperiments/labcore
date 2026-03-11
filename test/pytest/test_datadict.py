@@ -5,11 +5,11 @@ import pytest
 
 from labcore.data.datadict import (
     DataDict,
+    combine_datadicts,
+    datadict_to_meshgrid,
+    datasets_are_equal,
     dd2df,
     dd2xr,
-    datadict_to_meshgrid,
-    combine_datadicts,
-    datasets_are_equal,
 )
 
 

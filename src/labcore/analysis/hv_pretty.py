@@ -1,8 +1,9 @@
-import seaborn as sns
+from pathlib import Path
+
 import holoviews as hv
 import hvplot
+import seaborn as sns
 from PIL import Image
-from pathlib import Path
 
 hv.extension("bokeh")
 

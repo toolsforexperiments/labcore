@@ -1,31 +1,32 @@
+import asyncio
+import logging
+import re
+from collections import OrderedDict
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Union
-from collections import OrderedDict
-import logging
 
-import asyncio
-import re
-import nest_asyncio
-import hvplot
 import holoviews as hv
+import hvplot
+import nest_asyncio
 import pandas
-import param
 import panel as pn
+import param
 from bokeh.io.export import export_png
-from panel.widgets import RadioButtonGroup as RBG, Select
-from watchdog.observers import Observer
+from panel.widgets import RadioButtonGroup as RBG
+from panel.widgets import Select
 from watchdog.events import FileSystemEventHandler
+from watchdog.observers import Observer
 
-from ..data.datadict_storage import find_data, timestamp_from_path, datadict_from_hdf5
 from ..data.datadict import (
     DataDict,
-    dd2df,
     datadict_to_meshgrid,
+    dd2df,
     dd2xr,
 )
+from ..data.datadict_storage import datadict_from_hdf5, find_data, timestamp_from_path
 from ..utils.misc import add_end_number_to_repeated_file
-from .hvplotting import Node, labeled_widget, PlotNode
+from .hvplotting import Node, PlotNode, labeled_widget
 
 nest_asyncio.apply()
 

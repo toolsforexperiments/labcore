@@ -2,16 +2,16 @@ import pytest
 
 from labcore.measurement.record import (
     DataType,
-    independent,
-    dependent,
-    dep,
-    make_data_spec,
-    combine_data_specs,
-    record_as,
-    recording,
-    produces_record,
     FunctionToRecords,
     IteratorToRecords,
+    combine_data_specs,
+    dep,
+    dependent,
+    independent,
+    make_data_spec,
+    produces_record,
+    record_as,
+    recording,
 )
 
 

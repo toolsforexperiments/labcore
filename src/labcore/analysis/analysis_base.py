@@ -1,23 +1,21 @@
-from typing import Optional, Type, Any, Dict, List
-from types import TracebackType
-from pathlib import Path
-from datetime import datetime
 import json
 import logging
 import pickle
-
-import numpy as np
-from matplotlib.figure import Figure
-from matplotlib import pyplot as plt
-import xarray as xr
-import pandas as pd
+from datetime import datetime
+from pathlib import Path
+from types import TracebackType
+from typing import Any, Dict, List, Optional, Type
 
 # Needed to generate hvplot from a script
 import holoviews as hv
+import numpy as np
+import pandas as pd
+import xarray as xr
+from matplotlib import pyplot as plt
+from matplotlib.figure import Figure
 
 from ..data.datadict_storage import NumpyEncoder, timestamp_from_path
 from .fit import AnalysisResult, FitResult
-
 
 logger = logging.getLogger(__name__)
 

@@ -1,13 +1,13 @@
 import os
 import shutil
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
 from labcore.data.datadict import DataDict, datasets_are_equal
 from labcore.data.datadict_storage import (
     DDH5Writer,
-    datadict_to_hdf5,
     datadict_from_hdf5,
+    datadict_to_hdf5,
 )
 
 # TODO: Add a test to see what would happen if the tmp folder gets removed mid way

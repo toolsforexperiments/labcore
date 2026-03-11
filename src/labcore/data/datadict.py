@@ -4,18 +4,18 @@ datadict.py :
 Data classes we use throughout the plottr package, and tools to work on them.
 """
 
-import warnings
 import copy as cp
-import re
 import logging
+import re
+import warnings
+from functools import reduce
+from typing import Any, Dict, Iterator, List, Optional, Sequence, Tuple, TypeVar, Union
+
+import numpy as np
 import pandas as pd
 import xarray as xr
-import numpy as np
-from functools import reduce
-from typing import List, Tuple, Dict, Sequence, Union, Any, Iterator, Optional, TypeVar
 
-from labcore.utils import num, misc
-
+from labcore.utils import misc, num
 
 __author__ = "Wolfgang Pfaff"
 __license__ = "MIT"

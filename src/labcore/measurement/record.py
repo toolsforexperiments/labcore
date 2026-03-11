@@ -1,11 +1,11 @@
-from dataclasses import dataclass
-from typing import Iterable, List, Callable, Iterator, Tuple, Union, Any, Dict
-import inspect
-from functools import update_wrapper
-import copy
 import collections
-from enum import Enum
+import copy
+import inspect
 import logging
+from dataclasses import dataclass
+from enum import Enum
+from functools import update_wrapper
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Tuple, Union
 
 try:
     from qcodes import Parameter as QCParameter
@@ -16,7 +16,6 @@ except ImportError:
     QCODES_PRESENT = False
 
 from ..utils.misc import map_input_to_signature
-
 
 logger = logging.getLogger(__name__)
 

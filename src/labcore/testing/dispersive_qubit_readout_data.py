@@ -21,10 +21,10 @@ Readout settings can be changed through module-level variables:
 """
 
 from typing import Union
+
 import numpy as np
 
 from ..data.datadict import str2dd
-
 
 angle = np.pi / 2
 amp = 2.0

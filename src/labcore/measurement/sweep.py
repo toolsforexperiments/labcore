@@ -1,18 +1,18 @@
+import collections
+import copy
 import itertools
+import logging
+from functools import partial, update_wrapper
 from typing import (
-    Iterable,
-    Callable,
-    Union,
-    Tuple,
     Any,
-    Optional,
+    Callable,
     Dict,
     Generator,
+    Iterable,
+    Optional,
+    Tuple,
+    Union,
 )
-import collections
-import logging
-from functools import update_wrapper, partial
-import copy
 
 try:
     from qcodes import Parameter as QCParameter
@@ -22,22 +22,21 @@ except ImportError:
     QCParameter = None
     QCODES_PRESENT = False
 
+from ..utils.misc import indent_text
 from .record import (
-    produces_record,
     DataSpec,
-    IteratorToRecords,
+    DataSpecCreationType,
     DataSpecFromTupleType,
-    record_as,
+    FunctionToRecords,
+    IteratorToRecords,
     combine_data_specs,
+    data_specs_label,
     independent,
     make_data_spec,
-    data_specs_label,
-    DataSpecCreationType,
-    FunctionToRecords,
     map_input_to_signature,
+    produces_record,
+    record_as,
 )
-from ..utils.misc import indent_text
-
 
 logger = logging.getLogger(__name__)
 

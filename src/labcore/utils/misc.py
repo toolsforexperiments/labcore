@@ -3,14 +3,14 @@
 Various utility functions.
 """
 
+import inspect
 import logging
 from enum import Enum
-from pathlib import Path
 from importlib.metadata import distributions
-from typing import List, Tuple, TypeVar, Optional, Sequence, Any, Callable, Union
-import inspect
+from pathlib import Path
+from typing import Any, Callable, List, Optional, Sequence, Tuple, TypeVar, Union
 
-from git import Repo, InvalidGitRepositoryError
+from git import InvalidGitRepositoryError, Repo
 
 logger = logging.getLogger(__name__)
 

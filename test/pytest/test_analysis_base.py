@@ -8,7 +8,7 @@ import pandas as pd
 import pytest
 import xarray as xr
 
-from labcore.analysis.analysis_base import DatasetAnalysis, AnalysisExistsError
+from labcore.analysis.analysis_base import AnalysisExistsError, DatasetAnalysis
 
 
 def test_init_savefolder_structure(tmp_path):

@@ -1,9 +1,8 @@
-from typing import Union, Optional
+from typing import Optional, Union
 
 import numpy as np
 import pandas as pd
 import xarray as xr
-
 
 Data = Union[xr.Dataset, pd.DataFrame]
 """Type alias for valid data. Can be either a pandas DataFrame or an xarray Dataset."""

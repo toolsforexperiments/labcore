@@ -3,12 +3,11 @@ Reconstructs the safe write data from a .tmp folder and saves it to a ddh5 file.
 Meant to be a backup way of reconstructing data if something goes wrong.
 """
 
-import logging
 import argparse
+import logging
 from pathlib import Path
 
-from labcore.data.datadict_storage import reconstruct_safe_write_data, datadict_to_hdf5
-
+from labcore.data.datadict_storage import datadict_to_hdf5, reconstruct_safe_write_data
 
 logger = logging.getLogger(__name__)
 

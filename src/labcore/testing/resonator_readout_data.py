@@ -1,4 +1,5 @@
 import numpy as np
+
 from labcore.data.datadict import str2dd
 
 # Define constants and parameters

@@ -15,21 +15,20 @@ data keys are given exactly like in the DataDict, i.e., incl the double
 underscore pre- and suffix.
 """
 
-import os
-import time
-from typing import Union, Optional, Dict, List, Tuple
-from pathlib import Path
+import glob
 import json
+import logging
+import os
 import pickle
 import shutil
-import glob
-import logging
+import time
+from pathlib import Path
+from typing import Dict, List, Optional, Tuple, Union
 
 import numpy as np
 
 from ..data.datadict import DataDict
 from ..data.datadict_storage import DDH5Writer
-
 from .sweep import Sweep
 
 __author__ = "Wolfgang Pfaff"
