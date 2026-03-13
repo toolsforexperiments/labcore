@@ -2,20 +2,20 @@ import logging
 from pathlib import Path
 
 from labcore.protocols.base import (
-    ProtocolBase,
-    SuperOperationBase,
-    OperationStatus,
     BranchBase,
     Condition,
+    OperationStatus,
+    ProtocolBase,
+    SuperOperationBase,
 )
-from labcore.testing.protocol_dummy.gaussian import GaussianOperation
 from labcore.testing.protocol_dummy.cosine import CosineOperation
 from labcore.testing.protocol_dummy.exponential import ExponentialOperation
 from labcore.testing.protocol_dummy.exponential_decay import ExponentialDecayOperation
-from labcore.testing.protocol_dummy.linear import LinearOperation
 from labcore.testing.protocol_dummy.exponentially_decaying_sine import (
     ExponentiallyDecayingSineOperation,
 )
+from labcore.testing.protocol_dummy.gaussian import GaussianOperation
+from labcore.testing.protocol_dummy.linear import LinearOperation
 
 logger = logging.getLogger(__name__)
 

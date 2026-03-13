@@ -1,20 +1,19 @@
 import logging
 from pathlib import Path
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 plt.switch_backend("agg")
 
 from labcore.analysis import DatasetAnalysis
 from labcore.analysis.fitfuncs.generic import Linear
-from labcore.measurement.sweep import Sweep
-from labcore.measurement.record import independent, dependent, recording
-from labcore.measurement.storage import run_and_save_sweep
 from labcore.data.datadict_storage import datadict_from_hdf5
-
-from labcore.protocols.base import ProtocolOperation, ParamImprovement, OperationStatus
-from labcore.testing.protocol_dummy.parameters import LinearSlope, LinearOffset
+from labcore.measurement.record import dependent, independent, recording
+from labcore.measurement.storage import run_and_save_sweep
+from labcore.measurement.sweep import Sweep
+from labcore.protocols.base import OperationStatus, ParamImprovement, ProtocolOperation
+from labcore.testing.protocol_dummy.parameters import LinearOffset, LinearSlope
 
 logger = logging.getLogger(__name__)
 

@@ -27,7 +27,6 @@ from labcore.protocols.base import (
     SuperOperationBase,
 )
 
-
 # ---------------------------------------------------------------------------
 # Fixture: DUMMY platform for all tests, restored after each
 # ---------------------------------------------------------------------------

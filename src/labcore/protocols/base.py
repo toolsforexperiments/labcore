@@ -9,7 +9,6 @@ import markdown
 import numpy as np
 from numpy.typing import ArrayLike
 
-
 logger = logging.getLogger(__name__)
 
 

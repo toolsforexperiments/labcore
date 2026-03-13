@@ -16,23 +16,24 @@ import numpy as np
 import pytest
 
 import labcore.protocols.base as proto_base
+import labcore.testing.protocol_dummy.dummy_protocol as _dp_module
+from labcore.measurement.record import dependent, independent, recording
+from labcore.measurement.storage import run_and_save_sweep
+from labcore.measurement.sweep import Sweep
 from labcore.protocols.base import (
     BranchBase,
-    ProtocolBase,
     PlatformTypes,
+    ProtocolBase,
 )
-from labcore.measurement.sweep import Sweep
-from labcore.measurement.record import independent, dependent, recording
-from labcore.measurement.storage import run_and_save_sweep
-
+from labcore.testing.protocol_dummy import (
+    CosineOperation,
+    DummyProtocol,
+    DummySuperOperation,
+    ExponentialDecayOperation,
+    ExponentialOperation,
+    LinearOperation,
+)
 from labcore.testing.protocol_dummy.gaussian import GaussianOperation
-from labcore.testing.protocol_dummy import ExponentialOperation
-from labcore.testing.protocol_dummy import ExponentialDecayOperation
-from labcore.testing.protocol_dummy import CosineOperation
-from labcore.testing.protocol_dummy import LinearOperation
-import labcore.testing.protocol_dummy.dummy_protocol as _dp_module
-from labcore.testing.protocol_dummy import DummyProtocol, DummySuperOperation
-
 
 # ---------------------------------------------------------------------------
 # Fixtures
