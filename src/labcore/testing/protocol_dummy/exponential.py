@@ -4,8 +4,6 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-plt.switch_backend("agg")
-
 from labcore.analysis import DatasetAnalysis
 from labcore.analysis.fitfuncs.generic import Exponential
 from labcore.data.datadict_storage import datadict_from_hdf5
@@ -14,6 +12,8 @@ from labcore.measurement.storage import run_and_save_sweep
 from labcore.measurement.sweep import Sweep
 from labcore.protocols.base import OperationStatus, ParamImprovement, ProtocolOperation
 from labcore.testing.protocol_dummy.parameters import ExponentialA, ExponentialB
+
+plt.switch_backend("agg")
 
 logger = logging.getLogger(__name__)
 
@@ -94,7 +94,6 @@ class ExponentialOperation(ProtocolOperation):
 
             # Calculate SNR
             # For exponential, use relative noise (residuals/signal) to avoid bias from growth
-            a_value = self.fit_result.params["a"].value
             relative_residuals = residuals / fit_curve
             relative_noise = np.std(relative_residuals)
             self.snr = np.abs(1 / (4 * relative_noise))

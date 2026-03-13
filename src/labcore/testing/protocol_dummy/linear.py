@@ -4,8 +4,6 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-plt.switch_backend("agg")
-
 from labcore.analysis import DatasetAnalysis
 from labcore.analysis.fitfuncs.generic import Linear
 from labcore.data.datadict_storage import datadict_from_hdf5
@@ -14,6 +12,8 @@ from labcore.measurement.storage import run_and_save_sweep
 from labcore.measurement.sweep import Sweep
 from labcore.protocols.base import OperationStatus, ParamImprovement, ProtocolOperation
 from labcore.testing.protocol_dummy.parameters import LinearOffset, LinearSlope
+
+plt.switch_backend("agg")
 
 logger = logging.getLogger(__name__)
 
@@ -91,7 +91,6 @@ class LinearOperation(ProtocolOperation):
 
             # Calculate SNR
             # Use relative noise to avoid bias from y-value range
-            slope = self.fit_result.params["m"].value
             signal_range = np.max(np.abs(fit_curve)) - np.min(np.abs(fit_curve))
             noise = np.std(residuals)
             # SNR based on noise relative to signal range

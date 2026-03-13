@@ -4,8 +4,6 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-plt.switch_backend("agg")
-
 from labcore.analysis import DatasetAnalysis
 from labcore.analysis.fitfuncs.generic import Cosine
 from labcore.data.datadict_storage import datadict_from_hdf5
@@ -19,6 +17,8 @@ from labcore.testing.protocol_dummy.parameters import (
     CosineOffset,
     CosinePhase,
 )
+
+plt.switch_backend("agg")
 
 logger = logging.getLogger(__name__)
 

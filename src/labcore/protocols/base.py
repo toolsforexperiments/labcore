@@ -590,13 +590,13 @@ class ProtocolBase:
         for op in all_ops:
             for param_name, param in op.input_params.items():
                 try:
-                    val = param()  # Use callable syntax to verify parameter access
+                    param()  # Use callable syntax to verify parameter access
                 except Exception as e:
                     failures[param.name] = e
 
             for param_name, param in op.output_params.items():
                 try:
-                    val = param()  # Use callable syntax to verify parameter access
+                    param()  # Use callable syntax to verify parameter access
                 except Exception as e:
                     failures[param.name] = e
 
