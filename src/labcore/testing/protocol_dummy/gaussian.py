@@ -1,10 +1,12 @@
 import logging
 from pathlib import Path
+from typing import Any, cast
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 from labcore.analysis import DatasetAnalysis
+from labcore.analysis.fit import FitResult
 from labcore.analysis.fitfuncs.generic import Gaussian
 from labcore.data.datadict_storage import datadict_from_hdf5
 from labcore.measurement.record import dependent, independent, recording
@@ -26,23 +28,23 @@ logger = logging.getLogger(__name__)
 class GaussianOperation(ProtocolOperation):
     SNR_THRESHOLD = 2
 
-    def __init__(self, params=None):
+    def __init__(self, params: Any = None) -> None:
         super().__init__()
 
-        self._register_inputs(
-            center=GaussianCenter(None),
-            sigma=GaussianSigma(None),
-            offset=GaussianOffset(None),
-        )
-        self._register_outputs(amplitude=GaussianAmplitude(None))
+        self.center: GaussianCenter
+        self.sigma: GaussianSigma
+        self.offset: GaussianOffset
+        self._register_inputs(center=GaussianCenter(params), sigma=GaussianSigma(params), offset=GaussianOffset(params))
+        self.amplitude: GaussianAmplitude
+        self._register_outputs(amplitude=GaussianAmplitude(params))
 
         self.condition = f"Success if the SNR of the Gaussian fit is bigger than the current threshold of {self.SNR_THRESHOLD}"
 
         self.independents = {"x_values": []}
         self.dependents = {"y_values": []}
 
-        self.fit_result = None
-        self.snr = None
+        self.fit_result: FitResult | None = None
+        self.snr: float | None = None
 
     def _measure_dummy(self) -> Path:
         """
@@ -60,7 +62,7 @@ class GaussianOperation(ProtocolOperation):
         x_values = np.linspace(-10, 10, 100)
 
         @recording(independent("x"), dependent("y"))
-        def measure_gaussian(x_val):
+        def measure_gaussian(x_val: float) -> tuple[float, float]:
             """Generate a single Gaussian data point with noise"""
             y_clean = true_amplitude * np.exp(
                 -((x_val - true_center) ** 2) / (2 * true_sigma**2)
@@ -75,10 +77,11 @@ class GaussianOperation(ProtocolOperation):
         loc, data_array = run_and_save_sweep(sweep, "data", self.name)
         logger.info(f"Measurement complete, data saved to {loc}")
 
-        return loc
+        return Path(loc)
 
-    def _load_data_dummy(self):
+    def _load_data_dummy(self) -> None:
         """Load the generated fake data"""
+        assert self.data_loc is not None
         path = self.data_loc / "data.ddh5"
         if not path.exists():
             raise FileNotFoundError(f"File {path} does not exist")
@@ -87,22 +90,24 @@ class GaussianOperation(ProtocolOperation):
         self.independents["x_values"] = data["x"]["values"]
         self.dependents["y_values"] = data["y"]["values"]
 
-    def analyze(self):
+    def analyze(self) -> None:
         """Fit the data to a Gaussian"""
+        assert self.data_loc is not None
         with DatasetAnalysis(self.data_loc, self.name) as ds:
-            x = self.independents["x_values"]
-            y = self.dependents["y_values"]
+            x = np.asarray(self.independents["x_values"])
+            y = np.asarray(self.dependents["y_values"])
 
             # Perform Gaussian fit
             fit = Gaussian(x, y)
-            self.fit_result = fit.run()
+            self.fit_result = cast(FitResult, fit.run())
             fit_curve = self.fit_result.eval()
             residuals = y - fit_curve
 
             # Calculate SNR
             amplitude = self.fit_result.params["A"].value
             noise = np.std(residuals)
-            self.snr = np.abs(amplitude / (4 * noise))
+            snr = float(np.abs(amplitude / (4 * noise)))
+            self.snr = snr
 
             # Create plot
             fig, ax = plt.subplots()
@@ -115,7 +120,7 @@ class GaussianOperation(ProtocolOperation):
             ax.grid(True, alpha=0.3)
 
             # Save results
-            ds.add(fit_curve=fit_curve, fit_result=self.fit_result, snr=float(self.snr))
+            ds.add(fit_curve=fit_curve, fit_result=self.fit_result, snr=snr)
             ds.add_figure(self.name, fig=fig)
 
             image_path = ds._new_file_path(ds.savefolders[1], self.name, suffix="png")
@@ -134,6 +139,8 @@ class GaussianOperation(ProtocolOperation):
         )
         plot_image = self.figure_paths[0].resolve()
 
+        assert self.snr is not None
+        assert self.fit_result is not None
         if self.snr >= self.SNR_THRESHOLD:
             logger.info(
                 f"SNR of {self.snr} is bigger than threshold of {self.SNR_THRESHOLD}. Applying new values"

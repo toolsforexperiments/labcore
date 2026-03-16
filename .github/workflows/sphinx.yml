@@ -25,7 +25,7 @@ jobs:
     - name: Install system deps
       run: sudo apt-get update && sudo apt-get install -y pandoc
     - name: Install dependencies
-      run: uv sync --frozen --extra docs
+      run: uv sync --frozen --group docs
     - name: Build HTML
       run: uv run --directory docs -- make html
 

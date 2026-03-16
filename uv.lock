@@ -1523,12 +1523,13 @@ dependencies = [
     { name = "xarray" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "mypy" },
     { name = "pytest" },
     { name = "pytest-cov" },
     { name = "ruff" },
+    { name = "types-markdown" },
 ]
 docs = [
     { name = "h5py" },
@@ -1547,37 +1548,43 @@ requires-dist = [
     { name = "bokeh" },
     { name = "gitpython" },
     { name = "h5py" },
-    { name = "h5py", marker = "extra == 'docs'" },
     { name = "holoviews" },
     { name = "hvplot" },
-    { name = "ipykernel", marker = "extra == 'docs'" },
     { name = "jupyter-bokeh" },
     { name = "jupyterlab" },
-    { name = "linkify-it-py", marker = "extra == 'docs'" },
     { name = "lmfit" },
     { name = "matplotlib" },
-    { name = "mypy", marker = "extra == 'dev'" },
-    { name = "myst-nb", marker = "extra == 'docs'" },
-    { name = "myst-parser", marker = "extra == 'docs'" },
     { name = "nest-asyncio" },
     { name = "numpy" },
     { name = "pandas" },
-    { name = "pandoc", marker = "extra == 'docs'" },
     { name = "panel" },
     { name = "param" },
     { name = "pillow" },
-    { name = "pydata-sphinx-theme", marker = "extra == 'docs'" },
-    { name = "pytest", marker = "extra == 'dev'" },
-    { name = "pytest-cov", marker = "extra == 'dev'" },
     { name = "qcodes" },
     { name = "ruamel-yaml" },
-    { name = "ruff", marker = "extra == 'dev'" },
     { name = "seaborn" },
-    { name = "sphinx", marker = "extra == 'docs'" },
     { name = "watchdog" },
     { name = "xarray" },
 ]
-provides-extras = ["dev", "docs"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "mypy" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+    { name = "ruff" },
+    { name = "types-markdown", specifier = ">=3.10.2.20260211" },
+]
+docs = [
+    { name = "h5py" },
+    { name = "ipykernel" },
+    { name = "linkify-it-py" },
+    { name = "myst-nb" },
+    { name = "myst-parser" },
+    { name = "pandoc" },
+    { name = "pydata-sphinx-theme" },
+    { name = "sphinx" },
+]
 
 [[package]]
 name = "lark"
@@ -3582,6 +3589,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/eb/79/72064e6a701c2183016abbbfedaba506d81e30e232a68c9f0d6f6fcd1574/traitlets-5.14.3.tar.gz", hash = "sha256:9ed0579d3502c94b4b3732ac120375cda96f923114522847de4b3bb98b96b6b7", size = 161621, upload-time = "2024-04-19T11:11:49.746Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/00/c0/8f5d070730d7836adc9c9b6408dec68c6ced86b304a9b26a14df072a6e8c/traitlets-5.14.3-py3-none-any.whl", hash = "sha256:b74e89e397b1ed28cc831db7aea759ba6640cb3de13090ca145426688ff1ac4f", size = 85359, upload-time = "2024-04-19T11:11:46.763Z" },
+]
+
+[[package]]
+name = "types-markdown"
+version = "3.10.2.20260211"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6d/2e/35b30a09f6ee8a69142408d3ceb248c4454aa638c0a414d8704a3ef79563/types_markdown-3.10.2.20260211.tar.gz", hash = "sha256:66164310f88c11a58c6c706094c6f8c537c418e3525d33b76276a5fbd66b01ce", size = 19768, upload-time = "2026-02-11T04:19:29.497Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/54/c9/659fa2df04b232b0bfcd05d2418e683080e91ec68f636f3c0a5a267350e7/types_markdown-3.10.2.20260211-py3-none-any.whl", hash = "sha256:2d94d08587e3738203b3c4479c449845112b171abe8b5cadc9b0c12fcf3e99da", size = 25854, upload-time = "2026-02-11T04:19:28.647Z" },
 ]
 
 [[package]]

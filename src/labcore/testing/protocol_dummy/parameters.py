@@ -12,14 +12,14 @@ class _DummyParameterBase(ProtocolParameterBase):
     The stored value is initialised to ``0.0`` in ``__post_init__``.
     """
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         super().__post_init__()
         self._value: float = 0.0
 
-    def _dummy_getter(self):
+    def _dummy_getter(self) -> float:
         return self._value
 
-    def _dummy_setter(self, v):
+    def _dummy_setter(self, v: float) -> None:
         self._value = v
 
 

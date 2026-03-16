@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import base64
 import logging
 from dataclasses import dataclass
@@ -12,7 +14,7 @@ from numpy.typing import ArrayLike
 logger = logging.getLogger(__name__)
 
 
-def serialize_fit_params(params):
+def serialize_fit_params(params: Any) -> dict[str, dict[str, float | None]]:
     return {n: dict(value=v.value, error=v.stderr) for n, v in params.items()}
 
 
@@ -62,17 +64,17 @@ class ProtocolParameterBase:
 
     name: str
     # FIXME: this should be typed as ProxyInstrumentModule from instrumentserver,
-    # but labcore should not depend on that package. params is only stored and
-    # passed through here; hardware access lives in subclasses in the measurement
-    # repo. Retype to a structural Protocol or remove the dependency when cleaning
-    # up the migration.
+    #   but labcore should not depend on that package. params is only stored and
+    #   passed through here; hardware access lives in subclasses in the measurement
+    #   repo. Retype to a structural Protocol or remove the dependency when cleaning
+    #   up the migration.
     params: Any
     description: str
-    platform_type: PlatformTypes = PLATFORMTYPE
+    platform_type: PlatformTypes | None = PLATFORMTYPE
 
     # dataclasses defaults are evaluated at import time, not runtime.
     # This means we need to re-apply the PLATFORMTYPE when an instance is created
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.platform_type is None:
             self.platform_type = PLATFORMTYPE
 
@@ -82,7 +84,7 @@ class ProtocolParameterBase:
                 f"params argument is required for {self.platform_type} platform"
             )
 
-    def __call__(self, value=None):
+    def __call__(self, value: Any = None) -> Any:
         """
         QCoDeS-style parameter calling convention.
 
@@ -115,37 +117,37 @@ class ProtocolParameterBase:
                 f"Platform type {self.platform_type} not implemented"
             )
 
-    def _qick_getter(self):
+    def _qick_getter(self) -> Any:
         """Get parameter value for QICK platform. Subclasses must implement."""
         raise NotImplementedError(
             f"QICK getter not implemented for parameter '{self.name}'"
         )
 
-    def _qick_setter(self, value):
+    def _qick_setter(self, value: Any) -> None:
         """Set parameter value for QICK platform. Subclasses must implement."""
         raise NotImplementedError(
             f"QICK setter not implemented for parameter '{self.name}'"
         )
 
-    def _opx_getter(self):
+    def _opx_getter(self) -> Any:
         """Get parameter value for OPX platform. Subclasses must implement."""
         raise NotImplementedError(
             f"OPX getter not implemented for parameter '{self.name}'"
         )
 
-    def _opx_setter(self, value):
+    def _opx_setter(self, value: Any) -> None:
         """Set parameter value for OPX platform. Subclasses must implement."""
         raise NotImplementedError(
             f"OPX setter not implemented for parameter '{self.name}'"
         )
 
-    def _dummy_getter(self):
+    def _dummy_getter(self) -> Any:
         """Get parameter value for DUMMY platform. Subclasses must implement."""
         raise NotImplementedError(
             f"DUMMY getter not implemented for parameter '{self.name}'"
         )
 
-    def _dummy_setter(self, value):
+    def _dummy_setter(self, value: Any) -> None:
         """Set parameter value for DUMMY platform. Subclasses must implement."""
         raise NotImplementedError(
             f"DUMMY setter not implemented for parameter '{self.name}'"
@@ -163,10 +165,10 @@ class OperationStatus(Enum):
     RETRY = "retry"
     FAILURE = "failure"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.value
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"OperationStatus.{self.name}"
 
 
@@ -185,12 +187,12 @@ class ProtocolOperation:
 
     DEFAULT_MAX_ATTEMPTS = 3  # Default max retry attempts for operations
 
-    def __init__(self):
+    def __init__(self) -> None:
         global PLATFORMTYPE
 
         self.name = self.__class__.__name__
 
-        self.platform_type: PlatformTypes = PLATFORMTYPE
+        self.platform_type: PlatformTypes | None = PLATFORMTYPE
         self.data_loc: Path | None = None
 
         self.input_params: dict[str, ProtocolParameterBase] = {}
@@ -212,13 +214,13 @@ class ProtocolOperation:
         self.current_attempt: int = 0
         self.total_attempts_made: int = 0
 
-    def _register_inputs(self, **kwargs):
+    def _register_inputs(self, **kwargs: ProtocolParameterBase) -> None:
         """Register input parameters as both attributes and in the dictionary"""
         for name, param in kwargs.items():
             setattr(self, name, param)
             self.input_params[name] = param
 
-    def _register_outputs(self, **kwargs):
+    def _register_outputs(self, **kwargs: ProtocolParameterBase) -> None:
         """Register output parameters as both attributes and in the dictionary"""
         for name, param in kwargs.items():
             setattr(self, name, param)
@@ -272,7 +274,7 @@ class ProtocolOperation:
                 print(f"  {name}: {shape}")
             return False
 
-    def measure(self):
+    def measure(self) -> Path:
         match self.platform_type:
             case PlatformTypes.QICK:
                 loc = self._measure_qick()
@@ -288,19 +290,19 @@ class ProtocolOperation:
                 return loc
         raise NotImplementedError(f"Platform type {self.platform_type} not implemented")
 
-    def analyze(self):
+    def analyze(self) -> None:
         raise NotImplementedError("Analyze method not implemented")
 
-    def _load_data_opx(self):
+    def _load_data_opx(self) -> None:
         raise NotImplementedError("Load OPX data method not implemented")
 
-    def _load_data_qick(self):
+    def _load_data_qick(self) -> None:
         raise NotImplementedError("Load QICK data method not implemented")
 
-    def _load_data_dummy(self):
+    def _load_data_dummy(self) -> None:
         raise NotImplementedError("Load DUMMY data method not implemented")
 
-    def load_data(self):
+    def load_data(self) -> bool:
         match self.platform_type:
             case PlatformTypes.QICK:
                 self._load_data_qick()
@@ -393,11 +395,11 @@ class SuperOperationBase(ProtocolOperation):
         ...             return OperationStatus.RETRY
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self.operations: list[ProtocolOperation] = []
 
-    def _validate_operations(self):
+    def _validate_operations(self) -> None:
         """Validate that operations list contains only ProtocolOperation instances"""
 
         for i, op in enumerate(self.operations):
@@ -491,21 +493,21 @@ class SuperOperationBase(ProtocolOperation):
 
         return status
 
-    def measure(self):
+    def measure(self) -> Path:
         """Not used in SuperOperation - operations handle their own measurement"""
         raise NotImplementedError(
             f"measure() does not make sense for a SuperOperation. "
             f"Sub-operations in '{self.name}' handle their own measurement."
         )
 
-    def load_data(self):
+    def load_data(self) -> bool:
         """Not used in SuperOperation - operations handle their own data loading"""
         raise NotImplementedError(
             f"load_data() does not make sense for a SuperOperation. "
             f"Sub-operations in '{self.name}' handle their own data loading."
         )
 
-    def analyze(self):
+    def analyze(self) -> None:
         """Not used in SuperOperation - operations handle their own analysis"""
         raise NotImplementedError(
             f"analyze() does not make sense for a SuperOperation. "
@@ -517,7 +519,7 @@ class ProtocolBase:
     def __init__(self, report_path: Path = Path("")):
 
         self.name = self.__class__.__name__
-        self.root_branch = None  # Required - must be set by subclass
+        self.root_branch: BranchBase | None = None  # Required - must be set by subclass
         # True for successful protocol execution, False for failure at some operation, None for un-ran protocol
         self.success: bool | None = None
 
@@ -527,14 +529,14 @@ class ProtocolBase:
         if PLATFORMTYPE is None:
             raise ValueError("Please choose a platform")
 
-    def _flatten_branch_for_execution(self, branch):
+    def _flatten_branch_for_execution(self, branch: BranchBase) -> list[ProtocolOperation | Condition]:
         """
         Recursively flatten a branch into a list of operations and conditions.
 
         Does NOT evaluate conditions - just collects them for runtime evaluation.
         Returns a list containing both ProtocolOperation and Condition instances.
         """
-        items = []
+        items: list[ProtocolOperation | Condition] = []
 
         for item in branch.items:
             if isinstance(item, ProtocolOperation):
@@ -546,7 +548,7 @@ class ProtocolBase:
 
         return items
 
-    def _collect_all_operations_from_branch(self, branch):
+    def _collect_all_operations_from_branch(self, branch: BranchBase) -> list[ProtocolOperation]:
         """
         Recursively collect ALL operations from a branch tree (for parameter verification).
 
@@ -554,7 +556,7 @@ class ProtocolBase:
         Also collects operations from inside SuperOperations.
         """
 
-        operations = []
+        operations: list[ProtocolOperation] = []
 
         for item in branch.items:
             if isinstance(item, SuperOperationBase):
@@ -607,7 +609,7 @@ class ProtocolBase:
 
         return True
 
-    def _assemble_report(self):
+    def _assemble_report(self) -> Path:
         """Generate HTML report from executed operations and conditions with embedded images"""
         # Create report directory structure
         report_dir = self.report_path / f"{self.name}_report"
@@ -655,18 +657,18 @@ class ProtocolBase:
                 # Build section content
                 section_content = []
                 if item.report_output:
-                    for report_item in item.report_output:
-                        if isinstance(report_item, Path):
+                    for op_item in item.report_output:
+                        if isinstance(op_item, Path):
                             # Embed image as base64 data URI
                             try:
-                                with open(report_item, "rb") as img_file:
+                                with open(op_item, "rb") as img_file:
                                     img_data = img_file.read()
                                     img_base64 = base64.b64encode(img_data).decode(
                                         "utf-8"
                                     )
 
                                 # Determine MIME type from file extension
-                                ext = report_item.suffix.lower()
+                                ext = op_item.suffix.lower()
                                 mime_type = {
                                     ".png": "image/png",
                                     ".jpg": "image/jpeg",
@@ -682,13 +684,13 @@ class ProtocolBase:
                                 )
                             except Exception as e:
                                 logger.warning(
-                                    f"Failed to embed image {report_item}: {e}"
+                                    f"Failed to embed image {op_item}: {e}"
                                 )
                                 section_content.append(
-                                    f"![Figure - Error loading image]({report_item.name})\n"
+                                    f"![Figure - Error loading image]({op_item.name})\n"
                                 )
                         else:
-                            section_content.append(f"{report_item}\n")
+                            section_content.append(f"{op_item}\n")
 
                 sections.append(
                     {
@@ -965,14 +967,14 @@ class ProtocolBase:
         # Should not reach here
         return False
 
-    def _execute_branch(self, branch):
+    def _execute_branch(self, branch: BranchBase) -> tuple[list[ProtocolOperation | Condition], bool]:
         """
         Recursively execute a branch, evaluating conditions at runtime.
 
         Returns list of executed items (operations and conditions) for reporting.
         """
 
-        executed_items = []
+        executed_items: list[ProtocolOperation | Condition] = []
 
         for item in branch.items:
             if isinstance(item, ProtocolOperation):
@@ -995,7 +997,7 @@ class ProtocolBase:
 
         return executed_items, True
 
-    def execute(self):
+    def execute(self) -> None:
         """Execute protocol by recursively executing branches"""
         logger.info(f"Starting protocol: {self.name}")
 
@@ -1045,17 +1047,17 @@ class BranchBase:
         self.name = name
         self.items: list = []  # Will contain ProtocolOperation or Condition instances
 
-    def append(self, item):
+    def append(self, item: ProtocolOperation | Condition) -> BranchBase:
         """Add an operation or condition to this branch"""
         self.items.append(item)
         return self  # Allow chaining
 
-    def extend(self, items: list):
+    def extend(self, items: list[ProtocolOperation | Condition]) -> BranchBase:
         """Add multiple operations/conditions to this branch"""
         self.items.extend(items)
         return self  # Allow chaining
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"BranchBase(name='{self.name}', items={len(self.items)})"
 
 
@@ -1134,5 +1136,5 @@ class Condition:
             self.report_output.append(message)
             return self.false_branch
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Condition(name='{self.name}')"

@@ -32,23 +32,6 @@ dependencies = [
     "ruamel.yaml",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest",
-    "pytest-cov",
-    "ruff",
-    "mypy",
-]
-docs = [
-    "sphinx",
-    "pydata-sphinx-theme",
-    "myst-parser",
-    "myst-nb",
-    "pandoc",
-    "ipykernel",
-    "linkify-it-py",
-    "h5py",
-]
 
 [project.scripts]
 autoplot = "labcore.scripts.monitr_server:run_autoplot"
@@ -117,3 +100,22 @@ exclude = ["site*", "docs*", "test*"]
 
 [tool.setuptools.package-data]
 labcore = ["py.typed"]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "types-markdown>=3.10.2.20260211",
+]
+docs = [
+    "sphinx",
+    "pydata-sphinx-theme",
+    "myst-parser",
+    "myst-nb",
+    "pandoc",
+    "ipykernel",
+    "linkify-it-py",
+    "h5py",
+]

@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from typing import Any
 
 from labcore.protocols.base import (
     BranchBase,
@@ -34,7 +35,7 @@ class DummySuperOperation(SuperOperationBase):
     - Report aggregation
     """
 
-    def __init__(self, params=None):
+    def __init__(self, params: Any = None) -> None:
         super().__init__()
 
         # Define the sequence of operations
@@ -67,7 +68,7 @@ class DummySuperOperation(SuperOperationBase):
 
 
 class DummyProtocol(ProtocolBase):
-    def __init__(self, params=None, report_path: Path = Path("")):
+    def __init__(self, params: Any = None, report_path: Path = Path("")) -> None:
         super().__init__(report_path)
 
         # Create main branch
