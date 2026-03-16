@@ -34,7 +34,11 @@ class GaussianOperation(ProtocolOperation):
         self.center: GaussianCenter
         self.sigma: GaussianSigma
         self.offset: GaussianOffset
-        self._register_inputs(center=GaussianCenter(params), sigma=GaussianSigma(params), offset=GaussianOffset(params))
+        self._register_inputs(
+            center=GaussianCenter(params),
+            sigma=GaussianSigma(params),
+            offset=GaussianOffset(params),
+        )
         self.amplitude: GaussianAmplitude
         self._register_outputs(amplitude=GaussianAmplitude(params))
 

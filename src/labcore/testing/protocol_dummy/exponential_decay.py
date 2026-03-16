@@ -32,7 +32,9 @@ class ExponentialDecayOperation(ProtocolOperation):
 
         self.offset: ExponentialDecayOffset
         self.tau: ExponentialDecayTau
-        self._register_inputs(offset=ExponentialDecayOffset(params), tau=ExponentialDecayTau(params))
+        self._register_inputs(
+            offset=ExponentialDecayOffset(params), tau=ExponentialDecayTau(params)
+        )
         self.amplitude: ExponentialDecayAmplitude
         self._register_outputs(amplitude=ExponentialDecayAmplitude(params))
 

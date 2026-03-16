@@ -529,7 +529,9 @@ class ProtocolBase:
         if PLATFORMTYPE is None:
             raise ValueError("Please choose a platform")
 
-    def _flatten_branch_for_execution(self, branch: BranchBase) -> list[ProtocolOperation | Condition]:
+    def _flatten_branch_for_execution(
+        self, branch: BranchBase
+    ) -> list[ProtocolOperation | Condition]:
         """
         Recursively flatten a branch into a list of operations and conditions.
 
@@ -548,7 +550,9 @@ class ProtocolBase:
 
         return items
 
-    def _collect_all_operations_from_branch(self, branch: BranchBase) -> list[ProtocolOperation]:
+    def _collect_all_operations_from_branch(
+        self, branch: BranchBase
+    ) -> list[ProtocolOperation]:
         """
         Recursively collect ALL operations from a branch tree (for parameter verification).
 
@@ -683,9 +687,7 @@ class ProtocolBase:
                                     f"![Figure](data:{mime_type};base64,{img_base64})\n"
                                 )
                             except Exception as e:
-                                logger.warning(
-                                    f"Failed to embed image {op_item}: {e}"
-                                )
+                                logger.warning(f"Failed to embed image {op_item}: {e}")
                                 section_content.append(
                                     f"![Figure - Error loading image]({op_item.name})\n"
                                 )
@@ -967,7 +969,9 @@ class ProtocolBase:
         # Should not reach here
         return False
 
-    def _execute_branch(self, branch: BranchBase) -> tuple[list[ProtocolOperation | Condition], bool]:
+    def _execute_branch(
+        self, branch: BranchBase
+    ) -> tuple[list[ProtocolOperation | Condition], bool]:
         """
         Recursively execute a branch, evaluating conditions at runtime.
 
