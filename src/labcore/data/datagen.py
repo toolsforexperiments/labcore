@@ -1,8 +1,9 @@
+from abc import ABC, abstractmethod
+from dataclasses import asdict, dataclass
+from typing import Any
 
 import numpy as np
-
-from dataclasses import dataclass, asdict
-from abc import ABC, abstractmethod
+from numpy.typing import NDArray
 
 """
 
@@ -36,68 +37,73 @@ coords = sine.generate(A = 5) --> uses A = 5, f = 2
 
 """
 
+
 @dataclass
 class DataGen(ABC):
-    noise_std : float = 1.0
-    
+    noise_std: float = 1.0
+
+    @staticmethod
     @abstractmethod
-    def model(coordinates, *args, **kwargs):
+    def model(coordinates: NDArray[Any], *args: Any, **kwargs: Any) -> NDArray[Any]:
         pass
 
-    def generate(self, coordinates, **kwargs): 
-        
+    def generate(self, coordinates: NDArray[Any], **kwargs: Any) -> NDArray[Any]:
+
         # updates previously set dataclass fields
-        params = asdict(self) 
+        params = asdict(self)
         params.update(kwargs)
-        noise_std = params.pop('noise_std')
+        noise_std = params.pop("noise_std")
 
         one_d = coordinates.ndim == 1
         coordinates = np.atleast_2d(coordinates)
-        model_outputs = np.array([self.model(coords, **params) +
-                                  self.noise(coords, noise_std)
-                                  for coords in coordinates])
-        if (one_d):
+        model_outputs = np.array(
+            [
+                self.model(coords, **params) + self.noise(coords, noise_std)
+                for coords in coordinates
+            ]
+        )
+        if one_d:
             return model_outputs.squeeze()
 
         return model_outputs
-    
+
     @staticmethod
-    def noise(coordinates, std):
-        return np.random.normal(scale = std, size = len(coordinates))
-    
+    def noise(coordinates: NDArray[Any], std: float) -> NDArray[Any]:
+        return np.random.normal(scale=std, size=len(coordinates))
+
 
 @dataclass
 class ExponentialDataGen(DataGen):
-
     base: float = np.e
 
     @staticmethod
-    def model(coordinates, base):
-        return base ** coordinates
-    
+    def model(coordinates: NDArray[Any], base: float) -> NDArray[Any]:
+        return base**coordinates
 
 
 @dataclass
 class SineDataGen(DataGen):
-
-    A : float = 1
-    f : float = 1
-    phi : float = 0
-    of : float = 0
+    A: float = 1
+    f: float = 1
+    phi: float = 0
+    of: float = 0
 
     @staticmethod
-    def model(coordinates, A, f, phi, of):
+    def model(
+        coordinates: NDArray[Any], A: float, f: float, phi: float, of: float
+    ) -> NDArray[Any]:
         return A * np.sin(2 * np.pi * coordinates * f + phi) + of
 
 
 @dataclass
 class GaussianDataGen(DataGen):
-
-    x0 : float = 0
-    sigma : float = 1
-    A : float = 1
-    of : float = 0
+    x0: float = 0
+    sigma: float = 1
+    A: float = 1
+    of: float = 0
 
     @staticmethod
-    def model(coordinates, x0, sigma, A, of):
-        return A * np.exp(-((coordinates - x0) ** 2) / (2 * sigma ** 2)) + of
+    def model(
+        coordinates: NDArray[Any], x0: float, sigma: float, A: float, of: float
+    ) -> NDArray[Any]:
+        return A * np.exp(-((coordinates - x0) ** 2) / (2 * sigma**2)) + of
