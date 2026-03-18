@@ -30,7 +30,7 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,8 +39,8 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/measurement/sweep';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/measurement/sweep.html" />
     <link rel="author" title="About these documents" href="../../../about.html" />
@@ -419,35 +419,52 @@
                 <article class="bd-article">
                   
   <h1>Source code for labcore.measurement.sweep</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Generator</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">wraps</span><span class="p">,</span> <span class="n">update_wrapper</span><span class="p">,</span> <span class="n">partial</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">update_wrapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Any</span><span class="p">,</span>
+    <span class="n">Callable</span><span class="p">,</span>
+    <span class="n">Dict</span><span class="p">,</span>
+    <span class="n">Generator</span><span class="p">,</span>
+    <span class="n">Iterable</span><span class="p">,</span>
+    <span class="n">Iterator</span><span class="p">,</span>
+    <span class="n">Optional</span><span class="p">,</span>
+    <span class="n">Tuple</span><span class="p">,</span>
+    <span class="n">Union</span><span class="p">,</span>
+    <span class="n">cast</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">qcodes</span><span class="w"> </span><span class="kn">import</span> <span class="n">Parameter</span> <span class="k">as</span> <span class="n">QCParameter</span>
+
     <span class="n">QCODES_PRESENT</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">QCParameter</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">QCParameter</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment,misc]</span>
     <span class="n">QCODES_PRESENT</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.record</span><span class="w"> </span><span class="kn">import</span> <span class="n">produces_record</span><span class="p">,</span> <span class="n">DataSpec</span><span class="p">,</span> <span class="n">IteratorToRecords</span><span class="p">,</span> \
-    <span class="n">DataSpecFromTupleType</span><span class="p">,</span> <span class="n">record_as</span><span class="p">,</span> <span class="n">combine_data_specs</span><span class="p">,</span> <span class="n">independent</span><span class="p">,</span> \
-    <span class="n">make_data_spec</span><span class="p">,</span> <span class="n">data_specs_label</span><span class="p">,</span> <span class="n">DataSpecCreationType</span><span class="p">,</span> <span class="n">make_data_specs</span><span class="p">,</span> \
-    <span class="n">FunctionToRecords</span><span class="p">,</span> <span class="n">map_input_to_signature</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">indent_text</span>
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">.record</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">DataSpec</span><span class="p">,</span>
+    <span class="n">DataSpecCreationType</span><span class="p">,</span>
+    <span class="n">DataSpecFromTupleType</span><span class="p">,</span>
+    <span class="n">FunctionToRecords</span><span class="p">,</span>
+    <span class="n">IteratorToRecords</span><span class="p">,</span>
+    <span class="n">combine_data_specs</span><span class="p">,</span>
+    <span class="n">data_specs_label</span><span class="p">,</span>
+    <span class="n">independent</span><span class="p">,</span>
+    <span class="n">make_data_spec</span><span class="p">,</span>
+    <span class="n">map_input_to_signature</span><span class="p">,</span>
+    <span class="n">produces_record</span><span class="p">,</span>
+    <span class="n">record_as</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="k">if</span> <span class="n">QCODES_PRESENT</span><span class="p">:</span>
-    <span class="n">ParamSpecType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">QCParameter</span><span class="p">,</span> <span class="n">DataSpecFromTupleType</span><span class="p">,</span> <span class="n">DataSpec</span><span class="p">]</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="n">ParamSpecType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataSpecFromTupleType</span><span class="p">,</span> <span class="n">DataSpec</span><span class="p">]</span>
+<span class="n">ParamSpecType</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">DataSpecFromTupleType</span><span class="p">,</span> <span class="n">DataSpec</span><span class="p">]</span>
 
 
 <span class="c1"># Pointer tools</span>
@@ -456,29 +473,28 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">PointerFunction</span><span class="p">(</span><span class="n">FunctionToRecords</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A class that allows using a generator function as a pointer.&quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_iterator2records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">func_args</span><span class="p">,</span> <span class="n">func_kwargs</span> <span class="o">=</span> <span class="n">map_input_to_signature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func_sig</span><span class="p">,</span>
-                                                        <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_iterator2records</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">func_args</span><span class="p">,</span> <span class="n">func_kwargs</span> <span class="o">=</span> <span class="n">map_input_to_signature</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func_sig</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">record_as</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">func_args</span><span class="p">,</span> <span class="o">**</span><span class="n">func_kwargs</span><span class="p">),</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">data_specs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ret</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">all_args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
         <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterator2records</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iterator2records</span><span class="p">(</span><span class="o">*</span><span class="n">all_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_iterator2records</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_kwargs</span><span class="p">))</span>
 
 <div class="viewcode-block" id="PointerFunction.get_data_specs">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.PointerFunction.get_data_specs">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_data_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">DataSpec</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_specs</span></div>
 
 
 <div class="viewcode-block" id="PointerFunction.using">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.PointerFunction.using">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">using</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PointerFunction&quot;</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">using</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PointerFunction&quot;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set the default positional and keyword arguments that will be</span>
 <span class="sd">        used when the function is called.</span>
 
@@ -497,8 +513,10 @@
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.pointer">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">pointer</span><span class="p">(</span><span class="o">*</span><span class="n">data_specs</span><span class="p">:</span> <span class="n">DataSpecCreationType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a decorator for functions that return pointer generators.&quot;&quot;&quot;</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PointerFunction</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">PointerFunction</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">data_specs</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">decorator</span></div>
 
 
@@ -525,8 +543,9 @@
 
 <div class="viewcode-block" id="sweep_parameter">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.sweep_parameter">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">sweep_parameter</span><span class="p">(</span><span class="n">param</span><span class="p">:</span> <span class="n">ParamSpecType</span><span class="p">,</span> <span class="n">sweep_iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span>
-                    <span class="o">*</span><span class="n">actions</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">sweep_parameter</span><span class="p">(</span>
+    <span class="n">param</span><span class="p">:</span> <span class="n">ParamSpecType</span><span class="p">,</span> <span class="n">sweep_iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="o">*</span><span class="n">actions</span><span class="p">:</span> <span class="n">Callable</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a sweep over a parameter.</span>
 
 <span class="sd">    :param param: One of:</span>
@@ -544,17 +563,19 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">param_ds</span> <span class="o">=</span> <span class="n">independent</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
-        <span class="n">param_ds</span> <span class="o">=</span> <span class="n">make_data_spec</span><span class="p">(</span><span class="o">*</span><span class="n">param</span><span class="p">)</span>
+        <span class="n">param_ds</span> <span class="o">=</span> <span class="n">make_data_spec</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">DataSpec</span><span class="p">):</span>
         <span class="n">param_ds</span> <span class="o">=</span> <span class="n">param</span>
     <span class="k">elif</span> <span class="n">QCODES_PRESENT</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">QCParameter</span><span class="p">):</span>
         <span class="n">param_ds</span> <span class="o">=</span> <span class="n">independent</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="n">param</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">setfunc</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">setfunc</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">param</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
 
-        <span class="n">actions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
-        <span class="n">actions</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">setfunc</span><span class="p">)</span>
+        <span class="n">actions_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
+        <span class="n">actions_list</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">setfunc</span><span class="p">)</span>
+        <span class="n">record_iterator</span> <span class="o">=</span> <span class="n">IteratorToRecords</span><span class="p">(</span><span class="n">sweep_iterable</span><span class="p">,</span> <span class="n">param_ds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">record_iterator</span><span class="p">,</span> <span class="o">*</span><span class="n">actions_list</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot make parameter from type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">param</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -565,7 +586,7 @@
 
 <div class="viewcode-block" id="null_action">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.null_action">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">null_action</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">null_action</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">return</span> <span class="kc">None</span></div>
 
 
@@ -602,16 +623,17 @@
 <div class="viewcode-block" id="Sweep.update_option_dict">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.update_option_dict">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_option_dict</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rules: work in progress :).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_option_dict</span><span class="p">(</span>
+        <span class="n">src</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">target</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">level</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rules: work in progress :).&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;inputs need to be dictionaries.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;inputs need to be dictionaries.&quot;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">src</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">target</span><span class="p">:</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="n">level</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">Sweep</span><span class="o">.</span><span class="n">update_option_dict</span><span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">target</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">Sweep</span><span class="o">.</span><span class="n">update_option_dict</span><span class="p">(</span><span class="n">src</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">target</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="n">level</span><span class="o">=</span><span class="n">level</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">target</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span></div>
 
@@ -619,16 +641,16 @@
 <div class="viewcode-block" id="Sweep.propagate_sweep_options">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.propagate_sweep_options">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">propagate_sweep_options</span><span class="p">(</span><span class="n">sweep</span><span class="p">:</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">propagate_sweep_options</span><span class="p">(</span><span class="n">sweep</span><span class="p">:</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">first</span> <span class="o">=</span> <span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="n">first</span>
+            <span class="n">first</span> <span class="o">=</span> <span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="n">first</span>  <span class="c1"># type: ignore[attr-defined]</span>
             <span class="n">Sweep</span><span class="o">.</span><span class="n">copy_sweep_options</span><span class="p">(</span><span class="n">sweep</span><span class="p">,</span> <span class="n">first</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">pass</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">second</span> <span class="o">=</span> <span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="n">second</span>
+            <span class="n">second</span> <span class="o">=</span> <span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="o">.</span><span class="n">iterable</span><span class="o">.</span><span class="n">second</span>  <span class="c1"># type: ignore[attr-defined]</span>
             <span class="n">Sweep</span><span class="o">.</span><span class="n">copy_sweep_options</span><span class="p">(</span><span class="n">sweep</span><span class="p">,</span> <span class="n">second</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">pass</span></div>
@@ -637,8 +659,8 @@
 <div class="viewcode-block" id="Sweep.copy_sweep_options">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.copy_sweep_options">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">copy_sweep_options</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Sweep&quot;</span><span class="p">]):</span>
-        <span class="k">if</span> <span class="n">src</span> <span class="ow">is</span> <span class="n">target</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy_sweep_options</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s2">&quot;Sweep&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">src</span> <span class="ow">is</span> <span class="n">target</span> <span class="ow">or</span> <span class="n">target</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
 
         <span class="n">Sweep</span><span class="o">.</span><span class="n">update_option_dict</span><span class="p">(</span><span class="n">src</span><span class="o">.</span><span class="n">_action_kwargs</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">_action_kwargs</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -650,65 +672,65 @@
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">link_sweep_properties</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">,</span> <span class="n">target</span><span class="p">:</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Share state properties between sweeps.&quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;_state&#39;</span><span class="p">,</span> <span class="s1">&#39;_pass_kwargs&#39;</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;_state&quot;</span><span class="p">,</span> <span class="s2">&quot;_pass_kwargs&quot;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
                 <span class="nb">setattr</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
-                <span class="n">iterable</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">pointer</span><span class="p">,</span> <span class="s1">&#39;iterable&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">iterable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">):</span>
-                    <span class="n">first</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="s1">&#39;first&#39;</span><span class="p">)</span>
+                <span class="n">iterable</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">pointer</span><span class="p">,</span> <span class="s2">&quot;iterable&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">iterable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="s2">&quot;first&quot;</span><span class="p">):</span>
+                    <span class="n">first</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="s2">&quot;first&quot;</span><span class="p">)</span>
                     <span class="nb">setattr</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
-                <span class="k">if</span> <span class="n">iterable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="s1">&#39;second&#39;</span><span class="p">):</span>
-                    <span class="n">second</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="s1">&#39;second&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">iterable</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="s2">&quot;second&quot;</span><span class="p">):</span>
+                    <span class="n">second</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="s2">&quot;second&quot;</span><span class="p">)</span>
                     <span class="nb">setattr</span><span class="p">(</span><span class="n">second</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
 
         <span class="n">Sweep</span><span class="o">.</span><span class="n">copy_sweep_options</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pointer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">],</span> <span class="o">*</span><span class="n">actions</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pointer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">],</span> <span class="o">*</span><span class="n">actions</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor of :class:`.Sweep`.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pass_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_action_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pass_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_action_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="n">pointer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">pointer</span> <span class="o">=</span> <span class="n">null_pointer</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pointer</span><span class="p">:</span> <span class="n">Iterable</span> <span class="o">=</span> <span class="n">null_pointer</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pointer</span><span class="p">,</span> <span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">,</span> <span class="n">Sweep</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pointer</span> <span class="o">=</span> <span class="n">pointer</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;pointer needs to be iterable.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;pointer needs to be iterable.&quot;</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FunctionToRecords</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">append_action</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state</span>
 
     <span class="nd">@state</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_state</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pass_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pass_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pass_kwargs</span>
 
     <span class="nd">@pass_kwargs</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">pass_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pass_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_pass_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">action_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">action_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_action_kwargs</span>
 
     <span class="nd">@action_kwargs</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">action_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">action_kwargs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_action_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;Sweep&quot;</span><span class="p">:</span>
@@ -717,8 +739,9 @@
         <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
             <span class="n">sweep2</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;can only combine with Sweep or callable, &#39;</span>
-                            <span class="sa">f</span><span class="s1">&#39;not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;can only combine with Sweep or callable, not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">Sweep</span><span class="o">.</span><span class="n">link_sweep_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sweep2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">append_sweeps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sweep2</span><span class="p">)</span>
@@ -729,8 +752,9 @@
         <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
             <span class="n">sweep2</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointer</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;can only combine with Sweep or callable, &#39;</span>
-                            <span class="sa">f</span><span class="s1">&#39;not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;can only combine with Sweep or callable, not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">Sweep</span><span class="o">.</span><span class="n">link_sweep_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sweep2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">zip_sweeps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sweep2</span><span class="p">)</span>
@@ -741,23 +765,24 @@
         <span class="k">elif</span> <span class="nb">callable</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
             <span class="n">sweep2</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;can only combine with Sweep or callable, &#39;</span>
-                            <span class="sa">f</span><span class="s1">&#39;not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;can only combine with Sweep or callable, not </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">Sweep</span><span class="o">.</span><span class="n">link_sweep_properties</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sweep2</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">nest_sweeps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sweep2</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Sweep.append_action">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.append_action">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">append_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">append_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an action to the sweep.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">action</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">produces_record</span><span class="p">(</span><span class="n">action</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">FunctionToRecords</span><span class="p">,</span> <span class="n">action</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record_as</span><span class="p">(</span><span class="n">action</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cast</span><span class="p">(</span><span class="n">FunctionToRecords</span><span class="p">,</span> <span class="n">record_as</span><span class="p">(</span><span class="n">action</span><span class="p">)))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;action must be a callable.&#39;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;action must be a callable.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Sweep.run">
@@ -768,14 +793,15 @@
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">state</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="p">,</span>
             <span class="n">pass_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pass_kwargs</span><span class="p">,</span>
-            <span class="n">action_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">action_kwargs</span><span class="p">)</span></div>
+            <span class="n">action_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">action_kwargs</span><span class="p">,</span>
+        <span class="p">)</span></div>
 
 
     <span class="c1"># FIXME: currently this only works for actions -- should be used also</span>
     <span class="c1">#   for pointer funcs?</span>
 <div class="viewcode-block" id="Sweep.set_options">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.set_options">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">action_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">action_kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Configure the sweep actions.</span>
 
 <span class="sd">        :param action_kwargs: Keyword arguments to pass to action functions</span>
@@ -791,28 +817,31 @@
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.get_data_specs">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_data_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">DataSpec</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the data specs of the sweep.&quot;&quot;&quot;</span>
-        <span class="n">specs</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">pointer_specs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">specs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">DataSpec</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">pointer_specs</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">DataSpec</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">()</span>
         <span class="k">if</span> <span class="n">produces_record</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointer</span><span class="p">):</span>
             <span class="n">pointer_specs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointer</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">()</span>
-            <span class="n">specs</span> <span class="o">=</span> <span class="n">combine_data_specs</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">pointer_specs</span><span class="p">)))</span>
+            <span class="n">specs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combine_data_specs</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">pointer_specs</span><span class="p">))))</span>
 
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">produces_record</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
                 <span class="n">action_specs</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">()</span>
-                <span class="n">pointer_independents</span> <span class="o">=</span> <span class="p">[</span><span class="n">ds</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">pointer_specs</span>
-                                        <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span>
+                <span class="n">pointer_independents</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">ds</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">pointer_specs</span> <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">is</span> <span class="kc">None</span>
+                <span class="p">]</span>
                 <span class="k">for</span> <span class="n">aspec</span> <span class="ow">in</span> <span class="n">action_specs</span><span class="p">:</span>
                     <span class="n">aspec_</span> <span class="o">=</span> <span class="n">aspec</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                     <span class="k">if</span> <span class="n">aspec_</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">aspec_</span><span class="o">.</span><span class="n">depends_on</span> <span class="o">=</span> <span class="n">pointer_independents</span> <span class="o">+</span> <span class="n">aspec_</span><span class="o">.</span><span class="n">depends_on</span>
+                        <span class="n">aspec_</span><span class="o">.</span><span class="n">depends_on</span> <span class="o">=</span> <span class="n">pointer_independents</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span>
+                            <span class="n">aspec_</span><span class="o">.</span><span class="n">depends_on</span>
+                        <span class="p">)</span>
 
-                    <span class="n">specs</span> <span class="o">=</span> <span class="n">combine_data_specs</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">aspec_</span><span class="p">]))</span>
+                    <span class="n">specs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combine_data_specs</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">aspec_</span><span class="p">])))</span>
 
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">specs</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pointer</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; &gt;&gt; </span><span class="si">{</span><span class="n">a</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -830,16 +859,20 @@
 <span class="sd">    functions. Manages and updates the state of the sweep.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sweep</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">,</span>
-                 <span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-                 <span class="n">pass_kwargs</span><span class="o">=</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
-                 <span class="n">action_kwargs</span><span class="o">=</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">sweep</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">,</span>
+        <span class="n">state</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+        <span class="n">pass_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+        <span class="n">action_kwargs</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">sweep</span> <span class="o">=</span> <span class="n">sweep</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pass_kwargs</span> <span class="o">=</span> <span class="n">pass_kwargs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">action_kwargs</span> <span class="o">=</span> <span class="n">action_kwargs</span>
 
+        <span class="bp">self</span><span class="o">.</span><span class="n">pointer</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="p">,</span> <span class="n">Sweep</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pointer</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Iterator</span><span class="p">):</span>
@@ -847,15 +880,15 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Iterable</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pointer</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;pointer needs to be iterable.&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;pointer needs to be iterable.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="n">ret</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">next_point</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pointer</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">produces_record</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pointer</span><span class="p">):</span>
             <span class="n">ret</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">next_point</span><span class="p">)</span>
 
-        <span class="n">pass_args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">pass_args</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pass_on_returns</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">next_point</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pass_on_none</span><span class="p">:</span>
@@ -864,8 +897,9 @@
                     <span class="n">pass_args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">next_point</span><span class="p">)</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">next_point</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pass_on_none</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">pass_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">next_point</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                                             <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">pass_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                        <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">next_point</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">pass_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">next_point</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
@@ -876,8 +910,7 @@
             <span class="n">this_action_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pass_on_returns</span><span class="p">:</span>
                 <span class="n">this_action_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pass_kwargs</span><span class="p">)</span>
-            <span class="n">this_action_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">action_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">{}))</span>
+            <span class="n">this_action_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="p">{}))</span>
 
             <span class="n">action_return</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="o">*</span><span class="n">pass_args</span><span class="p">,</span> <span class="o">**</span><span class="n">this_action_kwargs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">produces_record</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
@@ -885,8 +918,9 @@
 
             <span class="c1"># actions always return records, so no need to worry about args</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">sweep</span><span class="o">.</span><span class="n">pass_on_none</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">pass_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">action_return</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
-                                         <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pass_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+                    <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">action_return</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
+                <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">pass_kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">action_return</span><span class="p">)</span>
 
@@ -895,7 +929,10 @@
                 <span class="k">if</span> <span class="n">ret</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">ret</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">ret</span></div>
+        <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SweepIterator&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 
 
 
@@ -909,8 +946,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">both</span> <span class="o">=</span> <span class="n">IteratorToRecords</span><span class="p">(</span>
         <span class="n">AppendSweeps</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">),</span>
-        <span class="o">*</span><span class="n">combine_data_specs</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span>
-                            <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">second</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())))</span>
+        <span class="o">*</span><span class="n">combine_data_specs</span><span class="p">(</span>
+            <span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">second</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">()))</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">both</span><span class="p">)</span>
     <span class="n">Sweep</span><span class="o">.</span><span class="n">link_sweep_properties</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">sweep</span><span class="p">)</span>
@@ -928,8 +966,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">both</span> <span class="o">=</span> <span class="n">IteratorToRecords</span><span class="p">(</span>
         <span class="n">ZipSweeps</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">),</span>
-        <span class="o">*</span><span class="n">combine_data_specs</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span>
-                            <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">second</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())))</span>
+        <span class="o">*</span><span class="n">combine_data_specs</span><span class="p">(</span>
+            <span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">second</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">()))</span>
+        <span class="p">),</span>
     <span class="p">)</span>
     <span class="n">sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">both</span><span class="p">)</span>
     <span class="n">Sweep</span><span class="o">.</span><span class="n">link_sweep_properties</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">sweep</span><span class="p">)</span>
@@ -951,11 +990,11 @@
     <span class="n">inner_specs</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">inner</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">()]</span>
     <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">inner_specs</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">depends_on</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">s</span><span class="o">.</span><span class="n">depends_on</span> <span class="o">=</span> <span class="n">outer_indeps</span> <span class="o">+</span> <span class="n">s</span><span class="o">.</span><span class="n">depends_on</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">depends_on</span> <span class="o">=</span> <span class="n">outer_indeps</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">depends_on</span><span class="p">)</span>
 
     <span class="n">nested</span> <span class="o">=</span> <span class="n">IteratorToRecords</span><span class="p">(</span>
         <span class="n">NestSweeps</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">inner</span><span class="p">),</span>
-        <span class="o">*</span><span class="n">combine_data_specs</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">outer_specs</span><span class="p">)</span> <span class="o">+</span> <span class="n">inner_specs</span><span class="p">))</span>
+        <span class="o">*</span><span class="n">combine_data_specs</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">outer_specs</span><span class="p">)</span> <span class="o">+</span> <span class="n">inner_specs</span><span class="p">)),</span>
     <span class="p">)</span>
     <span class="n">sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">nested</span><span class="p">)</span>
     <span class="n">Sweep</span><span class="o">.</span><span class="n">link_sweep_properties</span><span class="p">(</span><span class="n">outer</span><span class="p">,</span> <span class="n">sweep</span><span class="p">)</span>
@@ -966,25 +1005,24 @@
 <div class="viewcode-block" id="CombineSweeps">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.CombineSweeps">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">CombineSweeps</span><span class="p">:</span>
+    <span class="n">_operator_symbol</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">_operator_symbol</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">,</span> <span class="n">second</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">,</span> <span class="n">second</span><span class="p">:</span> <span class="n">Sweep</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">second</span> <span class="o">=</span> <span class="n">second</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">+</span> <span class="s2">&quot;:</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="n">ret</span> <span class="o">+=</span> <span class="n">indent_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
-        <span class="n">sym</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="n">indent_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">sym</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operator_symbol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">sym</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operator_symbol</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span>
+            <span class="n">sym</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_operator_symbol</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span>
         <span class="n">sec_text</span> <span class="o">=</span> <span class="n">indent_text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">sec_text</span> <span class="o">=</span> <span class="n">sym</span> <span class="o">+</span> <span class="n">sec_text</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">sym</span><span class="p">):]</span>
-        <span class="n">ret</span> <span class="o">+=</span> <span class="n">indent_text</span><span class="p">(</span><span class="n">sec_text</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">sec_text</span> <span class="o">=</span> <span class="n">sym</span> <span class="o">+</span> <span class="n">sec_text</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">sym</span><span class="p">)</span> <span class="p">:]</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="n">indent_text</span><span class="p">(</span><span class="n">sec_text</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">ret</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="ow">and</span> <span class="n">ret</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">:</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
@@ -992,9 +1030,8 @@
 
 <div class="viewcode-block" id="CombineSweeps.get_data_specs">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.CombineSweeps.get_data_specs">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_data_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">specs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span> <span class="o">+</span> \
-                <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data_specs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">DataSpec</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+        <span class="n">specs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">get_data_specs</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">combine_data_specs</span><span class="p">(</span><span class="o">*</span><span class="n">specs</span><span class="p">)</span></div>
 </div>
 
@@ -1003,11 +1040,10 @@
 <div class="viewcode-block" id="ZipSweeps">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.ZipSweeps">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">ZipSweeps</span><span class="p">(</span><span class="n">CombineSweeps</span><span class="p">):</span>
+    <span class="n">_operator_symbol</span> <span class="o">=</span> <span class="s2">&quot;*&quot;</span>
 
-    <span class="n">_operator_symbol</span> <span class="o">=</span> <span class="s1">&#39;*&#39;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">fd</span><span class="p">,</span> <span class="n">sd</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="k">for</span> <span class="n">fd</span><span class="p">,</span> <span class="n">sd</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">),</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">)):</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="n">fd</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
             <span class="n">ret</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">sd</span><span class="p">)</span>
             <span class="k">yield</span> <span class="n">ret</span></div>
@@ -1017,11 +1053,11 @@
 <div class="viewcode-block" id="AppendSweeps">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.AppendSweeps">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AppendSweeps</span><span class="p">(</span><span class="n">CombineSweeps</span><span class="p">):</span>
+    <span class="n">_operator_symbol</span> <span class="o">=</span> <span class="s2">&quot;+&quot;</span>
 
-    <span class="n">_operator_symbol</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">ret</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="n">ret</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ret</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">),</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">)):</span>
             <span class="k">yield</span> <span class="n">ret</span></div>
 
 
@@ -1029,12 +1065,11 @@
 <div class="viewcode-block" id="NestSweeps">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.NestSweeps">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NestSweeps</span><span class="p">(</span><span class="n">CombineSweeps</span><span class="p">):</span>
+    <span class="n">_operator_symbol</span> <span class="o">=</span> <span class="s2">&quot;@&quot;</span>
 
-    <span class="n">_operator_symbol</span> <span class="o">=</span> <span class="s1">&#39;@&#39;</span>
-
-    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">outer</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">inner</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+        <span class="k">for</span> <span class="n">outer</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">inner</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">):</span>
                 <span class="n">ret</span> <span class="o">=</span> <span class="n">outer</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                 <span class="n">ret</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">inner</span><span class="p">)</span>
                 <span class="k">yield</span> <span class="n">ret</span></div>
@@ -1058,17 +1093,17 @@
 
     <span class="n">wrapped_setup</span><span class="p">:</span> <span class="n">Callable</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">specs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">specs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">specs</span> <span class="o">=</span> <span class="n">specs</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">communicator</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fun</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        When the decorator is called the experiment function gets wrapped so that it returns an Sweep object composed</span>
 <span class="sd">        of 2 different Sweeps, the setup sweep and the collector Sweep.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">def</span><span class="w"> </span><span class="nf">sweep</span><span class="p">(</span><span class="n">collector_options</span><span class="o">=</span><span class="p">{},</span> <span class="o">**</span><span class="n">setup_kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sweep</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">sweep</span><span class="p">(</span><span class="n">collector_options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{},</span> <span class="o">**</span><span class="n">setup_kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sweep</span><span class="p">:</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Returns a Sweep comprised of 2 different Sweeps: start_sweep and collector_sweep.</span>
 <span class="sd">            start_sweep should perform any setup actions as well as starting the actual experiment. This sweep is only</span>
@@ -1078,7 +1113,9 @@
 <span class="sd">            :param collector_kwargs: Any arguments that the collector needs.</span>
 <span class="sd">            &quot;&quot;&quot;</span>
             <span class="n">start_sweep</span> <span class="o">=</span> <span class="n">once</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wrap_setup</span><span class="p">(</span><span class="n">fun</span><span class="p">))</span>
-            <span class="n">collector_sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span><span class="n">as_pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">specs</span><span class="p">)</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="o">**</span><span class="n">collector_options</span><span class="p">))</span>
+            <span class="n">collector_sweep</span> <span class="o">=</span> <span class="n">Sweep</span><span class="p">(</span>
+                <span class="n">as_pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collect</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">specs</span><span class="p">)</span><span class="o">.</span><span class="n">using</span><span class="p">(</span><span class="o">**</span><span class="n">collector_options</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="n">ret</span> <span class="o">=</span> <span class="n">start_sweep</span> <span class="o">+</span> <span class="n">collector_sweep</span>
             <span class="n">ret</span><span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">fun</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="n">setup_kwargs</span><span class="p">})</span>
             <span class="k">return</span> <span class="n">ret</span>
@@ -1105,13 +1142,15 @@
 
 <div class="viewcode-block" id="AsyncRecord.setup">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.AsyncRecord.setup">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fun</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fun</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="AsyncRecord.collect">
 <a class="viewcode-back" href="../../../api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.AsyncRecord.collect">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Dict</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">collect</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="k">yield</span> <span class="p">{}</span></div>
 </div>
 
@@ -1170,7 +1209,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>

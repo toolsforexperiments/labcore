@@ -30,7 +30,7 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,8 +39,8 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/data/datadict_storage';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/data/datadict_storage.html" />
     <link rel="author" title="About these documents" href="../../../about.html" />
@@ -428,33 +428,34 @@
 <span class="sd">    The lock file has the following format: ~&lt;file_name&gt;.lock. The file lock will get deleted even if the program</span>
 <span class="sd">    crashes. If the process is suddenly stopped however, we cannot guarantee that the file lock will be deleted.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">List</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">TracebackType</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">datetime</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">types</span><span class="w"> </span><span class="kn">import</span> <span class="n">TracebackType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Union</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">split_complex</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.datadict</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DataDict</span><span class="p">,</span>
-    <span class="n">is_meta_key</span><span class="p">,</span>
-    <span class="n">DataDictBase</span><span class="p">,</span>
-    <span class="n">dd2xr</span><span class="p">,</span>
     <span class="n">datadict_to_meshgrid</span><span class="p">,</span>
-    <span class="n">dd2df</span><span class="p">,</span>
     <span class="n">datasets_are_equal</span><span class="p">,</span>
+    <span class="n">dd2df</span><span class="p">,</span>
+    <span class="n">dd2xr</span><span class="p">,</span>
+    <span class="n">is_meta_key</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">split_complex</span>
 
 <span class="n">__author__</span> <span class="o">=</span> <span class="s2">&quot;Wolfgang Pfaff&quot;</span>
 <span class="n">__license__</span> <span class="o">=</span> <span class="s2">&quot;MIT&quot;</span>
@@ -466,12 +467,13 @@
 
 <span class="c1"># FIXME: need correct handling of dtypes and list/array conversion</span>
 
+
 <div class="viewcode-block" id="NumpyEncoder">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.NumpyEncoder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">NumpyEncoder</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONEncoder</span><span class="p">):</span>
 <div class="viewcode-block" id="NumpyEncoder.default">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.NumpyEncoder.default">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">default</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
@@ -521,7 +523,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">all_string</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;U&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf8&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">obj</span></div>
@@ -536,10 +538,10 @@
 <span class="sd">    :param obj: Input object.</span>
 <span class="sd">    :return: Object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="nb">bytes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">bytes</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">is</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;S&quot;</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">char</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">obj</span></div>
@@ -548,7 +550,7 @@
 
 <div class="viewcode-block" id="set_attr">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.set_attr">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">set_attr</span><span class="p">(</span><span class="n">h5obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_attr</span><span class="p">(</span><span class="n">h5obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">,</span> <span class="n">h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set attribute `name` of object `h5obj` to `val`</span>
 
 <span class="sd">    Use :func:`h5ify` to convert the object, then try to set the attribute</span>
@@ -566,7 +568,10 @@
 <div class="viewcode-block" id="add_cur_time_attr">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.add_cur_time_attr">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">add_cur_time_attr</span><span class="p">(</span>
-    <span class="n">h5obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;creation&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;__&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;__&quot;</span>
+    <span class="n">h5obj</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">,</span> <span class="n">h5py</span><span class="o">.</span><span class="n">Group</span><span class="p">],</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;creation&quot;</span><span class="p">,</span>
+    <span class="n">prefix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;__&quot;</span><span class="p">,</span>
+    <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;__&quot;</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add current time information to the given HDF5 object, following the format of:</span>
 <span class="sd">    ``&lt;prefix&gt;&lt;name&gt;_time_sec&lt;suffix&gt;``.</span>
@@ -793,7 +798,7 @@
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.all_datadicts_from_hdf5">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">all_datadicts_from_hdf5</span><span class="p">(</span>
     <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">file_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">DataDict</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Loads all the DataDicts contained on a single HDF5 file. Returns a dictionary with the group names as keys and</span>
 <span class="sd">    the DataDicts as the values of that key.</span>
@@ -820,9 +825,11 @@
 
 <div class="viewcode-block" id="reconstruct_safe_write_data">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.reconstruct_safe_write_data">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">reconstruct_safe_write_data</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
-                          <span class="n">unification_from_scratch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-                          <span class="n">file_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataDictBase</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">reconstruct_safe_write_data</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
+    <span class="n">unification_from_scratch</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">file_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataDict</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a new DataDict from the data saved in the .tmp folder. This is used when the data is saved in the safe</span>
 <span class="sd">    writing mode. The data is saved in individual files in the .tmp folder. This function reconstructs the data from</span>
@@ -844,7 +851,9 @@
 
     <span class="n">files</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">dirpath</span><span class="p">,</span> <span class="n">dirnames</span><span class="p">,</span> <span class="n">filenames</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">walk</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)):</span>
-        <span class="n">files</span><span class="o">.</span><span class="n">extend</span><span class="p">([(</span><span class="n">Path</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span><span class="o">/</span><span class="n">file</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">filenames</span> <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.ddh5&quot;</span><span class="p">)])</span>
+        <span class="n">files</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">[(</span><span class="n">Path</span><span class="p">(</span><span class="n">dirpath</span><span class="p">)</span> <span class="o">/</span> <span class="n">file</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">filenames</span> <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.ddh5&quot;</span><span class="p">)]</span>
+        <span class="p">)</span>
 
     <span class="n">files</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">files</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">stem</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;#&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
 
@@ -853,12 +862,16 @@
     <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">unification_from_scratch</span><span class="p">:</span>
         <span class="n">dd</span> <span class="o">=</span> <span class="n">datadict_from_hdf5</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">file_timeout</span><span class="o">=</span><span class="n">file_timeout</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">dd</span><span class="o">.</span><span class="n">has_meta</span><span class="p">(</span><span class="s2">&quot;last_reconstructed_file&quot;</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The file does not have the meta data &#39;last_reconstructed_file&#39;, &quot;</span>
-                             <span class="s2">&quot;could not know where to reconstruct from.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The file does not have the meta data &#39;last_reconstructed_file&#39;, &quot;</span>
+                <span class="s2">&quot;could not know where to reconstruct from.&quot;</span>
+            <span class="p">)</span>
         <span class="n">last_reconstructed_file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dd</span><span class="o">.</span><span class="n">meta_val</span><span class="p">(</span><span class="s2">&quot;last_reconstructed_file&quot;</span><span class="p">))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">last_reconstructed_file</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="n">last_reconstructed_file</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;When reconstructing the data, could find the last reconstructed file. &quot;</span>
-                             <span class="s2">&quot;This indicates that something wrong happened in the tmp folder.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;When reconstructing the data, could find the last reconstructed file. &quot;</span>
+                <span class="s2">&quot;This indicates that something wrong happened in the tmp folder.&quot;</span>
+            <span class="p">)</span>
         <span class="n">starting_index</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">last_reconstructed_file</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">first</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -872,7 +885,9 @@
 
     <span class="c1"># Add shape to axes</span>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">datavals</span> <span class="ow">in</span> <span class="n">dd</span><span class="o">.</span><span class="n">data_items</span><span class="p">():</span>
-        <span class="n">datavals</span><span class="p">[</span><span class="s2">&quot;__shape__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datavals</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">][:])</span><span class="o">.</span><span class="n">shape</span><span class="p">,)</span>
+        <span class="n">datavals</span><span class="p">[</span><span class="s2">&quot;__shape__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">datavals</span><span class="p">[</span><span class="s2">&quot;values&quot;</span><span class="p">][:])</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+        <span class="p">)</span>
 
     <span class="c1"># Catches the edge case where there is a single file in the .tmp folder.</span>
     <span class="c1"># This will not happen other than the first time, so it is ok to have that first variable there.</span>
@@ -882,6 +897,7 @@
         <span class="n">dd</span><span class="o">.</span><span class="n">add_meta</span><span class="p">(</span><span class="s2">&quot;last_reconstructed_file&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">first</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">dd</span></div>
+
 
 
 <span class="c1"># File access with locking</span>
@@ -1081,16 +1097,26 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_write_mode</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Starting reconstruction of data&quot;</span><span class="p">)</span>
-                <span class="n">dd</span> <span class="o">=</span> <span class="n">reconstruct_safe_write_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="n">file_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span><span class="p">)</span>
+                <span class="n">dd</span> <span class="o">=</span> <span class="n">reconstruct_safe_write_data</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="n">file_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span>
+                <span class="p">)</span>
 
                 <span class="c1"># Makes sure the reconstructed data matches the one in the .tmp folder</span>
                 <span class="k">assert</span> <span class="n">datasets_are_equal</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">datadict</span><span class="p">,</span> <span class="n">ignore_meta</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-                <span class="n">datadict_to_hdf5</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="n">groupname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">groupname</span><span class="p">,</span> <span class="n">file_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span><span class="p">,</span> <span class="n">append_mode</span><span class="o">=</span><span class="n">AppendMode</span><span class="o">.</span><span class="n">none</span><span class="p">)</span>
+                <span class="n">datadict_to_hdf5</span><span class="p">(</span>
+                    <span class="n">dd</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span>
+                    <span class="n">groupname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">groupname</span><span class="p">,</span>
+                    <span class="n">file_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span><span class="p">,</span>
+                    <span class="n">append_mode</span><span class="o">=</span><span class="n">AppendMode</span><span class="o">.</span><span class="n">none</span><span class="p">,</span>
+                <span class="p">)</span>
                 <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;.tmp&quot;</span><span class="p">)</span>
 
             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error while unifying data. Data should be located in the .tmp directory: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Error while unifying data. Data should be located in the .tmp directory: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_tag</span><span class="p">(</span><span class="s2">&quot;__not_reconstructed__&quot;</span><span class="p">)</span>
                 <span class="k">raise</span> <span class="n">e</span>
 
@@ -1141,7 +1167,7 @@
         <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">data_folder_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_next_safe_write_path</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_next_safe_write_path</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generates the next path for the data to be saved in the safe writing mode. Should not be used for other things.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1149,6 +1175,7 @@
         <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 
         <span class="c1"># Creates tmp folder</span>
+        <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="n">tmp_folder</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">&quot;.tmp&quot;</span>
         <span class="n">tmp_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -1172,7 +1199,9 @@
                 <span class="n">keep_searching</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">while</span> <span class="n">keep_searching</span><span class="p">:</span>
                     <span class="n">n_secs</span> <span class="o">+=</span> <span class="mi">1</span>
-                    <span class="n">second_folder</span> <span class="o">=</span> <span class="n">minute_folder</span> <span class="o">/</span> <span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%S&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_#</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">n_secs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">second_folder</span> <span class="o">=</span> <span class="n">minute_folder</span> <span class="o">/</span> <span class="p">(</span>
+                        <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%S&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_#</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">n_secs</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">second_folder</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                         <span class="n">keep_searching</span> <span class="o">=</span> <span class="kc">False</span>
                         <span class="n">second_folder</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
@@ -1185,7 +1214,7 @@
         <span class="n">filename</span> <span class="o">=</span> <span class="n">now</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">-%H_%M_%S&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">n_secs</span><span class="si">}</span><span class="s2">_#</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_files</span><span class="si">}</span><span class="s2">.ddh5&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">n_files</span> <span class="o">+=</span> <span class="mi">1</span>
 
-        <span class="k">return</span> <span class="n">second_folder</span><span class="o">/</span><span class="n">filename</span>
+        <span class="k">return</span> <span class="n">second_folder</span> <span class="o">/</span> <span class="n">filename</span>
 
 <div class="viewcode-block" id="DDH5Writer.add_data">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.DDH5Writer.add_data">[docs]</a>
@@ -1204,6 +1233,7 @@
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">safe_write_mode</span><span class="p">:</span>
             <span class="n">clean_dd_copy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">datadict</span><span class="o">.</span><span class="n">structure</span><span class="p">()</span>
+            <span class="k">assert</span> <span class="n">clean_dd_copy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="n">clean_dd_copy</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="n">filepath</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_next_safe_write_path</span><span class="p">()</span>
 
@@ -1218,18 +1248,32 @@
             <span class="n">delta_t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_reconstruction_time</span>
 
             <span class="c1"># Reconstructs the data every n_files_per_reconstruction files or every n_seconds_per_reconstruction seconds</span>
-            <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_files</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_update_n_files</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_files_per_reconstruction</span> <span class="ow">or</span>
-                    <span class="n">delta_t</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_seconds_per_reconstruction</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">n_files</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_update_n_files</span>
+                <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_files_per_reconstruction</span>
+                <span class="ow">or</span> <span class="n">delta_t</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_seconds_per_reconstruction</span>
+            <span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">dd</span> <span class="o">=</span> <span class="n">reconstruct_safe_write_data</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="n">unification_from_scratch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                                     <span class="n">file_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span><span class="p">)</span>
-                    <span class="n">datadict_to_hdf5</span><span class="p">(</span><span class="n">dd</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="n">groupname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">groupname</span><span class="p">,</span> <span class="n">file_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span><span class="p">,</span> <span class="n">append_mode</span><span class="o">=</span><span class="n">AppendMode</span><span class="o">.</span><span class="n">none</span><span class="p">)</span>
+                    <span class="k">assert</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                    <span class="n">dd</span> <span class="o">=</span> <span class="n">reconstruct_safe_write_data</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span>
+                        <span class="n">unification_from_scratch</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">file_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="n">datadict_to_hdf5</span><span class="p">(</span>
+                        <span class="n">dd</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span>
+                        <span class="n">groupname</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">groupname</span><span class="p">,</span>
+                        <span class="n">file_timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span><span class="p">,</span>
+                        <span class="n">append_mode</span><span class="o">=</span><span class="n">AppendMode</span><span class="o">.</span><span class="n">none</span><span class="p">,</span>
+                    <span class="p">)</span>
+                    <span class="k">with</span> <span class="n">FileOpener</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                        <span class="n">add_cur_time_attr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;last_change&quot;</span><span class="p">)</span>
+                        <span class="n">add_cur_time_attr</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">groupname</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;last_change&quot;</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error while unifying data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">Data is still getting saved in .tmp directory.&quot;</span><span class="p">)</span>
-
-                <span class="k">with</span> <span class="n">FileOpener</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">file_timeout</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-                    <span class="n">add_cur_time_attr</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;last_change&quot;</span><span class="p">)</span>
-                    <span class="n">add_cur_time_attr</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">groupname</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;last_change&quot;</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Error while unifying data: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2">Data is still getting saved in .tmp directory.&quot;</span>
+                    <span class="p">)</span>
 
                 <span class="c1"># Even if I fail at reconstruction, I want to wait the same amount as if it was successful to try again.</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">last_reconstruction_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -1293,11 +1337,14 @@
 
 <div class="viewcode-block" id="data_info">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.data_info">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">data_info</span><span class="p">(</span><span class="n">folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data.ddh5&quot;</span><span class="p">,</span> <span class="n">do_print</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="n">fn</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
-    <span class="n">dataset</span> <span class="o">=</span> <span class="n">datadict_from_hdf5</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">data_info</span><span class="p">(</span>
+    <span class="n">folder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data.ddh5&quot;</span><span class="p">,</span> <span class="n">do_print</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">fn_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">datadict_from_hdf5</span><span class="p">(</span><span class="n">fn_path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">do_print</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span></div>
 
@@ -1318,11 +1365,11 @@
 <div class="viewcode-block" id="find_data">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.find_data">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">find_data</span><span class="p">(</span>
-    <span class="n">root</span><span class="p">,</span>
+    <span class="n">root</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
     <span class="n">newer_than</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">older_than</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">folder_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Path</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
         <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
 
@@ -1348,7 +1395,7 @@
 <div class="viewcode-block" id="most_recent_data_path">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.most_recent_data_path">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">most_recent_data_path</span><span class="p">(</span>
-    <span class="n">root</span><span class="p">,</span>
+    <span class="n">root</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
     <span class="n">older_than</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">folder_filter</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
@@ -1360,7 +1407,7 @@
 <div class="viewcode-block" id="load_as_xr">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.load_as_xr">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_as_xr</span><span class="p">(</span>
-    <span class="n">folder</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fn</span><span class="o">=</span><span class="s2">&quot;data.ddh5&quot;</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">folder</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data.ddh5&quot;</span><span class="p">,</span> <span class="n">fields</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load ddh5 data as xarray (only for gridable data).</span>
 
@@ -1376,22 +1423,22 @@
 <span class="sd">    _type_</span>
 <span class="sd">        _description_</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fn</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="n">fn</span>
-    <span class="n">dd</span> <span class="o">=</span> <span class="n">datadict_from_hdf5</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+    <span class="n">fn_path</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="n">fn</span>
+    <span class="n">dd</span> <span class="o">=</span> <span class="n">datadict_from_hdf5</span><span class="p">(</span><span class="n">fn_path</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">fields</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dd</span> <span class="o">=</span> <span class="n">dd</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span>
     <span class="n">xrdata</span> <span class="o">=</span> <span class="n">split_complex</span><span class="p">(</span><span class="n">dd2xr</span><span class="p">(</span><span class="n">datadict_to_meshgrid</span><span class="p">(</span><span class="n">dd</span><span class="p">)))</span>
     <span class="n">xrdata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;raw_data_folder&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">folder</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
-    <span class="n">xrdata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;raw_data_fn&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span>
+    <span class="n">xrdata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;raw_data_fn&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">fn_path</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">xrdata</span></div>
 
 
 
 <div class="viewcode-block" id="load_as_df">
 <a class="viewcode-back" href="../../../api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.load_as_df">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">load_as_df</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">fn</span><span class="o">=</span><span class="s2">&quot;data.ddh5&quot;</span><span class="p">):</span>
-    <span class="n">fn</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="n">fn</span>
-    <span class="n">dfdata</span> <span class="o">=</span> <span class="n">split_complex</span><span class="p">(</span><span class="n">dd2df</span><span class="p">(</span><span class="n">datadict_from_hdf5</span><span class="p">(</span><span class="n">fn</span><span class="p">)))</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_as_df</span><span class="p">(</span><span class="n">folder</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;data.ddh5&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">fn_path</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="n">fn</span>
+    <span class="n">dfdata</span> <span class="o">=</span> <span class="n">split_complex</span><span class="p">(</span><span class="n">dd2df</span><span class="p">(</span><span class="n">datadict_from_hdf5</span><span class="p">(</span><span class="n">fn_path</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">dfdata</span></div>
 
 </pre></div>
@@ -1449,7 +1496,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>

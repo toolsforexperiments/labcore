@@ -30,7 +30,7 @@
 <link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -39,8 +39,8 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/analysis/hvapps';</script>
     <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/analysis/hvapps.html" />
     <link rel="author" title="About these documents" href="../../../about.html" />
@@ -419,38 +419,37 @@
                 <article class="bd-article">
                   
   <h1>Source code for labcore.analysis.hvapps</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">nest_asyncio</span>
-<span class="n">nest_asyncio</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
-
-<span class="kn">import</span><span class="w"> </span><span class="nn">hvplot</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">holoviews</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">hv</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">bokeh.io.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">export_png</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">hvplot</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">nest_asyncio</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">param</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">panel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pn</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">panel.widgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">RadioButtonGroup</span> <span class="k">as</span> <span class="n">RBG</span><span class="p">,</span> <span class="n">Select</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">watchdog.observers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Observer</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">param</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">bokeh.io.export</span><span class="w"> </span><span class="kn">import</span> <span class="n">export_png</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">panel.widgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">RadioButtonGroup</span> <span class="k">as</span> <span class="n">RBG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">panel.widgets</span><span class="w"> </span><span class="kn">import</span> <span class="n">Select</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">watchdog.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">FileSystemEventHandler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">watchdog.observers</span><span class="w"> </span><span class="kn">import</span> <span class="n">Observer</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">..data.datadict_storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">find_data</span><span class="p">,</span> <span class="n">timestamp_from_path</span><span class="p">,</span> <span class="n">datadict_from_hdf5</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..data.datadict</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">DataDict</span><span class="p">,</span>
-    <span class="n">dd2df</span><span class="p">,</span>
     <span class="n">datadict_to_meshgrid</span><span class="p">,</span>
+    <span class="n">dd2df</span><span class="p">,</span>
     <span class="n">dd2xr</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..data.datadict_storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">datadict_from_hdf5</span><span class="p">,</span> <span class="n">find_data</span><span class="p">,</span> <span class="n">timestamp_from_path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">..utils.misc</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_end_number_to_repeated_file</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">.hvplotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">labeled_widget</span><span class="p">,</span> <span class="n">PlotNode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.hvplotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">Node</span><span class="p">,</span> <span class="n">PlotNode</span><span class="p">,</span> <span class="n">labeled_widget</span>
+
+<span class="n">nest_asyncio</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -458,17 +457,17 @@
 <div class="viewcode-block" id="Handler">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.Handler">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Handler</span><span class="p">(</span><span class="n">FileSystemEventHandler</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_callback</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_callback</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_callback</span> <span class="o">=</span> <span class="n">update_callback</span>
 
 <div class="viewcode-block" id="Handler.on_created">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.Handler.on_created">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">on_created</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_created</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">event</span><span class="o">.</span><span class="n">is_directory</span><span class="p">:</span>
             <span class="c1"># Get file extension and compare to data file type, ddh5</span>
             <span class="n">file_type</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">src_path</span><span class="p">)</span><span class="o">.</span><span class="n">suffix</span>
             <span class="c1"># TODO: Generalize to other data file types</span>
-            <span class="k">if</span> <span class="n">file_type</span> <span class="o">==</span> <span class="s1">&#39;.ddh5&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_type</span> <span class="o">==</span> <span class="s2">&quot;.ddh5&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">update_callback</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
 </div>
 
@@ -477,14 +476,13 @@
 <div class="viewcode-block" id="DataSelect">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">DataSelect</span><span class="p">(</span><span class="n">pn</span><span class="o">.</span><span class="n">viewable</span><span class="o">.</span><span class="n">Viewer</span><span class="p">):</span>
-
     <span class="n">SYM</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;complete&#39;</span><span class="p">:</span> <span class="s1">&#39;✅&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;star&#39;</span><span class="p">:</span> <span class="s1">&#39;😁&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;bad&#39;</span><span class="p">:</span> <span class="s1">&#39;😭&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;trash&#39;</span><span class="p">:</span> <span class="s1">&#39;❌&#39;</span><span class="p">,</span>
+        <span class="s2">&quot;complete&quot;</span><span class="p">:</span> <span class="s2">&quot;✅&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;star&quot;</span><span class="p">:</span> <span class="s2">&quot;😁&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bad&quot;</span><span class="p">:</span> <span class="s2">&quot;😭&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;trash&quot;</span><span class="p">:</span> <span class="s2">&quot;❌&quot;</span><span class="p">,</span>
     <span class="p">}</span>
-    <span class="n">DATAFILE</span> <span class="o">=</span> <span class="s1">&#39;data.ddh5&#39;</span>
+    <span class="n">DATAFILE</span> <span class="o">=</span> <span class="s2">&quot;data.ddh5&quot;</span>
 
     <span class="n">selected_path</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
     <span class="n">search_term</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
@@ -496,22 +494,22 @@
 <div class="viewcode-block" id="DataSelect.date2label">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.date2label">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">date2label</span><span class="p">(</span><span class="n">date_tuple</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">date2label</span><span class="p">(</span><span class="n">date_tuple</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">date_tuple</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="DataSelect.label2date">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.label2date">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">label2date</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">label</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">))</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="nf">label2date</span><span class="p">(</span><span class="n">label</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">part</span><span class="p">)</span> <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="n">label</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="DataSelect.group_data">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.group_data">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">group_data</span><span class="p">(</span><span class="n">data_list</span><span class="p">):</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">group_data</span><span class="p">(</span><span class="n">data_list</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">ret</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">path</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">data_list</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">ts</span> <span class="o">=</span> <span class="n">timestamp_from_path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
             <span class="n">date</span> <span class="o">=</span> <span class="p">(</span><span class="n">ts</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">ts</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">ts</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
@@ -521,10 +519,10 @@
         <span class="k">return</span> <span class="n">ret</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">__panel__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__panel__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">layout</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_root</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_root</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
@@ -540,15 +538,14 @@
 
         <span class="c1"># a search bar for data</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">text_input</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">TextInput</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Search&#39;</span><span class="p">,</span>
-            <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;Enter a search term here...&#39;</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Search&quot;</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s2">&quot;Enter a search term here...&quot;</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="p">)</span>
 
         <span class="c1"># Display the current search term</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typed_value</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span>
             <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">],</span>
-            <span class="n">css_classes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ttlabel&#39;</span><span class="p">],</span>
+            <span class="n">css_classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ttlabel&quot;</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input_repeater</span><span class="p">)</span>
 
@@ -557,31 +554,27 @@
 
         <span class="c1"># two selectors for data selection</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_group_select_widget</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">CheckBoxGroup</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Date&#39;</span><span class="p">,</span>
-            <span class="n">width</span><span class="o">=</span><span class="mi">200</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">feed_scroll_width</span><span class="p">,</span>
-            <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">]</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span><span class="p">,</span>
+            <span class="n">width</span><span class="o">=</span><span class="mi">200</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">feed_scroll_width</span><span class="p">,</span>
+            <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="c1"># Wrap the CheckBoxGroup in a feed so that it can&#39;t get too long</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_group_select_feed</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">Feed</span><span class="p">(</span>
-            <span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_group_select_widget</span><span class="p">],</span>
-            <span class="n">height</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span>
-            <span class="n">width</span><span class="o">=</span><span class="mi">200</span>
+            <span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_group_select_widget</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">20</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">200</span>
         <span class="p">)</span>
         <span class="c1"># Add a title to match the multiselect widget style</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_group_select</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
             <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span>
-                <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">],</span>
-                <span class="n">css_classes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ttlabel&#39;</span><span class="p">],</span>
-                <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span>
+                <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">],</span> <span class="n">css_classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ttlabel&quot;</span><span class="p">],</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Date&quot;</span>
             <span class="p">),</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_group_select_feed</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_group_select_feed</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="c1"># Data select panel</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_data_select_widget</span> <span class="o">=</span> <span class="n">Select</span><span class="p">(</span>
-            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Data set&#39;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Data set&quot;</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
             <span class="n">width</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span>
-            <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">]</span>
+            <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">],</span>
         <span class="p">)</span>
 
         <span class="c1"># Scrollable feed of images stored with this data</span>
@@ -589,20 +582,26 @@
         <span class="c1"># Data frame showing axes &amp; dependencies</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_info</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_group_select</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_select</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_images_feed</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_group_select</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_select</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_info</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_images_feed</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
         <span class="c1"># a simple info panel about the selection</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lbl</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">StaticText</span><span class="p">(</span>
             <span class="n">stylesheets</span><span class="o">=</span><span class="p">[</span><span class="n">selector_stylesheet</span><span class="p">],</span>
-            <span class="n">css_classes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;ttlabel&#39;</span><span class="p">],</span>
+            <span class="n">css_classes</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;ttlabel&quot;</span><span class="p">],</span>
         <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">info_panel</span><span class="p">))</span>
 
         <span class="n">opts</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sets</span><span class="o">.</span><span class="n">keys</span><span class="p">())[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">lbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date2label</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39; [</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sets</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="si">}</span><span class="s1">]&#39;</span>
+            <span class="n">lbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date2label</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; [</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sets</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="si">}</span><span class="s2">]&quot;</span>
             <span class="n">opts</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_group_select_widget</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">opts</span>
 
@@ -615,21 +614,23 @@
 
 <div class="viewcode-block" id="DataSelect.start">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.start">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">DIRECTORY_TO_WATCH</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">schedule</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">handler</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">DIRECTORY_TO_WATCH</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">observer</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="DataSelect.data_select">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.data_select">[docs]</a>
     <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;_group_select_widget.value&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">data_select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data_select</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="c1"># setup global variables for search function</span>
         <span class="n">active_search</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;.*&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;text_input&quot;</span><span class="p">):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="o">.</span><span class="n">value_input</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="o">.</span><span class="n">value_input</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="o">.</span><span class="n">value_input</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="o">.</span><span class="n">value_input</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span>
+            <span class="p">):</span>
                 <span class="c1"># Make the Regex expression for the searched string</span>
                 <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;.*&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="o">.</span><span class="n">value_input</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.*&quot;</span><span class="p">)</span>
                 <span class="n">active_search</span> <span class="o">=</span> <span class="kc">True</span>
@@ -642,13 +643,17 @@
 
 <div class="viewcode-block" id="DataSelect.get_data_options">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.get_data_options">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">get_data_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">active_search</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">&#39;.*&#39;</span><span class="p">)):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_data_options</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">active_search</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">r</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;.*&quot;</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">r</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
         <span class="n">opts</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group_select_widget</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_sets</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-                <span class="k">if</span> <span class="n">active_search</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">timestamp_from_path</span><span class="p">(</span><span class="n">dset</span><span class="p">))):</span>
+                <span class="k">if</span> <span class="n">active_search</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">r</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+                    <span class="nb">str</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">timestamp_from_path</span><span class="p">(</span><span class="n">dset</span><span class="p">))</span>
+                <span class="p">):</span>
                     <span class="c1"># If Active search and this term doesn&#39;t match it, don&#39;t show</span>
                     <span class="k">continue</span>
                 <span class="p">(</span><span class="n">dirs</span><span class="p">,</span> <span class="n">files</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_sets</span><span class="p">[</span><span class="n">d</span><span class="p">][</span><span class="n">dset</span><span class="p">]</span>
@@ -658,8 +663,8 @@
                 <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dset</span><span class="o">.</span><span class="n">stem</span><span class="p">[</span><span class="mi">27</span><span class="p">:]</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="n">date</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ts</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
                 <span class="n">lbl</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">date</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">time</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">uuid</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;complete&#39;</span><span class="p">,</span> <span class="s1">&#39;star&#39;</span><span class="p">,</span> <span class="s1">&#39;trash&#39;</span><span class="p">]:</span>
-                    <span class="k">if</span> <span class="sa">f</span><span class="s1">&#39;__</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">__.tag&#39;</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;complete&quot;</span><span class="p">,</span> <span class="s2">&quot;star&quot;</span><span class="p">,</span> <span class="s2">&quot;trash&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;__</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">__.tag&quot;</span> <span class="ow">in</span> <span class="n">files</span><span class="p">:</span>
                         <span class="n">lbl</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SYM</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
                 <span class="n">opts</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span> <span class="o">=</span> <span class="n">dset</span>
         <span class="k">return</span> <span class="n">opts</span></div>
@@ -668,7 +673,7 @@
 <div class="viewcode-block" id="DataSelect.info_panel">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.info_panel">[docs]</a>
     <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;_data_select_widget.value&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">info_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">info_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data_select_widget</span><span class="o">.</span><span class="n">value</span>
         <span class="c1"># Setup data preview panel</span>
         <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -678,13 +683,15 @@
             <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">Path</span><span class="o">.</span><span class="n">iterdir</span><span class="p">(</span><span class="n">abs_path</span><span class="p">):</span>
                 <span class="c1"># Check if the file ends with png, jpg, or jpeg</span>
                 <span class="n">file</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-                <span class="n">img</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
                 <span class="k">if</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.png&quot;</span><span class="p">):</span>
-                    <span class="n">img</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">PNG</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">sizing_mode</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
-                                      <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">image_feed_width</span><span class="p">)</span>
+                    <span class="n">img</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">PNG</span><span class="p">(</span>
+                        <span class="n">file</span><span class="p">,</span> <span class="n">sizing_mode</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">image_feed_width</span>
+                    <span class="p">)</span>
                 <span class="k">elif</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.jpg&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">file</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.jpeg&quot;</span><span class="p">):</span>
-                    <span class="n">img</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">JPG</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">sizing_mode</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span>
-                                      <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">image_feed_width</span><span class="p">)</span>
+                    <span class="n">img</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">pane</span><span class="o">.</span><span class="n">JPG</span><span class="p">(</span>
+                        <span class="n">file</span><span class="p">,</span> <span class="n">sizing_mode</span><span class="o">=</span><span class="s2">&quot;fixed&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">image_feed_width</span>
+                    <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">continue</span>
                 <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
@@ -698,13 +705,14 @@
             <span class="n">dict_for_dataframe</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">dd</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;__&quot;</span><span class="p">:</span>
-                    <span class="n">depends_on</span> <span class="o">=</span> <span class="n">dd</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;axes&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">dd</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;axes&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[</span>
-                    <span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;Independent&quot;</span>
-                    <span class="n">dict_for_dataframe</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
-                        <span class="n">dd</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;__shape__&quot;</span><span class="p">],</span> <span class="n">depends_on</span><span class="p">]</span>
+                    <span class="n">depends_on</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">dd</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;axes&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">dd</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;axes&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="p">[]</span> <span class="k">else</span> <span class="s2">&quot;Independent&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">dict_for_dataframe</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">dd</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;__shape__&quot;</span><span class="p">],</span> <span class="n">depends_on</span><span class="p">]</span>
             <span class="c1"># Convert to data frame and display</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
-                <span class="n">data</span><span class="o">=</span><span class="n">dict_for_dataframe</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Shape&#39;</span><span class="p">,</span> <span class="s1">&#39;Depends on&#39;</span><span class="p">])</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">dict_for_dataframe</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Shape&quot;</span><span class="p">,</span> <span class="s2">&quot;Depends on&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">data_info</span><span class="o">.</span><span class="n">object</span> <span class="o">=</span> <span class="n">df</span>
         <span class="c1"># Get the path</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
@@ -718,7 +726,7 @@
 <div class="viewcode-block" id="DataSelect.text_input_repeater">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.text_input_repeater">[docs]</a>
     <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;text_input.value_input&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">text_input_repeater</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">text_input_repeater</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">typed_value</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Current Search: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="o">.</span><span class="n">value_input</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">search_term</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_input</span><span class="o">.</span><span class="n">value_input</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">typed_value</span></div>
@@ -726,13 +734,13 @@
 
 <div class="viewcode-block" id="DataSelect.update_group_options">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.update_group_options">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_group_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_group_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Refresh self.data_sets</span>
         <span class="n">new_data_set</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">group_data</span><span class="p">(</span><span class="n">find_data</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">data_root</span><span class="p">))</span>
         <span class="c1"># Repull data group options</span>
         <span class="n">new_opts</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">new_data_set</span><span class="o">.</span><span class="n">keys</span><span class="p">())[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">lbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date2label</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39; [</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_data_set</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="si">}</span><span class="s1">]&#39;</span>
+            <span class="n">lbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">date2label</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot; [</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">new_data_set</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="si">}</span><span class="s2">]&quot;</span>
             <span class="n">new_opts</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span> <span class="o">=</span> <span class="n">k</span>
         <span class="c1"># Set the group and data options</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data_sets</span> <span class="o">=</span> <span class="n">new_data_set</span>
@@ -764,7 +772,7 @@
 <span class="sd">    Each subclass must implement ``LoaderNodeBase.load_data``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Constructor for ``LoaderNode``.</span>
 
 <span class="sd">        Parameters</span>
@@ -781,30 +789,29 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">widgets</span><span class="o">.</span><span class="n">Select</span><span class="p">(</span>
             <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Auto-refresh&quot;</span><span class="p">,</span>
             <span class="n">options</span><span class="o">=</span><span class="p">{</span>
-                <span class="s1">&#39;None&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="s1">&#39;2 s&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-                <span class="s1">&#39;5 s&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-                <span class="s1">&#39;10 s&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
-                <span class="s1">&#39;1 min&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
-                <span class="s1">&#39;10 min&#39;</span><span class="p">:</span> <span class="mi">600</span><span class="p">,</span>
+                <span class="s2">&quot;None&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="s2">&quot;2 s&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="s2">&quot;5 s&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+                <span class="s2">&quot;10 s&quot;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+                <span class="s2">&quot;1 min&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+                <span class="s2">&quot;10 min&quot;</span><span class="p">:</span> <span class="mi">600</span><span class="p">,</span>
             <span class="p">},</span>
             <span class="n">value</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
             <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">task</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Determines if save_buttons need to be disabled. Must be run early</span>
         <span class="c1"># to avoid an &#39;attribute does not exist&#39; error.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">disable_buttons</span> <span class="o">=</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">can_save</span><span class="p">()</span>
 
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
         <span class="c1"># Store whether or not each graph type can be saved as html/png.</span>
         <span class="c1"># Must be created before plot_col column</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graph_type_savable</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph_types</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">graph_type_savable</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">graph_types</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="s1">&#39;get_plot&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph_type_savable</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph_types</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="s2">&quot;get_plot&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">pre_process_opts</span> <span class="o">=</span> <span class="n">RBG</span><span class="p">(</span>
             <span class="n">options</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Average&quot;</span><span class="p">],</span>
@@ -848,7 +855,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">plot_col</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">)</span>
 
         <span class="c1"># The Leading pn.Row is used to make the fit box appear at right</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">layout</span> <span class="o">=</span> <span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span>
             <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
                 <span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span>
                     <span class="n">labeled_widget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_process_opts</span><span class="p">),</span>
@@ -860,15 +867,12 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">png_button</span><span class="p">,</span>
                 <span class="p">),</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">display_info</span><span class="p">,</span>
-                <span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">buffer_col</span><span class="p">,</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">plot_col</span>
-                <span class="p">)</span>
+                <span class="n">pn</span><span class="o">.</span><span class="n">Row</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">buffer_col</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_col</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">fit_obj</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="c1">#Create var to collect the fitfunc inputs</span>
+        <span class="c1"># Create var to collect the fitfunc inputs</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fit_inputs</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
@@ -895,10 +899,8 @@
 
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_process_dim_input</span><span class="o">.</span><span class="n">value</span> <span class="ow">in</span> <span class="n">indep</span><span class="p">:</span>
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_process_opts</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;Average&quot;</span><span class="p">:</span>
-                        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
-                            <span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_process_dim_input</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-                        <span class="n">indep</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">indep</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">pre_process_dim_input</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+                        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pre_process_dim_input</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                        <span class="n">indep</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">indep</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pre_process_dim_input</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 
             <span class="c1"># when making gridded data, can do things slightly differently</span>
             <span class="c1"># TODO: what if gridding goes wrong?</span>
@@ -917,19 +919,19 @@
 
             <span class="bp">self</span><span class="o">.</span><span class="n">data_out</span> <span class="o">=</span> <span class="n">data</span>
             <span class="n">t1</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">info_label</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Loaded data at </span><span class="si">{</span><span class="n">t1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> (in </span><span class="si">{</span><span class="p">(</span><span class="n">t1</span><span class="o">-</span><span class="n">t0</span><span class="p">)</span><span class="o">.</span><span class="n">microseconds</span><span class="o">*</span><span class="mf">1e-3</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> ms).&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">info_label</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Loaded data at </span><span class="si">{</span><span class="n">t1</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> (in </span><span class="si">{</span><span class="p">(</span><span class="n">t1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">t0</span><span class="p">)</span><span class="o">.</span><span class="n">microseconds</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-3</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> ms).&quot;</span>
 
             <span class="c1"># Select None so that save buttons disabled/enabled works</span>
             <span class="c1"># I have no clue why but there&#39;s a bug if this doesn&#39;t happen</span>
             <span class="n">save_val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_type_select</span><span class="o">.</span><span class="n">value</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">plot_type_select</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;None&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_type_select</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">plot_type_select</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">save_val</span></div>
 
 
 <div class="viewcode-block" id="LoaderNodeBase.plot_obj">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.plot_obj">[docs]</a>
     <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;data_out&quot;</span><span class="p">,</span> <span class="s2">&quot;plot_type_select.value&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">plot_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_obj</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="n">ret</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">plot_obj</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">toggle_save_buttons</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">ret</span></div>
@@ -937,7 +939,7 @@
 
 <div class="viewcode-block" id="LoaderNodeBase.can_save">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.can_save">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">can_save</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_save</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="c1"># Returns TRUE is the necessary packages for saving html and images are installed</span>
         <span class="c1"># Returns FALSE and prints a notice about the uninstalled packages otherwise</span>
 
@@ -954,11 +956,13 @@
 
         <span class="c1"># Reset Plot object</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_plot_obj</span> <span class="o">=</span> <span class="kc">None</span>
-        
+
         <span class="k">if</span> <span class="ow">not</span> <span class="n">has_packages</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;SAVING IMAGES DISABLED: You have not installed the necessary packages to allow for the saving of &quot;</span>
-                           <span class="s2">&quot;images. To allow this functionality, please install Selenium, PhantomJS, Firefox, and &quot;</span>
-                           <span class="s2">&quot;Geckodriver&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;SAVING IMAGES DISABLED: You have not installed the necessary packages to allow for the saving of &quot;</span>
+                <span class="s2">&quot;images. To allow this functionality, please install Selenium, PhantomJS, Firefox, and &quot;</span>
+                <span class="s2">&quot;Geckodriver&quot;</span>
+            <span class="p">)</span>
 
         <span class="n">has_packages</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">return</span> <span class="n">has_packages</span></div>
@@ -966,7 +970,7 @@
 
 <div class="viewcode-block" id="LoaderNodeBase.toggle_save_buttons">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.toggle_save_buttons">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">toggle_save_buttons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">toggle_save_buttons</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">disable_buttons</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
             <span class="c1"># If the packages aren&#39;t installed, keep button disabled</span>
             <span class="c1"># If no file is selected, keep button disabled</span>
@@ -979,42 +983,48 @@
 
 <div class="viewcode-block" id="LoaderNodeBase.save_html">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.save_html">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">parameterized</span><span class="o">.</span><span class="n">Event</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">parameterized</span><span class="o">.</span><span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plot_obj</span><span class="p">,</span> <span class="n">PlotNode</span><span class="p">):</span>
-            <span class="n">file_name</span> <span class="o">=</span> <span class="n">add_end_number_to_repeated_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.html&quot;</span><span class="p">)</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">add_end_number_to_repeated_file</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">.html&quot;</span>
+            <span class="p">)</span>
             <span class="n">hvplot</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plot_obj</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(),</span> <span class="n">file_name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LoaderNodeBase.save_png">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.save_png">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_png</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">parameterized</span><span class="o">.</span><span class="n">Event</span><span class="p">):</span>
-        <span class="k">def</span><span class="w"> </span><span class="nf">save_p</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_png</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">parameterized</span><span class="o">.</span><span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">save_p</span><span class="p">(</span><span class="n">p</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">path</span> <span class="o">=</span> <span class="n">add_end_number_to_repeated_file</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">name</span><span class="si">}{</span><span class="n">suffix</span><span class="si">}</span><span class="s2">.png&quot;</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
             <span class="c1"># FIXME: We need all of this because different plot types return different objects.</span>
             <span class="c1">#  It might be worth unifying it and always returning the same object.</span>
             <span class="c1"># If p is a Panel HoloViews pane, extract the HoloViews object</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="s1">&#39;traverse&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;object&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">object</span><span class="p">,</span> <span class="s2">&quot;traverse&quot;</span><span class="p">):</span>
                 <span class="c1"># This is a Panel HoloViews pane - extract the HoloViews object</span>
                 <span class="n">hv_obj</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">object</span>
-            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;traverse&#39;</span><span class="p">):</span>
+            <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s2">&quot;traverse&quot;</span><span class="p">):</span>
                 <span class="c1"># This is already a HoloViews object</span>
                 <span class="n">hv_obj</span> <span class="o">=</span> <span class="n">p</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Skip objects that are not HoloViews or Panel HoloViews panes</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping object of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="si">}</span><span class="s2"> - not a HoloViews object&quot;</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Skipping object of type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="si">}</span><span class="s2"> - not a HoloViews object&quot;</span>
+                <span class="p">)</span>
                 <span class="k">return</span>
-                
+
             <span class="n">bokeh_plot</span> <span class="o">=</span> <span class="n">hv</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">hv_obj</span><span class="p">)</span>
             <span class="n">export_png</span><span class="p">(</span><span class="n">bokeh_plot</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="n">path</span><span class="p">)</span>
 
         <span class="c1"># TODO: What happens when this is not a Node? What should happen then?</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_plot_obj</span><span class="p">,</span> <span class="n">PlotNode</span><span class="p">):</span>
-
             <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_plot_obj</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">pn</span><span class="o">.</span><span class="n">Column</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plot</span><span class="p">):</span>
-                    <span class="n">suffix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;_plot</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                    <span class="n">suffix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;_plot</span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
                     <span class="n">save_p</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">save_p</span><span class="p">(</span><span class="n">plot</span><span class="p">)</span></div>
@@ -1023,14 +1033,14 @@
 <div class="viewcode-block" id="LoaderNodeBase.display_info">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.display_info">[docs]</a>
     <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;info_label.value&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">display_info</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">display_info</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">info_label</span></div>
 
 
 <div class="viewcode-block" id="LoaderNodeBase.on_refresh_changed">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.on_refresh_changed">[docs]</a>
     <span class="nd">@pn</span><span class="o">.</span><span class="n">depends</span><span class="p">(</span><span class="s2">&quot;refresh.value&quot;</span><span class="p">,</span> <span class="n">watch</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">on_refresh_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">on_refresh_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">task</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -1041,7 +1051,7 @@
 
 <div class="viewcode-block" id="LoaderNodeBase.run_auto_refresh">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.run_auto_refresh">[docs]</a>
-    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_auto_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">run_auto_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">refresh</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
             <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">load_and_preprocess</span><span class="p">())</span>
@@ -1062,12 +1072,14 @@
 </div>
 
 
+
 <span class="n">Label_stylesheet</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">:host {</span>
 <span class="s2">    font-family: monospace;</span>
 <span class="s2">    font-size: 20px;</span>
 <span class="s2">}</span>
 <span class="s2">&quot;&quot;&quot;</span>
+
 
 <div class="viewcode-block" id="DDH5LoaderNode">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DDH5LoaderNode">[docs]</a>
@@ -1095,7 +1107,7 @@
 
 <div class="viewcode-block" id="DDH5LoaderNode.load_data">
 <a class="viewcode-back" href="../../../api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DDH5LoaderNode.load_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataDict</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Load data from the file location specified</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1162,7 +1174,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
     <br/>
   </p>
 </div>
