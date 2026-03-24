@@ -17,7 +17,10 @@ import pytest
 import labcore.protocols.base as proto_base
 from labcore.protocols.base import (
     BranchBase,
+    CheckResult,
     Condition,
+    Correction,
+    EvaluateResult,
     OperationStatus,
     ParamImprovement,
     PlatformTypes,
@@ -80,9 +83,9 @@ def make_simple_op(
         def analyze(self):
             log.append("analyze")
 
-        def evaluate(self) -> OperationStatus:
+        def evaluate(self) -> EvaluateResult:
             log.append("evaluate")
-            return status
+            return EvaluateResult(status)
 
     return _Op(), log
 
@@ -229,8 +232,8 @@ class TestProtocolOperation:
 class TestSuperOperationBase:
     def _make_super(self, sub_ops, evaluate_status=OperationStatus.SUCCESS):
         class _Super(SuperOperationBase):
-            def evaluate(self) -> OperationStatus:
-                return evaluate_status
+            def evaluate(self) -> EvaluateResult:
+                return EvaluateResult(evaluate_status)
 
         s = _Super()
         s.operations = sub_ops
@@ -261,7 +264,7 @@ class TestSuperOperationBase:
 
     def test_execute_returns_failure_on_sub_op_exception(self):
         class _BadOp(ProtocolOperation):
-            def execute(self) -> OperationStatus:
+            def execute(self) -> EvaluateResult:
                 raise RuntimeError("boom")
 
             def _measure_dummy(self):
@@ -273,33 +276,33 @@ class TestSuperOperationBase:
             def analyze(self):
                 pass
 
-            def evaluate(self):
-                return OperationStatus.SUCCESS
+            def evaluate(self) -> EvaluateResult:
+                return EvaluateResult(OperationStatus.SUCCESS)
 
         s = self._make_super([_BadOp()])
         result = s.execute()
-        assert result == OperationStatus.FAILURE
+        assert result.status == OperationStatus.FAILURE
 
     def test_execute_returns_failure_on_sub_op_failure(self):
         op, _ = make_simple_op(status=OperationStatus.FAILURE)
         s = self._make_super([op])
         result = s.execute()
-        assert result == OperationStatus.FAILURE
+        assert result.status == OperationStatus.FAILURE
 
     def test_execute_calls_evaluate_at_end(self):
         called = []
 
         class _Super(SuperOperationBase):
-            def evaluate(self) -> OperationStatus:
+            def evaluate(self) -> EvaluateResult:
                 called.append(True)
-                return OperationStatus.SUCCESS
+                return EvaluateResult(OperationStatus.SUCCESS)
 
         op, _ = make_simple_op()
         s = _Super()
         s.operations = [op]
         result = s.execute()
         assert called == [True]
-        assert result == OperationStatus.SUCCESS
+        assert result.status == OperationStatus.SUCCESS
 
 
 # ===========================================================================
@@ -450,14 +453,14 @@ class TestParameterOptimizationLifecycle:
             def analyze(self):
                 pass
 
-            def evaluate(self) -> OperationStatus:
+            def evaluate(self) -> EvaluateResult:
                 old = self.result()
                 new = old + 5
                 self.improvements.append(
                     ParamImprovement(old_value=old, new_value=new, param=self.result)
                 )
                 self.result(new)
-                return OperationStatus.SUCCESS
+                return EvaluateResult(OperationStatus.SUCCESS)
 
         op = _Op()
         proto = make_protocol([op], report_path=tmp_path)
@@ -483,11 +486,11 @@ class TestParameterOptimizationLifecycle:
             def analyze(self):
                 pass
 
-            def evaluate(self) -> OperationStatus:
+            def evaluate(self) -> EvaluateResult:
                 attempt["count"] += 1
                 if attempt["count"] < 3:
-                    return OperationStatus.RETRY
-                return OperationStatus.SUCCESS
+                    return EvaluateResult(OperationStatus.RETRY)
+                return EvaluateResult(OperationStatus.SUCCESS)
 
         op = _Op()
         op.max_attempts = 3
@@ -510,8 +513,8 @@ class TestParameterOptimizationLifecycle:
             def analyze(self):
                 pass
 
-            def evaluate(self) -> OperationStatus:
-                return OperationStatus.RETRY
+            def evaluate(self) -> EvaluateResult:
+                return EvaluateResult(OperationStatus.RETRY)
 
         op = _Op()
         op.max_attempts = 2
@@ -520,3 +523,149 @@ class TestParameterOptimizationLifecycle:
 
         assert proto.success is False
         assert op.total_attempts_made == 2
+
+
+# ===========================================================================
+# 8. Success update registration
+# ===========================================================================
+
+
+def make_op_with_check(status: OperationStatus, check_name: str = "test_check"):
+    """Return an operation whose evaluate() returns a single named check result."""
+
+    class _Op(ProtocolOperation):
+        def _measure_dummy(self):
+            return Path(".")
+
+        def _load_data_dummy(self):
+            pass
+
+        def analyze(self):
+            pass
+
+        def evaluate(self) -> EvaluateResult:
+            passed = status == OperationStatus.SUCCESS
+            return EvaluateResult(status, [CheckResult(check_name, passed, "stub")])
+
+    return _Op()
+
+
+class TestSuccessUpdateRegistration:
+    def test_update_applied_on_success(self):
+        op = make_op_with_check(OperationStatus.SUCCESS)
+        param, store = make_param({"value": 0.0})
+        op._register_success_update(param, lambda: 99.0)
+        op.correct(op.evaluate())
+        assert store["value"] == 99.0
+        assert len(op.improvements) == 1
+        assert op.improvements[0].new_value == 99.0
+
+    def test_update_not_applied_on_retry(self):
+        op = make_op_with_check(OperationStatus.RETRY)
+        param, store = make_param({"value": 0.0})
+        op._register_success_update(param, lambda: 99.0)
+        op._register_check("test_check", lambda: CheckResult("test_check", False, ""))
+        op.correct(op.evaluate())
+        assert store["value"] == 0.0
+        assert op.improvements == []
+
+    def test_multiple_updates_all_applied(self):
+        op = make_op_with_check(OperationStatus.SUCCESS)
+        param1, store1 = make_param({"value": 0.0})
+        param2, store2 = make_param({"value": 0.0})
+        op._register_success_update(param1, lambda: 1.0)
+        op._register_success_update(param2, lambda: 2.0)
+        op.correct(op.evaluate())
+        assert store1["value"] == 1.0
+        assert store2["value"] == 2.0
+        assert len(op.improvements) == 2
+
+    def test_report_contains_param_name(self):
+        op = make_op_with_check(OperationStatus.SUCCESS)
+        param, _ = make_param()
+        op._register_success_update(param, lambda: 5.0)
+        op.correct(op.evaluate())
+        combined = " ".join(str(s) for s in op.report_output)
+        assert param.name in combined
+
+
+# ===========================================================================
+# 9. Multiple / fallback corrections per check
+# ===========================================================================
+
+
+class _TrackingCorrection(Correction):
+    """Correction that records apply() calls and has a configurable can_apply()."""
+
+    def __init__(self, can: bool = True):
+        self._can = can
+        self.applied = 0
+
+    def can_apply(self) -> bool:
+        return self._can
+
+    def apply(self) -> None:
+        self.applied += 1
+
+
+def make_op_with_failing_check(check_name: str = "test_check"):
+    """Operation whose evaluate() always returns RETRY with a single failed check."""
+
+    class _Op(ProtocolOperation):
+        def _measure_dummy(self):
+            return Path(".")
+
+        def _load_data_dummy(self):
+            pass
+
+        def analyze(self):
+            pass
+
+        def evaluate(self) -> EvaluateResult:
+            return EvaluateResult(
+                OperationStatus.RETRY,
+                [CheckResult(check_name, False, "stub")],
+            )
+
+    return _Op()
+
+
+class TestMultipleFallbackCorrections:
+    def test_first_correction_applied_when_both_can_apply(self):
+        op = make_op_with_failing_check()
+        c1 = _TrackingCorrection(can=True)
+        c2 = _TrackingCorrection(can=True)
+        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), [c1, c2])
+        op.correct(op.evaluate())
+        assert c1.applied == 1
+        assert c2.applied == 0
+
+    def test_fallback_to_second_when_first_exhausted(self):
+        op = make_op_with_failing_check()
+        c1 = _TrackingCorrection(can=False)
+        c2 = _TrackingCorrection(can=True)
+        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), [c1, c2])
+        op.correct(op.evaluate())
+        assert c1.applied == 0
+        assert c2.applied == 1
+
+    def test_failure_when_all_exhausted(self):
+        op = make_op_with_failing_check()
+        c1 = _TrackingCorrection(can=False)
+        c2 = _TrackingCorrection(can=False)
+        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), [c1, c2])
+        result = op.correct(op.evaluate())
+        assert result.status == OperationStatus.FAILURE
+
+    def test_single_correction_backward_compat(self):
+        op = make_op_with_failing_check()
+        c = _TrackingCorrection()
+        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), c)
+        assert op._registered_checks[0].corrections == [c]
+
+    def test_list_stored_in_order(self):
+        op = make_op_with_failing_check()
+        c1 = _TrackingCorrection()
+        c2 = _TrackingCorrection()
+        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), [c1, c2])
+        assert op._registered_checks[0].corrections == [c1, c2]
