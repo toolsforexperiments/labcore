@@ -20,6 +20,7 @@ from labcore.protocols.base import (
     CheckResult,
     Condition,
     Correction,
+    CorrectionParameter,
     EvaluateResult,
     OperationStatus,
     ParamImprovement,
@@ -669,3 +670,135 @@ class TestMultipleFallbackCorrections:
         c2 = _TrackingCorrection()
         op._register_check("test_check", lambda: CheckResult("test_check", False, ""), [c1, c2])
         assert op._registered_checks[0].corrections == [c1, c2]
+
+
+# ===========================================================================
+# 10. Default evaluate() using registered checks
+# ===========================================================================
+
+
+def make_op_with_registered_checks(passing: dict[str, bool]):
+    """Operation that uses _register_check() and relies on default evaluate()."""
+
+    class _Op(ProtocolOperation):
+        def __init__(self):
+            super().__init__()
+            for name, should_pass in passing.items():
+                self._register_check(
+                    name,
+                    lambda p=should_pass, n=name: CheckResult(n, p, f"stub:{p}"),
+                )
+
+        def _measure_dummy(self):
+            return Path(".")
+
+        def _load_data_dummy(self):
+            pass
+
+        def analyze(self):
+            pass
+
+    return _Op()
+
+
+class TestDefaultEvaluate:
+    def test_all_checks_pass_returns_success(self):
+        op = make_op_with_registered_checks({"a": True, "b": True})
+        result = op.evaluate()
+        assert result.status == OperationStatus.SUCCESS
+        assert len(result.checks) == 2
+        assert all(c.passed for c in result.checks)
+
+    def test_any_check_fails_returns_retry(self):
+        op = make_op_with_registered_checks({"a": True, "b": False})
+        result = op.evaluate()
+        assert result.status == OperationStatus.RETRY
+
+    def test_check_names_match_registered(self):
+        op = make_op_with_registered_checks({"snr": True, "peak": False})
+        result = op.evaluate()
+        names = [c.name for c in result.checks]
+        assert names == ["snr", "peak"]
+
+    def test_no_correction_registered_escalates_to_failure(self):
+        """Failed check with correction=None → correct() returns FAILURE."""
+        op = make_op_with_registered_checks({"peak": False})
+        result = op.correct(op.evaluate())
+        assert result.status == OperationStatus.FAILURE
+
+    def test_check_table_appended_to_report(self):
+        op = make_op_with_registered_checks({"snr": True})
+        op.correct(op.evaluate())
+        combined = " ".join(op.report_output)
+        assert "snr" in combined
+
+    def test_improvements_reset_on_each_execute(self):
+        store = {"value": 0.0}
+        op = make_op_with_registered_checks({"ok": True})
+        param, _ = make_param(store)
+        op._register_success_update(param, lambda: 1.0)
+        op.execute()
+        assert len(op.improvements) == 1
+        op.execute()
+        assert len(op.improvements) == 1  # reset, not accumulated
+
+
+# ===========================================================================
+# 11. CorrectionParameter
+# ===========================================================================
+
+
+def make_correction_param():
+    @dataclass
+    class _CParam(CorrectionParameter):
+        name: str = field(default="window_size", init=False)
+        description: str = field(default="search window width", init=False)
+
+        def _dummy_getter(self):
+            return self._value
+
+        def _dummy_setter(self, v):
+            self._value = v
+
+        def __post_init__(self):
+            super().__post_init__()
+            self._value = 0.0
+
+    return _CParam(params=None)
+
+
+class TestCorrectionParameter:
+    def test_getter_setter(self):
+        p = make_correction_param()
+        p(42.0)
+        assert p() == 42.0
+
+    def test_registered_as_attribute(self):
+        op, _ = make_simple_op()
+        p = make_correction_param()
+        op._register_correction_params(win=p)
+        assert op.win is p
+        assert op.correction_params["win"] is p
+
+    def test_excluded_from_verify_all_parameters(self, tmp_path):
+        """CorrectionParameter should not be checked in verify_all_parameters()."""
+
+        @dataclass
+        class _BadCParam(CorrectionParameter):
+            name: str = field(default="bad", init=False)
+            description: str = field(default="d", init=False)
+
+            def _dummy_getter(self):
+                raise RuntimeError("should not be called")
+
+            def _dummy_setter(self, v):
+                pass
+
+            def __post_init__(self):
+                super().__post_init__()
+
+        op, _ = make_simple_op()
+        op._register_correction_params(bad=_BadCParam(params=None))
+        proto = make_protocol([op], report_path=tmp_path)
+        # Should not raise even though _dummy_getter would raise
+        assert proto.verify_all_parameters() is True
