@@ -188,6 +188,7 @@ class CheckResult:
     description: str
 
 
+# TODO: Add a reset mechanism
 class Correction:
     """
     Base class for stateful correction strategies.
@@ -229,6 +230,10 @@ class Correction:
         raise NotImplementedError(
             f"Correction '{self.__class__.__name__}' must implement apply()"
         )
+
+    def report_output(self) -> str:
+        """Return a string describing what apply() just changed. Optional."""
+        return ""
 
 
 @dataclass
@@ -284,7 +289,7 @@ class _RegisteredSuccessUpdate:
 class ProtocolOperation:
     """ """
 
-    DEFAULT_MAX_ATTEMPTS = 3  # Default max retry attempts for operations
+    DEFAULT_MAX_ATTEMPTS = 100  # Default max retry attempts for operations
 
     def __init__(self) -> None:
         global PLATFORMTYPE
@@ -530,6 +535,8 @@ class ProtocolOperation:
             )
             table = f"| Check | Result | Details |\n|-------|--------|----------|\n{rows}\n"
             self.report_output.append(table)
+            if self.figure_paths:
+                self.report_output.append(self.figure_paths[-1].resolve())
 
         if result.status == OperationStatus.RETRY:
             for check in result.checks:
@@ -552,7 +559,11 @@ class ProtocolOperation:
                         self.report_output.append(msg)
                         return EvaluateResult(OperationStatus.FAILURE, result.checks)
                     correction.apply()
-                    msg = f"**Correction applied:** `{correction.name}` — {correction.description}\n"
+                    msg = f"**Correction applied:** `{correction.name}` — {correction.description}"
+                    change = correction.report_output()
+                    if change:
+                        msg += f" | **Change:** {change}"
+                    msg += "\n"
                     logger.info(msg.strip())
                     self.report_output.append(msg)
 
@@ -733,7 +744,7 @@ class SuperOperationBase(ProtocolOperation):
             f"Sub-operations in '{self.name}' handle their own analysis."
         )
 
-
+# TODO: remove condition from the protocol. This simply should be all the checks. Have this reflect in the new report as well.
 class ProtocolBase:
     def __init__(self, report_path: Path = Path("")):
 
@@ -815,17 +826,24 @@ class ProtocolBase:
         for op in all_ops:
             for param_name, param in op.input_params.items():
                 try:
-                    param()  # Use callable syntax to verify parameter access
+                    val = param()
+                    param(val)
                 except Exception as e:
                     failures[param.name] = e
 
             for param_name, param in op.output_params.items():
                 try:
-                    param()  # Use callable syntax to verify parameter access
+                    val = param()
+                    param(val)
                 except Exception as e:
                     failures[param.name] = e
 
-            # correction_params are intentionally excluded — they don't connect to hardware
+            for param_name, param in op.correction_params.items():
+                try:
+                    val = param()
+                    param(val)
+                except Exception as e:
+                    failures[param.name] = e
 
         if failures:
             f_list = [f"{str(k)}: {str(v)}" for k, v in failures.items()]
