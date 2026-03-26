@@ -166,3 +166,19 @@ class Gaussian(Fit):
         A = data[i_max] - of
         sigma = np.abs((coordinates[-1] - coordinates[0])) / 20
         return dict(x0=x0, sigma=sigma, A=A, of=of)
+
+
+class Lorentzian(Fit):
+    @staticmethod
+    def model(coordinates, x0, gamma, A, of):
+        return A * (gamma**2) / ((coordinates - x0) ** 2 + gamma**2) + of
+
+    @staticmethod
+    def guess(coordinates, data):
+        of = np.mean(data)
+        dev = data - of
+        i_max = np.argmax(np.abs(dev))
+        x0 = coordinates[i_max]
+        A = data[i_max] - of
+        gamma = np.abs((coordinates[-1] - coordinates[0])) / 20
+        return dict(x0=x0, gamma=gamma, A=A, of=of)
