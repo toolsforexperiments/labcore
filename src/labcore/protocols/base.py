@@ -1120,7 +1120,6 @@ class ProtocolBase:
         .section-content {{
             overflow: hidden;
             transition: max-height 0.3s ease, opacity 0.3s ease;
-            max-height: 10000px;
             opacity: 1;
         }}
 
@@ -1130,18 +1129,31 @@ class ProtocolBase:
         }}
     </style>
     <script>
+        function initSections() {{
+            document.querySelectorAll('.section-content').forEach(function(el) {{
+                el.style.maxHeight = el.scrollHeight + 'px';
+            }});
+        }}
+
         function toggleSection(contentId) {{
             const content = document.getElementById(contentId);
             const icon = content.previousElementSibling.querySelector('.toggle-icon');
 
             if (content.classList.contains('collapsed')) {{
                 content.classList.remove('collapsed');
+                content.style.maxHeight = content.scrollHeight + 'px';
                 icon.classList.remove('collapsed');
             }} else {{
-                content.classList.add('collapsed');
-                icon.classList.add('collapsed');
+                content.style.maxHeight = content.scrollHeight + 'px';
+                requestAnimationFrame(function() {{
+                    content.classList.add('collapsed');
+                    content.style.maxHeight = '0';
+                    icon.classList.add('collapsed');
+                }});
             }}
         }}
+
+        window.addEventListener('load', initSections);
     </script>
 </head>
 <body>
