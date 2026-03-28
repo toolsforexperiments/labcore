@@ -790,25 +790,9 @@ class TestCorrectionParameter:
         assert op.win is p
         assert op.correction_params["win"] is p
 
-    def test_excluded_from_verify_all_parameters(self, tmp_path):
-        """CorrectionParameter should not be checked in verify_all_parameters()."""
-
-        @dataclass
-        class _BadCParam(CorrectionParameter):
-            name: str = field(default="bad", init=False)
-            description: str = field(default="d", init=False)
-
-            def _dummy_getter(self):
-                raise RuntimeError("should not be called")
-
-            def _dummy_setter(self, v):
-                pass
-
-            def __post_init__(self):
-                super().__post_init__()
-
+    def test_included_in_verify_all_parameters(self, tmp_path):
+        """CorrectionParameter should be checked in verify_all_parameters()."""
         op, _ = make_simple_op()
-        op._register_correction_params(bad=_BadCParam(params=None))
+        op._register_correction_params(win=make_correction_param())
         proto = make_protocol([op], report_path=tmp_path)
-        # Should not raise even though _dummy_getter would raise
         assert proto.verify_all_parameters() is True

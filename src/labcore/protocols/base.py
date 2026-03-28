@@ -246,13 +246,12 @@ class EvaluateResult:
 
 class CorrectionParameter(ProtocolParameterBase):
     """
-    Platform-aware correction strategy knob. Not connected to hardware state.
+    Platform-aware correction strategy knob.
 
     Use this instead of ProtocolParameterBase for parameters that control
     correction strategies (e.g. window size, step count, noise tolerance).
-    These are never written to hardware, but may have platform-specific
-    units or scaling — implement the platform getter/setter methods for any
-    unit conversions needed.
+    May have platform-specific units or scaling — implement the platform
+    getter/setter methods for any unit conversions needed.
 
     Subclass exactly like ProtocolParameterBase.
     """
@@ -260,8 +259,6 @@ class CorrectionParameter(ProtocolParameterBase):
     is_correction: ClassVar[bool] = True
 
     def __post_init__(self) -> None:
-        # Correction parameters are never connected to hardware, so skip
-        # the hardware params validation from the parent class.
         if self.platform_type is None:
             self.platform_type = PLATFORMTYPE
 
