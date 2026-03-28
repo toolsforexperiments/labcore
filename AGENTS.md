@@ -62,3 +62,15 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ---
 
 **These guidelines are working if:** fewer unnecessary changes in diffs, fewer rewrites due to overcomplication, and clarifying questions come before implementation rather than after mistakes.
+
+## 5. Specifics for this project.
+
+All code interactions are done through uv. Please use `uv run` to run python.
+
+### Running ruff, mypy, and pytest
+
+All three tools are pre-configured in `pyproject.toml` and can be run without extra arguments:
+
+- **ruff**: `uv run ruff check` (excludes `docs/`, configured in `[tool.ruff]`)
+- **mypy**: `uv run mypy` (targets `src/`, configured in `[tool.mypy]`)
+- **pytest**: `uv run pytest` (targets `test/`, configured in `[tool.pytest.ini_options]`)

@@ -5,6 +5,7 @@ from typing import Any
 from labcore.protocols.base import (
     BranchBase,
     Condition,
+    EvaluateResult,
     OperationStatus,
     ProtocolBase,
     SuperOperationBase,
@@ -47,7 +48,7 @@ class DummySuperOperation(SuperOperationBase):
         # Configure retry behavior
         self.max_attempts = 3  # Will retry up to 3 times total
 
-    def evaluate(self) -> OperationStatus:
+    def evaluate(self) -> EvaluateResult:
         """
         Evaluate the overall success of all sub-operations.
         Uses same retry testing mechanism as GaussianProtocol.
@@ -61,10 +62,10 @@ class DummySuperOperation(SuperOperationBase):
             logger.info(
                 f"[{self.name}] At {self.total_attempts_made} attempts, requesting retry for testing"
             )
-            return OperationStatus.RETRY
+            return EvaluateResult(OperationStatus.RETRY)
 
         logger.info(f"[{self.name}] Reached 3 attempts, returning SUCCESS")
-        return OperationStatus.SUCCESS
+        return EvaluateResult(OperationStatus.SUCCESS)
 
 
 class DummyProtocol(ProtocolBase):

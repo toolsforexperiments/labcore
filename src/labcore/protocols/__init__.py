@@ -5,7 +5,19 @@ from labcore.protocols.base import (
     BranchBase as BranchBase,
 )
 from labcore.protocols.base import (
+    CheckResult as CheckResult,
+)
+from labcore.protocols.base import (
     Condition as Condition,
+)
+from labcore.protocols.base import (
+    Correction as Correction,
+)
+from labcore.protocols.base import (
+    CorrectionParameter as CorrectionParameter,
+)
+from labcore.protocols.base import (
+    EvaluateResult as EvaluateResult,
 )
 from labcore.protocols.base import (
     OperationStatus as OperationStatus,

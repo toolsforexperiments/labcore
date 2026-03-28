@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import base64
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum, auto
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, ClassVar
 
 import markdown
 import numpy as np
@@ -179,13 +179,114 @@ class ParamImprovement:
     param: ProtocolParameterBase
 
 
+@dataclass
+class CheckResult:
+    """Result of a single named check in evaluate()."""
+
+    name: str
+    passed: bool
+    description: str
+
+
+# TODO: Add a reset mechanism
+class Correction:
+    """
+    Base class for stateful correction strategies.
+
+    Subclass this and attach an instance to the operation in ``__init__``. The
+    instance persists across retry attempts so that stateful strategies (e.g.
+    stepping through a list of frequency windows) work correctly.
+
+    Example::
+
+        class FrequencySweepCorrection(Correction):
+            name = "scan_next_frequency_window"
+            description = "Step through candidate frequency windows"
+            triggered_by = "peak_exists"
+
+            def __init__(self, freq_param, windows: list[float]):
+                self.freq_param = freq_param
+                self.windows = windows
+                self._idx = 0
+
+            def can_apply(self) -> bool:
+                return self._idx < len(self.windows)
+
+            def apply(self) -> None:
+                self.freq_param(self.windows[self._idx])
+                self._idx += 1
+    """
+
+    name: str = ""
+    description: str = ""
+    triggered_by: str = ""
+
+    def can_apply(self) -> bool:
+        """Return False when this strategy is exhausted, forcing FAILURE."""
+        return True
+
+    def apply(self) -> None:
+        """Apply the correction. Called before the next retry attempt."""
+        raise NotImplementedError(
+            f"Correction '{self.__class__.__name__}' must implement apply()"
+        )
+
+    def report_output(self) -> str:
+        """Return a string describing what apply() just changed. Optional."""
+        return ""
+
+
+@dataclass
+class EvaluateResult:
+    """Return type for ProtocolOperation.evaluate() and correct()."""
+
+    status: OperationStatus
+    checks: list[CheckResult] = field(default_factory=list)
+
+
+class CorrectionParameter(ProtocolParameterBase):
+    """
+    Platform-aware correction strategy knob.
+
+    Use this instead of ProtocolParameterBase for parameters that control
+    correction strategies (e.g. window size, step count, noise tolerance).
+    May have platform-specific units or scaling — implement the platform
+    getter/setter methods for any unit conversions needed.
+
+    Subclass exactly like ProtocolParameterBase.
+    """
+
+    is_correction: ClassVar[bool] = True
+
+    def __post_init__(self) -> None:
+        if self.platform_type is None:
+            self.platform_type = PLATFORMTYPE
+
+
+@dataclass
+class _RegisteredCheck:
+    """Internal: maps a check function to its optional correction strategies."""
+
+    name: str
+    check_func: Callable[[], CheckResult]
+    corrections: list[Correction] = field(default_factory=list)
+
+
+@dataclass
+class _RegisteredSuccessUpdate:
+    """Internal: param to write and callable that produces the new value, applied on SUCCESS."""
+
+    param: ProtocolParameterBase
+    value_func: Callable[[], Any]
+
+
 # TODO: How do we handle different saving for different scenarios? For example:
 #  For the lab we use run_measurement, for something like the lccf it will be something different.
 #  In the same way that if some other lab wants to run this, they might want to automatically save other stuff.
 class ProtocolOperation:
     """ """
 
-    DEFAULT_MAX_ATTEMPTS = 3  # Default max retry attempts for operations
+    DEFAULT_MAX_ATTEMPTS = 100  # Default max retry attempts for operations
 
     def __init__(self) -> None:
         global PLATFORMTYPE
@@ -214,6 +315,11 @@ class ProtocolOperation:
         self.current_attempt: int = 0
         self.total_attempts_made: int = 0
 
+        # Check and correction registration
+        self._registered_checks: list[_RegisteredCheck] = []
+        self._registered_success_updates: list[_RegisteredSuccessUpdate] = []
+        self.correction_params: dict[str, CorrectionParameter] = {}
+
     def _register_inputs(self, **kwargs: ProtocolParameterBase) -> None:
         """Register input parameters as both attributes and in the dictionary"""
         for name, param in kwargs.items():
@@ -225,6 +331,64 @@ class ProtocolOperation:
         for name, param in kwargs.items():
             setattr(self, name, param)
             self.output_params[name] = param
+
+    def _register_correction_params(self, **kwargs: CorrectionParameter) -> None:
+        """Register correction strategy parameters as attributes and in the dictionary."""
+        for name, param in kwargs.items():
+            setattr(self, name, param)
+            self.correction_params[name] = param
+
+    def _register_check(
+        self,
+        name: str,
+        check_func: Callable[[], CheckResult],
+        correction: Correction | list[Correction] | None = None,
+    ) -> None:
+        """
+        Register a named check and its optional correction strategy (or strategies).
+
+        When evaluate() uses the default implementation, it runs all registered
+        checks and returns SUCCESS if all pass, RETRY if any fail. When
+        correct() uses the default implementation, it calls the first applicable
+        correction for each failed check.
+
+        Args:
+            name: Unique identifier for this check (used in reports and routing).
+            check_func: Callable returning a CheckResult — pure assessment, no side effects.
+            correction: Optional Correction instance or list of instances to try in order
+                when this check fails. The first one where can_apply() returns True is used.
+        """
+        if correction is None:
+            corrections: list[Correction] = []
+        elif isinstance(correction, list):
+            corrections = correction
+        else:
+            corrections = [correction]
+        self._registered_checks.append(_RegisteredCheck(name, check_func, corrections))
+
+    def _register_success_update(
+        self,
+        param: ProtocolParameterBase,
+        value_func: Callable[[], Any],
+    ) -> None:
+        """Register a param to write when the operation succeeds.
+
+        value_func is called lazily at correct() time, so it can safely
+        reference instance attributes set during analyze() (e.g. self.fit_result).
+        Multiple updates are applied in registration order.
+        """
+        self._registered_success_updates.append(
+            _RegisteredSuccessUpdate(param, value_func)
+        )
+
+    def _correction_for_check(self, check_name: str) -> Correction | None:
+        """Return the first applicable Correction for the given check name, or None."""
+        for rc in self._registered_checks:
+            if rc.name == check_name:
+                for c in rc.corrections:
+                    if c.can_apply():
+                        return c
+        return None
 
     def _measure_qick(self) -> Path:
         raise NotImplementedError("QICK measurement not implemented")
@@ -317,44 +481,132 @@ class ProtocolOperation:
 
         return self._verify_shape()
 
-    def evaluate(self) -> OperationStatus:
+    def evaluate(self) -> EvaluateResult:
         """
-        Evaluate operation results and recommend next action.
+        Assess operation results and return named check outcomes.
 
-        Subclasses must implement custom logic based on their domain knowledge.
+        Default implementation runs all checks registered via _register_check().
+        Returns SUCCESS if all checks pass, RETRY if any fail.
+
+        Override for complex logic (conditional checks, custom status rules).
+        Overrides should still return an EvaluateResult with CheckResult objects
+        so that reports and the default correct() work correctly.
 
         Returns:
-            OperationStatus.SUCCESS: Proceed to next operation
-            OperationStatus.RETRY: Retry this operation (if attempts remain)
-            OperationStatus.FAILURE: Stop protocol execution
+            EvaluateResult containing the status and individual check outcomes.
         """
-        raise NotImplementedError("Subclasses must implement evaluate()")
+        if self._registered_checks:
+            checks = [rc.check_func() for rc in self._registered_checks]
+            all_passed = all(c.passed for c in checks)
+            status = OperationStatus.SUCCESS if all_passed else OperationStatus.RETRY
+            return EvaluateResult(status, checks)
+        raise NotImplementedError(
+            "Subclasses must either register checks with _register_check() or implement evaluate()"
+        )
 
-    def execute(self) -> OperationStatus:
+    def correct(self, result: EvaluateResult) -> EvaluateResult:
         """
-        Execute the full operation workflow: measure -> load_data -> analyze -> evaluate.
+        Apply parameter changes based on the evaluation result.
 
-        This method increments attempt counters and adds repetition headers to reports.
+        This is the only place where parameter values should be modified.
+
+        Default implementation:
+        - Appends a check summary table to the report.
+        - On RETRY: applies registered corrections for each failed check.
+          If any correction's can_apply() returns False, escalates to FAILURE.
+        - On SUCCESS / FAILURE: no-op (override to apply found values on SUCCESS).
+
+        Override to apply found values on SUCCESS or implement complex correction
+        logic. Call super().correct(result) first to get check reporting and
+        default RETRY correction handling, then handle SUCCESS.
+
+        Args:
+            result: The EvaluateResult returned by evaluate().
 
         Returns:
-            OperationStatus from evaluate() method
+            Possibly modified EvaluateResult (e.g. RETRY escalated to FAILURE
+            when a correction is exhausted).
         """
-        # Increment attempt counter
+        if result.checks:
+            rows = "\n".join(
+                f"| {c.name} | {'✓ PASS' if c.passed else '✗ FAIL'} | {c.description} |"
+                for c in result.checks
+            )
+            table = (
+                f"| Check | Result | Details |\n|-------|--------|----------|\n{rows}\n"
+            )
+            self.report_output.append(table)
+            if self.figure_paths:
+                self.report_output.append(self.figure_paths[-1].resolve())
+
+        if result.status == OperationStatus.RETRY:
+            for check in result.checks:
+                if not check.passed:
+                    correction = self._correction_for_check(check.name)
+                    if correction is None:
+                        # Distinguish: no corrections registered vs. all exhausted
+                        registered = next(
+                            (
+                                rc.corrections
+                                for rc in self._registered_checks
+                                if rc.name == check.name
+                            ),
+                            [],
+                        )
+                        if registered:
+                            msg = (
+                                f"**Correction exhausted:** all strategies for check "
+                                f"`{check.name}` have been exhausted — operation failed.\n"
+                            )
+                        else:
+                            msg = f"**No correction registered for failed check `{check.name}` — operation failed.**\n"
+                        logger.warning(msg.strip())
+                        self.report_output.append(msg)
+                        return EvaluateResult(OperationStatus.FAILURE, result.checks)
+                    correction.apply()
+                    msg = f"**Correction applied:** `{correction.name}` — {correction.description}"
+                    change = correction.report_output()
+                    if change:
+                        msg += f" | **Change:** {change}"
+                    msg += "\n"
+                    logger.info(msg.strip())
+                    self.report_output.append(msg)
+
+        if (
+            result.status == OperationStatus.SUCCESS
+            and self._registered_success_updates
+        ):
+            for upd in self._registered_success_updates:
+                old = upd.param()
+                new = upd.value_func()
+                upd.param(new)
+                self.improvements.append(ParamImprovement(old, new, upd.param))
+                self.report_output.append(
+                    f"{upd.param.name} updated: {old} → {new:.3f}\n"
+                )
+
+        return result
+
+    def execute(self) -> EvaluateResult:
+        """
+        Execute the full operation workflow: measure -> load_data -> analyze -> evaluate -> correct.
+
+        Returns:
+            EvaluateResult from correct(), which may differ from evaluate()'s result
+            (e.g. RETRY escalated to FAILURE when a correction is exhausted).
+        """
+        self.improvements = []
         self.current_attempt += 1
         self.total_attempts_made += 1
 
-        # Add repetition header to report if this is a retry
         if self.current_attempt > 1:
-            repetition_header = f"### ATTEMPT {self.current_attempt}\n\n"
-            self.report_output.append(repetition_header)
+            self.report_output.append(f"### ATTEMPT {self.current_attempt}\n\n")
 
-        # Execute the four-step workflow
         self.measure()
         self.load_data()
         self.analyze()
-        status = self.evaluate()
-
-        return status
+        eval_result = self.evaluate()
+        return self.correct(eval_result)
 
 
 class SuperOperationBase(ProtocolOperation):
@@ -415,7 +667,7 @@ class SuperOperationBase(ProtocolOperation):
                     f"Only ProtocolOperation instances are allowed."
                 )
 
-    def execute(self) -> OperationStatus:
+    def execute(self) -> EvaluateResult:
         """
         Execute all sub-operations in sequence and aggregate their reports.
 
@@ -423,75 +675,63 @@ class SuperOperationBase(ProtocolOperation):
         all sub-operations instead of calling measure/load_data/analyze.
 
         Returns:
-            OperationStatus from the evaluate() method
+            EvaluateResult from correct() after all sub-operations complete.
         """
-        # Validate operations before executing
         self._validate_operations()
 
-        # Increment attempt counter
         self.current_attempt += 1
         self.total_attempts_made += 1
 
-        # Add retry header if needed
         if self.current_attempt > 1:
-            repetition_header = f"### ATTEMPT {self.current_attempt}\n\n"
-            self.report_output.append(repetition_header)
+            self.report_output.append(f"### ATTEMPT {self.current_attempt}\n\n")
 
-        # Add SuperOperation header to report
-        header = f"## {self.name}\n\n"
-        self.report_output.append(header)
+        self.report_output.append(f"## {self.name}\n\n")
 
-        # Execute each sub-operation
         for i, op in enumerate(self.operations):
             logger.info(
                 f"  [{self.name}] Executing sub-operation {i + 1}/{len(self.operations)}: {op.name}"
             )
 
-            # Execute the operation (measure -> load_data -> analyze -> evaluate)
             try:
-                status = op.execute()
+                result = op.execute()
             except Exception as e:
                 logger.error(
                     f"  [{self.name}] Exception in sub-operation {op.name}: {e}"
                 )
-                # If a sub-operation fails, the SuperOperation fails
-                return OperationStatus.FAILURE
+                return EvaluateResult(OperationStatus.FAILURE)
 
-            # Aggregate the sub-operation's report output
             if op.report_output:
-                # Add sub-operation section header
                 self.report_output.append(f"### {op.name}\n\n")
-                # Add all report items from the sub-operation
                 self.report_output.extend(op.report_output)
                 self.report_output.append("\n")
 
-            # Check sub-operation status
-            if status == OperationStatus.FAILURE:
+            if result.status == OperationStatus.FAILURE:
                 logger.error(
                     f"  [{self.name}] Sub-operation {op.name} failed critically"
                 )
-                return OperationStatus.FAILURE
-            elif status == OperationStatus.RETRY:
+                return EvaluateResult(OperationStatus.FAILURE)
+            elif result.status == OperationStatus.RETRY:
                 logger.warning(
                     f"  [{self.name}] Sub-operation {op.name} requested retry"
                 )
-                # Don't immediately fail - let evaluate() decide
-                # But we could track this for evaluation logic
-            elif status == OperationStatus.SUCCESS:
+            elif result.status == OperationStatus.SUCCESS:
                 logger.info(f"  [{self.name}] Sub-operation {op.name} succeeded")
 
-            # Aggregate figure paths
             if hasattr(op, "figure_paths"):
                 self.figure_paths.extend(op.figure_paths)
-
-            # Aggregate improvements
             if hasattr(op, "improvements"):
                 self.improvements.extend(op.improvements)
 
-        # Call the subclass's evaluate() method to determine overall status
-        status = self.evaluate()
+        eval_result = self.evaluate()
+        return self.correct(eval_result)
 
-        return status
+    def correct(self, result: EvaluateResult) -> EvaluateResult:
+        """
+        Apply super-operation level corrections. Override to implement
+        super-level parameter changes. Default: no-op (sub-operations handle
+        their own corrections inside their own execute() calls).
+        """
+        return result
 
     def measure(self) -> Path:
         """Not used in SuperOperation - operations handle their own measurement"""
@@ -515,6 +755,7 @@ class SuperOperationBase(ProtocolOperation):
         )
 
 
+# TODO: remove condition from the protocol. This simply should be all the checks. Have this reflect in the new report as well.
 class ProtocolBase:
     def __init__(self, report_path: Path = Path("")):
 
@@ -596,13 +837,22 @@ class ProtocolBase:
         for op in all_ops:
             for param_name, param in op.input_params.items():
                 try:
-                    param()  # Use callable syntax to verify parameter access
+                    val = param()
+                    param(val)
                 except Exception as e:
                     failures[param.name] = e
 
             for param_name, param in op.output_params.items():
                 try:
-                    param()  # Use callable syntax to verify parameter access
+                    val = param()
+                    param(val)
+                except Exception as e:
+                    failures[param.name] = e
+
+            for param_name, param in op.correction_params.items():
+                try:
+                    val = param()
+                    param(val)
                 except Exception as e:
                     failures[param.name] = e
 
@@ -881,7 +1131,6 @@ class ProtocolBase:
         .section-content {{
             overflow: hidden;
             transition: max-height 0.3s ease, opacity 0.3s ease;
-            max-height: 10000px;
             opacity: 1;
         }}
 
@@ -891,18 +1140,31 @@ class ProtocolBase:
         }}
     </style>
     <script>
+        function initSections() {{
+            document.querySelectorAll('.section-content').forEach(function(el) {{
+                el.style.maxHeight = el.scrollHeight + 'px';
+            }});
+        }}
+
         function toggleSection(contentId) {{
             const content = document.getElementById(contentId);
             const icon = content.previousElementSibling.querySelector('.toggle-icon');
 
             if (content.classList.contains('collapsed')) {{
                 content.classList.remove('collapsed');
+                content.style.maxHeight = content.scrollHeight + 'px';
                 icon.classList.remove('collapsed');
             }} else {{
-                content.classList.add('collapsed');
-                icon.classList.add('collapsed');
+                content.style.maxHeight = content.scrollHeight + 'px';
+                requestAnimationFrame(function() {{
+                    content.classList.add('collapsed');
+                    content.style.maxHeight = '0';
+                    icon.classList.add('collapsed');
+                }});
             }}
         }}
+
+        window.addEventListener('load', initSections);
     </script>
 </head>
 <body>
@@ -930,43 +1192,39 @@ class ProtocolBase:
         """
         max_attempts = op.max_attempts
 
-        # Reset attempt counter for this operation
         op.current_attempt = 0
 
         while op.current_attempt < max_attempts:
-            # Execute operation (it will increment current_attempt internally)
             try:
-                status = op.execute()
+                result = op.execute()
             except Exception as e:
                 logger.error(f"  Exception during {op.name}: {e}")
                 return False
 
-            # Handle status
-            if status == OperationStatus.SUCCESS:
+            if result.status == OperationStatus.SUCCESS:
                 logger.info(f"  SUCCESS: {op.name} succeeded")
                 return True
 
-            elif status == OperationStatus.RETRY:
+            elif result.status == OperationStatus.RETRY:
                 if op.current_attempt < max_attempts:
                     logger.warning(
                         f"  RETRY: {op.name} requesting retry (attempt {op.current_attempt}/{max_attempts})"
                     )
-                    continue  # Retry
+                    continue
                 else:
                     logger.error(
                         f"  FAILURE: {op.name} exhausted {max_attempts} attempts"
                     )
                     return False
 
-            elif status == OperationStatus.FAILURE:
+            elif result.status == OperationStatus.FAILURE:
                 logger.error(f"  FAILURE: {op.name} failed critically")
                 return False
 
             else:
-                logger.error(f"  Unknown status: {status}")
+                logger.error(f"  Unknown status: {result.status}")
                 return False
 
-        # Should not reach here
         return False
 
     def _execute_branch(

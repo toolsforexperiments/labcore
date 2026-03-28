@@ -12,7 +12,7 @@ from labcore.data.datadict_storage import datadict_from_hdf5
 from labcore.measurement import Sweep
 from labcore.measurement.record import dependent, independent, recording
 from labcore.measurement.storage import run_and_save_sweep
-from labcore.protocols.base import OperationStatus, ParamImprovement, ProtocolOperation
+from labcore.protocols.base import CheckResult, ProtocolOperation
 from labcore.testing.protocol_dummy.parameters import (
     CosineAmplitude,
     CosineFrequency,
@@ -43,6 +43,11 @@ class CosineOperation(ProtocolOperation):
         self._register_outputs(amplitude=CosineAmplitude(params))
 
         self.condition = f"Success if the SNR of the Cosine fit is bigger than the current threshold of {self.SNR_THRESHOLD}"
+
+        self._register_check("snr_check", self._check_snr)
+        self._register_success_update(
+            self.amplitude, lambda: cast(FitResult, self.fit_result).params["A"].value
+        )
 
         self.independents = {"x_values": []}
         self.dependents = {"y_values": []}
@@ -132,55 +137,28 @@ class CosineOperation(ProtocolOperation):
             image_path = ds._new_file_path(ds.savefolders[1], self.name, suffix="png")
             self.figure_paths.append(image_path)
 
-    def evaluate(self) -> OperationStatus:
-        """
-        Evaluate if the fit was successful based on SNR threshold.
-        If successful, update the amplitude output parameter with the fitted amplitude value.
-        """
-        header = (
-            f"## Cosine - Amplitude Fit\n"
-            f"Generated fake Cosine data and fitted it to extract amplitude.\n"
-            f"Data Path: `{self.data_loc}`\n"
-            f"Plot:\n"
-        )
-        plot_image = self.figure_paths[0].resolve()
-
-        assert self.snr is not None
-        assert self.fit_result is not None
-        if self.snr >= self.SNR_THRESHOLD:
-            logger.info(
-                f"SNR of {self.snr} is bigger than threshold of {self.SNR_THRESHOLD}. Applying new values"
+            self.report_output.append(
+                f"## Cosine - Amplitude Fit\n"
+                f"Generated fake Cosine data and fitted it to extract amplitude.\n"
+                f"Data Path: `{self.data_loc}`\n"
+                f"Plot:\n"
+            )
+            self.report_output.append(image_path.resolve())
+            self.report_output.append(
+                f"**Fit Report:**\n```\n{self.fit_result.lmfit_result.fit_report()}\n```\n"
             )
 
-            old_value = self.amplitude()
-            new_value = self.fit_result.params["A"].value
-
-            logger.info(
-                f"Updating {self.amplitude.name} from {old_value} to {new_value}"
+    def _check_snr(self) -> CheckResult:
+        snr = self.snr or 0.0
+        passed = snr >= self.SNR_THRESHOLD
+        if passed:
+            self.report_output.append(
+                f"Fit was **SUCCESSFUL** with an SNR of {snr:.3f}.\n"
             )
-            self.amplitude(new_value)
-
-            self.improvements = [ParamImprovement(old_value, new_value, self.amplitude)]
-
-            msg_2 = (
-                f"Fit was **SUCCESSFUL** with an SNR of {self.snr:.3f}.\n"
-                f"{self.amplitude.name} updated: {old_value} -> {new_value:.3f}\n\n"
-                f"**Fit Report:**\n```\n{str(self.fit_result.lmfit_result.fit_report())}\n```\n\n"
+        else:
+            self.report_output.append(
+                f"Fit was **UNSUCCESSFUL** with an SNR of {snr:.3f}. NO value has been changed.\n"
             )
-
-            self.report_output = [header, plot_image, msg_2]
-
-            return OperationStatus.SUCCESS
-
-        logger.info(
-            f"SNR of {self.snr} is smaller than threshold of {self.SNR_THRESHOLD}. Evaluation failed"
+        return CheckResult(
+            "snr_check", passed, f"SNR={snr:.3f}, threshold={self.SNR_THRESHOLD}"
         )
-
-        msg_2 = (
-            f"Fit was **UNSUCCESSFUL** with an SNR of {self.snr:.3f}.\n"
-            f"NO value has been changed.\n"
-            f"Fit Report:\n\n```\n{str(self.fit_result.lmfit_result.fit_report())}\n```\n"
-        )
-        self.report_output = [header, plot_image, msg_2]
-
-        return OperationStatus.FAILURE
