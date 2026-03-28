@@ -12,7 +12,12 @@ from labcore.data.datadict_storage import datadict_from_hdf5
 from labcore.measurement.record import dependent, independent, recording
 from labcore.measurement.storage import run_and_save_sweep
 from labcore.measurement.sweep import Sweep
-from labcore.protocols.base import OperationStatus, ParamImprovement, ProtocolOperation
+from labcore.protocols.base import (
+    EvaluateResult,
+    OperationStatus,
+    ParamImprovement,
+    ProtocolOperation,
+)
 from labcore.testing.protocol_dummy.parameters import (
     GaussianAmplitude,
     GaussianCenter,
@@ -130,7 +135,7 @@ class GaussianOperation(ProtocolOperation):
             image_path = ds._new_file_path(ds.savefolders[1], self.name, suffix="png")
             self.figure_paths.append(image_path)
 
-    def evaluate(self) -> OperationStatus:
+    def evaluate(self) -> EvaluateResult:
         """
         Evaluate if the fit was successful based on SNR threshold.
         If successful, update the amplitude output parameter with the fitted amplitude value.
@@ -173,9 +178,9 @@ class GaussianOperation(ProtocolOperation):
             if self.total_attempts_made != 3:
                 msg_3 = f"Protocol at  {self.total_attempts_made} repetitions, repeating for testing."
                 self.report_output.append(msg_3)
-                return OperationStatus.RETRY
+                return EvaluateResult(OperationStatus.RETRY)
 
-            return OperationStatus.SUCCESS
+            return EvaluateResult(OperationStatus.SUCCESS)
 
         logger.info(
             f"SNR of {self.snr} is smaller than threshold of {self.SNR_THRESHOLD}. Evaluation failed"
@@ -188,4 +193,4 @@ class GaussianOperation(ProtocolOperation):
         )
         self.report_output = [header, plot_image, msg_2]
 
-        return OperationStatus.FAILURE
+        return EvaluateResult(OperationStatus.FAILURE)

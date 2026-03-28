@@ -636,7 +636,9 @@ class TestMultipleFallbackCorrections:
         op = make_op_with_failing_check()
         c1 = _TrackingCorrection(can=True)
         c2 = _TrackingCorrection(can=True)
-        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), [c1, c2])
+        op._register_check(
+            "test_check", lambda: CheckResult("test_check", False, ""), [c1, c2]
+        )
         op.correct(op.evaluate())
         assert c1.applied == 1
         assert c2.applied == 0
@@ -645,7 +647,9 @@ class TestMultipleFallbackCorrections:
         op = make_op_with_failing_check()
         c1 = _TrackingCorrection(can=False)
         c2 = _TrackingCorrection(can=True)
-        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), [c1, c2])
+        op._register_check(
+            "test_check", lambda: CheckResult("test_check", False, ""), [c1, c2]
+        )
         op.correct(op.evaluate())
         assert c1.applied == 0
         assert c2.applied == 1
@@ -654,21 +658,27 @@ class TestMultipleFallbackCorrections:
         op = make_op_with_failing_check()
         c1 = _TrackingCorrection(can=False)
         c2 = _TrackingCorrection(can=False)
-        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), [c1, c2])
+        op._register_check(
+            "test_check", lambda: CheckResult("test_check", False, ""), [c1, c2]
+        )
         result = op.correct(op.evaluate())
         assert result.status == OperationStatus.FAILURE
 
     def test_single_correction_backward_compat(self):
         op = make_op_with_failing_check()
         c = _TrackingCorrection()
-        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), c)
+        op._register_check(
+            "test_check", lambda: CheckResult("test_check", False, ""), c
+        )
         assert op._registered_checks[0].corrections == [c]
 
     def test_list_stored_in_order(self):
         op = make_op_with_failing_check()
         c1 = _TrackingCorrection()
         c2 = _TrackingCorrection()
-        op._register_check("test_check", lambda: CheckResult("test_check", False, ""), [c1, c2])
+        op._register_check(
+            "test_check", lambda: CheckResult("test_check", False, ""), [c1, c2]
+        )
         assert op._registered_checks[0].corrections == [c1, c2]
 
 

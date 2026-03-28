@@ -12,7 +12,12 @@ from labcore.data.datadict_storage import datadict_from_hdf5
 from labcore.measurement.record import dependent, independent, recording
 from labcore.measurement.storage import run_and_save_sweep
 from labcore.measurement.sweep import Sweep
-from labcore.protocols.base import OperationStatus, ParamImprovement, ProtocolOperation
+from labcore.protocols.base import (
+    EvaluateResult,
+    OperationStatus,
+    ParamImprovement,
+    ProtocolOperation,
+)
 from labcore.testing.protocol_dummy.parameters import (
     ExponentiallyDecayingSineAmplitude,
     ExponentiallyDecayingSineFrequency,
@@ -144,7 +149,7 @@ class ExponentiallyDecayingSineOperation(ProtocolOperation):
             image_path = ds._new_file_path(ds.savefolders[1], self.name, suffix="png")
             self.figure_paths.append(image_path)
 
-    def evaluate(self) -> OperationStatus:
+    def evaluate(self) -> EvaluateResult:
         """
         Evaluate if the fit was successful based on SNR threshold.
         If successful, update the amplitude output parameter with the fitted amplitude value.
@@ -182,7 +187,7 @@ class ExponentiallyDecayingSineOperation(ProtocolOperation):
 
             self.report_output = [header, plot_image, msg_2]
 
-            return OperationStatus.SUCCESS
+            return EvaluateResult(OperationStatus.SUCCESS)
 
         logger.info(
             f"SNR of {self.snr} is smaller than threshold of {self.SNR_THRESHOLD}. Evaluation failed"
@@ -195,4 +200,4 @@ class ExponentiallyDecayingSineOperation(ProtocolOperation):
         )
         self.report_output = [header, plot_image, msg_2]
 
-        return OperationStatus.FAILURE
+        return EvaluateResult(OperationStatus.FAILURE)

@@ -45,7 +45,9 @@ class CosineOperation(ProtocolOperation):
         self.condition = f"Success if the SNR of the Cosine fit is bigger than the current threshold of {self.SNR_THRESHOLD}"
 
         self._register_check("snr_check", self._check_snr)
-        self._register_success_update(self.amplitude, lambda: self.fit_result.params["A"].value)
+        self._register_success_update(
+            self.amplitude, lambda: cast(FitResult, self.fit_result).params["A"].value
+        )
 
         self.independents = {"x_values": []}
         self.dependents = {"y_values": []}
@@ -150,7 +152,13 @@ class CosineOperation(ProtocolOperation):
         snr = self.snr or 0.0
         passed = snr >= self.SNR_THRESHOLD
         if passed:
-            self.report_output.append(f"Fit was **SUCCESSFUL** with an SNR of {snr:.3f}.\n")
+            self.report_output.append(
+                f"Fit was **SUCCESSFUL** with an SNR of {snr:.3f}.\n"
+            )
         else:
-            self.report_output.append(f"Fit was **UNSUCCESSFUL** with an SNR of {snr:.3f}. NO value has been changed.\n")
-        return CheckResult("snr_check", passed, f"SNR={snr:.3f}, threshold={self.SNR_THRESHOLD}")
+            self.report_output.append(
+                f"Fit was **UNSUCCESSFUL** with an SNR of {snr:.3f}. NO value has been changed.\n"
+            )
+        return CheckResult(
+            "snr_check", passed, f"SNR={snr:.3f}, threshold={self.SNR_THRESHOLD}"
+        )

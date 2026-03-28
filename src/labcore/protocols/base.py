@@ -380,7 +380,9 @@ class ProtocolOperation:
         reference instance attributes set during analyze() (e.g. self.fit_result).
         Multiple updates are applied in registration order.
         """
-        self._registered_success_updates.append(_RegisteredSuccessUpdate(param, value_func))
+        self._registered_success_updates.append(
+            _RegisteredSuccessUpdate(param, value_func)
+        )
 
     def _correction_for_check(self, check_name: str) -> Correction | None:
         """Return the first applicable Correction for the given check name, or None."""
@@ -533,7 +535,9 @@ class ProtocolOperation:
                 f"| {c.name} | {'✓ PASS' if c.passed else '✗ FAIL'} | {c.description} |"
                 for c in result.checks
             )
-            table = f"| Check | Result | Details |\n|-------|--------|----------|\n{rows}\n"
+            table = (
+                f"| Check | Result | Details |\n|-------|--------|----------|\n{rows}\n"
+            )
             self.report_output.append(table)
             if self.figure_paths:
                 self.report_output.append(self.figure_paths[-1].resolve())
@@ -545,7 +549,11 @@ class ProtocolOperation:
                     if correction is None:
                         # Distinguish: no corrections registered vs. all exhausted
                         registered = next(
-                            (rc.corrections for rc in self._registered_checks if rc.name == check.name),
+                            (
+                                rc.corrections
+                                for rc in self._registered_checks
+                                if rc.name == check.name
+                            ),
                             [],
                         )
                         if registered:
@@ -567,13 +575,18 @@ class ProtocolOperation:
                     logger.info(msg.strip())
                     self.report_output.append(msg)
 
-        if result.status == OperationStatus.SUCCESS and self._registered_success_updates:
+        if (
+            result.status == OperationStatus.SUCCESS
+            and self._registered_success_updates
+        ):
             for upd in self._registered_success_updates:
                 old = upd.param()
                 new = upd.value_func()
                 upd.param(new)
                 self.improvements.append(ParamImprovement(old, new, upd.param))
-                self.report_output.append(f"{upd.param.name} updated: {old} → {new:.3f}\n")
+                self.report_output.append(
+                    f"{upd.param.name} updated: {old} → {new:.3f}\n"
+                )
 
         return result
 
@@ -743,6 +756,7 @@ class SuperOperationBase(ProtocolOperation):
             f"analyze() does not make sense for a SuperOperation. "
             f"Sub-operations in '{self.name}' handle their own analysis."
         )
+
 
 # TODO: remove condition from the protocol. This simply should be all the checks. Have this reflect in the new report as well.
 class ProtocolBase:

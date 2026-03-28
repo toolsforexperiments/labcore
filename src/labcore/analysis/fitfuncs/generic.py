@@ -170,11 +170,15 @@ class Gaussian(Fit):
 
 class Lorentzian(Fit):
     @staticmethod
-    def model(coordinates, x0, gamma, A, of):
+    def model(
+        coordinates: np.ndarray, x0: float, gamma: float, A: float, of: float
+    ) -> np.ndarray:
         return A * (gamma**2) / ((coordinates - x0) ** 2 + gamma**2) + of
 
     @staticmethod
-    def guess(coordinates, data):
+    def guess(
+        coordinates: Union[Tuple[np.ndarray, ...], np.ndarray], data: np.ndarray
+    ) -> Dict[str, float]:
         of = np.mean(data)
         dev = data - of
         i_max = np.argmax(np.abs(dev))
