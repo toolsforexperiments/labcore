@@ -266,22 +266,25 @@ class DataSelect(pn.viewable.Viewer):
             abs_path = path.absolute()
             # Defer heavy operations - only load images if visible, not data dict
             # This speeds up file selection significantly
+            # Clear previous images to avoid memory accumulation
+            self.data_images_feed.objects = []
+            
             images = []
             try:
                 for file in Path.iterdir(abs_path):
                     # Check if the file ends with png, jpg, or jpeg
-                    file = str(file)
-                    img = ''
-                    if file.endswith(".png"):
-                        img = pn.pane.PNG(file, sizing_mode="fixed",
+                    file_str = str(file)
+                    img = None
+                    if file_str.endswith(".png"):
+                        img = pn.pane.PNG(file_str, sizing_mode="fixed",
                                           width=self.image_feed_width)
-                    elif file.endswith(".jpg") or file.endswith(".jpeg"):
-                        img = pn.pane.JPG(file, sizing_mode="fixed",
+                    elif file_str.endswith(".jpg") or file_str.endswith(".jpeg"):
+                        img = pn.pane.JPG(file_str, sizing_mode="fixed",
                                           width=self.image_feed_width)
-                    else:
-                        continue
-                    images.append(img)
-                    images.append(pn.Spacer(height=img.height))
+                    
+                    if img is not None:
+                        images.append(img)
+                        images.append(pn.Spacer(height=img.height))
             except Exception as e:
                 logger.warning(f"Could not load images from {abs_path}: {e}")
 
@@ -701,6 +704,8 @@ class LoaderNodeBase(Node):
     @pn.depends("refresh.value", watch=True)
     def on_refresh_changed(self):
         if self.refresh.value is None:
+            if self.task is not None:
+                self.task.cancel()  # Properly cancel the task
             self.task = None
 
         if self.refresh.value is not None:
@@ -708,9 +713,12 @@ class LoaderNodeBase(Node):
                 self.task = asyncio.ensure_future(self.run_auto_refresh())
 
     async def run_auto_refresh(self):
-        while self.refresh.value is not None:
-            await asyncio.sleep(self.refresh.value)
-            asyncio.run(self.load_and_preprocess())
+        try:
+            while self.refresh.value is not None:
+                await asyncio.sleep(self.refresh.value)
+                await self.load_and_preprocess()  # Use await instead of asyncio.run()
+        except asyncio.CancelledError:
+            pass  # Task was cancelled, exit gracefully
         return
 
     def load_data(self) -> DataDict:

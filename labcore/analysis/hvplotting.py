@@ -410,7 +410,6 @@ class Node(pn.viewable.Viewer):
                 self._plot_obj = ValuePlot(
                     name="plot", data_in=self.data_out, path=self.file_path)
                 self.append(self._plot_obj)
-                self._plot_obj.data_in = self.data_out
 
         elif self.plot_type_select.value == "Magnitude & Phase":
             if not isinstance(self._plot_obj, MagnitudePhasePlot):
@@ -419,7 +418,6 @@ class Node(pn.viewable.Viewer):
                 self._plot_obj = MagnitudePhasePlot(
                     name="plot", data_in=self.data_out, path=self.file_path)
                 self.append(self._plot_obj)
-                self._plot_obj.data_in = self.data_out
 
         elif self.plot_type_select.value == "Readout hist.":
             if not isinstance(self._plot_obj, ComplexHist):
@@ -428,7 +426,6 @@ class Node(pn.viewable.Viewer):
                 self._plot_obj = ComplexHist(
                     name="plot", data_in=self.data_out, path=self.file_path)
                 self.append(self._plot_obj)
-                self._plot_obj.data_in = self.data_out
 
         else:
             if self._plot_obj is not None:
@@ -486,6 +483,8 @@ class ReduxNode(Node):
         for c in list(self._widgets.keys()):
             if c not in self.coords:
                 self.layout.remove(self._widgets[c]["ui"])
+                # Properly unregister watcher before deletion
+                self._widgets[c]["widget"].param.unwatch(self._widgets[c]["change_cb"])
                 del self._widgets[c]
 
         self.on_widget_change()
@@ -727,6 +726,16 @@ class PlotNode(Node):
 
     def remove_fit_box(self):
         fit_box = self.fit_layout.objects[len(self.fit_layout.objects)-1]
+        
+        # Unregister all watchers from fit input widgets before removal
+        if hasattr(fit_box, 'objects'):
+            for obj in fit_box.objects:
+                if hasattr(obj, 'param') and hasattr(obj.param, '_watchers'):
+                    # Make a copy of watcher list to avoid modification during iteration
+                    watchers_to_remove = list(obj.param._watchers.get('value', []))
+                    for watcher in watchers_to_remove:
+                        obj.param.unwatch(watcher)
+        
         # Get all fit objects other than layout and set as the current objects
         no_fit_objects = self.fit_layout.objects[:-1]
         self.fit_layout.objects = no_fit_objects
