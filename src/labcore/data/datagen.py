@@ -70,7 +70,9 @@ class DataGen(ABC):
     @staticmethod
     def noise(coordinates: NDArray[Any], std: float) -> NDArray[Any]:
         n = len(coordinates)
-        return np.random.normal(scale=std, size=n) + 1j * np.random.normal(scale=std, size=n)
+        return np.random.normal(scale=std, size=n) + 1j * np.random.normal(
+            scale=std, size=n
+        )
 
 
 @dataclass
@@ -135,7 +137,10 @@ class ExponentialDecayingSine(DataGen):
     def model(
         coordinates: NDArray[Any], A: float, f: float, phi: float, tau: float, of: float
     ) -> NDArray[Any]:
-        return A * np.exp(-coordinates / tau) * np.sin(2 * np.pi * f * coordinates + phi) + of
+        return (
+            A * np.exp(-coordinates / tau) * np.sin(2 * np.pi * f * coordinates + phi)
+            + of
+        )
 
 
 @dataclass
@@ -177,4 +182,3 @@ class PowerRabi(DataGen):
     def model(coordinates: NDArray[Any], pi_amp: float) -> NDArray[Any]:
         val = np.cos(2 * np.pi * coordinates / (2 * pi_amp)) + 2
         return val - 1j * val
-
