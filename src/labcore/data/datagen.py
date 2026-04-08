@@ -76,7 +76,7 @@ class DataGen(ABC):
 
 
 @dataclass
-class ExponentialDataGen(DataGen):
+class Exponential(DataGen):
     base: float = np.e
 
     @staticmethod
@@ -85,7 +85,7 @@ class ExponentialDataGen(DataGen):
 
 
 @dataclass
-class SineDataGen(DataGen):
+class Sine(DataGen):
     A: float = 1
     f: float = 1
     phi: float = 0
@@ -99,7 +99,7 @@ class SineDataGen(DataGen):
 
 
 @dataclass
-class GaussianDataGen(DataGen):
+class Gaussian(DataGen):
     x0: float = 0
     sigma: float = 1
     A: float = 1
