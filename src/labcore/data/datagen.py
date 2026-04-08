@@ -69,7 +69,8 @@ class DataGen(ABC):
 
     @staticmethod
     def noise(coordinates: NDArray[Any], std: float) -> NDArray[Any]:
-        return np.random.normal(scale=std, size=len(coordinates))
+        n = len(coordinates)
+        return np.random.normal(scale=std, size=n) + 1j * np.random.normal(scale=std, size=n)
 
 
 @dataclass
@@ -107,3 +108,73 @@ class GaussianDataGen(DataGen):
         coordinates: NDArray[Any], x0: float, sigma: float, A: float, of: float
     ) -> NDArray[Any]:
         return A * np.exp(-((coordinates - x0) ** 2) / (2 * sigma**2)) + of
+
+
+@dataclass
+class ExponentialDecay(DataGen):
+    A: float = 1
+    tau: float = 1
+    of: float = 0
+
+    @staticmethod
+    def model(
+        coordinates: NDArray[Any], A: float, tau: float, of: float
+    ) -> NDArray[Any]:
+        return A * np.exp(-coordinates / tau) + of
+
+
+@dataclass
+class ExponentialDecayingSine(DataGen):
+    A: float = 1
+    f: float = 1
+    phi: float = 0
+    tau: float = 1
+    of: float = 0
+
+    @staticmethod
+    def model(
+        coordinates: NDArray[Any], A: float, f: float, phi: float, tau: float, of: float
+    ) -> NDArray[Any]:
+        return A * np.exp(-coordinates / tau) * np.sin(2 * np.pi * f * coordinates + phi) + of
+
+
+@dataclass
+class Lorentzian(DataGen):
+    A: float = 1
+    x0: float = 0
+    gamma: float = 1
+    of: float = 0
+
+    @staticmethod
+    def model(
+        coordinates: NDArray[Any], A: float, x0: float, gamma: float, of: float
+    ) -> NDArray[Any]:
+        return A * (gamma**2) / ((coordinates - x0) ** 2 + gamma**2) + of
+
+
+@dataclass
+class HangerResonator(DataGen):
+    A: float = 1
+    Qc: float = 1000
+    Qi: float = 1000
+    f0: float = 1e9
+    phi: float = 0
+
+    @staticmethod
+    def model(
+        coordinates: NDArray[Any], A: float, Qc: float, Qi: float, f0: float, phi: float
+    ) -> NDArray[Any]:
+        Q_l = 1.0 / (1.0 / Qc + 1.0 / Qi)
+        Q_e_complex = Qc * np.exp(-1j * phi)
+        return A * (1 - (Q_l / Q_e_complex) / (1 + 2j * Q_l * (coordinates - f0) / f0))
+
+
+@dataclass
+class PowerRabi(DataGen):
+    pi_amp: float = 1
+
+    @staticmethod
+    def model(coordinates: NDArray[Any], pi_amp: float) -> NDArray[Any]:
+        val = np.cos(2 * np.pi * coordinates / (2 * pi_amp)) + 2
+        return val - 1j * val
+
