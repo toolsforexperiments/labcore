@@ -1,3 +1,43 @@
+[project]
+name = "labcore"
+version = "1.0.0"
+description = "toolkit for acquiring, processing, and analyzing data in a CM/QI physics lab."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+authors = [
+    {name = "Wolfgang Pfaff", email = "wolfgangpfff@gmail.com"},
+    {name = "Marcos Frenkel", email = "marcosf2@illinois.edu"},
+]
+dependencies = [
+    "jupyterlab",
+    "jupyter_bokeh",
+    "qcodes",
+    "bokeh",
+    "pandas",
+    "xarray",
+    "matplotlib",
+    "numpy",
+    "seaborn",
+    "lmfit",
+    "h5py",
+    "holoviews",
+    "panel",
+    "param",
+    "hvplot",
+    "gitpython",
+    "watchdog",
+    "Pillow",
+    "nest_asyncio",
+    "ruamel.yaml",
+]
+
+
+[project.scripts]
+autoplot = "labcore.scripts.monitr_server:run_autoplot"
+reconstruct-data = "labcore.scripts.reconstruct_safe_write_data:main"
+
+
 [build-system]
 requires = [
     "setuptools >= 48",
@@ -6,7 +46,14 @@ requires = [
 ]
 build-backend = 'setuptools.build_meta'
 
+[tool.ruff]
+exclude = ["docs"]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
 [tool.mypy]
+files = ["src"]
 strict_optional = true
 show_column_numbers = true
 warn_unused_ignores = true
@@ -14,7 +61,6 @@ warn_unused_configs = true
 warn_redundant_casts = true
 no_implicit_optional = true
 disallow_untyped_defs = true
-plugins = "numpy.typing.mypy_plugin"
 show_error_codes = true
 enable_error_code = "ignore-without-code"
 
@@ -24,13 +70,17 @@ module = [
     "lmfit",
     "matplotlib.*",
     "pyqtgraph.*",
-    "xhistogram.*",
     "ruamel.*",
     "param.*",
     "holoviews.*",
     "hvplot.*",
     "bokeh.*",
     "setuptools.*",
+    "pandas",
+    "pandas.*",
+    "seaborn",
+    "seaborn.*",
+    "nest_asyncio",
 ]
 ignore_missing_imports = true
 
@@ -38,39 +88,34 @@ ignore_missing_imports = true
 testpaths = ["test"]
 log_cli = true
 
-[project]
-name = "labcore"
-version = "0.0.0"
-description = "toolkit for acquiring, processing, and analyzing data in a CM/QI physics lab."
-readme = "README.md"
-requires-python = ">=3.10"
-license = {text = "MIT"}
-dependencies = [
-    "jupyterlab",
-    "jupyter_bokeh",
-    "qcodes==0.44.1",
-    "bokeh",
-    "pandas",
-    "xarray",
-    "matplotlib",
-    "numpy==1.26.4",
-    "scipy",
-    "scikit-learn",
-    "seaborn",
-    "lmfit",
-    "h5py==3.10.0",
-    "xhistogram",
-    "holoviews",
-    "panel",
-    "param",
-    "hvplot",
-    "versioningit",
-    "qtpy",
-    "gitpython",
-    "watchdog",
-    "pywavelets",
-]
+[tool.coverage.run]
+branch = true
 
-[project.scripts]
-autoplot = "scripts.monitr_server:run_autoplot"
-pyro-ns = "scripts.pyro_nameserver:run_pyro_nameserver"
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+include = ["labcore*"]
+exclude = ["site*", "docs*", "test*"]
+
+[tool.setuptools.package-data]
+labcore = ["py.typed"]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "types-markdown>=3.10.2.20260211",
+]
+docs = [
+    "sphinx",
+    "pydata-sphinx-theme",
+    "myst-parser",
+    "myst-nb",
+    "pandoc",
+    "ipykernel",
+    "linkify-it-py",
+    "h5py",
+]
