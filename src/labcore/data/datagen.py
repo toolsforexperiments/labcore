@@ -41,6 +41,7 @@ coords = sine.generate(A = 5) --> uses A = 5, f = 2
 @dataclass
 class DataGen(ABC):
     noise_std: float = 1.0
+    imaginary: bool = False
 
     @staticmethod
     @abstractmethod
@@ -53,12 +54,15 @@ class DataGen(ABC):
         params = asdict(self)
         params.update(kwargs)
         noise_std = params.pop("noise_std")
+        imaginary = params.pop("imaginary")
 
         one_d = coordinates.ndim == 1
         coordinates = np.atleast_2d(coordinates)
         model_outputs = np.array(
             [
-                self.model(coords, **params) + self.noise(coords, noise_std)
+                self.model(coords, **params)
+                + self.noise(coords, noise_std)
+                + (1j * self.noise(coords, noise_std) if imaginary else 0)
                 for coords in coordinates
             ]
         )
@@ -70,9 +74,7 @@ class DataGen(ABC):
     @staticmethod
     def noise(coordinates: NDArray[Any], std: float) -> NDArray[Any]:
         n = len(coordinates)
-        return np.random.normal(scale=std, size=n) + 1j * np.random.normal(
-            scale=std, size=n
-        )
+        return np.random.normal(scale=std, size=n)
 
 
 @dataclass
@@ -158,27 +160,13 @@ class Lorentzian(DataGen):
 
 
 @dataclass
-class HangerResonator(DataGen):
-    A: float = 1
-    Qc: float = 1000
-    Qi: float = 1000
-    f0: float = 1e9
-    phi: float = 0
-
-    @staticmethod
-    def model(
-        coordinates: NDArray[Any], A: float, Qc: float, Qi: float, f0: float, phi: float
-    ) -> NDArray[Any]:
-        Q_l = 1.0 / (1.0 / Qc + 1.0 / Qi)
-        Q_e_complex = Qc * np.exp(-1j * phi)
-        return A * (1 - (Q_l / Q_e_complex) / (1 + 2j * Q_l * (coordinates - f0) / f0))
-
-
-@dataclass
 class PowerRabi(DataGen):
+    A: float = 1
     pi_amp: float = 1
+    of: float = 0
+    imaginary: bool = True
 
     @staticmethod
-    def model(coordinates: NDArray[Any], pi_amp: float) -> NDArray[Any]:
-        val = np.cos(2 * np.pi * coordinates / (2 * pi_amp)) + 2
+    def model(coordinates: NDArray[Any], A: float, pi_amp: float, of: float) -> NDArray[Any]:
+        val = A * np.cos(2 * np.pi * coordinates / (2 * pi_amp)) + of
         return val - 1j * val
