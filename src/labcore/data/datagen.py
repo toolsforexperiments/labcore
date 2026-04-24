@@ -41,6 +41,7 @@ coords = sine.generate(A = 5) --> uses A = 5, f = 2
 @dataclass
 class DataGen(ABC):
     noise_std: float = 1.0
+    imaginary: bool = False
 
     @staticmethod
     @abstractmethod
@@ -53,12 +54,15 @@ class DataGen(ABC):
         params = asdict(self)
         params.update(kwargs)
         noise_std = params.pop("noise_std")
+        imaginary = params.pop("imaginary")
 
         one_d = coordinates.ndim == 1
         coordinates = np.atleast_2d(coordinates)
         model_outputs = np.array(
             [
-                self.model(coords, **params) + self.noise(coords, noise_std)
+                self.model(coords, **params)
+                + self.noise(coords, noise_std)
+                + (1j * self.noise(coords, noise_std) if imaginary else 0)
                 for coords in coordinates
             ]
         )
@@ -69,11 +73,12 @@ class DataGen(ABC):
 
     @staticmethod
     def noise(coordinates: NDArray[Any], std: float) -> NDArray[Any]:
-        return np.random.normal(scale=std, size=len(coordinates))
+        n = len(coordinates)
+        return np.random.normal(scale=std, size=n)
 
 
 @dataclass
-class ExponentialDataGen(DataGen):
+class Exponential(DataGen):
     base: float = np.e
 
     @staticmethod
@@ -82,7 +87,7 @@ class ExponentialDataGen(DataGen):
 
 
 @dataclass
-class SineDataGen(DataGen):
+class Sine(DataGen):
     A: float = 1
     f: float = 1
     phi: float = 0
@@ -96,7 +101,7 @@ class SineDataGen(DataGen):
 
 
 @dataclass
-class GaussianDataGen(DataGen):
+class Gaussian(DataGen):
     x0: float = 0
     sigma: float = 1
     A: float = 1
@@ -107,3 +112,48 @@ class GaussianDataGen(DataGen):
         coordinates: NDArray[Any], x0: float, sigma: float, A: float, of: float
     ) -> NDArray[Any]:
         return A * np.exp(-((coordinates - x0) ** 2) / (2 * sigma**2)) + of
+
+
+@dataclass
+class ExponentialDecay(DataGen):
+    A: float = 1
+    tau: float = 1
+    of: float = 0
+
+    @staticmethod
+    def model(
+        coordinates: NDArray[Any], A: float, tau: float, of: float
+    ) -> NDArray[Any]:
+        return A * np.exp(-coordinates / tau) + of
+
+
+@dataclass
+class ExponentialDecayingSine(DataGen):
+    A: float = 1
+    f: float = 1
+    phi: float = 0
+    tau: float = 1
+    of: float = 0
+
+    @staticmethod
+    def model(
+        coordinates: NDArray[Any], A: float, f: float, phi: float, tau: float, of: float
+    ) -> NDArray[Any]:
+        return (
+            A * np.exp(-coordinates / tau) * np.sin(2 * np.pi * f * coordinates + phi)
+            + of
+        )
+
+
+@dataclass
+class Lorentzian(DataGen):
+    A: float = 1
+    x0: float = 0
+    gamma: float = 1
+    of: float = 0
+
+    @staticmethod
+    def model(
+        coordinates: NDArray[Any], A: float, x0: float, gamma: float, of: float
+    ) -> NDArray[Any]:
+        return A * (gamma**2) / ((coordinates - x0) ** 2 + gamma**2) + of
