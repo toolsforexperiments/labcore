@@ -157,16 +157,3 @@ class Lorentzian(DataGen):
         coordinates: NDArray[Any], A: float, x0: float, gamma: float, of: float
     ) -> NDArray[Any]:
         return A * (gamma**2) / ((coordinates - x0) ** 2 + gamma**2) + of
-
-
-@dataclass
-class PowerRabi(DataGen):
-    A: float = 1
-    pi_amp: float = 1
-    of: float = 0
-    imaginary: bool = True
-
-    @staticmethod
-    def model(coordinates: NDArray[Any], A: float, pi_amp: float, of: float) -> NDArray[Any]:
-        val = A * np.cos(2 * np.pi * coordinates / (2 * pi_amp)) + of
-        return val - 1j * val
