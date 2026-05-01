@@ -27,6 +27,25 @@ class PlatformTypes(Enum):
 PLATFORMTYPE: PlatformTypes | None = None
 
 
+def select_platform(platform: PlatformTypes | str) -> None:
+    """Select the hardware platform for subsequent protocol execution.
+
+    Must be called once before instantiating any ``ProtocolBase`` subclass.
+    Accepts either a ``PlatformTypes`` member or its name as a string
+    (case-insensitive).
+    """
+    global PLATFORMTYPE
+    if isinstance(platform, str):
+        try:
+            platform = PlatformTypes[platform.upper()]
+        except KeyError as err:
+            valid = ", ".join(p.name for p in PlatformTypes)
+            raise ValueError(
+                f"Unknown platform {platform!r}. Valid options: {valid}."
+            ) from err
+    PLATFORMTYPE = platform
+
+
 @dataclass
 class ProtocolParameterBase:
     """

@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-from labcore.protocols.base import ProtocolParameterBase
+from labcore.protocols.base import CorrectionParameter, ProtocolParameterBase
 
 
 @dataclass
@@ -11,6 +11,21 @@ class _DummyParameterBase(ProtocolParameterBase):
     that ``param()`` and ``param(value)`` work without any external hardware.
     The stored value is initialised to ``0.0`` in ``__post_init__``.
     """
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+        self._value: float = 0.0
+
+    def _dummy_getter(self) -> float:
+        return self._value
+
+    def _dummy_setter(self, v: float) -> None:
+        self._value = v
+
+
+@dataclass
+class _DummyCorrectionParameterBase(CorrectionParameter):
+    """In-memory correction parameter for the dummy package."""
 
     def __post_init__(self) -> None:
         super().__post_init__()
@@ -54,6 +69,15 @@ class GaussianAmplitude(_DummyParameterBase):
     name: str = field(default="gaussian_amplitude", init=False)
     description: str = field(default="Amplitude (A) of the Gaussian peak", init=False)
     qick_path: str = field(default="", init=False)
+
+
+@dataclass
+class GaussianNoiseReductionFactor(_DummyCorrectionParameterBase):
+    name: str = field(default="gaussian_noise_reduction_factor", init=False)
+    description: str = field(
+        default="Factor by which the measurement noise std is divided each correction step",
+        init=False,
+    )
 
 
 # ---------------------------------------------------------------------------

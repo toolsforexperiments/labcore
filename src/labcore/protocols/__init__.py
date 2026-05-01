@@ -40,3 +40,6 @@ from labcore.protocols.base import (
 from labcore.protocols.base import (
     SuperOperationBase as SuperOperationBase,
 )
+from labcore.protocols.base import (
+    select_platform as select_platform,
+)

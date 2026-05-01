@@ -74,3 +74,17 @@ All three tools are pre-configured in `pyproject.toml` and can be run without ex
 - **ruff**: `uv run ruff check` (excludes `docs/`, configured in `[tool.ruff]`)
 - **mypy**: `uv run mypy` (targets `src/`, configured in `[tool.mypy]`)
 - **pytest**: `uv run pytest` (targets `test/`, configured in `[tool.pytest.ini_options]`)
+
+## Agent skills
+
+### Issue tracker
+
+Issues live as GitHub issues on the canonical upstream `toolsforexperiments/labcore` (not `origin`). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default canonical label names (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout: one `CONTEXT.md` + `docs/adr/` at the repo root. See `docs/agents/domain.md`.
