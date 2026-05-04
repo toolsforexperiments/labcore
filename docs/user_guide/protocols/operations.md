@@ -57,8 +57,10 @@ in field names, units, or array shapes have to be reconciled by
 ### Running an operation on its own
 
 While developing a new operation it is often easier to exercise it
-standalone than to wrap it in a `ProtocolBase` subclass. Every operation
-has its own `execute()` that runs the full lifecycle once and returns the
+standalone than to wrap it in a
+{py:class}`ProtocolBase <labcore.protocols.base.ProtocolBase>` subclass.
+Every operation has its own `execute()` that runs the full lifecycle once
+and returns the
 {py:class}`EvaluateResult <labcore.protocols.base.EvaluateResult>`:
 
 ```python
@@ -86,8 +88,8 @@ A few things to keep in mind:
 - The HTML report is **not** assembled — that happens only inside
   `ProtocolBase.execute()`. For development you typically just inspect
   `result.status` and `op.report_output` directly.
-- `select_platform` still has to be called first, exactly as it does for
-  a protocol.
+- {py:func}`select_platform <labcore.protocols.select_platform>` still
+  has to be called first, exactly as it does for a protocol.
 
 ## Registering inputs, outputs, and platform code
 
@@ -472,5 +474,6 @@ That file maps onto the sections of this page like so:
 
 ## Where to read next
 
-{doc}`protocols` — wrapping operations into a `ProtocolBase` and
-running them.
+{doc}`protocols` — wrapping operations into a
+{py:class}`ProtocolBase <labcore.protocols.base.ProtocolBase>` and running
+them.

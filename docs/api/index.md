@@ -10,5 +10,6 @@ Complete API documentation for Labcore, generated from docstrings.
    labcore.data
    labcore.measurement
    labcore.analysis
+   labcore.protocols
    labcore.utils
 ```

@@ -26,7 +26,8 @@ select_platform("OPX")       # Quantum Machines OPX
 
 This is the global signal that tells parameters and operations which
 platform-specific getter/setter to dispatch to. Instantiating a protocol
-without first calling `select_platform` raises
+without first calling
+{py:func}`select_platform <labcore.protocols.select_platform>` raises
 `ValueError("Please choose a platform")`.
 
 You only need to call this once per process. A notebook running
