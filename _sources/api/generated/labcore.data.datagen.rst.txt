@@ -9,7 +9,10 @@ labcore.data.datagen
    .. autosummary::
    
       DataGen
-      ExponentialDataGen
-      GaussianDataGen
-      SineDataGen
+      Exponential
+      ExponentialDecay
+      ExponentialDecayingSine
+      Gaussian
+      Lorentzian
+      Sine
    
