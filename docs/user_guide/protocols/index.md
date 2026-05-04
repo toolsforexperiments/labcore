@@ -30,7 +30,7 @@ Protocol
 ```
 
 The simplest shape — and the one most protocols use — is a single root
-branch with a flat list of operations. See {doc}`building_protocols` for
+branch with a flat list of operations. See {doc}`protocols` for
 super-operations, conditions, and the assembled report.
 
 ## The lifecycle of an operation
@@ -93,6 +93,12 @@ A few things to notice:
   flat list of operations.
 - The correction strategy lives **inside** the operation. The protocol does
   not know or care that this particular operation retries itself.
+
+:::{note}
+At the moment, protocols only support the `DUMMY`, `QICK`, and `OPX`
+platforms. Adding a new platform is a small change — if you need one,
+please [open an issue on GitHub](https://github.com/toolsforexperiments/labcore/issues).
+:::
 
 ## Where to read next
 

@@ -351,5 +351,5 @@ The shape of that file maps onto the sections above:
 
 ## Where to read next
 
-{doc}`building_protocols` — wrapping operations into a `ProtocolBase` and
+{doc}`protocols` — wrapping operations into a `ProtocolBase` and
 running them.

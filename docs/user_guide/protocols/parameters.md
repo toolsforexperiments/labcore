@@ -10,7 +10,8 @@ qubit_frequency(5.2e9)   # write
 
 Underneath, it's an abstraction layer that solves two problems an operation
 should not have to think about: where the value lives between Python
-processes, and how each hardware platform actually programs it.
+processes (running a protocol on a notebook first and then on a script for example),
+and how each hardware platform actually programs it.
 
 ## Why parameters?
 
@@ -20,8 +21,8 @@ Lab work runs in many processes — a notebook for ad-hoc operations, a
 script for a full protocol, a dashboard for live monitoring. They all need
 to see the same parameter values. Parameters do not store values in
 themselves; they hold a `params` proxy to whatever persistence backend the
-toolbox uses. The common choice today is the parameter manager from
-[`instrumentserver`](https://github.com/toolsforexperiments/instrumentserver),
+user wants. The common choice today we use is the parameter manager from
+[`instrumentserver`](https://toolsforexperiments.github.io/instrumentserver/first_steps/overview.html#parameter-manager),
 but a config file or any other store works equally well — the labcore-side
 API does not change.
 
@@ -34,19 +35,16 @@ Each platform-specific getter/setter on the parameter holds whatever
 conversion logic that platform needs. Operations never see this — they
 just call `qubit_frequency()` and get the actual frequency back.
 
-The analysis layer is unaffected by all of this. It only ever calls
-`param()` and works with the resolved value.
-
 ## The shape of a parameter
 
 A parameter is a {py:class}`dataclass <dataclasses.dataclass>` subclass of
 {py:class}`ProtocolParameterBase <labcore.protocols.base.ProtocolParameterBase>`
 with three fields and one platform-specific getter/setter pair per backend:
 
-| Field | What it is |
-|---|---|
-| `name` | The parameter's display name. Used in reports and logs. |
-| `description` | Plain-English description of the value. |
+| Field | What it is                                                                                                                         |
+|---|------------------------------------------------------------------------------------------------------------------------------------|
+| `name` | The parameter's display name. Used in reports and logs.                                                                            |
+| `description` | Plain-English description of the value.                                                                                            |
 | `params` | The hardware/persistence handle. `None` on `DUMMY`; on real hardware it's typically an `instrumentserver` parameter-manager proxy. |
 
 The class implements `_dummy_getter` / `_dummy_setter`,
@@ -102,7 +100,7 @@ freq(5.21e9)     # writes via _qick_setter
 ```
 
 :::{note}
-This example writes the same value through both DUMMY and QICK because QICK
+This example writes the same value through both `DUMMY` and `QICK` because the QICK
 takes a frequency in GHz directly. An OPX getter/setter would do more work:
 it would split the requested frequency into IF + LO, write the LO to the
 microwave source, and write the IF to the OPX channel. That conversion is

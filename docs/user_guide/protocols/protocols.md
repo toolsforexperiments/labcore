@@ -1,4 +1,4 @@
-# Building Protocols
+# Protocols
 
 A **protocol** is a tree of operations and (optional) conditions executed
 in sequence. The simplest shape is one root branch with a flat list of
