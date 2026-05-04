@@ -54,6 +54,41 @@ in field names, units, or array shapes have to be reconciled by
   a correction strategy for the failed check. On `FAILURE` it usually
   does nothing — the operation has already given up.
 
+### Running an operation on its own
+
+While developing a new operation it is often easier to exercise it
+standalone than to wrap it in a `ProtocolBase` subclass. Every operation
+has its own `execute()` that runs the full lifecycle once and returns the
+{py:class}`EvaluateResult <labcore.protocols.base.EvaluateResult>`:
+
+```python
+from labcore.protocols import select_platform
+
+select_platform("DUMMY")
+
+op = MyOperation()
+result = op.execute()
+
+result.status      # SUCCESS / RETRY / FAILURE for this attempt
+result.checks      # CheckResult list from evaluate()
+op.report_output   # markdown strings and figure paths the operation produced
+op.figure_paths    # figures attached during analyze
+op.improvements    # ParamImprovements from registered success updates
+```
+
+A few things to keep in mind:
+
+- `op.execute()` runs **one attempt**. The retry-on-`RETRY` loop lives in
+  the protocol layer — to exercise corrections end-to-end you either call
+  `op.execute()` again while `result.status == OperationStatus.RETRY`, or
+  wrap the operation in a small one-operation protocol like the runnable
+  example at the bottom of this page.
+- The HTML report is **not** assembled — that happens only inside
+  `ProtocolBase.execute()`. For development you typically just inspect
+  `result.status` and `op.report_output` directly.
+- `select_platform` still has to be called first, exactly as it does for
+  a protocol.
+
 ## Registering inputs, outputs, and platform code
 
 Operations declare their inputs and outputs with three registration calls

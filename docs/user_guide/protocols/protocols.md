@@ -37,8 +37,9 @@ all pick their own platform at startup and stick with it.
 
 A protocol is a class that subclasses
 {py:class}`ProtocolBase <labcore.protocols.base.ProtocolBase>`, sets a
-`root_branch`, and pushes operations onto it. Here is `QubitTuneup` from
-`CQEDToolbox`, which is exactly the flat case:
+`root_branch`, and pushes operations onto it. Here is
+[`QubitTuneup`](https://github.com/toolsforexperiments/CQEDToolbox/blob/main/src/cqedtoolbox/protocols/qubit_tuneup.py)
+from `CQEDToolbox`, which is exactly the flat case:
 
 ```python
 from pathlib import Path
@@ -194,7 +195,9 @@ Two things to keep in mind:
 - Conditions are not allowed inside a super-operation. Use a regular
   branch if you need branching at that level.
 
-The dummy package ships `DummySuperOperation` as a runnable reference.
+The dummy package ships
+[`DummySuperOperation`](https://github.com/toolsforexperiments/labcore/blob/main/src/labcore/testing/protocol_dummy/dummy_protocol.py)
+as a runnable reference.
 
 ## Branches and conditions
 
