@@ -38,7 +38,7 @@ super-operations, conditions, and the assembled report.
 Every operation runs the same five steps in order, on every attempt:
 
 ```
-   ◀── platform-specific ──▶◀────── platform-agnostic ────▶
+  ◀── platform-specific ──▶ ◀───── platform-agnostic ──────▶
 
   measure ──▶ load_data ──▶ analyze ──▶ evaluate ──▶ correct
      │            │            │            │            │
