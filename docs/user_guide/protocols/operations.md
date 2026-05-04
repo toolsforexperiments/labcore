@@ -13,21 +13,36 @@ This page assumes you have read {doc}`parameters`.
 ## The lifecycle of an operation
 
 ```
-measure ──▶ load_data ──▶ analyze ──▶ evaluate ──▶ correct
-   │            │            │            │            │
- write       pull data    compute       check       parameter
- hardware    back into    (fitting,    results       writes;
- / save      memory       statistics)  (pure         apply any
- raw data                              assessment)   correction
+   ◀── platform-specific ──▶   ◀──── platform-agnostic ────▶
+
+  measure ──▶ load_data ──▶ analyze ──▶ evaluate ──▶ correct
+     │            │            │            │            │
+   write       pull and     compute      check        parameter
+   hardware    normalize    (fitting,    results      writes;
+   / save      shape and    statistics)  (pure        apply any
+   raw data    names                     assessment)  correction
+               across
+               platforms
 ```
+
+The split between platform-specific and platform-agnostic steps is
+deliberate: `analyze`, `evaluate`, and `correct` should run identically no
+matter which backend produced the data. Whatever per-platform quirks exist
+in field names, units, or array shapes have to be reconciled by
+`load_data` so that everything downstream sees a single canonical shape.
 
 - **`measure`** writes hardware (or generates fake data on `DUMMY`) and
   saves it to disk via the standard sweep + DDH5 machinery. Dispatches to
   `_measure_dummy` / `_measure_qick` / `_measure_opx`. Returns the path
   the data was written to.
-- **`load_data`** reads that path back into memory and stores it on the
-  operation as `independents` and `dependents` dictionaries. Dispatches
-  to `_load_data_dummy` / `_load_data_qick` / `_load_data_opx`.
+- **`load_data`** reads that path back into memory and **normalizes the
+  data so that downstream steps see the same shape and variable names
+  regardless of platform**. Different backends can save data with
+  different field names or slightly different shapes; reconciling those
+  differences here is what lets `analyze` be platform-agnostic. Stores
+  the result on the operation as `independents` and `dependents`
+  dictionaries. Dispatches to `_load_data_dummy` / `_load_data_qick` /
+  `_load_data_opx`.
 - **`analyze`** is platform-agnostic. Run your fits, compute summary
   statistics, attach results to `self`. Do not mutate parameters here.
 - **`evaluate`** is **pure assessment**. It returns named check results
