@@ -1,0 +1,2022 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>labcore.protocols.base &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/labcore/protocols/base';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/_modules/labcore/protocols/base.html" />
+    <link rel="author" title="About these documents" href="../../../about.html" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.protocols.base</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for labcore.protocols.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">ClassVar</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">markdown</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArrayLike</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="serialize_fit_params">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.serialize_fit_params">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">serialize_fit_params</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]:</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">n</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+
+<div class="viewcode-block" id="PlatformTypes">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.PlatformTypes">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PlatformTypes</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">OPX</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">QICK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+    <span class="n">DUMMY</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span></div>
+
+
+
+<span class="n">PLATFORMTYPE</span><span class="p">:</span> <span class="n">PlatformTypes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="select_platform">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.select_platform">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_platform</span><span class="p">(</span><span class="n">platform</span><span class="p">:</span> <span class="n">PlatformTypes</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Select the hardware platform for subsequent protocol execution.</span>
+
+<span class="sd">    Must be called once before instantiating any ``ProtocolBase`` subclass.</span>
+<span class="sd">    Accepts either a ``PlatformTypes`` member or its name as a string</span>
+<span class="sd">    (case-insensitive).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">PLATFORMTYPE</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">platform</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">platform</span> <span class="o">=</span> <span class="n">PlatformTypes</span><span class="p">[</span><span class="n">platform</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">PlatformTypes</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Unknown platform </span><span class="si">{</span><span class="n">platform</span><span class="si">!r}</span><span class="s2">. Valid options: </span><span class="si">{</span><span class="n">valid</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+    <span class="n">PLATFORMTYPE</span> <span class="o">=</span> <span class="n">platform</span></div>
+
+
+
+<div class="viewcode-block" id="ProtocolParameterBase">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolParameterBase">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProtocolParameterBase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for protocol parameters with platform-specific getter/setter methods.</span>
+
+<span class="sd">    Subclasses must implement the platform-specific getter/setter methods:</span>
+<span class="sd">    - _qick_getter() / _qick_setter(value) for QICK platform</span>
+<span class="sd">    - _opx_getter() / _opx_setter(value) for OPX platform</span>
+<span class="sd">    - _dummy_getter() / _dummy_setter(value) for DUMMY platform</span>
+
+<span class="sd">    These methods should directly call the QCoDeS-style parameter with:</span>
+<span class="sd">    - Get: my_param()</span>
+<span class="sd">    - Set: my_param(value)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; @dataclass</span>
+<span class="sd">        &gt;&gt;&gt; class QubitFrequency(ProtocolParameterBase):</span>
+<span class="sd">        ...     name: str = field(default=&quot;Qubit IF&quot;, init=False)</span>
+<span class="sd">        ...     description: str = field(default=&quot;Qubit intermediate frequency&quot;, init=False)</span>
+<span class="sd">        ...</span>
+<span class="sd">        ...     def _qick_getter(self):</span>
+<span class="sd">        ...         return self.params.qubit.f_ge()</span>
+<span class="sd">        ...</span>
+<span class="sd">        ...     def _qick_setter(self, value):</span>
+<span class="sd">        ...         return self.params.qubit.f_ge(value)</span>
+<span class="sd">        ...</span>
+<span class="sd">        ...     def _opx_getter(self):</span>
+<span class="sd">        ...         return self.params.qubit.frequency()</span>
+<span class="sd">        ...</span>
+<span class="sd">        ...     def _opx_setter(self, value):</span>
+<span class="sd">        ...         return self.params.qubit.frequency(value)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">global</span> <span class="n">PLATFORMTYPE</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="c1"># FIXME: this should be typed as ProxyInstrumentModule from instrumentserver,</span>
+    <span class="c1">#   but labcore should not depend on that package. params is only stored and</span>
+    <span class="c1">#   passed through here; hardware access lives in subclasses in the measurement</span>
+    <span class="c1">#   repo. Retype to a structural Protocol or remove the dependency when cleaning</span>
+    <span class="c1">#   up the migration.</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">platform_type</span><span class="p">:</span> <span class="n">PlatformTypes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">PLATFORMTYPE</span>
+
+    <span class="c1"># dataclasses defaults are evaluated at import time, not runtime.</span>
+    <span class="c1"># This means we need to re-apply the PLATFORMTYPE when an instance is created</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span> <span class="o">=</span> <span class="n">PLATFORMTYPE</span>
+
+        <span class="c1"># Validate params is provided for non-DUMMY platforms</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span> <span class="o">!=</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">DUMMY</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;params argument is required for </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="si">}</span><span class="s2"> platform&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        QCoDeS-style parameter calling convention.</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">            param()      # Get value (no arguments)</span>
+<span class="sd">            param(42)    # Set value to 42</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Getter: no arguments provided</span>
+            <span class="k">match</span> <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="p">:</span>
+                <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">QICK</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_qick_getter</span><span class="p">()</span>
+                <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">OPX</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opx_getter</span><span class="p">()</span>
+                <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">DUMMY</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dummy_getter</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Platform type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="si">}</span><span class="s2"> not implemented&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Setter: value provided</span>
+            <span class="k">match</span> <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="p">:</span>
+                <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">QICK</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_qick_setter</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">OPX</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opx_setter</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">DUMMY</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dummy_setter</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Platform type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="si">}</span><span class="s2"> not implemented&quot;</span>
+            <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_qick_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get parameter value for QICK platform. Subclasses must implement.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;QICK getter not implemented for parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_qick_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set parameter value for QICK platform. Subclasses must implement.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;QICK setter not implemented for parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_opx_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get parameter value for OPX platform. Subclasses must implement.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;OPX getter not implemented for parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_opx_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set parameter value for OPX platform. Subclasses must implement.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;OPX setter not implemented for parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dummy_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get parameter value for DUMMY platform. Subclasses must implement.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;DUMMY getter not implemented for parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dummy_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set parameter value for DUMMY platform. Subclasses must implement.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;DUMMY setter not implemented for parameter &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="OperationStatus">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.OperationStatus">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">OperationStatus</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return status for ProtocolOperation.evaluate()</span>
+
+<span class="sd">    Indicates what the protocol executor should do next with this operation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SUCCESS</span> <span class="o">=</span> <span class="s2">&quot;success&quot;</span>
+    <span class="n">RETRY</span> <span class="o">=</span> <span class="s2">&quot;retry&quot;</span>
+    <span class="n">FAILURE</span> <span class="o">=</span> <span class="s2">&quot;failure&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;OperationStatus.</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="ParamImprovement">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ParamImprovement">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ParamImprovement</span><span class="p">:</span>
+    <span class="n">old_value</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">new_value</span><span class="p">:</span> <span class="n">Any</span>
+    <span class="n">param</span><span class="p">:</span> <span class="n">ProtocolParameterBase</span></div>
+
+
+
+<div class="viewcode-block" id="CheckResult">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.CheckResult">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CheckResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Result of a single named check in evaluate().&quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">passed</span><span class="p">:</span> <span class="nb">bool</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span></div>
+
+
+
+<span class="c1"># TODO: Add a reset mechanism</span>
+<div class="viewcode-block" id="Correction">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Correction</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Base class for stateful correction strategies.</span>
+
+<span class="sd">    Subclass this and attach an instance to the operation in ``__init__``. The</span>
+<span class="sd">    instance persists across retry attempts so that stateful strategies (e.g.</span>
+<span class="sd">    stepping through a list of frequency windows) work correctly.</span>
+
+<span class="sd">    Example::</span>
+
+<span class="sd">        class FrequencySweepCorrection(Correction):</span>
+<span class="sd">            name = &quot;scan_next_frequency_window&quot;</span>
+<span class="sd">            description = &quot;Step through candidate frequency windows&quot;</span>
+<span class="sd">            triggered_by = &quot;peak_exists&quot;</span>
+
+<span class="sd">            def __init__(self, freq_param, windows: list[float]):</span>
+<span class="sd">                self.freq_param = freq_param</span>
+<span class="sd">                self.windows = windows</span>
+<span class="sd">                self._idx = 0</span>
+
+<span class="sd">            def can_apply(self) -&gt; bool:</span>
+<span class="sd">                return self._idx &lt; len(self.windows)</span>
+
+<span class="sd">            def apply(self) -&gt; None:</span>
+<span class="sd">                self.freq_param(self.windows[self._idx])</span>
+<span class="sd">                self._idx += 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">triggered_by</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+<div class="viewcode-block" id="Correction.can_apply">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction.can_apply">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_apply</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return False when this strategy is exhausted, forcing FAILURE.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="Correction.apply">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction.apply">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the correction. Called before the next retry attempt.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Correction &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39; must implement apply()&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Correction.report_output">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction.report_output">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">report_output</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string describing what apply() just changed. Optional.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="EvaluateResult">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.EvaluateResult">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">EvaluateResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return type for ProtocolOperation.evaluate() and correct().&quot;&quot;&quot;</span>
+
+    <span class="n">status</span><span class="p">:</span> <span class="n">OperationStatus</span>
+    <span class="n">checks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">CheckResult</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="CorrectionParameter">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.CorrectionParameter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">CorrectionParameter</span><span class="p">(</span><span class="n">ProtocolParameterBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Platform-aware correction strategy knob.</span>
+
+<span class="sd">    Use this instead of ProtocolParameterBase for parameters that control</span>
+<span class="sd">    correction strategies (e.g. window size, step count, noise tolerance).</span>
+<span class="sd">    May have platform-specific units or scaling — implement the platform</span>
+<span class="sd">    getter/setter methods for any unit conversions needed.</span>
+
+<span class="sd">    Subclass exactly like ProtocolParameterBase.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">is_correction</span><span class="p">:</span> <span class="n">ClassVar</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span> <span class="o">=</span> <span class="n">PLATFORMTYPE</span></div>
+
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_RegisteredCheck</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Internal: maps a check function to its optional correction strategies.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">check_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">CheckResult</span><span class="p">]</span>
+    <span class="n">corrections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Correction</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">_RegisteredSuccessUpdate</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Internal: param to write and callable that produces the new value, applied on SUCCESS.&quot;&quot;&quot;</span>
+
+    <span class="n">param</span><span class="p">:</span> <span class="n">ProtocolParameterBase</span>
+    <span class="n">value_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">]</span>
+
+
+<span class="c1"># TODO: How do we handle different saving for different scenarios? For example:</span>
+<span class="c1">#  For the lab we use run_measurement, for something like the lccf it will be something different.</span>
+<span class="c1">#  In the same way that if some other lab wants to run this, they might want to automatically save other stuff.</span>
+<div class="viewcode-block" id="ProtocolOperation">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProtocolOperation</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+
+    <span class="n">DEFAULT_MAX_ATTEMPTS</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># Default max retry attempts for operations</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">global</span> <span class="n">PLATFORMTYPE</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="p">:</span> <span class="n">PlatformTypes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">PLATFORMTYPE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_loc</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ProtocolParameterBase</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ProtocolParameterBase</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Specifies in plain english what is the condition for the measurement to be successful</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dependents</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ArrayLike</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">improvements</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ParamImprovement</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Retry/attempt tracking</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_attempts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_MAX_ATTEMPTS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_attempt</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_attempts_made</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># Check and correction registration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_registered_checks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_RegisteredCheck</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_registered_success_updates</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">_RegisteredSuccessUpdate</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">correction_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CorrectionParameter</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_register_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ProtocolParameterBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register input parameters as both attributes and in the dictionary&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_register_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">ProtocolParameterBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register output parameters as both attributes and in the dictionary&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_register_correction_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">CorrectionParameter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register correction strategy parameters as attributes and in the dictionary.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">correction_params</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_register_check</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">check_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">CheckResult</span><span class="p">],</span>
+        <span class="n">correction</span><span class="p">:</span> <span class="n">Correction</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Correction</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Register a named check and its optional correction strategy (or strategies).</span>
+
+<span class="sd">        When evaluate() uses the default implementation, it runs all registered</span>
+<span class="sd">        checks and returns SUCCESS if all pass, RETRY if any fail. When</span>
+<span class="sd">        correct() uses the default implementation, it calls the first applicable</span>
+<span class="sd">        correction for each failed check.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: Unique identifier for this check (used in reports and routing).</span>
+<span class="sd">            check_func: Callable returning a CheckResult — pure assessment, no side effects.</span>
+<span class="sd">            correction: Optional Correction instance or list of instances to try in order</span>
+<span class="sd">                when this check fails. The first one where can_apply() returns True is used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">correction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">corrections</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Correction</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">correction</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">corrections</span> <span class="o">=</span> <span class="n">correction</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">corrections</span> <span class="o">=</span> <span class="p">[</span><span class="n">correction</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_registered_checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_RegisteredCheck</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">check_func</span><span class="p">,</span> <span class="n">corrections</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_register_success_update</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">param</span><span class="p">:</span> <span class="n">ProtocolParameterBase</span><span class="p">,</span>
+        <span class="n">value_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">Any</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register a param to write when the operation succeeds.</span>
+
+<span class="sd">        value_func is called lazily at correct() time, so it can safely</span>
+<span class="sd">        reference instance attributes set during analyze() (e.g. self.fit_result).</span>
+<span class="sd">        Multiple updates are applied in registration order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_registered_success_updates</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">_RegisteredSuccessUpdate</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">value_func</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_correction_for_check</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">check_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Correction</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the first applicable Correction for the given check name, or None.&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">rc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_checks</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">rc</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">check_name</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">rc</span><span class="o">.</span><span class="n">corrections</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">can_apply</span><span class="p">():</span>
+                        <span class="k">return</span> <span class="n">c</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_measure_qick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;QICK measurement not implemented&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_measure_opx</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;OPX measurement not implemented&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_measure_dummy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;DUMMY measurement not implemented&quot;</span><span class="p">)</span>
+
+    <span class="c1"># TODO: How do we verify directionality in the information with datasets that are 2D or bigger.</span>
+    <span class="c1">#  e.i.: How do we know which independent is store in which axis? This needs to be standardized for each measurement</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_verify_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="c1"># Check if any arrays in independents are empty</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">array</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;independents[&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;] is empty&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="c1"># Check if any arrays in dependents are empty</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">array</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dependents</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">arr</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dependents[&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;] is empty&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="n">all_arrays</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">all_arrays</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">)</span>
+        <span class="n">all_arrays</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependents</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">all_arrays</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+        <span class="n">shapes</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">array</span> <span class="ow">in</span> <span class="n">all_arrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+            <span class="n">shapes</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="n">first_shape</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">shapes</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">shape</span> <span class="o">==</span> <span class="n">first_shape</span> <span class="k">for</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape mismatch detected:&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">shape</span> <span class="ow">in</span> <span class="n">shapes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="ProtocolOperation.measure">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.measure">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+        <span class="k">match</span> <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="p">:</span>
+            <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">QICK</span><span class="p">:</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measure_qick</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_loc</span> <span class="o">=</span> <span class="n">loc</span>
+                <span class="k">return</span> <span class="n">loc</span>
+            <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">OPX</span><span class="p">:</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measure_opx</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_loc</span> <span class="o">=</span> <span class="n">loc</span>
+                <span class="k">return</span> <span class="n">loc</span>
+            <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">DUMMY</span><span class="p">:</span>
+                <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_measure_dummy</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data_loc</span> <span class="o">=</span> <span class="n">loc</span>
+                <span class="k">return</span> <span class="n">loc</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Platform type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="si">}</span><span class="s2"> not implemented&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ProtocolOperation.analyze">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.analyze">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Analyze method not implemented&quot;</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_data_opx</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Load OPX data method not implemented&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_data_qick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Load QICK data method not implemented&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_data_dummy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Load DUMMY data method not implemented&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ProtocolOperation.load_data">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.load_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">match</span> <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="p">:</span>
+            <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">QICK</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_load_data_qick</span><span class="p">()</span>
+            <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">OPX</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_load_data_opx</span><span class="p">()</span>
+            <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">DUMMY</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_load_data_dummy</span><span class="p">()</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Platform type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="si">}</span><span class="s2"> not implemented&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_verify_shape</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ProtocolOperation.evaluate">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.evaluate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluateResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assess operation results and return named check outcomes.</span>
+
+<span class="sd">        Default implementation runs all checks registered via _register_check().</span>
+<span class="sd">        Returns SUCCESS if all checks pass, RETRY if any fail.</span>
+
+<span class="sd">        Override for complex logic (conditional checks, custom status rules).</span>
+<span class="sd">        Overrides should still return an EvaluateResult with CheckResult objects</span>
+<span class="sd">        so that reports and the default correct() work correctly.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            EvaluateResult containing the status and individual check outcomes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_checks</span><span class="p">:</span>
+            <span class="n">checks</span> <span class="o">=</span> <span class="p">[</span><span class="n">rc</span><span class="o">.</span><span class="n">check_func</span><span class="p">()</span> <span class="k">for</span> <span class="n">rc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_checks</span><span class="p">]</span>
+            <span class="n">all_passed</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">passed</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">checks</span><span class="p">)</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">SUCCESS</span> <span class="k">if</span> <span class="n">all_passed</span> <span class="k">else</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">RETRY</span>
+            <span class="k">return</span> <span class="n">EvaluateResult</span><span class="p">(</span><span class="n">status</span><span class="p">,</span> <span class="n">checks</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="s2">&quot;Subclasses must either register checks with _register_check() or implement evaluate()&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ProtocolOperation.correct">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.correct">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">correct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">EvaluateResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluateResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply parameter changes based on the evaluation result.</span>
+
+<span class="sd">        This is the only place where parameter values should be modified.</span>
+
+<span class="sd">        Default implementation:</span>
+<span class="sd">        - Appends a check summary table to the report.</span>
+<span class="sd">        - On RETRY: applies registered corrections for each failed check.</span>
+<span class="sd">          If any correction&#39;s can_apply() returns False, escalates to FAILURE.</span>
+<span class="sd">        - On SUCCESS / FAILURE: no-op (override to apply found values on SUCCESS).</span>
+
+<span class="sd">        Override to apply found values on SUCCESS or implement complex correction</span>
+<span class="sd">        logic. Call super().correct(result) first to get check reporting and</span>
+<span class="sd">        default RETRY correction handling, then handle SUCCESS.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            result: The EvaluateResult returned by evaluate().</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Possibly modified EvaluateResult (e.g. RETRY escalated to FAILURE</span>
+<span class="sd">            when a correction is exhausted).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">checks</span><span class="p">:</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;| </span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="s1">&#39;✓ PASS&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">c</span><span class="o">.</span><span class="n">passed</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;✗ FAIL&#39;</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">c</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2"> |&quot;</span>
+                <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">checks</span>
+            <span class="p">)</span>
+            <span class="n">table</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;| Check | Result | Details |</span><span class="se">\n</span><span class="s2">|-------|--------|----------|</span><span class="se">\n</span><span class="si">{</span><span class="n">rows</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_paths</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figure_paths</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">resolve</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">RETRY</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">check</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">checks</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="o">.</span><span class="n">passed</span><span class="p">:</span>
+                    <span class="n">correction</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_correction_for_check</span><span class="p">(</span><span class="n">check</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">correction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="c1"># Distinguish: no corrections registered vs. all exhausted</span>
+                        <span class="n">registered</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+                            <span class="p">(</span>
+                                <span class="n">rc</span><span class="o">.</span><span class="n">corrections</span>
+                                <span class="k">for</span> <span class="n">rc</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_checks</span>
+                                <span class="k">if</span> <span class="n">rc</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">check</span><span class="o">.</span><span class="n">name</span>
+                            <span class="p">),</span>
+                            <span class="p">[],</span>
+                        <span class="p">)</span>
+                        <span class="k">if</span> <span class="n">registered</span><span class="p">:</span>
+                            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;**Correction exhausted:** all strategies for check &quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot;`</span><span class="si">{</span><span class="n">check</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` have been exhausted — operation failed.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                            <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;**No correction registered for failed check `</span><span class="si">{</span><span class="n">check</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` — operation failed.**</span><span class="se">\n</span><span class="s2">&quot;</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                        <span class="k">return</span> <span class="n">EvaluateResult</span><span class="p">(</span><span class="n">OperationStatus</span><span class="o">.</span><span class="n">FAILURE</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">checks</span><span class="p">)</span>
+                    <span class="n">correction</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;**Correction applied:** `</span><span class="si">{</span><span class="n">correction</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">` — </span><span class="si">{</span><span class="n">correction</span><span class="o">.</span><span class="n">description</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">change</span> <span class="o">=</span> <span class="n">correction</span><span class="o">.</span><span class="n">report_output</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">change</span><span class="p">:</span>
+                        <span class="n">msg</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot; | **Change:** </span><span class="si">{</span><span class="n">change</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">SUCCESS</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_success_updates</span>
+        <span class="p">):</span>
+            <span class="k">for</span> <span class="n">upd</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_registered_success_updates</span><span class="p">:</span>
+                <span class="n">old</span> <span class="o">=</span> <span class="n">upd</span><span class="o">.</span><span class="n">param</span><span class="p">()</span>
+                <span class="n">new</span> <span class="o">=</span> <span class="n">upd</span><span class="o">.</span><span class="n">value_func</span><span class="p">()</span>
+                <span class="n">upd</span><span class="o">.</span><span class="n">param</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">improvements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ParamImprovement</span><span class="p">(</span><span class="n">old</span><span class="p">,</span> <span class="n">new</span><span class="p">,</span> <span class="n">upd</span><span class="o">.</span><span class="n">param</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">upd</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> updated: </span><span class="si">{</span><span class="n">old</span><span class="si">}</span><span class="s2"> → </span><span class="si">{</span><span class="n">new</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="ProtocolOperation.execute">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.execute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluateResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute the full operation workflow: measure -&gt; load_data -&gt; analyze -&gt; evaluate -&gt; correct.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            EvaluateResult from correct(), which may differ from evaluate()&#39;s result</span>
+<span class="sd">            (e.g. RETRY escalated to FAILURE when a correction is exhausted).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">improvements</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_attempt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_attempts_made</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_attempt</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;### ATTEMPT </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_attempt</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">measure</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_data</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analyze</span><span class="p">()</span>
+        <span class="n">eval_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">correct</span><span class="p">(</span><span class="n">eval_result</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SuperOperationBase">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SuperOperationBase</span><span class="p">(</span><span class="n">ProtocolOperation</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A composite operation that groups multiple operations together.</span>
+
+<span class="sd">    SuperOperations execute a sequence of operations as a single unit,</span>
+<span class="sd">    sharing the same retry mechanism. If any sub-operation fails, the</span>
+<span class="sd">    entire SuperOperation can be retried.</span>
+
+<span class="sd">    Key features:</span>
+<span class="sd">    - All sub-operations execute in sequence</span>
+<span class="sd">    - Retry logic applies to the entire group</span>
+<span class="sd">    - Reports are aggregated under the SuperOperation section</span>
+<span class="sd">    - Branching (Conditions) is NOT permitted in SuperOperations</span>
+<span class="sd">    - Protocol treats it the same as a regular operation</span>
+
+<span class="sd">    Subclasses must:</span>
+<span class="sd">    1. Call super().__init__() in their __init__</span>
+<span class="sd">    2. Set self.operations to a list of ProtocolOperation instances</span>
+<span class="sd">    3. NOT include any Condition instances in self.operations</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; class CalibrationSuite(SuperOperationBase):</span>
+<span class="sd">        ...     def __init__(self, params):</span>
+<span class="sd">        ...         super().__init__()</span>
+<span class="sd">        ...         self.operations = [</span>
+<span class="sd">        ...             ResonatorSpectroscopy(params),</span>
+<span class="sd">        ...             PowerRabi(params),</span>
+<span class="sd">        ...             PiSpectroscopy(params)</span>
+<span class="sd">        ...         ]</span>
+<span class="sd">        ...</span>
+<span class="sd">        ...     def evaluate(self) -&gt; OperationStatus:</span>
+<span class="sd">        ...         # All operations succeeded, check aggregate quality</span>
+<span class="sd">        ...         if all_calibrations_good():</span>
+<span class="sd">        ...             return OperationStatus.SUCCESS</span>
+<span class="sd">        ...         else:</span>
+<span class="sd">        ...             return OperationStatus.RETRY</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProtocolOperation</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_operations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate that operations list contains only ProtocolOperation instances&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">op</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">Condition</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;SuperOperation &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; contains a Condition at index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Branching is not permitted in SuperOperations. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Use regular branches in the protocol instead.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">ProtocolOperation</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;SuperOperation &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; contains invalid item at index </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">op</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Only ProtocolOperation instances are allowed.&quot;</span>
+                <span class="p">)</span>
+
+<div class="viewcode-block" id="SuperOperationBase.execute">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.execute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluateResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute all sub-operations in sequence and aggregate their reports.</span>
+
+<span class="sd">        This method overrides ProtocolOperation.execute() to iterate through</span>
+<span class="sd">        all sub-operations instead of calling measure/load_data/analyze.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            EvaluateResult from correct() after all sub-operations complete.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_operations</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_attempt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_attempts_made</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_attempt</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;### ATTEMPT </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_attempt</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;## </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">op</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">] Executing sub-operation </span><span class="si">{</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">operations</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;  [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">] Exception in sub-operation </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">EvaluateResult</span><span class="p">(</span><span class="n">OperationStatus</span><span class="o">.</span><span class="n">FAILURE</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">report_output</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;### </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">report_output</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">FAILURE</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;  [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">] Sub-operation </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> failed critically&quot;</span>
+                <span class="p">)</span>
+                <span class="k">return</span> <span class="n">EvaluateResult</span><span class="p">(</span><span class="n">OperationStatus</span><span class="o">.</span><span class="n">FAILURE</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">RETRY</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;  [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">] Sub-operation </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> requested retry&quot;</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  [</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">] Sub-operation </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> succeeded&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="s2">&quot;figure_paths&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">figure_paths</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">figure_paths</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="s2">&quot;improvements&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">improvements</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">improvements</span><span class="p">)</span>
+
+        <span class="n">eval_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">correct</span><span class="p">(</span><span class="n">eval_result</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SuperOperationBase.correct">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.correct">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">correct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">EvaluateResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluateResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply super-operation level corrections. Override to implement</span>
+<span class="sd">        super-level parameter changes. Default: no-op (sub-operations handle</span>
+<span class="sd">        their own corrections inside their own execute() calls).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="SuperOperationBase.measure">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.measure">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">measure</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Not used in SuperOperation - operations handle their own measurement&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;measure() does not make sense for a SuperOperation. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Sub-operations in &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; handle their own measurement.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SuperOperationBase.load_data">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.load_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Not used in SuperOperation - operations handle their own data loading&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;load_data() does not make sense for a SuperOperation. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Sub-operations in &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; handle their own data loading.&quot;</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SuperOperationBase.analyze">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.analyze">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Not used in SuperOperation - operations handle their own analysis&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;analyze() does not make sense for a SuperOperation. &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;Sub-operations in &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; handle their own analysis.&quot;</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<span class="c1"># TODO: remove condition from the protocol. This simply should be all the checks. Have this reflect in the new report as well.</span>
+<div class="viewcode-block" id="ProtocolBase">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolBase">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ProtocolBase</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">report_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">root_branch</span><span class="p">:</span> <span class="n">BranchBase</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Required - must be set by subclass</span>
+        <span class="c1"># True for successful protocol execution, False for failure at some operation, None for un-ran protocol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">success</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">report_path</span> <span class="o">=</span> <span class="n">report_path</span>
+
+        <span class="c1"># Don&#39;t run if the user didn&#39;t select a platform</span>
+        <span class="k">if</span> <span class="n">PLATFORMTYPE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Please choose a platform&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_flatten_branch_for_execution</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">BranchBase</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProtocolOperation</span> <span class="o">|</span> <span class="n">Condition</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursively flatten a branch into a list of operations and conditions.</span>
+
+<span class="sd">        Does NOT evaluate conditions - just collects them for runtime evaluation.</span>
+<span class="sd">        Returns a list containing both ProtocolOperation and Condition instances.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProtocolOperation</span> <span class="o">|</span> <span class="n">Condition</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">branch</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">ProtocolOperation</span><span class="p">):</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Condition</span><span class="p">):</span>
+                <span class="c1"># Add the condition itself (will be evaluated during execution)</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="c1"># Don&#39;t traverse into branches yet - will be done at runtime</span>
+
+        <span class="k">return</span> <span class="n">items</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_collect_all_operations_from_branch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">BranchBase</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProtocolOperation</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursively collect ALL operations from a branch tree (for parameter verification).</span>
+
+<span class="sd">        Includes operations from all branches, not just taken ones.</span>
+<span class="sd">        Also collects operations from inside SuperOperations.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">operations</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProtocolOperation</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">branch</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">SuperOperationBase</span><span class="p">):</span>
+                <span class="c1"># Add the SuperOperation itself</span>
+                <span class="n">operations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="c1"># Also collect all sub-operations from the SuperOperation</span>
+                <span class="k">for</span> <span class="n">sub_op</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">operations</span><span class="p">:</span>
+                    <span class="n">operations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sub_op</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">ProtocolOperation</span><span class="p">):</span>
+                <span class="n">operations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Condition</span><span class="p">):</span>
+                <span class="c1"># Collect from BOTH branches</span>
+                <span class="n">operations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_collect_all_operations_from_branch</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">true_branch</span><span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">operations</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_collect_all_operations_from_branch</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">false_branch</span><span class="p">)</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">operations</span>
+
+<div class="viewcode-block" id="ProtocolBase.verify_all_parameters">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolBase.verify_all_parameters">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">verify_all_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Verify parameters in all operations across all branches&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_branch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Protocol </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must set self.root_branch in __init__&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">all_ops</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_collect_all_operations_from_branch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root_branch</span><span class="p">)</span>
+
+        <span class="n">failures</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">op</span> <span class="ow">in</span> <span class="n">all_ops</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">op</span><span class="o">.</span><span class="n">input_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">param</span><span class="p">()</span>
+                    <span class="n">param</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">failures</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span>
+
+            <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">op</span><span class="o">.</span><span class="n">output_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">param</span><span class="p">()</span>
+                    <span class="n">param</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">failures</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span>
+
+            <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">op</span><span class="o">.</span><span class="n">correction_params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">param</span><span class="p">()</span>
+                    <span class="n">param</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                    <span class="n">failures</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span>
+
+        <span class="k">if</span> <span class="n">failures</span><span class="p">:</span>
+            <span class="n">f_list</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">failures</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;The following parameters could not be verified: </span><span class="si">{</span><span class="n">f_list</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_assemble_report</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate HTML report from executed operations and conditions with embedded images&quot;&quot;&quot;</span>
+        <span class="c1"># Create report directory structure</span>
+        <span class="n">report_dir</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">report_path</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_report&quot;</span>
+        <span class="n">report_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Use the executed_items collected during execution</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;executed_items&quot;</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No executed items found for report&quot;</span><span class="p">)</span>
+            <span class="n">executed_items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">executed_items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">executed_items</span>
+
+        <span class="c1"># Build table of contents and sections</span>
+        <span class="n">toc_entries</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">sections</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">executed_items</span><span class="p">):</span>
+            <span class="n">section_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;section-</span><span class="si">{</span><span class="n">idx</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Condition</span><span class="p">):</span>
+                <span class="c1"># Create section for condition</span>
+                <span class="n">section_title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Condition: </span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">toc_entries</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">section_id</span><span class="p">,</span> <span class="n">section_title</span><span class="p">,</span> <span class="s2">&quot;condition&quot;</span><span class="p">))</span>
+
+                <span class="c1"># Build section content</span>
+                <span class="n">section_content</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">report_output</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">report_item</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">report_output</span><span class="p">:</span>
+                        <span class="n">section_content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">report_item</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">section_id</span><span class="p">,</span>
+                        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">section_title</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;condition&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">section_content</span><span class="p">),</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">ProtocolOperation</span><span class="p">):</span>
+                <span class="c1"># Create section for operation</span>
+                <span class="n">section_title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Operation: </span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">toc_entries</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">section_id</span><span class="p">,</span> <span class="n">section_title</span><span class="p">,</span> <span class="s2">&quot;operation&quot;</span><span class="p">))</span>
+
+                <span class="c1"># Build section content</span>
+                <span class="n">section_content</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">report_output</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">op_item</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">report_output</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">op_item</span><span class="p">,</span> <span class="n">Path</span><span class="p">):</span>
+                            <span class="c1"># Embed image as base64 data URI</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">op_item</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">img_file</span><span class="p">:</span>
+                                    <span class="n">img_data</span> <span class="o">=</span> <span class="n">img_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+                                    <span class="n">img_base64</span> <span class="o">=</span> <span class="n">base64</span><span class="o">.</span><span class="n">b64encode</span><span class="p">(</span><span class="n">img_data</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span>
+                                        <span class="s2">&quot;utf-8&quot;</span>
+                                    <span class="p">)</span>
+
+                                <span class="c1"># Determine MIME type from file extension</span>
+                                <span class="n">ext</span> <span class="o">=</span> <span class="n">op_item</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+                                <span class="n">mime_type</span> <span class="o">=</span> <span class="p">{</span>
+                                    <span class="s2">&quot;.png&quot;</span><span class="p">:</span> <span class="s2">&quot;image/png&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;.jpg&quot;</span><span class="p">:</span> <span class="s2">&quot;image/jpeg&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;.jpeg&quot;</span><span class="p">:</span> <span class="s2">&quot;image/jpeg&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;.gif&quot;</span><span class="p">:</span> <span class="s2">&quot;image/gif&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;.svg&quot;</span><span class="p">:</span> <span class="s2">&quot;image/svg+xml&quot;</span><span class="p">,</span>
+                                    <span class="s2">&quot;.webp&quot;</span><span class="p">:</span> <span class="s2">&quot;image/webp&quot;</span><span class="p">,</span>
+                                <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ext</span><span class="p">,</span> <span class="s2">&quot;image/png&quot;</span><span class="p">)</span>
+
+                                <span class="c1"># Add as markdown image with data URI</span>
+                                <span class="n">section_content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                    <span class="sa">f</span><span class="s2">&quot;![Figure](data:</span><span class="si">{</span><span class="n">mime_type</span><span class="si">}</span><span class="s2">;base64,</span><span class="si">{</span><span class="n">img_base64</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                <span class="p">)</span>
+                            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to embed image </span><span class="si">{</span><span class="n">op_item</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                                <span class="n">section_content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                    <span class="sa">f</span><span class="s2">&quot;![Figure - Error loading image](</span><span class="si">{</span><span class="n">op_item</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">)</span><span class="se">\n</span><span class="s2">&quot;</span>
+                                <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">section_content</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">op_item</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+                <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">{</span>
+                        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">section_id</span><span class="p">,</span>
+                        <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">section_title</span><span class="p">,</span>
+                        <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;operation&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">section_content</span><span class="p">),</span>
+                    <span class="p">}</span>
+                <span class="p">)</span>
+
+        <span class="c1"># Build HTML with table of contents and sections</span>
+        <span class="n">html_parts</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Add title</span>
+        <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;h1&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> Report&lt;/h1&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add table of contents</span>
+        <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;h2&gt;Table of Contents&lt;/h2&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;ul class=&#39;toc&#39;&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">section_id</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">item_type</span> <span class="ow">in</span> <span class="n">toc_entries</span><span class="p">:</span>
+            <span class="n">css_class</span> <span class="o">=</span> <span class="s2">&quot;toc-condition&quot;</span> <span class="k">if</span> <span class="n">item_type</span> <span class="o">==</span> <span class="s2">&quot;condition&quot;</span> <span class="k">else</span> <span class="s2">&quot;toc-operation&quot;</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  &lt;li class=&#39;</span><span class="si">{</span><span class="n">css_class</span><span class="si">}</span><span class="s2">&#39;&gt;&lt;a href=&#39;#</span><span class="si">{</span><span class="n">section_id</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2">&lt;/a&gt;&lt;/li&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+        <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;/ul&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;hr&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Add sections</span>
+        <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&lt;section id=&#39;</span><span class="si">{</span><span class="n">section</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; class=&#39;report-section </span><span class="si">{</span><span class="n">section</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&lt;h2 class=&#39;section-header&#39; onclick=&#39;toggleSection(</span><span class="se">\&quot;</span><span class="si">{</span><span class="n">section</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-content</span><span class="se">\&quot;</span><span class="s2">)&#39;&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&lt;span class=&#39;toggle-icon&#39;&gt;▼&lt;/span&gt; </span><span class="si">{</span><span class="n">section</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;/h2&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Wrappable content div</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&lt;div id=&#39;</span><span class="si">{</span><span class="n">section</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">-content&#39; class=&#39;section-content&#39;&gt;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Convert markdown content to HTML</span>
+            <span class="n">section_html</span> <span class="o">=</span> <span class="n">markdown</span><span class="o">.</span><span class="n">markdown</span><span class="p">(</span>
+                <span class="n">section</span><span class="p">[</span><span class="s2">&quot;content&quot;</span><span class="p">],</span> <span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;extra&quot;</span><span class="p">,</span> <span class="s2">&quot;codehilite&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">section_html</span><span class="p">)</span>
+
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;a href=&#39;#&#39; class=&#39;back-to-top&#39;&gt;↑ Back to top&lt;/a&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;/div&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Close section-content</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;/section&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">html_parts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&lt;hr&gt;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">html_body</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">html_parts</span><span class="p">)</span>
+
+        <span class="c1"># Create complete HTML with enhanced CSS</span>
+        <span class="n">html_template</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;&lt;!DOCTYPE html&gt;</span>
+<span class="s2">&lt;html lang=&quot;en&quot;&gt;</span>
+<span class="s2">&lt;head&gt;</span>
+<span class="s2">    &lt;meta charset=&quot;UTF-8&quot;&gt;</span>
+<span class="s2">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;</span>
+<span class="s2">    &lt;title&gt;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> Report&lt;/title&gt;</span>
+<span class="s2">    &lt;style&gt;</span>
+<span class="s2">        body </span><span class="se">{{</span>
+<span class="s2">            max-width: 1200px;</span>
+<span class="s2">            margin: 40px auto;</span>
+<span class="s2">            padding: 20px;</span>
+<span class="s2">            font-family: sans-serif;</span>
+<span class="s2">            line-height: 1.6;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        h1 </span><span class="se">{{</span>
+<span class="s2">            border-bottom: 3px solid #333;</span>
+<span class="s2">            padding-bottom: 10px;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        h2 </span><span class="se">{{</span>
+<span class="s2">            margin-top: 30px;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        /* Table of contents */</span>
+<span class="s2">        .toc </span><span class="se">{{</span>
+<span class="s2">            background-color: #f8f9fa;</span>
+<span class="s2">            padding: 20px;</span>
+<span class="s2">            border-radius: 5px;</span>
+<span class="s2">            list-style-position: inside;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .toc li </span><span class="se">{{</span>
+<span class="s2">            margin: 8px 0;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .toc a </span><span class="se">{{</span>
+<span class="s2">            text-decoration: none;</span>
+<span class="s2">            color: #0066cc;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .toc a:hover </span><span class="se">{{</span>
+<span class="s2">            text-decoration: underline;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .toc-condition </span><span class="se">{{</span>
+<span class="s2">            font-style: italic;</span>
+<span class="s2">            color: #666;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .toc-operation </span><span class="se">{{</span>
+<span class="s2">            font-weight: 500;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        /* Sections */</span>
+<span class="s2">        .report-section </span><span class="se">{{</span>
+<span class="s2">            margin: 40px 0;</span>
+<span class="s2">            padding: 20px;</span>
+<span class="s2">            background-color: #ffffff;</span>
+<span class="s2">            border-left: 4px solid #ddd;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .report-section.condition </span><span class="se">{{</span>
+<span class="s2">            border-left-color: #ff9800;</span>
+<span class="s2">            background-color: #fff8f0;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .report-section.operation </span><span class="se">{{</span>
+<span class="s2">            border-left-color: #2196f3;</span>
+<span class="s2">            background-color: #f0f8ff;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .back-to-top </span><span class="se">{{</span>
+<span class="s2">            display: inline-block;</span>
+<span class="s2">            margin-top: 20px;</span>
+<span class="s2">            text-decoration: none;</span>
+<span class="s2">            color: #666;</span>
+<span class="s2">            font-size: 14px;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .back-to-top:hover </span><span class="se">{{</span>
+<span class="s2">            color: #000;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        /* Images and code */</span>
+<span class="s2">        img </span><span class="se">{{</span>
+<span class="s2">            max-width: 100%;</span>
+<span class="s2">            height: auto;</span>
+<span class="s2">            display: block;</span>
+<span class="s2">            margin: 20px auto;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        pre </span><span class="se">{{</span>
+<span class="s2">            background-color: #f5f5f5;</span>
+<span class="s2">            padding: 10px;</span>
+<span class="s2">            overflow-x: auto;</span>
+<span class="s2">            border-radius: 4px;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        hr </span><span class="se">{{</span>
+<span class="s2">            border: none;</span>
+<span class="s2">            border-top: 1px solid #e0e0e0;</span>
+<span class="s2">            margin: 40px 0;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        /* Collapsible sections */</span>
+<span class="s2">        .section-header </span><span class="se">{{</span>
+<span class="s2">            cursor: pointer;</span>
+<span class="s2">            user-select: none;</span>
+<span class="s2">            margin-top: 0;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .section-header:hover </span><span class="se">{{</span>
+<span class="s2">            opacity: 0.8;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .toggle-icon </span><span class="se">{{</span>
+<span class="s2">            display: inline-block;</span>
+<span class="s2">            transition: transform 0.3s ease;</span>
+<span class="s2">            font-size: 0.8em;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .toggle-icon.collapsed </span><span class="se">{{</span>
+<span class="s2">            transform: rotate(-90deg);</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .section-content </span><span class="se">{{</span>
+<span class="s2">            overflow: hidden;</span>
+<span class="s2">            transition: max-height 0.3s ease, opacity 0.3s ease;</span>
+<span class="s2">            opacity: 1;</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        .section-content.collapsed </span><span class="se">{{</span>
+<span class="s2">            max-height: 0;</span>
+<span class="s2">            opacity: 0;</span>
+<span class="s2">        </span><span class="se">}}</span>
+<span class="s2">    &lt;/style&gt;</span>
+<span class="s2">    &lt;script&gt;</span>
+<span class="s2">        function initSections() </span><span class="se">{{</span>
+<span class="s2">            document.querySelectorAll(&#39;.section-content&#39;).forEach(function(el) </span><span class="se">{{</span>
+<span class="s2">                el.style.maxHeight = el.scrollHeight + &#39;px&#39;;</span>
+<span class="s2">            </span><span class="se">}}</span><span class="s2">);</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        function toggleSection(contentId) </span><span class="se">{{</span>
+<span class="s2">            const content = document.getElementById(contentId);</span>
+<span class="s2">            const icon = content.previousElementSibling.querySelector(&#39;.toggle-icon&#39;);</span>
+
+<span class="s2">            if (content.classList.contains(&#39;collapsed&#39;)) </span><span class="se">{{</span>
+<span class="s2">                content.classList.remove(&#39;collapsed&#39;);</span>
+<span class="s2">                content.style.maxHeight = content.scrollHeight + &#39;px&#39;;</span>
+<span class="s2">                icon.classList.remove(&#39;collapsed&#39;);</span>
+<span class="s2">            </span><span class="se">}}</span><span class="s2"> else </span><span class="se">{{</span>
+<span class="s2">                content.style.maxHeight = content.scrollHeight + &#39;px&#39;;</span>
+<span class="s2">                requestAnimationFrame(function() </span><span class="se">{{</span>
+<span class="s2">                    content.classList.add(&#39;collapsed&#39;);</span>
+<span class="s2">                    content.style.maxHeight = &#39;0&#39;;</span>
+<span class="s2">                    icon.classList.add(&#39;collapsed&#39;);</span>
+<span class="s2">                </span><span class="se">}}</span><span class="s2">);</span>
+<span class="s2">            </span><span class="se">}}</span>
+<span class="s2">        </span><span class="se">}}</span>
+
+<span class="s2">        window.addEventListener(&#39;load&#39;, initSections);</span>
+<span class="s2">    &lt;/script&gt;</span>
+<span class="s2">&lt;/head&gt;</span>
+<span class="s2">&lt;body&gt;</span>
+<span class="si">{</span><span class="n">html_body</span><span class="si">}</span>
+<span class="s2">&lt;/body&gt;</span>
+<span class="s2">&lt;/html&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+        <span class="c1"># Save HTML file</span>
+        <span class="n">html_file</span> <span class="o">=</span> <span class="n">report_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_report.html&quot;</span>
+        <span class="n">html_file</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">html_template</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Report generated: </span><span class="si">{</span><span class="n">html_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">html_file</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_execute_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">op</span><span class="p">:</span> <span class="n">ProtocolOperation</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute a single operation with retry logic.</span>
+
+<span class="sd">        The operation&#39;s execute() method handles the workflow, this method handles retries.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if operation succeeded, False if failed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">max_attempts</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">max_attempts</span>
+
+        <span class="n">op</span><span class="o">.</span><span class="n">current_attempt</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">while</span> <span class="n">op</span><span class="o">.</span><span class="n">current_attempt</span> <span class="o">&lt;</span> <span class="n">max_attempts</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">op</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Exception during </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">SUCCESS</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  SUCCESS: </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> succeeded&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">True</span>
+
+            <span class="k">elif</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">RETRY</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">current_attempt</span> <span class="o">&lt;</span> <span class="n">max_attempts</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;  RETRY: </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> requesting retry (attempt </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">current_attempt</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">max_attempts</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">continue</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;  FAILURE: </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> exhausted </span><span class="si">{</span><span class="n">max_attempts</span><span class="si">}</span><span class="s2"> attempts&quot;</span>
+                    <span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">elif</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">FAILURE</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  FAILURE: </span><span class="si">{</span><span class="n">op</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> failed critically&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Unknown status: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_execute_branch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="n">BranchBase</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">ProtocolOperation</span> <span class="o">|</span> <span class="n">Condition</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursively execute a branch, evaluating conditions at runtime.</span>
+
+<span class="sd">        Returns list of executed items (operations and conditions) for reporting.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">executed_items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProtocolOperation</span> <span class="o">|</span> <span class="n">Condition</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">branch</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">ProtocolOperation</span><span class="p">):</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Executing: </span><span class="si">{</span><span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_operation</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="n">executed_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">executed_items</span><span class="p">,</span> <span class="kc">False</span>
+
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">Condition</span><span class="p">):</span>
+                <span class="n">taken_branch</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+                <span class="n">executed_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+                <span class="n">sub_items</span><span class="p">,</span> <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_branch</span><span class="p">(</span><span class="n">taken_branch</span><span class="p">)</span>
+                <span class="n">executed_items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sub_items</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="n">executed_items</span><span class="p">,</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="n">executed_items</span><span class="p">,</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="ProtocolBase.execute">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolBase.execute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute protocol by recursively executing branches&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting protocol: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">root_branch</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Protocol </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> must set self.root_branch in __init__&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Verify all parameters before starting</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">verify_all_parameters</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Parameter verification failed&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Execute the root branch (conditions evaluated at runtime)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Executing protocol with root branch: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">root_branch</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">executed_items</span><span class="p">,</span> <span class="n">success</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_branch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root_branch</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Protocol stopped due to operation failure&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Protocol completed successfully&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_assemble_report</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BranchBase">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.BranchBase">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BranchBase</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A named sequence of operations that can be executed.</span>
+
+<span class="sd">    Branches can contain:</span>
+<span class="sd">    - Operations (ProtocolOperation instances)</span>
+<span class="sd">    - Conditions (conditional routing to other branches)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        name: Display name for this branch</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; main_branch = BranchBase(&quot;MainCalibration&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; main_branch.append(ResonatorSpectroscopy(params))</span>
+<span class="sd">        &gt;&gt;&gt; main_branch.append(SaturationSpectroscopy(params))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Branch&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1"># Will contain ProtocolOperation or Condition instances</span>
+
+<div class="viewcode-block" id="BranchBase.append">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.BranchBase.append">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">ProtocolOperation</span> <span class="o">|</span> <span class="n">Condition</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BranchBase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add an operation or condition to this branch&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>  <span class="c1"># Allow chaining</span></div>
+
+
+<div class="viewcode-block" id="BranchBase.extend">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.BranchBase.extend">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ProtocolOperation</span> <span class="o">|</span> <span class="n">Condition</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">BranchBase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add multiple operations/conditions to this branch&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>  <span class="c1"># Allow chaining</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;BranchBase(name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;, items=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="Condition">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.Condition">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Condition</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A conditional decision point that routes execution to different branches.</span>
+
+<span class="sd">    During protocol execution, the condition is evaluated and either</span>
+<span class="sd">    true_branch or false_branch is executed.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        condition: Callable returning bool to determine which branch</span>
+<span class="sd">        true_branch: Branch to execute if condition is True</span>
+<span class="sd">        false_branch: Branch to execute if condition is False</span>
+<span class="sd">        name: Optional name for this condition (for logging/reporting)</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; res_snr = params[&#39;resonator&#39;][&#39;snr&#39;]</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; high_snr_branch = BranchBase(&quot;HighSNR&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; high_snr_branch.append(PiSpectroscopy(params))</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; low_snr_branch = BranchBase(&quot;LowSNR&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; low_snr_branch.append(PowerRabi(params))</span>
+<span class="sd">        &gt;&gt;&gt; low_snr_branch.append(PiSpectroscopy(params))</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; condition = Condition(</span>
+<span class="sd">        &gt;&gt;&gt;     condition=lambda: res_snr() &gt; 5.0,</span>
+<span class="sd">        &gt;&gt;&gt;     true_branch=high_snr_branch,</span>
+<span class="sd">        &gt;&gt;&gt;     false_branch=low_snr_branch,</span>
+<span class="sd">        &gt;&gt;&gt;     name=&quot;SNR Check&quot;</span>
+<span class="sd">        &gt;&gt;&gt; )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">condition</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="nb">bool</span><span class="p">],</span>
+        <span class="n">true_branch</span><span class="p">:</span> <span class="n">BranchBase</span><span class="p">,</span>
+        <span class="n">false_branch</span><span class="p">:</span> <span class="n">BranchBase</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Condition&quot;</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition_func</span> <span class="o">=</span> <span class="n">condition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">true_branch</span> <span class="o">=</span> <span class="n">true_branch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">false_branch</span> <span class="o">=</span> <span class="n">false_branch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+        <span class="c1"># Runtime state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition_result</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">taken_branch</span><span class="p">:</span> <span class="n">BranchBase</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="Condition.evaluate">
+<a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.Condition.evaluate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BranchBase</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate condition and return the branch to execute&quot;&quot;&quot;</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Condition] Evaluating condition: &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;[Condition] Available branches: TRUE → &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">true_branch</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;, FALSE → &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">false_branch</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+        <span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">condition_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition_func</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;[Condition] &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; evaluated to: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">condition_result</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">condition_result</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[Condition] &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: TRUE → executing branch &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">true_branch</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">taken_branch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">true_branch</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;**Condition &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has the result </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">condition_result</span><span class="si">}</span><span class="s2"> (TRUE branch). Choosing branch &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">true_branch</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;**&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">true_branch</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[Condition] &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: FALSE → executing branch &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">false_branch</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">taken_branch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">false_branch</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;**Condition &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; has the result </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">condition_result</span><span class="si">}</span><span class="s2"> (FALSE branch). Choosing branch &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">false_branch</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;**&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">report_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">false_branch</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Condition(name=&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;)&quot;</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Tools for Experiments.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

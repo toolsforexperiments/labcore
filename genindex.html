@@ -410,6 +410,7 @@
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
@@ -471,12 +472,12 @@
 </li>
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.AppendMode.all">all (labcore.data.datadict_storage.AppendMode attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.all_datadicts_from_hdf5">all_datadicts_from_hdf5() (in module labcore.data.datadict_storage)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.fit.html#labcore.analysis.fit.Analysis">Analysis (class in labcore.analysis.fit)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.analysis.analysis_base.html#labcore.analysis.analysis_base.AnalysisExistsError">AnalysisExistsError</a>
 </li>
       <li><a href="api/generated/labcore.analysis.fit.html#labcore.analysis.fit.AnalysisResult">AnalysisResult (class in labcore.analysis.fit)</a>
@@ -486,11 +487,17 @@
       <ul>
         <li><a href="api/generated/labcore.analysis.fit.html#labcore.analysis.fit.Fit.analyze">(labcore.analysis.fit.Fit method)</a>
 </li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.analyze">(labcore.protocols.base.ProtocolOperation method)</a>
+</li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.analyze">(labcore.protocols.base.SuperOperationBase method)</a>
+</li>
       </ul></li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.append">append() (labcore.analysis.hvplotting.Node method)</a>
 
       <ul>
         <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.append">(labcore.data.datadict.DataDict method)</a>
+</li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.BranchBase.append">(labcore.protocols.base.BranchBase method)</a>
 </li>
       </ul></li>
       <li><a href="api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.append_action">append_action() (labcore.measurement.sweep.Sweep method)</a>
@@ -500,6 +507,8 @@
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.AppendMode">AppendMode (class in labcore.data.datadict_storage)</a>
 </li>
       <li><a href="api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.AppendSweeps">AppendSweeps (class in labcore.measurement.sweep)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction.apply">apply() (labcore.protocols.base.Correction method)</a>
 </li>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.DataType.array">array (labcore.measurement.record.DataType attribute)</a>
 </li>
@@ -531,12 +540,16 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datagen.html#labcore.data.datagen.Exponential.base">base (labcore.data.datagen.Exponential attribute)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.BranchBase">BranchBase (class in labcore.protocols.base)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction.can_apply">can_apply() (labcore.protocols.base.Correction method)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.can_save">can_save() (labcore.analysis.hvapps.LoaderNodeBase method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.mpl.html#labcore.analysis.mpl.centers2edges">centers2edges() (in module labcore.analysis.mpl)</a>
@@ -544,6 +557,10 @@
       <li><a href="api/generated/labcore.utils.num.html#labcore.utils.num.centers2edges_1d">centers2edges_1d() (in module labcore.utils.num)</a>
 </li>
       <li><a href="api/generated/labcore.utils.num.html#labcore.utils.num.centers2edges_2d">centers2edges_2d() (in module labcore.utils.num)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.CheckResult">CheckResult (class in labcore.protocols.base)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.EvaluateResult.checks">checks (labcore.protocols.base.EvaluateResult attribute)</a>
 </li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.clear_meta">clear_meta() (labcore.data.datadict.DataDictBase method)</a>
 </li>
@@ -559,9 +576,15 @@
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.complex_dependents">complex_dependents() (labcore.analysis.hvplotting.Node static method)</a>
 </li>
+      <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ComplexHist">ComplexHist (class in labcore.analysis.hvplotting)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Condition">Condition (class in labcore.protocols.base)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.condition">condition (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ComplexHist">ComplexHist (class in labcore.analysis.hvplotting)</a>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Condition.condition_result">condition_result (labcore.protocols.base.Condition attribute)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ReduxNode.coordinates">coordinates (labcore.analysis.hvplotting.ReduxNode attribute)</a>
 </li>
@@ -572,6 +595,18 @@
 </li>
       </ul></li>
       <li><a href="api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.copy_sweep_options">copy_sweep_options() (labcore.measurement.sweep.Sweep static method)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.correct">correct() (labcore.protocols.base.ProtocolOperation method)</a>
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.correct">(labcore.protocols.base.SuperOperationBase method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction">Correction (class in labcore.protocols.base)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.correction_params">correction_params (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.CorrectionParameter">CorrectionParameter (class in labcore.protocols.base)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hv_pretty.html#labcore.analysis.hv_pretty.correctly_sized_figure">correctly_sized_figure() (in module labcore.analysis.hv_pretty)</a>
 
@@ -586,6 +621,8 @@
       <li><a href="api/generated/labcore.utils.num.html#labcore.utils.num.crop2d_from_xy">crop2d_from_xy() (in module labcore.utils.num)</a>
 </li>
       <li><a href="api/generated/labcore.utils.num.html#labcore.utils.num.crop2d_rows_cols">crop2d_rows_cols() (in module labcore.utils.num)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.current_attempt">current_attempt (labcore.protocols.base.ProtocolOperation attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -617,6 +654,8 @@
 </li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.data_items">data_items() (labcore.data.datadict.DataDictBase method)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.data_loc">data_loc (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.data_out">data_out (labcore.analysis.hvplotting.Node attribute)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.data_out_view">data_out_view() (labcore.analysis.hvplotting.Node method)</a>
@@ -647,12 +686,12 @@
 </li>
       <li><a href="api/generated/labcore.analysis.analysis_base.html#labcore.analysis.analysis_base.DatasetAnalysis">DatasetAnalysis (class in labcore.analysis.analysis_base)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.datasets_are_equal">datasets_are_equal() (in module labcore.data.datadict)</a>
 </li>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec">DataSpec (class in labcore.measurement.record)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpecCreationType">DataSpecCreationType (in module labcore.measurement.record)</a>
 </li>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpecFromDictType">DataSpecFromDictType (in module labcore.measurement.record)</a>
@@ -679,6 +718,8 @@
         <li><a href="api/generated/labcore.measurement.storage.html#labcore.measurement.storage.NumpyEncoder.default">(labcore.measurement.storage.NumpyEncoder method)</a>
 </li>
       </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.DEFAULT_MAX_ATTEMPTS">DEFAULT_MAX_ATTEMPTS (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.deh5ify">deh5ify() (in module labcore.data.datadict_storage)</a>
 </li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.delete_meta">delete_meta() (labcore.data.datadict.DataDictBase method)</a>
@@ -687,10 +728,20 @@
 </li>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.dependent">dependent() (in module labcore.measurement.record)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.dependents">dependents (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.dependents">dependents() (labcore.data.datadict.DataDictBase method)</a>
 </li>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec.depends_on">depends_on (labcore.measurement.record.DataSpec attribute)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.CheckResult.description">description (labcore.protocols.base.CheckResult attribute)</a>
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction.description">(labcore.protocols.base.Correction attribute)</a>
+</li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolParameterBase.description">(labcore.protocols.base.ProtocolParameterBase attribute)</a>
+</li>
+      </ul></li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.detach">detach() (labcore.analysis.hvplotting.Node method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.dim_label">dim_label() (labcore.analysis.hvplotting.Node method)</a>
@@ -700,6 +751,8 @@
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.display_info">display_info() (labcore.analysis.hvapps.LoaderNodeBase method)</a>
 </li>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.ds">ds (in module labcore.measurement.record)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.PlatformTypes.DUMMY">DUMMY (labcore.protocols.base.PlatformTypes attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -713,8 +766,26 @@
         <li><a href="api/generated/labcore.analysis.fit.html#labcore.analysis.fit.FitResult.eval">(labcore.analysis.fit.FitResult method)</a>
 </li>
       </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Condition.evaluate">evaluate() (labcore.protocols.base.Condition method)</a>
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.evaluate">(labcore.protocols.base.ProtocolOperation method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.EvaluateResult">EvaluateResult (class in labcore.protocols.base)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.event_lock">event_lock (labcore.analysis.hvapps.DataSelect attribute)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolBase.execute">execute() (labcore.protocols.base.ProtocolBase method)</a>
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.execute">(labcore.protocols.base.ProtocolOperation method)</a>
+</li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.execute">(labcore.protocols.base.SuperOperationBase method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.expand">expand() (labcore.data.datadict.DataDict method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.fitfuncs.generic.html#labcore.analysis.fitfuncs.generic.Exponential">Exponential (class in labcore.analysis.fitfuncs.generic)</a>
@@ -723,8 +794,6 @@
         <li><a href="api/generated/labcore.data.datagen.html#labcore.data.datagen.Exponential">(class in labcore.data.datagen)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.analysis.fitfuncs.generic.html#labcore.analysis.fitfuncs.generic.ExponentialDecay">ExponentialDecay (class in labcore.analysis.fitfuncs.generic)</a>
 
       <ul>
@@ -734,6 +803,8 @@
       <li><a href="api/generated/labcore.data.datagen.html#labcore.data.datagen.ExponentialDecayingSine">ExponentialDecayingSine (class in labcore.data.datagen)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.fitfuncs.generic.html#labcore.analysis.fitfuncs.generic.ExponentiallyDecayingSine">ExponentiallyDecayingSine (class in labcore.analysis.fitfuncs.generic)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.BranchBase.extend">extend() (labcore.protocols.base.BranchBase method)</a>
 </li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.extract">extract() (labcore.data.datadict.DataDictBase method)</a>
 </li>
@@ -749,6 +820,10 @@
         <li><a href="api/generated/labcore.data.datagen.html#labcore.data.datagen.Sine.f">(labcore.data.datagen.Sine attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.OperationStatus.FAILURE">FAILURE (labcore.protocols.base.OperationStatus attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.figure_paths">figure_paths (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.analysis_base.html#labcore.analysis.analysis_base.DatasetAnalysis.figure_save_format">figure_save_format (labcore.analysis.analysis_base.DatasetAnalysis attribute)</a>
 </li>
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.FileOpener.file">file (labcore.data.datadict_storage.FileOpener attribute)</a>
@@ -919,6 +994,8 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datagen.html#labcore.data.datagen.DataGen.imaginary">imaginary (labcore.data.datagen.DataGen attribute)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.improvements">improvements (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
       <li><a href="api/generated/labcore.utils.misc.html#labcore.utils.misc.indent_text">indent_text() (in module labcore.utils.misc)</a>
 </li>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.indep">indep() (in module labcore.measurement.record)</a>
@@ -927,13 +1004,19 @@
 </li>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.independent">independent() (in module labcore.measurement.record)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.independents">independents (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.info_panel">info_panel() (labcore.analysis.hvapps.DataSelect method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.init_file">init_file() (in module labcore.data.datadict_storage)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.input_params">input_params (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
       <li><a href="api/generated/labcore.utils.num.html#labcore.utils.num.interp_meshgrid_2d">interp_meshgrid_2d() (in module labcore.utils.num)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.CorrectionParameter.is_correction">is_correction (labcore.protocols.base.CorrectionParameter attribute)</a>
 </li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.is_expandable">is_expandable() (labcore.data.datadict.DataDict method)</a>
 </li>
@@ -1071,8 +1154,6 @@
         <li><a href="api/generated/labcore.measurement.record.html#module-labcore.measurement.record">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     labcore.measurement.storage
 
@@ -1080,11 +1161,27 @@
         <li><a href="api/generated/labcore.measurement.storage.html#module-labcore.measurement.storage">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     labcore.measurement.sweep
 
       <ul>
         <li><a href="api/generated/labcore.measurement.sweep.html#module-labcore.measurement.sweep">module</a>
+</li>
+      </ul></li>
+      <li>
+    labcore.protocols
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.html#module-labcore.protocols">module</a>
+</li>
+      </ul></li>
+      <li>
+    labcore.protocols.base
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.base.html#module-labcore.protocols.base">module</a>
 </li>
       </ul></li>
       <li>
@@ -1135,6 +1232,10 @@
       <ul>
         <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.load_data">(labcore.analysis.hvapps.LoaderNodeBase method)</a>
 </li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.load_data">(labcore.protocols.base.ProtocolOperation method)</a>
+</li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.load_data">(labcore.protocols.base.SuperOperationBase method)</a>
+</li>
       </ul></li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.PlotNode.load_fits_from_config">load_fits_from_config() (labcore.analysis.hvplotting.PlotNode static method)</a>
 </li>
@@ -1170,10 +1271,18 @@
 </li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.mask_invalid">mask_invalid() (labcore.data.datadict.DataDictBase method)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.max_attempts">max_attempts (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.mean">mean() (labcore.analysis.hvplotting.Node static method)</a>
 
       <ul>
         <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.MeshgridDataDict.mean">(labcore.data.datadict.MeshgridDataDict method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.measure">measure() (labcore.protocols.base.ProtocolOperation method)</a>
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.measure">(labcore.protocols.base.SuperOperationBase method)</a>
 </li>
       </ul></li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.meshgrid_to_datadict">meshgrid_to_datadict() (in module labcore.data.datadict)</a>
@@ -1270,6 +1379,10 @@
 </li>
         <li><a href="api/generated/labcore.measurement.sweep.html#module-labcore.measurement.sweep">labcore.measurement.sweep</a>
 </li>
+        <li><a href="api/generated/labcore.protocols.html#module-labcore.protocols">labcore.protocols</a>
+</li>
+        <li><a href="api/generated/labcore.protocols.base.html#module-labcore.protocols.base">labcore.protocols.base</a>
+</li>
         <li><a href="api/generated/labcore.utils.html#module-labcore.utils">labcore.utils</a>
 </li>
         <li><a href="api/generated/labcore.utils.misc.html#module-labcore.utils.misc">labcore.utils.misc</a>
@@ -1314,6 +1427,12 @@
 </li>
         <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec.name">(labcore.measurement.record.DataSpec attribute)</a>
 </li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.CheckResult.name">(labcore.protocols.base.CheckResult attribute)</a>
+</li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction.name">(labcore.protocols.base.Correction attribute)</a>
+</li>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolParameterBase.name">(labcore.protocols.base.ProtocolParameterBase attribute)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1324,6 +1443,8 @@
       <li><a href="api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.NestSweeps">NestSweeps (class in labcore.measurement.sweep)</a>
 </li>
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.AppendMode.new">new (labcore.data.datadict_storage.AppendMode attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ParamImprovement.new_value">new_value (labcore.protocols.base.ParamImprovement attribute)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node">Node (class in labcore.analysis.hvplotting)</a>
 </li>
@@ -1361,16 +1482,18 @@
         <li><a href="api/generated/labcore.data.datagen.html#labcore.data.datagen.Sine.of">(labcore.data.datagen.Sine attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ParamImprovement.old_value">old_value (labcore.protocols.base.ParamImprovement attribute)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.Handler.on_created">on_created() (labcore.analysis.hvapps.Handler method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ReduxNode.on_input_update">on_input_update() (labcore.analysis.hvplotting.ReduxNode method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ReduxNode.on_operations_change">on_operations_change() (labcore.analysis.hvplotting.ReduxNode method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.XYSelect.on_option_change">on_option_change() (labcore.analysis.hvplotting.XYSelect method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.on_refresh_changed">on_refresh_changed() (labcore.analysis.hvapps.LoaderNodeBase method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ReduxNode.on_widget_change">on_widget_change() (labcore.analysis.hvplotting.ReduxNode method)</a>
@@ -1380,10 +1503,20 @@
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.FileOpener.open_when_unlocked">open_when_unlocked() (labcore.data.datadict_storage.FileOpener method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ReduxNode.operations">operations (labcore.analysis.hvplotting.ReduxNode attribute)</a>
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase.operations">(labcore.protocols.base.SuperOperationBase attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.OperationStatus">OperationStatus (class in labcore.protocols.base)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.XYSelect.options">options (labcore.analysis.hvplotting.XYSelect attribute)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ReduxNode.OPTS">OPTS (labcore.analysis.hvplotting.ReduxNode attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.PlatformTypes.OPX">OPX (labcore.protocols.base.PlatformTypes attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.output_params">output_params (labcore.protocols.base.ProtocolOperation attribute)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1391,9 +1524,15 @@
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ParamImprovement.param">param (labcore.protocols.base.ParamImprovement attribute)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.fit.html#labcore.analysis.fit.Parameter">Parameter (class in labcore.analysis.fit)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.fit.html#labcore.analysis.fit.Parameters">Parameters (class in labcore.analysis.fit)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ParamImprovement">ParamImprovement (class in labcore.protocols.base)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolParameterBase.params">params (labcore.protocols.base.ProtocolParameterBase attribute)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.fit.html#labcore.analysis.fit.AnalysisResult.params_to_dict">params_to_dict() (labcore.analysis.fit.AnalysisResult method)</a>
 </li>
@@ -1403,6 +1542,8 @@
 </li>
       <li><a href="api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.pass_on_returns">pass_on_returns (labcore.measurement.sweep.Sweep attribute)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.CheckResult.passed">passed (labcore.protocols.base.CheckResult attribute)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.mpl.html#labcore.analysis.mpl.pcolorgrid">pcolorgrid() (in module labcore.analysis.mpl)</a>
 </li>
       <li><a href="api/generated/labcore.data.datagen.html#labcore.data.datagen.ExponentialDecayingSine.phi">phi (labcore.data.datagen.ExponentialDecayingSine attribute)</a>
@@ -1411,6 +1552,14 @@
         <li><a href="api/generated/labcore.data.datagen.html#labcore.data.datagen.Sine.phi">(labcore.data.datagen.Sine attribute)</a>
 </li>
       </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.platform_type">platform_type (labcore.protocols.base.ProtocolOperation attribute)</a>
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolParameterBase.platform_type">(labcore.protocols.base.ProtocolParameterBase attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.PlatformTypes">PlatformTypes (class in labcore.protocols.base)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.plot">plot() (labcore.analysis.hvplotting.Node method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.plot_data">plot_data() (in module labcore.analysis.hvplotting)</a>
@@ -1427,14 +1576,14 @@
         <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.plot_obj">(labcore.analysis.hvplotting.Node method)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.MagnitudePhasePlot.plot_options_panel">plot_options_panel() (labcore.analysis.hvplotting.MagnitudePhasePlot method)</a>
 
       <ul>
         <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ValuePlot.plot_options_panel">(labcore.analysis.hvplotting.ValuePlot method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ComplexHist.plot_panel">plot_panel() (labcore.analysis.hvplotting.ComplexHist method)</a>
 
       <ul>
@@ -1473,6 +1622,20 @@
 </li>
       <li><a href="api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.propagate_sweep_options">propagate_sweep_options() (labcore.measurement.sweep.Sweep static method)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolBase">ProtocolBase (class in labcore.protocols.base)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation">ProtocolOperation (class in labcore.protocols.base)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolParameterBase">ProtocolParameterBase (class in labcore.protocols.base)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.PlatformTypes.QICK">QICK (labcore.protocols.base.PlatformTypes attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -1501,14 +1664,14 @@
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.PlotNode.remove_fit_box">remove_fit_box() (labcore.analysis.hvplotting.PlotNode method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDict.remove_invalid_entries">remove_invalid_entries() (labcore.data.datadict.DataDict method)</a>
 </li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.remove_unused_axes">remove_unused_axes() (labcore.data.datadict.DataDictBase method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.Node.render_data">render_data() (labcore.analysis.hvplotting.Node static method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.reorder_axes">reorder_axes() (labcore.data.datadict.DataDictBase method)</a>
 
       <ul>
@@ -1520,6 +1683,18 @@
       <li><a href="api/generated/labcore.utils.misc.html#labcore.utils.misc.reorder_indices">reorder_indices() (in module labcore.utils.misc)</a>
 </li>
       <li><a href="api/generated/labcore.utils.misc.html#labcore.utils.misc.reorder_indices_from_new_positions">reorder_indices_from_new_positions() (in module labcore.utils.misc)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Condition.report_output">report_output (labcore.protocols.base.Condition attribute)</a>
+
+      <ul>
+        <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.report_output">(labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction.report_output">report_output() (labcore.protocols.base.Correction method)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.OperationStatus.RETRY">RETRY (labcore.protocols.base.OperationStatus attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolBase.root_branch">root_branch (labcore.protocols.base.ProtocolBase attribute)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.fit.html#labcore.analysis.fit.Analysis.run">run() (labcore.analysis.fit.Analysis method)</a>
 
@@ -1583,14 +1758,18 @@
 </li>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.search_term">search_term (labcore.analysis.hvapps.DataSelect attribute)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.select_platform">select_platform() (in module labcore.protocols.base)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.selected_path">selected_path (labcore.analysis.hvapps.DataSelect attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.serialize_fit_params">serialize_fit_params() (in module labcore.protocols.base)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hv_pretty.html#labcore.analysis.hv_pretty.set_arial_font">set_arial_font() (in module labcore.analysis.hv_pretty)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.set_attr">set_attr() (in module labcore.data.datadict_storage)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.PlotNode.set_fit_box">set_fit_box() (labcore.analysis.hvplotting.PlotNode method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.PlotNode.set_fit_box_helper">set_fit_box_helper() (labcore.analysis.hvplotting.PlotNode method)</a>
@@ -1629,9 +1808,17 @@
 </li>
       <li><a href="api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep.state">state (labcore.measurement.sweep.Sweep property)</a>
 </li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.EvaluateResult.status">status (labcore.protocols.base.EvaluateResult attribute)</a>
+</li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.str2dd">str2dd() (in module labcore.data.datadict)</a>
 </li>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.structure">structure() (labcore.data.datadict.DataDictBase method)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.OperationStatus.SUCCESS">SUCCESS (labcore.protocols.base.OperationStatus attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolBase.success">success (labcore.protocols.base.ProtocolBase attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.SuperOperationBase">SuperOperationBase (class in labcore.protocols.base)</a>
 </li>
       <li><a href="api/generated/labcore.measurement.sweep.html#labcore.measurement.sweep.Sweep">Sweep (class in labcore.measurement.sweep)</a>
 </li>
@@ -1647,6 +1834,8 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Condition.taken_branch">taken_branch (labcore.protocols.base.Condition attribute)</a>
+</li>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.task">task (labcore.analysis.hvapps.LoaderNodeBase attribute)</a>
 </li>
       <li><a href="api/generated/labcore.data.datagen.html#labcore.data.datagen.ExponentialDecay.tau">tau (labcore.data.datagen.ExponentialDecay attribute)</a>
@@ -1657,15 +1846,19 @@
       </ul></li>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.DataSelect.text_input_repeater">text_input_repeater() (labcore.analysis.hvapps.DataSelect method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datadict_storage.html#labcore.data.datadict_storage.timestamp_from_path">timestamp_from_path() (in module labcore.data.datadict_storage)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api/generated/labcore.data.datadict.html#labcore.data.datadict.DataDictBase.to_records">to_records() (labcore.data.datadict.DataDictBase static method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.analysis_base.html#labcore.analysis.analysis_base.DatasetAnalysis.to_table">to_table() (labcore.analysis.analysis_base.DatasetAnalysis method)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvapps.html#labcore.analysis.hvapps.LoaderNodeBase.toggle_save_buttons">toggle_save_buttons() (labcore.analysis.hvapps.LoaderNodeBase method)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.total_attempts_made">total_attempts_made (labcore.protocols.base.ProtocolOperation attribute)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.Correction.triggered_by">triggered_by (labcore.protocols.base.Correction attribute)</a>
 </li>
       <li><a href="api/generated/labcore.measurement.record.html#labcore.measurement.record.DataSpec.type">type (labcore.measurement.record.DataSpec attribute)</a>
 </li>
@@ -1722,6 +1915,8 @@
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.XYSelect.value">value (labcore.analysis.hvplotting.XYSelect attribute)</a>
 </li>
       <li><a href="api/generated/labcore.analysis.hvplotting.html#labcore.analysis.hvplotting.ValuePlot">ValuePlot (class in labcore.analysis.hvplotting)</a>
+</li>
+      <li><a href="api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolBase.verify_all_parameters">verify_all_parameters() (labcore.protocols.base.ProtocolBase method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1809,7 +2004,7 @@
 
   <p class="copyright">
     
-      © Copyright 2025-2026, Marcos Frenkel, Wolfgang Pfaff, Cynthia Nolan, Oliver Wolff.
+      © Copyright 2025-2026, Tools for Experiments.
       <br/>
     
   </p>

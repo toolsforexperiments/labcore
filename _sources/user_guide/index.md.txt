@@ -5,5 +5,6 @@ This user guide is organized by different topics, each having their own guides. 
 ```{toctree}
 measurement/index
 data/index
+protocols/index
 instruments/index
 ```

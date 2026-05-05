@@ -1,0 +1,31 @@
+labcore.protocols.base
+======================
+
+.. automodule:: labcore.protocols.base
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      select_platform
+      serialize_fit_params
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BranchBase
+      CheckResult
+      Condition
+      Correction
+      CorrectionParameter
+      EvaluateResult
+      OperationStatus
+      ParamImprovement
+      PlatformTypes
+      ProtocolBase
+      ProtocolOperation
+      ProtocolParameterBase
+      SuperOperationBase
+   

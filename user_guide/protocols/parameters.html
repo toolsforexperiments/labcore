@@ -1,0 +1,816 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Parameters &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'user_guide/protocols/parameters';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/user_guide/protocols/parameters.html" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Operations" href="operations.html" />
+    <link rel="prev" title="Protocols" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../measurement/index.html">Measurement</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../measurement/sweep.html">Sweeping</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../data/index.html">Data Handling</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../data/data_formats.html">Data Formats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../data/analysis_example.html">Analysis</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Protocols</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="operations.html">Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="protocols.html">Protocols</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../instruments/index.html">Instruments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../instruments/instrumentserver.html">Instrumentserver</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instruments/instrumentmonitoring.html">Instrument Monitoring</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../instruments/qcodes_instruments/instruments.html">Our QCoDeS Drivers</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">User Guide</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Protocols</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Parameters</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="parameters">
+<h1>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h1>
+<p>A <strong>parameter</strong> is a named handle that an operation reads from or writes to.
+On the surface it looks like a single getter/setter pair:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qubit_frequency</span><span class="p">()</span>        <span class="c1"># read</span>
+<span class="n">qubit_frequency</span><span class="p">(</span><span class="mf">5.2e9</span><span class="p">)</span>   <span class="c1"># write</span>
+</pre></div>
+</div>
+<p>Underneath, it’s an abstraction layer that solves two problems an operation
+should not have to think about: where the value lives between Python
+processes (running a protocol on a notebook first and then on a script for example),
+and how each hardware platform actually programs it.</p>
+<section id="why-parameters">
+<h2>Why parameters?<a class="headerlink" href="#why-parameters" title="Link to this heading">#</a></h2>
+<section id="persistence-across-processes">
+<h3>Persistence across processes<a class="headerlink" href="#persistence-across-processes" title="Link to this heading">#</a></h3>
+<p>Lab work runs in many processes — a notebook for ad-hoc operations, a
+script for a full protocol, a dashboard for live monitoring. They all need
+to see the same parameter values. Parameters do not store values in
+themselves; they hold a <code class="docutils literal notranslate"><span class="pre">params</span></code> proxy to whatever persistence backend the
+user wants. The common choice today we use is the parameter manager from
+<a class="reference external" href="https://toolsforexperiments.github.io/instrumentserver/first_steps/overview.html#parameter-manager"><code class="docutils literal notranslate"><span class="pre">instrumentserver</span></code></a>,
+but a config file or any other store works equally well — the labcore-side
+API does not change.</p>
+</section>
+<section id="hardware-translation">
+<h3>Hardware translation<a class="headerlink" href="#hardware-translation" title="Link to this heading">#</a></h3>
+<p>Different platforms speak different languages. A QICK FPGA can program a
+qubit frequency in GHz directly. An OPX has to split the same value into an
+intermediate frequency and a local-oscillator frequency, then mix them.
+Each platform-specific getter/setter on the parameter holds whatever
+conversion logic that platform needs. Operations never see this — they
+just call <code class="docutils literal notranslate"><span class="pre">qubit_frequency()</span></code> and get the actual frequency back.</p>
+</section>
+</section>
+<section id="the-shape-of-a-parameter">
+<h2>The shape of a parameter<a class="headerlink" href="#the-shape-of-a-parameter" title="Link to this heading">#</a></h2>
+<p>A parameter is a <code class="xref py py-class docutils literal notranslate"><span class="pre">dataclass</span></code> subclass of
+<a class="reference internal" href="../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolParameterBase" title="labcore.protocols.base.ProtocolParameterBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProtocolParameterBase</span></code></a>
+with three fields and one platform-specific getter/setter pair per backend:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>What it is</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p>The parameter’s display name. Used in reports and logs.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">description</span></code></p></td>
+<td><p>Plain-English description of the value.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">params</span></code></p></td>
+<td><p>The hardware/persistence handle. <code class="docutils literal notranslate"><span class="pre">None</span></code> on <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code>; on real hardware it’s typically an <code class="docutils literal notranslate"><span class="pre">instrumentserver</span></code> parameter-manager proxy.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The class implements <code class="docutils literal notranslate"><span class="pre">_dummy_getter</span></code> / <code class="docutils literal notranslate"><span class="pre">_dummy_setter</span></code>,
+<code class="docutils literal notranslate"><span class="pre">_qick_getter</span></code> / <code class="docutils literal notranslate"><span class="pre">_qick_setter</span></code>, and <code class="docutils literal notranslate"><span class="pre">_opx_getter</span></code> / <code class="docutils literal notranslate"><span class="pre">_opx_setter</span></code>. The
+right pair is dispatched inside <code class="docutils literal notranslate"><span class="pre">__call__</span></code> based on which platform was
+selected with
+<code class="xref py py-func docutils literal notranslate"><span class="pre">select_platform</span></code>.</p>
+</section>
+<section id="writing-a-parameter">
+<h2>Writing a parameter<a class="headerlink" href="#writing-a-parameter" title="Link to this heading">#</a></h2>
+<p>Suppose your toolbox stores qubit frequencies in an <code class="docutils literal notranslate"><span class="pre">instrumentserver</span></code>
+parameter manager exposed as <code class="docutils literal notranslate"><span class="pre">params.qubit.f()</span></code>. Here is what a
+<code class="docutils literal notranslate"><span class="pre">QubitFrequency</span></code> parameter looks like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">labcore.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">ProtocolParameterBase</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">QubitFrequency</span><span class="p">(</span><span class="n">ProtocolParameterBase</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;qubit_frequency&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;Intermediate frequency of the qubit&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dummy_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">qubit</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dummy_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">qubit</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_qick_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">qubit</span><span class="o">.</span><span class="n">freq</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_qick_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">qubit</span><span class="o">.</span><span class="n">freq</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">description</span></code> fields are declared with <code class="docutils literal notranslate"><span class="pre">init=False</span></code> so the
+caller does not have to repeat them — every <code class="docutils literal notranslate"><span class="pre">QubitFrequency</span></code> instance has
+the same identity. Only <code class="docutils literal notranslate"><span class="pre">params</span></code> (the hardware handle) is supplied at
+construction time:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">labcore.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">select_platform</span>
+
+<span class="n">select_platform</span><span class="p">(</span><span class="s2">&quot;QICK&quot;</span><span class="p">)</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">QubitFrequency</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">my_instrument_server_proxy</span><span class="p">)</span>
+
+<span class="n">freq</span><span class="p">()</span>           <span class="c1"># → 5.2e9   (reads via _qick_getter)</span>
+<span class="n">freq</span><span class="p">(</span><span class="mf">5.21e9</span><span class="p">)</span>     <span class="c1"># writes via _qick_setter</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This example writes the same value through both <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code> and <code class="docutils literal notranslate"><span class="pre">QICK</span></code> because the QICK
+takes a frequency in GHz directly. An OPX getter/setter would do more work:
+it would split the requested frequency into IF + LO, write the LO to the
+microwave source, and write the IF to the OPX channel. That conversion is
+exactly the kind of platform-specific logic the parameter abstraction is
+there to hold.</p>
+</div>
+</section>
+<section id="you-only-implement-the-platforms-you-use">
+<h2>You only implement the platforms you use<a class="headerlink" href="#you-only-implement-the-platforms-you-use" title="Link to this heading">#</a></h2>
+<p>The base class raises <code class="docutils literal notranslate"><span class="pre">NotImplementedError</span></code> for every platform, so a
+parameter only needs to implement the platforms it will actually run on. A
+parameter can support <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code> and <code class="docutils literal notranslate"><span class="pre">QICK</span></code> only; or <code class="docutils literal notranslate"><span class="pre">QICK</span></code> only; or even
+<code class="docutils literal notranslate"><span class="pre">DUMMY</span></code> only for things that have no hardware analogue (a pure
+configuration knob, say). Calling a parameter under an unimplemented
+platform raises immediately, which surfaces missing support fast rather
+than silently falling through.</p>
+<p>This is the common pattern in real toolboxes — see for example
+<code class="docutils literal notranslate"><span class="pre">SaturationSpecDriveGain</span></code> in <code class="docutils literal notranslate"><span class="pre">CQEDToolbox</span></code>, which is QICK-only.</p>
+</section>
+<section id="reusing-a-parameter-across-operations">
+<h2>Reusing a parameter across operations<a class="headerlink" href="#reusing-a-parameter-across-operations" title="Link to this heading">#</a></h2>
+<p>A parameter class is defined once and instantiated wherever it is needed.
+The same <code class="docutils literal notranslate"><span class="pre">QubitFrequency</span></code> shows up as an input to a spectroscopy operation
+and an output of a Rabi calibration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">ResonatorSpectroscopy</span><span class="p">(</span><span class="n">ProtocolOperation</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_register_inputs</span><span class="p">(</span><span class="n">qubit_frequency</span><span class="o">=</span><span class="n">QubitFrequency</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="c1"># ...</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PiSpectroscopy</span><span class="p">(</span><span class="n">ProtocolOperation</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_register_outputs</span><span class="p">(</span><span class="n">qubit_frequency</span><span class="o">=</span><span class="n">QubitFrequency</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+        <span class="c1"># ...</span>
+</pre></div>
+</div>
+<p>Because both instances point at the same persistence backend through
+<code class="docutils literal notranslate"><span class="pre">params</span></code>, a write performed by <code class="docutils literal notranslate"><span class="pre">PiSpectroscopy</span></code> is visible to every later
+operation that reads <code class="docutils literal notranslate"><span class="pre">QubitFrequency</span></code>. See <a class="reference internal" href="operations.html"><span class="doc">Operations</span></a> for the
+<code class="docutils literal notranslate"><span class="pre">_register_inputs</span></code> / <code class="docutils literal notranslate"><span class="pre">_register_outputs</span></code> API.</p>
+</section>
+<section id="real-world-parameters-instrumentserver-backed">
+<h2>Real-world parameters: instrumentserver-backed<a class="headerlink" href="#real-world-parameters-instrumentserver-backed" title="Link to this heading">#</a></h2>
+<p>Real toolbox parameters are usually a little more elaborate than the
+example above. The <code class="docutils literal notranslate"><span class="pre">instrumentserver</span></code> helper
+<code class="xref py py-func docutils literal notranslate"><span class="pre">nestedAttributeFromString</span></code>
+lets the getter/setter resolve a dotted attribute path on the proxy, which
+is convenient when the parameter manager organizes values under a
+per-qubit subtree:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">instrumentserver.helpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">nestedAttributeFromString</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">QubitFrequency</span><span class="p">(</span><span class="n">ProtocolParameterBase</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;qubit_frequency&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;Intermediate frequency of the qubit&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_qick_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">active_qubit</span> <span class="o">=</span> <span class="n">nestedAttributeFromString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s2">&quot;active.qubit&quot;</span><span class="p">)()</span>
+        <span class="k">return</span> <span class="n">nestedAttributeFromString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">active_qubit</span><span class="si">}</span><span class="s2">.qubit.freq&quot;</span><span class="p">)()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_qick_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="n">active_qubit</span> <span class="o">=</span> <span class="n">nestedAttributeFromString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s2">&quot;active.qubit&quot;</span><span class="p">)()</span>
+        <span class="n">nestedAttributeFromString</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">active_qubit</span><span class="si">}</span><span class="s2">.qubit.freq&quot;</span><span class="p">)(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The labcore-side API has not changed — the operation still just calls
+<code class="docutils literal notranslate"><span class="pre">qubit_frequency()</span></code> — but the getter now resolves an “active qubit”
+indirection and looks up a per-qubit attribute path. For a full catalogue
+of this style of parameter, see
+<a class="reference external" href="https://github.com/toolsforexperiments/CQEDToolbox/blob/main/src/cqedtoolbox/protocols/parameters.py"><code class="docutils literal notranslate"><span class="pre">CQEDToolbox/protocols/parameters.py</span></code></a>.
+That toolbox is a working real-world example built on labcore but is not
+itself documented yet.</p>
+</section>
+<section id="correction-parameters">
+<h2>Correction parameters<a class="headerlink" href="#correction-parameters" title="Link to this heading">#</a></h2>
+<p>Some parameters control a <em>correction strategy</em> rather than hardware state
+— for example, a noise tolerance threshold or the number of frequency
+windows to scan through. These are declared as
+<a class="reference internal" href="../../api/generated/labcore.protocols.base.html#labcore.protocols.base.CorrectionParameter" title="labcore.protocols.base.CorrectionParameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">CorrectionParameter</span></code></a>
+subclasses instead. Apart from that, they look identical to a regular
+parameter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">labcore.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">CorrectionParameter</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">GaussianNoiseReductionFactor</span><span class="p">(</span><span class="n">CorrectionParameter</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;gaussian_noise_reduction_factor&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;Factor by which the measurement noise std is divided each correction step&quot;</span><span class="p">,</span>
+        <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dummy_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_value</span>           <span class="c1"># in-memory storage, no hardware</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dummy_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_value</span> <span class="o">=</span> <span class="n">v</span>
+</pre></div>
+</div>
+<p>Operations register correction parameters via <code class="docutils literal notranslate"><span class="pre">_register_correction_params</span></code>;
+they are excluded from the protocol’s pre-execution hardware-parameter
+verification because there is no hardware to verify against. See
+<a class="reference internal" href="operations.html"><span class="doc">Operations</span></a> for how corrections use these parameters.</p>
+</section>
+<section id="where-to-read-next">
+<h2>Where to read next<a class="headerlink" href="#where-to-read-next" title="Link to this heading">#</a></h2>
+<p><a class="reference internal" href="operations.html"><span class="doc">Operations</span></a> — how an operation declares its parameters and runs the
+five-step lifecycle.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Protocols</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="operations.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Operations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-parameters">Why parameters?</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#persistence-across-processes">Persistence across processes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hardware-translation">Hardware translation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-shape-of-a-parameter">The shape of a parameter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-a-parameter">Writing a parameter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#you-only-implement-the-platforms-you-use">You only implement the platforms you use</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reusing-a-parameter-across-operations">Reusing a parameter across operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#real-world-parameters-instrumentserver-backed">Real-world parameters: instrumentserver-backed</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#correction-parameters">Correction parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-read-next">Where to read next</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/user_guide/protocols/parameters.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Tools for Experiments.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

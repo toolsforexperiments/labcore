@@ -1,0 +1,1362 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" data-theme="auto">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>labcore.protocols.base &#8212; Labcore  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "auto";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "auto";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'api/generated/labcore.protocols.base';</script>
+    <link rel="canonical" href="https://toolsforexperiments.github.io/labcore/api/generated/labcore.protocols.base.html" />
+    <link rel="author" title="About these documents" href="../../about.html" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="labcore.utils" href="labcore.utils.html" />
+    <link rel="prev" title="labcore.protocols" href="labcore.protocols.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="auto">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt=""/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">Labcore</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../first_steps/index.html">
+    First Steps
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../user_guide/index.html">
+    User Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../examples/index.html">
+    Examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/">
+    Tools for Experiments
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/instrumentserver/">
+    Instrumentserver
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-external" href="https://toolsforexperiments.github.io/plottr/">
+    Plottr
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/toolsforexperiments/labcore" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.data.html">labcore.data</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict.html">labcore.data.datadict</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datadict_storage.html">labcore.data.datadict_storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.datagen.html">labcore.data.datagen</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.data.tools.html">labcore.data.tools</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.measurement.html">labcore.measurement</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.measurement.record.html">labcore.measurement.record</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.measurement.storage.html">labcore.measurement.storage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.measurement.sweep.html">labcore.measurement.sweep</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.analysis.html">labcore.analysis</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.analysis_base.html">labcore.analysis.analysis_base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.fit.html">labcore.analysis.fit</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="labcore.analysis.fitfuncs.html">labcore.analysis.fitfuncs</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="labcore.analysis.fitfuncs.generic.html">labcore.analysis.fitfuncs.generic</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.hv_pretty.html">labcore.analysis.hv_pretty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.hvapps.html">labcore.analysis.hvapps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.hvplotting.html">labcore.analysis.hvplotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.analysis.mpl.html">labcore.analysis.mpl</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="labcore.protocols.html">labcore.protocols</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">labcore.protocols.base</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="labcore.utils.html">labcore.utils</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="labcore.utils.misc.html">labcore.utils.misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="labcore.utils.num.html">labcore.utils.num</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API Reference</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="labcore.protocols.html" class="nav-link">labcore.protocols</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">labcore.protocols.base</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-labcore.protocols.base">
+<span id="labcore-protocols-base"></span><h1>labcore.protocols.base<a class="headerlink" href="#module-labcore.protocols.base" title="Link to this heading">#</a></h1>
+<p class="rubric">Functions</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.protocols.base.select_platform" title="labcore.protocols.base.select_platform"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select_platform</span></code></a>(platform)</p></td>
+<td><p>Select the hardware platform for subsequent protocol execution.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.protocols.base.serialize_fit_params" title="labcore.protocols.base.serialize_fit_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">serialize_fit_params</span></code></a>(params)</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Classes</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.protocols.base.BranchBase" title="labcore.protocols.base.BranchBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BranchBase</span></code></a>([name])</p></td>
+<td><p>A named sequence of operations that can be executed.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.protocols.base.CheckResult" title="labcore.protocols.base.CheckResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CheckResult</span></code></a>(name, passed, description)</p></td>
+<td><p>Result of a single named check in evaluate().</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.protocols.base.Condition" title="labcore.protocols.base.Condition"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Condition</span></code></a>(condition, true_branch, false_branch)</p></td>
+<td><p>A conditional decision point that routes execution to different branches.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.protocols.base.Correction" title="labcore.protocols.base.Correction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Correction</span></code></a>()</p></td>
+<td><p>Base class for stateful correction strategies.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.protocols.base.CorrectionParameter" title="labcore.protocols.base.CorrectionParameter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CorrectionParameter</span></code></a>(name, params, description)</p></td>
+<td><p>Platform-aware correction strategy knob.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.protocols.base.EvaluateResult" title="labcore.protocols.base.EvaluateResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">EvaluateResult</span></code></a>(status, checks)</p></td>
+<td><p>Return type for ProtocolOperation.evaluate() and correct().</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.protocols.base.OperationStatus" title="labcore.protocols.base.OperationStatus"><code class="xref py py-obj docutils literal notranslate"><span class="pre">OperationStatus</span></code></a>(*values)</p></td>
+<td><p>Return status for ProtocolOperation.evaluate()</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.protocols.base.ParamImprovement" title="labcore.protocols.base.ParamImprovement"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ParamImprovement</span></code></a>(old_value, new_value, param)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.protocols.base.PlatformTypes" title="labcore.protocols.base.PlatformTypes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PlatformTypes</span></code></a>(*values)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.protocols.base.ProtocolBase" title="labcore.protocols.base.ProtocolBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProtocolBase</span></code></a>([report_path])</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.protocols.base.ProtocolOperation" title="labcore.protocols.base.ProtocolOperation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProtocolOperation</span></code></a>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#labcore.protocols.base.ProtocolParameterBase" title="labcore.protocols.base.ProtocolParameterBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ProtocolParameterBase</span></code></a>(name, params, description)</p></td>
+<td><p>Base class for protocol parameters with platform-specific getter/setter methods.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#labcore.protocols.base.SuperOperationBase" title="labcore.protocols.base.SuperOperationBase"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SuperOperationBase</span></code></a>()</p></td>
+<td><p>A composite operation that groups multiple operations together.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.BranchBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">BranchBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Branch'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#BranchBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.BranchBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A named sequence of operations that can be executed.</p>
+<p>Branches can contain:
+- Operations (ProtocolOperation instances)
+- Conditions (conditional routing to other branches)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> – Display name for this branch</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">main_branch</span> <span class="o">=</span> <span class="n">BranchBase</span><span class="p">(</span><span class="s2">&quot;MainCalibration&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">main_branch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ResonatorSpectroscopy</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">main_branch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">SaturationSpectroscopy</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.BranchBase.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.protocols.base.ProtocolOperation" title="labcore.protocols.base.ProtocolOperation"><span class="pre">ProtocolOperation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.Condition" title="labcore.protocols.base.Condition"><span class="pre">Condition</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.protocols.base.BranchBase" title="labcore.protocols.base.BranchBase"><span class="pre">BranchBase</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#BranchBase.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.BranchBase.append" title="Link to this definition">#</a></dt>
+<dd><p>Add an operation or condition to this branch</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.BranchBase.extend">
+<span class="sig-name descname"><span class="pre">extend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#labcore.protocols.base.ProtocolOperation" title="labcore.protocols.base.ProtocolOperation"><span class="pre">ProtocolOperation</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.Condition" title="labcore.protocols.base.Condition"><span class="pre">Condition</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.protocols.base.BranchBase" title="labcore.protocols.base.BranchBase"><span class="pre">BranchBase</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#BranchBase.extend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.BranchBase.extend" title="Link to this definition">#</a></dt>
+<dd><p>Add multiple operations/conditions to this branch</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.CheckResult">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">CheckResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">passed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#CheckResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.CheckResult" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Result of a single named check in evaluate().</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.CheckResult.description">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#labcore.protocols.base.CheckResult.description" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.CheckResult.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#labcore.protocols.base.CheckResult.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.CheckResult.passed">
+<span class="sig-name descname"><span class="pre">passed</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><a class="headerlink" href="#labcore.protocols.base.CheckResult.passed" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.Condition">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">Condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">condition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.14)"><span class="pre">Callable</span></a><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">true_branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.protocols.base.BranchBase" title="labcore.protocols.base.BranchBase"><span class="pre">BranchBase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">false_branch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.protocols.base.BranchBase" title="labcore.protocols.base.BranchBase"><span class="pre">BranchBase</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'Condition'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#Condition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.Condition" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>A conditional decision point that routes execution to different branches.</p>
+<p>During protocol execution, the condition is evaluated and either
+true_branch or false_branch is executed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>condition</strong> – Callable returning bool to determine which branch</p></li>
+<li><p><strong>true_branch</strong> – Branch to execute if condition is True</p></li>
+<li><p><strong>false_branch</strong> – Branch to execute if condition is False</p></li>
+<li><p><strong>name</strong> – Optional name for this condition (for logging/reporting)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res_snr</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s1">&#39;resonator&#39;</span><span class="p">][</span><span class="s1">&#39;snr&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">high_snr_branch</span> <span class="o">=</span> <span class="n">BranchBase</span><span class="p">(</span><span class="s2">&quot;HighSNR&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">high_snr_branch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PiSpectroscopy</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">low_snr_branch</span> <span class="o">=</span> <span class="n">BranchBase</span><span class="p">(</span><span class="s2">&quot;LowSNR&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">low_snr_branch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PowerRabi</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">low_snr_branch</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">PiSpectroscopy</span><span class="p">(</span><span class="n">params</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">condition</span> <span class="o">=</span> <span class="n">Condition</span><span class="p">(</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">condition</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">res_snr</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">5.0</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">true_branch</span><span class="o">=</span><span class="n">high_snr_branch</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">false_branch</span><span class="o">=</span><span class="n">low_snr_branch</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;SNR Check&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.Condition.condition_result">
+<span class="sig-name descname"><span class="pre">condition_result</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#labcore.protocols.base.Condition.condition_result" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.Condition.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.protocols.base.BranchBase" title="labcore.protocols.base.BranchBase"><span class="pre">BranchBase</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#Condition.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.Condition.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate condition and return the branch to execute</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.Condition.report_output">
+<span class="sig-name descname"><span class="pre">report_output</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.Condition.report_output" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.Condition.taken_branch">
+<span class="sig-name descname"><span class="pre">taken_branch</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.BranchBase" title="labcore.protocols.base.BranchBase"><span class="pre">BranchBase</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#labcore.protocols.base.Condition.taken_branch" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.Correction">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">Correction</span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#Correction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.Correction" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Base class for stateful correction strategies.</p>
+<p>Subclass this and attach an instance to the operation in <code class="docutils literal notranslate"><span class="pre">__init__</span></code>. The
+instance persists across retry attempts so that stateful strategies (e.g.
+stepping through a list of frequency windows) work correctly.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">FrequencySweepCorrection</span><span class="p">(</span><span class="n">Correction</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;scan_next_frequency_window&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Step through candidate frequency windows&quot;</span>
+    <span class="n">triggered_by</span> <span class="o">=</span> <span class="s2">&quot;peak_exists&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">freq_param</span><span class="p">,</span> <span class="n">windows</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq_param</span> <span class="o">=</span> <span class="n">freq_param</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">windows</span> <span class="o">=</span> <span class="n">windows</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">can_apply</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">freq_param</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">windows</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_idx</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.Correction.apply">
+<span class="sig-name descname"><span class="pre">apply</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#Correction.apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.Correction.apply" title="Link to this definition">#</a></dt>
+<dd><p>Apply the correction. Called before the next retry attempt.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.Correction.can_apply">
+<span class="sig-name descname"><span class="pre">can_apply</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#Correction.can_apply"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.Correction.can_apply" title="Link to this definition">#</a></dt>
+<dd><p>Return False when this strategy is exhausted, forcing FAILURE.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.Correction.description">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#labcore.protocols.base.Correction.description" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.Correction.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#labcore.protocols.base.Correction.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.Correction.report_output">
+<span class="sig-name descname"><span class="pre">report_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#Correction.report_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.Correction.report_output" title="Link to this definition">#</a></dt>
+<dd><p>Return a string describing what apply() just changed. Optional.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.Correction.triggered_by">
+<span class="sig-name descname"><span class="pre">triggered_by</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></span><a class="headerlink" href="#labcore.protocols.base.Correction.triggered_by" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.CorrectionParameter">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">CorrectionParameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.protocols.base.PlatformTypes" title="labcore.protocols.base.PlatformTypes"><span class="pre">PlatformTypes</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#CorrectionParameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.CorrectionParameter" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#labcore.protocols.base.ProtocolParameterBase" title="labcore.protocols.base.ProtocolParameterBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProtocolParameterBase</span></code></a></p>
+<p>Platform-aware correction strategy knob.</p>
+<p>Use this instead of ProtocolParameterBase for parameters that control
+correction strategies (e.g. window size, step count, noise tolerance).
+May have platform-specific units or scaling — implement the platform
+getter/setter methods for any unit conversions needed.</p>
+<p>Subclass exactly like ProtocolParameterBase.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.CorrectionParameter.is_correction">
+<span class="sig-name descname"><span class="pre">is_correction</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.ClassVar" title="(in Python v3.14)"><span class="pre">ClassVar</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></span><a class="headerlink" href="#labcore.protocols.base.CorrectionParameter.is_correction" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.EvaluateResult">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">EvaluateResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.protocols.base.OperationStatus" title="labcore.protocols.base.OperationStatus"><span class="pre">OperationStatus</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">checks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#labcore.protocols.base.CheckResult" title="labcore.protocols.base.CheckResult"><span class="pre">CheckResult</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#EvaluateResult"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.EvaluateResult" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Return type for ProtocolOperation.evaluate() and correct().</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.EvaluateResult.checks">
+<span class="sig-name descname"><span class="pre">checks</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#labcore.protocols.base.CheckResult" title="labcore.protocols.base.CheckResult"><span class="pre">CheckResult</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.EvaluateResult.checks" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.EvaluateResult.status">
+<span class="sig-name descname"><span class="pre">status</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.OperationStatus" title="labcore.protocols.base.OperationStatus"><span class="pre">OperationStatus</span></a></span><a class="headerlink" href="#labcore.protocols.base.EvaluateResult.status" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.OperationStatus">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">OperationStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#OperationStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.OperationStatus" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<p>Return status for ProtocolOperation.evaluate()</p>
+<p>Indicates what the protocol executor should do next with this operation.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.OperationStatus.FAILURE">
+<span class="sig-name descname"><span class="pre">FAILURE</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'failure'</span></span><a class="headerlink" href="#labcore.protocols.base.OperationStatus.FAILURE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.OperationStatus.RETRY">
+<span class="sig-name descname"><span class="pre">RETRY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'retry'</span></span><a class="headerlink" href="#labcore.protocols.base.OperationStatus.RETRY" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.OperationStatus.SUCCESS">
+<span class="sig-name descname"><span class="pre">SUCCESS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'success'</span></span><a class="headerlink" href="#labcore.protocols.base.OperationStatus.SUCCESS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.ParamImprovement">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">ParamImprovement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">old_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Any'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'Any'</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="s"><span class="pre">'ProtocolParameterBase'</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ParamImprovement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ParamImprovement" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ParamImprovement.new_value">
+<span class="sig-name descname"><span class="pre">new_value</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span><a class="headerlink" href="#labcore.protocols.base.ParamImprovement.new_value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ParamImprovement.old_value">
+<span class="sig-name descname"><span class="pre">old_value</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span><a class="headerlink" href="#labcore.protocols.base.ParamImprovement.old_value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ParamImprovement.param">
+<span class="sig-name descname"><span class="pre">param</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.ProtocolParameterBase" title="labcore.protocols.base.ProtocolParameterBase"><span class="pre">ProtocolParameterBase</span></a></span><a class="headerlink" href="#labcore.protocols.base.ParamImprovement.param" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.PlatformTypes">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">PlatformTypes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#PlatformTypes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.PlatformTypes" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.PlatformTypes.DUMMY">
+<span class="sig-name descname"><span class="pre">DUMMY</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></span><a class="headerlink" href="#labcore.protocols.base.PlatformTypes.DUMMY" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.PlatformTypes.OPX">
+<span class="sig-name descname"><span class="pre">OPX</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></span><a class="headerlink" href="#labcore.protocols.base.PlatformTypes.OPX" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.PlatformTypes.QICK">
+<span class="sig-name descname"><span class="pre">QICK</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></span><a class="headerlink" href="#labcore.protocols.base.PlatformTypes.QICK" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">ProtocolBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">report_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">PosixPath('.')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolBase.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolBase.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolBase.execute" title="Link to this definition">#</a></dt>
+<dd><p>Execute protocol by recursively executing branches</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolBase.root_branch">
+<span class="sig-name descname"><span class="pre">root_branch</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.BranchBase" title="labcore.protocols.base.BranchBase"><span class="pre">BranchBase</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolBase.root_branch" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolBase.success">
+<span class="sig-name descname"><span class="pre">success</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolBase.success" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolBase.verify_all_parameters">
+<span class="sig-name descname"><span class="pre">verify_all_parameters</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolBase.verify_all_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolBase.verify_all_parameters" title="Link to this definition">#</a></dt>
+<dd><p>Verify parameters in all operations across all branches</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">ProtocolOperation</span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolOperation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.DEFAULT_MAX_ATTEMPTS">
+<span class="sig-name descname"><span class="pre">DEFAULT_MAX_ATTEMPTS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.DEFAULT_MAX_ATTEMPTS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.analyze">
+<span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolOperation.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.analyze" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.condition">
+<span class="sig-name descname"><span class="pre">condition</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.condition" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.correct">
+<span class="sig-name descname"><span class="pre">correct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.protocols.base.EvaluateResult" title="labcore.protocols.base.EvaluateResult"><span class="pre">EvaluateResult</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.protocols.base.EvaluateResult" title="labcore.protocols.base.EvaluateResult"><span class="pre">EvaluateResult</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolOperation.correct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.correct" title="Link to this definition">#</a></dt>
+<dd><p>Apply parameter changes based on the evaluation result.</p>
+<p>This is the only place where parameter values should be modified.</p>
+<p>Default implementation:
+- Appends a check summary table to the report.
+- On RETRY: applies registered corrections for each failed check.</p>
+<blockquote>
+<div><p>If any correction’s can_apply() returns False, escalates to FAILURE.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>On SUCCESS / FAILURE: no-op (override to apply found values on SUCCESS).</p></li>
+</ul>
+<p>Override to apply found values on SUCCESS or implement complex correction
+logic. Call super().correct(result) first to get check reporting and
+default RETRY correction handling, then handle SUCCESS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>result</strong> – The EvaluateResult returned by evaluate().</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Possibly modified EvaluateResult (e.g. RETRY escalated to FAILURE
+when a correction is exhausted).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.correction_params">
+<span class="sig-name descname"><span class="pre">correction_params</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.CorrectionParameter" title="labcore.protocols.base.CorrectionParameter"><span class="pre">CorrectionParameter</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.correction_params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.current_attempt">
+<span class="sig-name descname"><span class="pre">current_attempt</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.current_attempt" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.data_loc">
+<span class="sig-name descname"><span class="pre">data_loc</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.data_loc" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.dependents">
+<span class="sig-name descname"><span class="pre">dependents</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ArrayLike</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.dependents" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.protocols.base.EvaluateResult" title="labcore.protocols.base.EvaluateResult"><span class="pre">EvaluateResult</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolOperation.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Assess operation results and return named check outcomes.</p>
+<p>Default implementation runs all checks registered via _register_check().
+Returns SUCCESS if all checks pass, RETRY if any fail.</p>
+<p>Override for complex logic (conditional checks, custom status rules).
+Overrides should still return an EvaluateResult with CheckResult objects
+so that reports and the default correct() work correctly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>EvaluateResult containing the status and individual check outcomes.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.protocols.base.EvaluateResult" title="labcore.protocols.base.EvaluateResult"><span class="pre">EvaluateResult</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolOperation.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.execute" title="Link to this definition">#</a></dt>
+<dd><p>Execute the full operation workflow: measure -&gt; load_data -&gt; analyze -&gt; evaluate -&gt; correct.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>EvaluateResult from correct(), which may differ from evaluate()’s result
+(e.g. RETRY escalated to FAILURE when a correction is exhausted).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.figure_paths">
+<span class="sig-name descname"><span class="pre">figure_paths</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.figure_paths" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.improvements">
+<span class="sig-name descname"><span class="pre">improvements</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#labcore.protocols.base.ParamImprovement" title="labcore.protocols.base.ParamImprovement"><span class="pre">ParamImprovement</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.improvements" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.independents">
+<span class="sig-name descname"><span class="pre">independents</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ArrayLike</span><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.independents" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.input_params">
+<span class="sig-name descname"><span class="pre">input_params</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.ProtocolParameterBase" title="labcore.protocols.base.ProtocolParameterBase"><span class="pre">ProtocolParameterBase</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.input_params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolOperation.load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.load_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.max_attempts">
+<span class="sig-name descname"><span class="pre">max_attempts</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.max_attempts" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.measure">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolOperation.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.measure" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.output_params">
+<span class="sig-name descname"><span class="pre">output_params</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.ProtocolParameterBase" title="labcore.protocols.base.ProtocolParameterBase"><span class="pre">ProtocolParameterBase</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.output_params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.platform_type">
+<span class="sig-name descname"><span class="pre">platform_type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.PlatformTypes" title="labcore.protocols.base.PlatformTypes"><span class="pre">PlatformTypes</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.platform_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.report_output">
+<span class="sig-name descname"><span class="pre">report_output</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.report_output" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolOperation.total_attempts_made">
+<span class="sig-name descname"><span class="pre">total_attempts_made</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolOperation.total_attempts_made" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolParameterBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">ProtocolParameterBase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.protocols.base.PlatformTypes" title="labcore.protocols.base.PlatformTypes"><span class="pre">PlatformTypes</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#ProtocolParameterBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.ProtocolParameterBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Base class for protocol parameters with platform-specific getter/setter methods.</p>
+<p>Subclasses must implement the platform-specific getter/setter methods:
+- _qick_getter() / _qick_setter(value) for QICK platform
+- _opx_getter() / _opx_setter(value) for OPX platform
+- _dummy_getter() / _dummy_setter(value) for DUMMY platform</p>
+<p>These methods should directly call the QCoDeS-style parameter with:
+- Get: my_param()
+- Set: my_param(value)</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@dataclass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">QubitFrequency</span><span class="p">(</span><span class="n">ProtocolParameterBase</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;Qubit IF&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s2">&quot;Qubit intermediate frequency&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">_qick_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">qubit</span><span class="o">.</span><span class="n">f_ge</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">_qick_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">qubit</span><span class="o">.</span><span class="n">f_ge</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">_opx_getter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">qubit</span><span class="o">.</span><span class="n">frequency</span><span class="p">()</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">_opx_setter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">qubit</span><span class="o">.</span><span class="n">frequency</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolParameterBase.description">
+<span class="sig-name descname"><span class="pre">description</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolParameterBase.description" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolParameterBase.name">
+<span class="sig-name descname"><span class="pre">name</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolParameterBase.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolParameterBase.params">
+<span class="sig-name descname"><span class="pre">params</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span><a class="headerlink" href="#labcore.protocols.base.ProtocolParameterBase.params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.ProtocolParameterBase.platform_type">
+<span class="sig-name descname"><span class="pre">platform_type</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#labcore.protocols.base.PlatformTypes" title="labcore.protocols.base.PlatformTypes"><span class="pre">PlatformTypes</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></span><a class="headerlink" href="#labcore.protocols.base.ProtocolParameterBase.platform_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="labcore.protocols.base.SuperOperationBase">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">SuperOperationBase</span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#SuperOperationBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.SuperOperationBase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#labcore.protocols.base.ProtocolOperation" title="labcore.protocols.base.ProtocolOperation"><code class="xref py py-class docutils literal notranslate"><span class="pre">ProtocolOperation</span></code></a></p>
+<p>A composite operation that groups multiple operations together.</p>
+<p>SuperOperations execute a sequence of operations as a single unit,
+sharing the same retry mechanism. If any sub-operation fails, the
+entire SuperOperation can be retried.</p>
+<p>Key features:
+- All sub-operations execute in sequence
+- Retry logic applies to the entire group
+- Reports are aggregated under the SuperOperation section
+- Branching (Conditions) is NOT permitted in SuperOperations
+- Protocol treats it the same as a regular operation</p>
+<p>Subclasses must:
+1. Call super().__init__() in their __init__
+2. Set self.operations to a list of ProtocolOperation instances
+3. NOT include any Condition instances in self.operations</p>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">CalibrationSuite</span><span class="p">(</span><span class="n">SuperOperationBase</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">operations</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>            <span class="n">ResonatorSpectroscopy</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="n">PowerRabi</span><span class="p">(</span><span class="n">params</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="n">PiSpectroscopy</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="p">]</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">evaluate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OperationStatus</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="c1"># All operations succeeded, check aggregate quality</span>
+<span class="gp">... </span>        <span class="k">if</span> <span class="n">all_calibrations_good</span><span class="p">():</span>
+<span class="gp">... </span>            <span class="k">return</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">SUCCESS</span>
+<span class="gp">... </span>        <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>            <span class="k">return</span> <span class="n">OperationStatus</span><span class="o">.</span><span class="n">RETRY</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.SuperOperationBase.analyze">
+<span class="sig-name descname"><span class="pre">analyze</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#SuperOperationBase.analyze"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.SuperOperationBase.analyze" title="Link to this definition">#</a></dt>
+<dd><p>Not used in SuperOperation - operations handle their own analysis</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.SuperOperationBase.correct">
+<span class="sig-name descname"><span class="pre">correct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.protocols.base.EvaluateResult" title="labcore.protocols.base.EvaluateResult"><span class="pre">EvaluateResult</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.protocols.base.EvaluateResult" title="labcore.protocols.base.EvaluateResult"><span class="pre">EvaluateResult</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#SuperOperationBase.correct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.SuperOperationBase.correct" title="Link to this definition">#</a></dt>
+<dd><p>Apply super-operation level corrections. Override to implement
+super-level parameter changes. Default: no-op (sub-operations handle
+their own corrections inside their own execute() calls).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.SuperOperationBase.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#labcore.protocols.base.EvaluateResult" title="labcore.protocols.base.EvaluateResult"><span class="pre">EvaluateResult</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#SuperOperationBase.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.SuperOperationBase.execute" title="Link to this definition">#</a></dt>
+<dd><p>Execute all sub-operations in sequence and aggregate their reports.</p>
+<p>This method overrides ProtocolOperation.execute() to iterate through
+all sub-operations instead of calling measure/load_data/analyze.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>EvaluateResult from correct() after all sub-operations complete.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.SuperOperationBase.load_data">
+<span class="sig-name descname"><span class="pre">load_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#SuperOperationBase.load_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.SuperOperationBase.load_data" title="Link to this definition">#</a></dt>
+<dd><p>Not used in SuperOperation - operations handle their own data loading</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="labcore.protocols.base.SuperOperationBase.measure">
+<span class="sig-name descname"><span class="pre">measure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.14)"><span class="pre">Path</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#SuperOperationBase.measure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.SuperOperationBase.measure" title="Link to this definition">#</a></dt>
+<dd><p>Not used in SuperOperation - operations handle their own measurement</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="labcore.protocols.base.SuperOperationBase.operations">
+<span class="sig-name descname"><span class="pre">operations</span></span><span class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#labcore.protocols.base.ProtocolOperation" title="labcore.protocols.base.ProtocolOperation"><span class="pre">ProtocolOperation</span></a><span class="p"><span class="pre">]</span></span></span><a class="headerlink" href="#labcore.protocols.base.SuperOperationBase.operations" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.protocols.base.select_platform">
+<span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">select_platform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#labcore.protocols.base.PlatformTypes" title="labcore.protocols.base.PlatformTypes"><span class="pre">PlatformTypes</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#select_platform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.select_platform" title="Link to this definition">#</a></dt>
+<dd><p>Select the hardware platform for subsequent protocol execution.</p>
+<p>Must be called once before instantiating any <code class="docutils literal notranslate"><span class="pre">ProtocolBase</span></code> subclass.
+Accepts either a <code class="docutils literal notranslate"><span class="pre">PlatformTypes</span></code> member or its name as a string
+(case-insensitive).</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="labcore.protocols.base.serialize_fit_params">
+<span class="sig-prename descclassname"><span class="pre">labcore.protocols.base.</span></span><span class="sig-name descname"><span class="pre">serialize_fit_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/labcore/protocols/base.html#serialize_fit_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#labcore.protocols.base.serialize_fit_params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="labcore.protocols.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">labcore.protocols</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="labcore.utils.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">labcore.utils</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.BranchBase"><code class="docutils literal notranslate"><span class="pre">BranchBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.BranchBase.append"><code class="docutils literal notranslate"><span class="pre">BranchBase.append()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.BranchBase.extend"><code class="docutils literal notranslate"><span class="pre">BranchBase.extend()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.CheckResult"><code class="docutils literal notranslate"><span class="pre">CheckResult</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.CheckResult.description"><code class="docutils literal notranslate"><span class="pre">CheckResult.description</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.CheckResult.name"><code class="docutils literal notranslate"><span class="pre">CheckResult.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.CheckResult.passed"><code class="docutils literal notranslate"><span class="pre">CheckResult.passed</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Condition"><code class="docutils literal notranslate"><span class="pre">Condition</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Condition.condition_result"><code class="docutils literal notranslate"><span class="pre">Condition.condition_result</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Condition.evaluate"><code class="docutils literal notranslate"><span class="pre">Condition.evaluate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Condition.report_output"><code class="docutils literal notranslate"><span class="pre">Condition.report_output</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Condition.taken_branch"><code class="docutils literal notranslate"><span class="pre">Condition.taken_branch</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Correction"><code class="docutils literal notranslate"><span class="pre">Correction</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Correction.apply"><code class="docutils literal notranslate"><span class="pre">Correction.apply()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Correction.can_apply"><code class="docutils literal notranslate"><span class="pre">Correction.can_apply()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Correction.description"><code class="docutils literal notranslate"><span class="pre">Correction.description</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Correction.name"><code class="docutils literal notranslate"><span class="pre">Correction.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Correction.report_output"><code class="docutils literal notranslate"><span class="pre">Correction.report_output()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.Correction.triggered_by"><code class="docutils literal notranslate"><span class="pre">Correction.triggered_by</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.CorrectionParameter"><code class="docutils literal notranslate"><span class="pre">CorrectionParameter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.CorrectionParameter.is_correction"><code class="docutils literal notranslate"><span class="pre">CorrectionParameter.is_correction</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.EvaluateResult"><code class="docutils literal notranslate"><span class="pre">EvaluateResult</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.EvaluateResult.checks"><code class="docutils literal notranslate"><span class="pre">EvaluateResult.checks</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.EvaluateResult.status"><code class="docutils literal notranslate"><span class="pre">EvaluateResult.status</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.OperationStatus"><code class="docutils literal notranslate"><span class="pre">OperationStatus</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.OperationStatus.FAILURE"><code class="docutils literal notranslate"><span class="pre">OperationStatus.FAILURE</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.OperationStatus.RETRY"><code class="docutils literal notranslate"><span class="pre">OperationStatus.RETRY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.OperationStatus.SUCCESS"><code class="docutils literal notranslate"><span class="pre">OperationStatus.SUCCESS</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ParamImprovement"><code class="docutils literal notranslate"><span class="pre">ParamImprovement</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ParamImprovement.new_value"><code class="docutils literal notranslate"><span class="pre">ParamImprovement.new_value</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ParamImprovement.old_value"><code class="docutils literal notranslate"><span class="pre">ParamImprovement.old_value</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ParamImprovement.param"><code class="docutils literal notranslate"><span class="pre">ParamImprovement.param</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.PlatformTypes"><code class="docutils literal notranslate"><span class="pre">PlatformTypes</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.PlatformTypes.DUMMY"><code class="docutils literal notranslate"><span class="pre">PlatformTypes.DUMMY</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.PlatformTypes.OPX"><code class="docutils literal notranslate"><span class="pre">PlatformTypes.OPX</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.PlatformTypes.QICK"><code class="docutils literal notranslate"><span class="pre">PlatformTypes.QICK</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolBase"><code class="docutils literal notranslate"><span class="pre">ProtocolBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolBase.execute"><code class="docutils literal notranslate"><span class="pre">ProtocolBase.execute()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolBase.root_branch"><code class="docutils literal notranslate"><span class="pre">ProtocolBase.root_branch</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolBase.success"><code class="docutils literal notranslate"><span class="pre">ProtocolBase.success</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolBase.verify_all_parameters"><code class="docutils literal notranslate"><span class="pre">ProtocolBase.verify_all_parameters()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.DEFAULT_MAX_ATTEMPTS"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.DEFAULT_MAX_ATTEMPTS</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.analyze"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.analyze()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.condition"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.condition</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.correct"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.correct()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.correction_params"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.correction_params</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.current_attempt"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.current_attempt</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.data_loc"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.data_loc</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.dependents"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.dependents</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.evaluate"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.evaluate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.execute"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.execute()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.figure_paths"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.figure_paths</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.improvements"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.improvements</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.independents"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.independents</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.input_params"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.input_params</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.load_data"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.load_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.max_attempts"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.max_attempts</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.measure"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.measure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.output_params"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.output_params</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.platform_type"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.platform_type</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.report_output"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.report_output</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolOperation.total_attempts_made"><code class="docutils literal notranslate"><span class="pre">ProtocolOperation.total_attempts_made</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolParameterBase"><code class="docutils literal notranslate"><span class="pre">ProtocolParameterBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolParameterBase.description"><code class="docutils literal notranslate"><span class="pre">ProtocolParameterBase.description</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolParameterBase.name"><code class="docutils literal notranslate"><span class="pre">ProtocolParameterBase.name</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolParameterBase.params"><code class="docutils literal notranslate"><span class="pre">ProtocolParameterBase.params</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.ProtocolParameterBase.platform_type"><code class="docutils literal notranslate"><span class="pre">ProtocolParameterBase.platform_type</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.SuperOperationBase"><code class="docutils literal notranslate"><span class="pre">SuperOperationBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.SuperOperationBase.analyze"><code class="docutils literal notranslate"><span class="pre">SuperOperationBase.analyze()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.SuperOperationBase.correct"><code class="docutils literal notranslate"><span class="pre">SuperOperationBase.correct()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.SuperOperationBase.execute"><code class="docutils literal notranslate"><span class="pre">SuperOperationBase.execute()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.SuperOperationBase.load_data"><code class="docutils literal notranslate"><span class="pre">SuperOperationBase.load_data()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.SuperOperationBase.measure"><code class="docutils literal notranslate"><span class="pre">SuperOperationBase.measure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.SuperOperationBase.operations"><code class="docutils literal notranslate"><span class="pre">SuperOperationBase.operations</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.select_platform"><code class="docutils literal notranslate"><span class="pre">select_platform()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#labcore.protocols.base.serialize_fit_params"><code class="docutils literal notranslate"><span class="pre">serialize_fit_params()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/api/generated/labcore.protocols.base.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2025-2026, Tools for Experiments.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__center">
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.1.0.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
