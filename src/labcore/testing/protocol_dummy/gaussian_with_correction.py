@@ -104,6 +104,10 @@ class GaussianWithCorrectionOperation(ProtocolOperation):
 
     SNR_THRESHOLD = 2
 
+    # Type annotations for dynamically registered parameters
+    amplitude: GaussianAmplitude
+    noise_reduction_factor: GaussianNoiseReductionFactor
+
     def __init__(self, params: Any = None, max_corrections: int = 3) -> None:
         super().__init__()
 
@@ -167,7 +171,9 @@ class GaussianWithCorrectionOperation(ProtocolOperation):
             )
             return x_val, y_clean + np.random.normal(0, noise_std)
 
-        loc, _ = run_and_save_sweep(Sweep(x_values, measure_gaussian), "data", self.name)
+        loc, _ = run_and_save_sweep(
+            Sweep(x_values, measure_gaussian), "data", self.name
+        )
         return Path(loc)
 
     def _load_data_dummy(self) -> None:
