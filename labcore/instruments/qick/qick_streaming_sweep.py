@@ -28,7 +28,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional
 from collections import OrderedDict
-from itertools import cycle as it_cycle, product as it_product, islice as it_islice, tee as it_tee
 import numpy as np
 
 from labcore.measurement import DataSpec
@@ -89,7 +88,7 @@ class RepVariable(DataSpec):
 
 class QickBoardStreamingSweep(AsyncRecord):
     """Decorator to run QICK programs and save streaming data incrementally.
-    The data specs must be defined in loop/measurement order. Reps are defined automatically.
+    The data specs must be defined in loop/measurement order.
     """
 
     def __init__(self, *specs, **kwargs):
@@ -145,7 +144,7 @@ class QickBoardStreamingSweep(AsyncRecord):
 
         # ========== Get sweep arrays ============
         # prepare sweep value iterators for independent specs, that will render sweep values
-        self.sweep_arrays: OrderedDict[str, Optional[np.ndarray]] = OrderedDict()
+        self.sweep_arrays: OrderedDict[str, np.ndarray] = OrderedDict()
 
         for ds in ordered_specs:
             if isinstance(ds, PulseVariable):
@@ -156,7 +155,7 @@ class QickBoardStreamingSweep(AsyncRecord):
                 self.sweep_arrays[ds.name] = np.asarray(arr).flatten()
                 # coalesce rounds and reps into single rep axis
             elif isinstance(ds, RepVariable):
-                self.sweep_arrays[ds.name] = range(1, prog.reps * conf[1].get('rounds') + 1,  1 )
+                self.sweep_arrays[ds.name] = np.arange(1, prog.reps * conf[1].get('rounds') + 1, 1)
 
         # get number of triggers etc
         readout_spec_number = sum([1 for ds in self.unordered_nonexhaustive_specs if isinstance(ds, ComplexQICKData)])
@@ -171,9 +170,21 @@ class QickBoardStreamingSweep(AsyncRecord):
         # sanity check
         assert sum(reads_per_shot) == readout_spec_number, "Mismatch in defined readout specs and program readout triggers. Check defined data specs."
 
-        # since data_dict requires each data point with it's axes value, we create an iterator to produce those points
-        # We use product since the sweep values should be nested in the order of executed loops in Qick
-        self.final_iterable = it_product(*self.sweep_arrays.values())
+        # Store loop metadata needed for chunking stream events by first ordered spec value
+        ordered_spec_names = [ds.name for ds in ordered_specs]
+        sweep_spec_names = list(self.sweep_arrays.keys())
+        if ordered_spec_names != sweep_spec_names:
+            raise RuntimeError(
+                "QickStreamingSweep: Internal spec ordering mismatch between ordered_specs and sweep_arrays."
+            )
+
+        # Save spec ordering and loop dimensions for use in collect() chunking logic
+        self.communicator['sweep_spec_names'] = sweep_spec_names
+        self.communicator['loop_dims'] = tuple(loop_dims)
+        # points_per_round = product of all loop dimensions = total flattened indices per round
+        self.communicator['points_per_round'] = int(np.prod(loop_dims)) if len(loop_dims) > 0 else 1
+        # points_per_outer_value = product of inner loop dimensions; used to map flat index to outermost axis value
+        self.communicator['points_per_outer_value'] = int(np.prod(loop_dims[1:])) if len(loop_dims) > 1 else 1
 
 
     def collect(self, len_normalize: bool = True, stream: bool = True, **kwargs):
@@ -192,11 +203,15 @@ class QickBoardStreamingSweep(AsyncRecord):
         """
         prog = self.communicator['qick_program']
         complex_data_spec_names = self.communicator.get('complex_data_spec_names', [])
+        sweep_spec_names = self.communicator.get('sweep_spec_names', list(self.sweep_arrays.keys()))
+        loop_dims = self.communicator.get('loop_dims', tuple())
+        points_per_round = self.communicator.get('points_per_round', 1)
+        points_per_outer_value = max(1, self.communicator.get('points_per_outer_value', 1))
 
         # ========== Collect streaming data ================
         stream_fn = getattr(prog, 'stream_acquire', None)
          # Use streaming API if available; otherwise fall back to a blocking acquire
-        if callable(stream_fn):
+        if callable(stream_fn) and stream:
             gen = prog.stream_acquire(
                 self.config.soc,
                 rounds=kwargs.get('rounds', 1),
@@ -206,20 +221,40 @@ class QickBoardStreamingSweep(AsyncRecord):
                 include_full=False,
                 return_end_of_exp_raw=False,
             )
-            # iterate events and yield a single aggregated dictionary per data event
+
+            # State for buffering data across stream events by outermost loop value
+            current_outer_idx: Optional[int] = None  # Current outermost index being accumulated
+            chunk_buffer: Dict[str, List[Any]] = {}  # Accumulates IQ and sweep-axis data until outermost value changes
+            loop_dims_warning_logged = False  # Prevent log spam for loop dimension mismatch
+
+            def _flush_chunk() -> Optional[Dict[str, np.ndarray]]:
+                """Convert accumulated lists to numpy arrays and reset buffer for next chunk."""
+                nonlocal chunk_buffer
+                if not chunk_buffer:
+                    return None
+                out = {k: np.asarray(v) for k, v in chunk_buffer.items()}
+                chunk_buffer = {}
+                return out
+
+            # iterate events and yield one aggregated dictionary per outermost sweep-loop value
             for ev in gen:
-                yield_dict: Dict[str, Any] = {}
-                if ev['event'] == 'data':
-                    partial = ev['partial']
-                    round_idx = ev['round']
+                if ev.get('event') == 'data':
+                    partial = ev.get('partial', {})
+                    round_idx = int(ev.get('round', 0))
                     count_start_flat, count_stop_flat = ev.get('rep_slice', (0, 0))  #  in per-round flattened space
+                    new_points = max(0, int(count_stop_flat) - int(count_start_flat))
+                    if new_points == 0:
+                        continue
 
                     # Get ComplexQICKData spec names (in definition order) to use as keys
                     spec_idx = 0
                     warning_logged = False
+                    event_series: Dict[str, np.ndarray] = {}
 
                     for ch in partial.keys():
                         comp_data = partial[ch].dot([1,1j]) #data in shape of (new_points, nreads)
+                        if comp_data.ndim == 1:
+                            comp_data = comp_data[:, np.newaxis]
                         for ro_no in range(comp_data.shape[1]):
                             # Use spec name if available, otherwise fall back to generated key
                             # using extra logic in case some dataspec in decorator was mislabelled/undefined. Result : still collect data but warn user.
@@ -231,25 +266,67 @@ class QickBoardStreamingSweep(AsyncRecord):
                                         f"ComplexQICKData specs mismatch: Expected more specs than defined, received more data from QICK. All collected data is probably mislabeled. ")
                                     warning_logged = True
                                 key = f"roch{ch}_read{ro_no}"
-                            yield_dict[key] = comp_data[:, ro_no]
+                            event_series[key] = comp_data[:, ro_no]
                             spec_idx += 1
-                            # add sweep values
-                    tp = [self.final_iterable.__next__() for i in range(count_stop_flat-count_start_flat)]
-                    sweep_value_array = np.array(tp) # array of sweep values for this channel
 
-                    for spec_name in self.sweep_arrays.keys():
-                        yield_dict[spec_name] = sweep_value_array[:, list(self.sweep_arrays.keys()).index(spec_name)]
+                    # Map each incoming point to its outermost loop index, buffering across stream events
+                    for i in range(new_points):
+                        per_round_flat_idx = int(count_start_flat) + i  # Within-round flattened index from stream event
+                        global_flat_idx = round_idx * points_per_round + per_round_flat_idx  # Global across all rounds
+                        outer_idx = global_flat_idx // points_per_outer_value  # Which value of first ordered spec?
 
-                    yield yield_dict
-                    # for i in range(partial[0].shape[0]):
-                    #     r = {}
-                    #     for k, v in yield_dict.items():
-                    #         r[k] = v[i]
-                    #     yield r
+                        # On outermost index change: flush accumulated chunk and start new one
+                        if current_outer_idx is None:
+                            current_outer_idx = outer_idx
+                        elif outer_idx != current_outer_idx:
+                            out = _flush_chunk()
+                            if out is not None:
+                                yield out  # Yield one chunk per outermost loop value
+                            current_outer_idx = outer_idx
+
+                        # Append IQ data from this point to chunk buffer
+                        for key, vals in event_series.items():
+                            chunk_buffer.setdefault(key, []).append(vals[i])
+
+                        # Map per-round flat index to multi-dimensional loop indices and append sweep values
+                        if len(loop_dims) == len(sweep_spec_names) and len(loop_dims) > 0:
+                            # Unravel flat index back to (outermost, inner1, inner2, ...) coordinates
+                            point_indices = np.unravel_index(per_round_flat_idx % points_per_round, loop_dims)
+                            for spec_pos, spec_name in enumerate(sweep_spec_names):
+                                spec_vals = self.sweep_arrays[spec_name]
+                                if spec_pos == 0:
+                                    # First spec is outermost; use global rep index (clamped if collect() uses more rounds than config)
+                                    arr_idx = outer_idx if outer_idx < len(spec_vals) else len(spec_vals) - 1
+                                else:
+                                    # Inner specs use coordinates from unraveled indices
+                                    arr_idx = int(point_indices[spec_pos])
+                                chunk_buffer.setdefault(spec_name, []).append(spec_vals[arr_idx])
+                        else:
+                            # Fallback if loop dimension structure doesn't match spec count (edge case)
+                            if not loop_dims_warning_logged:
+                                logger.warning(
+                                    "QickStreamingSweep: loop_dims does not match spec ordering; using index-zero fallback for sweep values."
+                                )
+                                loop_dims_warning_logged = True
+                            for spec_name in sweep_spec_names:
+                                spec_vals = self.sweep_arrays[spec_name]
+                                chunk_buffer.setdefault(spec_name, []).append(spec_vals[0])  # Safe fallback to first value
+
+                        # Safety check: if chunk has accumulated enough points for one outermost value, yield it immediately
+                        if chunk_buffer.get(sweep_spec_names[0]) is not None and len(chunk_buffer[sweep_spec_names[0]]) >= points_per_outer_value:
+                            out = _flush_chunk()
+                            if out is not None:
+                                yield out  # Yield complete chunk
+                            current_outer_idx = None  # Reset for next chunk
 
                 elif ev.get('event') == 'round-complete':
-                    break
-                    # return # end of experiment
+                    # Prepare for next round: continue buffering without yielding
+                    continue
+
+            # After all rounds, flush any remaining buffered chunk
+            out = _flush_chunk()
+            if out is not None:
+                yield out
 
 
         else: #TODO : acquire() fallback
