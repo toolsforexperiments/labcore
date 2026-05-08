@@ -30,6 +30,7 @@ import time
 from pathlib import Path
 from typing import Any, Dict, Optional, Union
 
+import hvplot.xarray  # noqa: F401 — registers .hvplot accessor on xarray objects
 import numpy as np
 import pandas as pd
 import panel as pn
@@ -1064,7 +1065,11 @@ class ValuePlot(PlotNode):
                 )
             else:
                 raise NotImplementedError
-            plot = plot.cols(2)
+            if not isinstance(plot, str):
+                try:
+                    plot = plot.cols(2)
+                except AttributeError:
+                    pass
         return plot
 
     def fit_axis_options(self) -> Any:
@@ -1322,11 +1327,10 @@ def plot_xr_as_2d(
                     ylabel=dim_labels.get(y, y),
                     clabel=f"Mean {dim_labels.get(d, d)}",
                 )
-        # FIXME: QuadMesh object has no attribute 'cols' error for longsweep
         try:
             return plot.cols(1)
         except AttributeError:
-            return "*Not a valid plot* Attribute Error occurred"
+            return plot
 
     else:
         return "*Not a valid plot*"
