@@ -46,7 +46,10 @@ def run_autoplot():
                     " application, and pass an (optional) path to the data directory as a"
                     " second argument.")
     parser.add_argument('Datapath', nargs='?', default='.', help='Path to the data directory (default: current directory)')
-    parser.add_argument('-p', '--port', type=int, default=19530, help='Port to run the server on (default: 5006)')
+    parser.add_argument('-p', '--port', type=int, default=19530, help='Port to run the server on (default: 19530)')
+    parser.add_argument('-a', '--address', type=str, default='0.0.0.0', help='Address to bind to (default: 0.0.0.0)')
+    parser.add_argument('-o', '--allow-origin', type=str, default=None,
+                        help='Allowed websocket origins (comma-separated, e.g., "host1:19530,host2:19530")')
 
     args = parser.parse_args()
 
@@ -56,9 +59,16 @@ def run_autoplot():
         return
 
     logger.info(f"Running Labcore.Autoplot on data from {data_root}")
-    logger.info(f"Server running on port {args.port}")
+    logger.info(f"Server running on http://{args.address}:{args.port}")
 
     template = make_template(data_root)
-    template.show(port=args.port)
+
+    # Parse websocket origins
+    websocket_origin = None
+    if args.allow_origin:
+        websocket_origin = [o.strip() for o in args.allow_origin.split(',')]
+        logger.info(f"Allowed websocket origins: {websocket_origin}")
+
+    template.show(port=args.port, address=args.address, websocket_origin=websocket_origin)
 
 make_template(".").servable()
