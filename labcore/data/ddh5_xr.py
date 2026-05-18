@@ -432,8 +432,15 @@ def ddh5_schema(
                 label=str(label),
             )
 
-        deps = [n for n, fi in fields.items() if fi.axes]
-        indeps = [n for n, fi in fields.items() if not fi.axes]
+        # A field is independent if it is referenced as an axis by ANY field,
+        # or if it has no axes of its own.
+        # A field is dependent only if it has axes and is NOT used as an axis.
+        all_axes: set = set()
+        for fi in fields.values():
+            all_axes.update(fi.axes)
+
+        deps = [n for n, fi in fields.items() if fi.axes and n not in all_axes]
+        indeps = [n for n, fi in fields.items() if n in all_axes or not fi.axes]
 
     return DDH5Schema(
         fields=fields,
@@ -567,13 +574,16 @@ def _infer_grid(
 
     shape = tuple(lengths)
     expected_len = int(np.prod(shape))
-    actual_len = schema.nrecords
+
+    dep_info = schema.fields[primary_dep]
+    dep_total = int(np.prod(dep_info.shape))
+    actual_len = dep_total
 
     if expected_len != actual_len:
         if missing == MissingMode.RAISE:
             raise ValueError(
-                f"Grid shape {shape} (={expected_len}) does not match "
-                f"the number of records {actual_len}. "
+                f"Grid shape {shape} (={expected_len} elements) does not "
+                f"match the data ({actual_len} elements). "
                 f"Use missing='pad' or missing='truncate'."
             )
         elif missing == MissingMode.TRUNCATE:
@@ -611,15 +621,15 @@ def _infer_grid(
                 f"Data truncated to grid shape {shape}: "
                 f"expected {int(np.prod(tuple(lengths)))} elements, "
                 f"got {actual_len}. Trailing {actual_len - expected_len} "
-                f"points dropped.",
+                f"elements dropped.",
                 RuntimeWarning,
             )
         elif missing == MissingMode.PAD:
             warnings.warn(
                 f"Grid shape {shape} requires {expected_len} elements, "
-                f"but only {actual_len} records found. "
-                f"Missing {expected_len - actual_len} slots will be "
-                f"filled with NaN.",
+                f"but only {actual_len} found. "
+                f"Missing {expected_len - actual_len} slots filled "
+                f"with NaN.",
                 RuntimeWarning,
             )
 
@@ -643,16 +653,20 @@ def _reshape_to_grid(
     target_ndim: int,
     missing: MissingMode,
 ) -> np.ndarray:
-    """Reshape flat record data to target grid shape.
+    """Reshape data to target grid shape.
+
+    Handles both flat-record data (shape ``(N,)``) and data that is already
+    partially multi-dimensional (shape ``(N, inner_dims...)``).  Compares
+    total element counts to determine whether padding/truncation is needed.
 
     Parameters
     ----------
     data : np.ndarray
-        Data with first axis equal to record count.
+        Data array, first axis is the record dimension.
     grid_shape : tuple of int
         Target grid dimensions.
     target_ndim : int
-        Total number of dimensions in output (grid dims + inner dims).
+        Desired number of grid dimensions in output.
     missing : MissingMode
         Mode for handling size mismatch.
 
@@ -661,35 +675,34 @@ def _reshape_to_grid(
     np.ndarray
         Reshaped data.
     """
-    inner_shp = data.shape[1:]
-    expected_len = int(np.prod(grid_shape))
-    actual_len = data.shape[0]
+    total_elements = data.size
+    expected_total = int(np.prod(grid_shape))
 
-    if expected_len < actual_len:
+    if expected_total < total_elements:
         if missing == MissingMode.TRUNCATE:
-            data = data[:expected_len]
-            actual_len = expected_len
+            flat = data.ravel()[:expected_total]
+            return flat.reshape(grid_shape)
         elif missing == MissingMode.RAISE:
             raise ValueError(
-                f"Data has {actual_len} records, grid expects {expected_len}"
+                f"Data has {total_elements} elements, "
+                f"grid expects {expected_total}"
             )
         else:
-            data = data[:expected_len]
-            actual_len = expected_len
-    elif expected_len > actual_len:
+            flat = data.ravel()[:expected_total]
+            return flat.reshape(grid_shape)
+    elif expected_total > total_elements:
         if missing == MissingMode.PAD:
-            pad_shape = (expected_len - actual_len,) + inner_shp
-            padding = np.full(pad_shape, np.nan, dtype=data.dtype)
-            data = np.concatenate([data, padding], axis=0)
+            flat = data.ravel()
+            pad_size = expected_total - total_elements
+            padding = np.full(pad_size, np.nan, dtype=flat.dtype)
+            return np.concatenate([flat, padding]).reshape(grid_shape)
         elif missing == MissingMode.RAISE:
             raise ValueError(
-                f"Data has {actual_len} records, grid expects {expected_len}"
+                f"Data has {total_elements} elements, "
+                f"grid expects {expected_total}"
             )
-
-    target = grid_shape + inner_shp
-    if len(target) != target_ndim:
-        target = grid_shape + inner_shp
-    return data.reshape(target)
+    else:
+        return data.ravel().reshape(grid_shape)
 
 
 def _build_coordinates(
@@ -701,8 +714,14 @@ def _build_coordinates(
 ) -> Tuple[Dict[str, Any], Dict[str, Dict[str, Any]]]:
     """Build xarray coordinate arrays and their metadata.
 
-    For gridded axes, extracts a 1D slice along the varying dimension.
-    For non-grid axes, returns the full dataset unchanged.
+    For 1D grid axes, extracts ordered unique values from the axis dataset
+    (avoiding unnecessary reshape-to-full-grid).
+
+    For multi-dimensional axes that repeat across records, takes the first
+    record's array as the coordinate.
+
+    For multi-dimensional axes that vary per record, reshapes them to the
+    grid and includes them as multi-dimensional coordinates.
 
     Parameters
     ----------
@@ -713,7 +732,7 @@ def _build_coordinates(
     grid_info : GridInfo
         Inferred grid.
     missing : MissingMode
-        Strategy for incomplete grids (applied to axis data as well).
+        Strategy for incomplete grids.
     lazy : bool
         If True, use lazy arrays.
 
@@ -742,23 +761,34 @@ def _build_coordinates(
         if name in grid_axes_set and n_axes > 0:
             axis_idx = grid_info.axes_order.index(name)
             ndim = len(fi.shape)
+            axis_grid_len = grid_info.shape[axis_idx] if axis_idx < len(grid_info.shape) else fi.shape[0]
 
             if ndim == 1:
-                raw = ds[:]
-                if not grid_info.is_complete:
-                    raw = _reshape_to_grid(
-                        raw, grid_info.shape, len(grid_info.shape), missing
-                    ).reshape(grid_info.shape)
+                raw_1d = ds[:]
+                unique_vals = np.unique(raw_1d)
+                if len(unique_vals) == axis_grid_len:
+                    coord_data = unique_vals
                 else:
-                    raw = raw.reshape(grid_info.shape)
-
-                slices_tuple = [0] * n_axes
-                slices_tuple[axis_idx] = slice(None)
-                coord_data = raw[tuple(slices_tuple)]
+                    _, idx = np.unique(raw_1d, return_index=True)
+                    coord_data = raw_1d[np.sort(idx)]
+                    if len(coord_data) > axis_grid_len:
+                        coord_data = coord_data[:axis_grid_len]
                 coords[name] = coord_data
             else:
-                first_slice = ds[0]
-                coords[name] = first_slice
+                raw_md = ds[:]
+                same = True
+                first = raw_md[0]
+                for i in range(1, min(raw_md.shape[0], 30)):
+                    if not np.array_equal(raw_md[i], first):
+                        same = False
+                        break
+                if same:
+                    coords[name] = first
+                else:
+                    reshaped = _reshape_to_grid(
+                        raw_md, grid_info.shape, len(grid_info.shape), missing
+                    )
+                    coords[name] = reshaped
         else:
             if lazy:
                 coords[name] = _lazy_array(ds)
@@ -940,7 +970,7 @@ def ddh5_to_xarray(
 
         grid_info = _infer_grid(grp, schemas, missing)
 
-        coords, coord_attrs = _build_coordinates(
+        coords_raw, coord_attrs = _build_coordinates(
             grp, schemas, grid_info, missing=missing, lazy=lazy
         )
         data_vars = _build_data_variables(
@@ -952,6 +982,15 @@ def ddh5_to_xarray(
             lazy=lazy,
             fields_filter=fields,
         )
+
+        coords: Dict[str, Any] = {}
+        grid_dims = grid_info.axes_order if grid_info.axes_order else ["dim_0"]
+        for cname, cdata in coords_raw.items():
+            if isinstance(cdata, np.ndarray) and cdata.ndim > 1:
+                nd = min(cdata.ndim, len(grid_dims))
+                coords[cname] = (tuple(grid_dims[:nd]), cdata)
+            else:
+                coords[cname] = cdata
 
         ddh5_attrs: Dict[str, Any] = {}
         for k, v in schemas.meta.items():
@@ -1199,12 +1238,6 @@ def validate_ddh5(
                         f"Dependent '{dep_name}' references axis '{ax}' "
                         f"which is not a dataset."
                     )
-                elif schemas.fields[ax].axes:
-                    errors.append(
-                        f"Axis '{ax}' (used by '{dep_name}') has its own "
-                        f"axes ({schemas.fields[ax].axes}). Axes must be "
-                        f"independents."
-                    )
 
         # --- Record count consistency ---
         lens: Dict[str, int] = {}
@@ -1293,7 +1326,7 @@ def ddh5_info(
     path: Union[str, Path],
     groupname: str = "data",
     file_timeout: Optional[float] = None,
-):
+) -> str:
     """Return a human-readable summary of DDH5 contents.
 
     Includes field names, shapes, axes relationships, units, and
@@ -1312,12 +1345,16 @@ def ddh5_info(
     -------
     str
     """
+    filepath = _data_file_path(path)
+    if not filepath.exists():
+        return f"DDH5 file not found: {filepath}"
+
     schemas = ddh5_schema(
         path, groupname=groupname, file_timeout=file_timeout, swmr=False
     )
 
     lines: List[str] = []
-    lines.append(f"DDH5: {_data_file_path(path)}")
+    lines.append(f"DDH5: {filepath}")
     lines.append(f"  Group: /{groupname}")
     lines.append(f"  Records: {schemas.nrecords}")
     lines.append(f"  Fields: {len(schemas.fields)}")
@@ -1341,7 +1378,8 @@ def ddh5_info(
         for name in schemas.independents:
             fi = schemas.fields[name]
             unit_str = f" [{fi.unit}]" if fi.unit else ""
-            lines.append(f"    {name}{unit_str}  shape={fi.shape}")
+            deps_str = f"  axes=({', '.join(fi.axes)})" if fi.axes else ""
+            lines.append(f"    {name}{unit_str}  shape={fi.shape}{deps_str}")
 
     if schemas.meta:
         lines.append("")
@@ -1350,23 +1388,4 @@ def ddh5_info(
             clean_k = k.strip("_")
             lines.append(f"    {clean_k}: {v}")
 
-    try:
-        with FileOpener(_data_file_path(path), "r", timeout=file_timeout) as f:
-            grp = f[groupname]
-            grid_info = _infer_grid(grp, schemas, MissingMode.PAD)
-            if grid_info.axes_order:
-                lines.append("")
-                lines.append(f"  Inferred grid: shape={grid_info.shape}")
-                lines.append(f"    Axes:  {grid_info.axes_order}")
-                if not grid_info.is_complete:
-                    lines.append(
-                        f"    Warning: incomplete grid "
-                        f"(need {grid_info.expected_len}, have "
-                        f"{grid_info.actual_len})"
-                    )
-    except Exception:
-        pass
-
-    print("\n".join(lines))
-
-    return
+    return "\n".join(lines)
