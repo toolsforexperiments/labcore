@@ -33,6 +33,16 @@ import h5py
 
 from .datadict_storage import FileOpener, deh5ify, DATAFILEXT
 
+try:
+    from labcore.utils.num import guess_grid_from_sweep_direction
+except ImportError:
+    guess_grid_from_sweep_direction = None  # type: ignore
+
+try:
+    from labcore.utils.misc import reorder_indices as _reorder_indices
+except ImportError:
+    _reorder_indices = None  # type: ignore
+
 logger = logging.getLogger(__name__)
 
 try:
@@ -163,26 +173,49 @@ class DDH5Schema:
 class GridInfo:
     """Inferred multi-dimensional grid description.
 
+    Distinguishes between *record-grid* axes (1-D sweep axes that reshape
+    the record dimension) and *sub-dimension* axes (multi-dimensional
+    axes whose inner dimensions become additional xarray dims).
+
     Parameters
     ----------
     axes_order : list of str
-        Axis names in dimension order (slowest-varying first), matching the
-        ``axes`` attribute convention.
+        Final xarray dimension names matching the ``axes`` attribute
+        convention.
     shape : tuple of int
-        Reshape target for dependent data ``(dim0, dim1, ...)``.
+        Final xarray shape = *record_shape* + *sub_dim_shapes*.
+    record_shape : tuple of int
+        Shape from 1-D sweep axes (reshapes the record dimension).
+    record_axes : list of str
+        Axes that form the record grid, in sweep order (slow→fast).
+    sweep_shape : tuple of int or None
+        Natural storage order shape from
+        :func:`guess_grid_from_sweep_direction` (only record-grid axes).
+    sweep_axes : list of str or None
+        Natural storage order of record-grid axes (slow→fast).
+    sub_dim_shapes : tuple of int
+        Per-record sub-dimension sizes from multi-dimensional axes.
+    sub_dim_axes : list of str
+        Names of multi-dimensional axes that contribute sub-dimensions.
     is_complete : bool
-        ``True`` when ``prod(shape) == nrecords`` exactly.
+        ``True`` when ``prod(record_shape) == nrecords``.
     expected_len : int
-        ``prod(shape)`` -- how many elements a perfect grid needs.
+        ``prod(record_shape)`` -- elements needed for a perfect record grid.
     actual_len : int
-        The number of records actually stored.
+        Number of records stored (first-dimension length).
     """
 
-    axes_order: List[str]
-    shape: Tuple[int, ...]
-    is_complete: bool
-    expected_len: int
-    actual_len: int
+    axes_order: List[str] = field(default_factory=list)
+    shape: Tuple[int, ...] = ()
+    record_shape: Tuple[int, ...] = ()
+    record_axes: List[str] = field(default_factory=list)
+    sweep_shape: Optional[Tuple[int, ...]] = None
+    sweep_axes: Optional[List[str]] = None
+    sub_dim_shapes: Tuple[int, ...] = ()
+    sub_dim_axes: List[str] = field(default_factory=list)
+    is_complete: bool = True
+    expected_len: int = 0
+    actual_len: int = 0
 
 
 @dataclass
@@ -463,17 +496,16 @@ def _infer_axis_lengths(
 ) -> List[int]:
     """Determine the grid length along each axis.
 
-    Uses :func:`numpy.unique` to count distinct axis values.
-    For multi-dimensional axes, compares per-record slices to detect
-    repetition; inner dimensions equal to the number of distinct
-    along-axis values.
+    For 1-D axes calls :func:`guess_grid_from_sweep_direction` to infer
+    the sweep period.  For multi-dimensional axes the inner dimension
+    product is returned.
 
     Parameters
     ----------
     grp : h5py.Group
         Open HDF5 group containing the datasets.
     axes : list of str
-        Axis names in dimension order.
+        Axis names in the **sweep** order (slowest→fastest).
     fields : dict[str, DDH5FieldInfo]
         Field metadata keyed by name.
 
@@ -485,10 +517,8 @@ def _infer_axis_lengths(
     lengths: List[int] = []
     for ax_name in axes:
         fi = fields[ax_name]
-        ds = grp[ax_name]
-        ndim = len(fi.shape)
-
-        if ndim == 1:
+        if len(fi.shape) == 1:
+            ds = grp[ax_name]
             ax_data = ds[:]
             lengths.append(len(np.unique(ax_data)))
         else:
@@ -496,6 +526,7 @@ def _infer_axis_lengths(
             if fi.shape[0] <= 1:
                 lengths.append(inner_prod)
             else:
+                ds = grp[ax_name]
                 first_slice = ds[0]
                 repeated = True
                 for i in range(1, min(fi.shape[0], 20)):
@@ -515,6 +546,11 @@ def _infer_grid(
     missing: MissingMode,
 ) -> GridInfo:
     """Infer the multi-dimensional grid shape from axis data.
+
+    Uses :func:`guess_grid_from_sweep_direction` to detect the natural
+    sweep ordering (slowest→fastest) and, when it differs from the
+    ``axes`` attribute order, applies the same transpose that
+    :func:`datadict_to_meshgrid` performs to match the nominal axis order.
 
     Parameters
     ----------
@@ -546,9 +582,9 @@ def _infer_grid(
         )
 
     primary_dep = schema.dependents[0]
-    axes = list(schema.fields[primary_dep].axes)
+    axes_attr = list(schema.fields[primary_dep].axes)
 
-    if not axes:
+    if not axes_attr:
         return GridInfo(
             axes_order=[],
             shape=(schema.nrecords,),
@@ -557,38 +593,87 @@ def _infer_grid(
             actual_len=schema.nrecords,
         )
 
-    for ax in axes:
+    for ax in axes_attr:
         if ax not in schema.fields:
             raise GridInferenceError(
                 f"Axis '{ax}' referenced by '{primary_dep}' "
                 f"does not exist in the DDH5 file."
             )
 
-    lengths = _infer_axis_lengths(grp, axes, schema.fields)
+    # Separate 1-D sweep (record-grid) axes from multi-dimensional (sub-dim) ones.
+    axes_1d: List[str] = []
+    axes_md: List[str] = []
+    for ax in axes_attr:
+        fi = schema.fields[ax]
+        if len(fi.shape) == 1:
+            axes_1d.append(ax)
+        else:
+            axes_md.append(ax)
 
-    if any(l == 0 for l in lengths):
-        raise GridInferenceError(
-            f"Zero-length axis detected. Axis lengths: "
-            f"{dict(zip(axes, lengths))}"
-        )
+    # ---- Determine record-grid shape from 1-D sweep axes ----
+    sweep_axes: List[str] = []
+    sweep_shape_tuple: Tuple[int, ...] = ()
+    record_shape: Tuple[int, ...] = ()
+    record_axes: List[str] = []
 
-    shape = tuple(lengths)
-    expected_len = int(np.prod(shape))
+    if axes_1d and guess_grid_from_sweep_direction is not None:
+        axis_data = {ax: grp[ax][:] for ax in axes_1d}
+        result = guess_grid_from_sweep_direction(**axis_data)
+        if result is None:
+            raise GridInferenceError(
+                "Could not determine sweep order from 1-D axis data. "
+                "The data may not form a regular grid."
+            )
+        sweep_axes_slow_fast, raw_shape = result
+        sweep_axes = list(sweep_axes_slow_fast)
+        sweep_shape_tuple = tuple(int(s) for s in raw_shape)
+        record_shape = sweep_shape_tuple
+        record_axes = list(sweep_axes)
+    elif axes_1d:
+        lengths = _infer_axis_lengths(grp, axes_1d, schema.fields)
+        sweep_axes = list(axes_1d)
+        sweep_shape_tuple = tuple(lengths)
+        record_shape = sweep_shape_tuple
+        record_axes = list(axes_1d)
 
+    # ---- Sub-dimensions from multi-dimensional axes ----
+    sub_dim_shapes: Tuple[int, ...] = ()
+    sub_dim_axes: List[str] = []
+    for ax in axes_md:
+        md_len = _infer_axis_lengths(grp, [ax], schema.fields)[0]
+        sub_dim_shapes = sub_dim_shapes + (md_len,)
+        sub_dim_axes.append(ax)
+
+    # ---- Compute final shape & axes order matching the *axes* attribute ----
+    record_len = int(np.prod(record_shape)) if record_shape else schema.nrecords
+    sub_len = int(np.prod(sub_dim_shapes))
     dep_info = schema.fields[primary_dep]
-    dep_total = int(np.prod(dep_info.shape))
-    actual_len = dep_total
+    actual_len = dep_info.shape[0]
 
-    if expected_len != actual_len:
+    # Transpose record axes if sweep order differs from attribute order
+    if record_axes and axes_1d and record_axes != axes_1d:
+        if _reorder_indices is not None and len(record_axes) == len(axes_1d):
+            transpose_idxs = _reorder_indices(record_axes, axes_1d)
+        else:
+            transpose_idxs = list(range(len(record_axes)))
+        record_shape = tuple(record_shape[i] for i in transpose_idxs)
+        record_axes = list(axes_1d)
+    else:
+        record_axes = list(axes_1d) if axes_1d else record_axes
+
+    final_axes = list(record_axes) + list(sub_dim_axes)
+    final_shape = record_shape + sub_dim_shapes
+
+    if record_len != actual_len:
         if missing == MissingMode.RAISE:
             raise ValueError(
-                f"Grid shape {shape} (={expected_len} elements) does not "
-                f"match the data ({actual_len} elements). "
+                f"Record grid shape {record_shape} (={record_len} records) "
+                f"does not match the data ({actual_len} records). "
                 f"Use missing='pad' or missing='truncate'."
             )
         elif missing == MissingMode.TRUNCATE:
-            truncated_shape = list(shape)
-            truncated_axes = list(axes)
+            truncated_shape = list(record_shape)
+            truncated_axes = list(record_axes)
             found = False
             for i in range(len(truncated_shape)):
                 reduced = int(np.prod(truncated_shape[: i + 1]))
@@ -600,7 +685,11 @@ def _infer_grid(
                     found = True
                     break
                 else:
-                    inner = int(np.prod(truncated_shape[1: i + 1])) if i > 0 else 1
+                    inner = (
+                        int(np.prod(truncated_shape[1: i + 1]))
+                        if i > 0
+                        else 1
+                    )
                     max_outer = actual_len // inner
                     if max_outer > 0:
                         truncated_shape[0] = max_outer
@@ -614,30 +703,40 @@ def _infer_grid(
             if not found:
                 truncated_shape = [actual_len]
                 truncated_axes = []
-            shape = tuple(truncated_shape)
-            axes = truncated_axes
-            expected_len = int(np.prod(shape))
+            record_shape = tuple(truncated_shape)
+            record_axes = truncated_axes
+            sweep_shape_tuple = record_shape
+            sweep_axes = list(record_axes)
+            record_len = int(np.prod(record_shape))
+            final_axes = list(record_axes) + list(sub_dim_axes)
+            final_shape = record_shape + sub_dim_shapes
             warnings.warn(
-                f"Data truncated to grid shape {shape}: "
-                f"expected {int(np.prod(tuple(lengths)))} elements, "
-                f"got {actual_len}. Trailing {actual_len - expected_len} "
+                f"Data truncated to grid shape {record_shape}: "
+                f"got {actual_len} records. "
+                f"{actual_len - record_len} trailing "
                 f"elements dropped.",
                 RuntimeWarning,
             )
         elif missing == MissingMode.PAD:
             warnings.warn(
-                f"Grid shape {shape} requires {expected_len} elements, "
-                f"but only {actual_len} found. "
-                f"Missing {expected_len - actual_len} slots filled "
-                f"with NaN.",
+                f"Record grid shape {record_shape} requires "
+                f"{record_len} records, but only {actual_len} found. "
+                f"Missing {record_len - actual_len} slots will be "
+                f"filled with NaN.",
                 RuntimeWarning,
             )
 
     return GridInfo(
-        axes_order=list(axes),
-        shape=shape,
-        is_complete=(expected_len == actual_len),
-        expected_len=expected_len,
+        axes_order=final_axes,
+        shape=final_shape,
+        record_shape=record_shape,
+        record_axes=record_axes,
+        sweep_shape=sweep_shape_tuple if sweep_shape_tuple else None,
+        sweep_axes=sweep_axes if sweep_axes else None,
+        sub_dim_shapes=sub_dim_shapes,
+        sub_dim_axes=sub_dim_axes,
+        is_complete=(record_len == actual_len),
+        expected_len=record_len,
         actual_len=actual_len,
     )
 
@@ -649,60 +748,87 @@ def _infer_grid(
 
 def _reshape_to_grid(
     data: np.ndarray,
-    grid_shape: Tuple[int, ...],
-    target_ndim: int,
+    grid_info: GridInfo,
     missing: MissingMode,
 ) -> np.ndarray:
-    """Reshape data to target grid shape.
+    """Reshape the record (first) dimension of *data* to the record grid.
 
-    Handles both flat-record data (shape ``(N,)``) and data that is already
-    partially multi-dimensional (shape ``(N, inner_dims...)``).  Compares
-    total element counts to determine whether padding/truncation is needed.
+    Only the leading dimension (records) is reshaped; any trailing inner
+    dimensions (from multi-dimensional axes or array-type dependents) are
+    preserved.
+
+    When the sweep order from :func:`guess_grid_from_sweep_direction`
+    differs from the nominal axis order, a transpose is applied to the
+    record-grid portion so that the final shape matches *axes_order*.
 
     Parameters
     ----------
     data : np.ndarray
-        Data array, first axis is the record dimension.
-    grid_shape : tuple of int
-        Target grid dimensions.
-    target_ndim : int
-        Desired number of grid dimensions in output.
+        Data with first axis = record count.
+    grid_info : GridInfo
+        Inferred grid.
     missing : MissingMode
-        Mode for handling size mismatch.
+        Strategy for incomplete grids.
 
     Returns
     -------
     np.ndarray
-        Reshaped data.
+        Reshaped data with leading dims = *grid_info.shape*.
     """
-    total_elements = data.size
-    expected_total = int(np.prod(grid_shape))
+    inner_shp = data.shape[1:]
+    record_len = grid_info.expected_len
+    actual_len = data.shape[0]
 
-    if expected_total < total_elements:
+    if record_len < actual_len:
         if missing == MissingMode.TRUNCATE:
-            flat = data.ravel()[:expected_total]
-            return flat.reshape(grid_shape)
+            data = data[:record_len]
         elif missing == MissingMode.RAISE:
             raise ValueError(
-                f"Data has {total_elements} elements, "
-                f"grid expects {expected_total}"
+                f"Data has {actual_len} records, "
+                f"grid expects {record_len}"
             )
         else:
-            flat = data.ravel()[:expected_total]
-            return flat.reshape(grid_shape)
-    elif expected_total > total_elements:
+            data = data[:record_len]
+    elif record_len > actual_len:
         if missing == MissingMode.PAD:
-            flat = data.ravel()
-            pad_size = expected_total - total_elements
-            padding = np.full(pad_size, np.nan, dtype=flat.dtype)
-            return np.concatenate([flat, padding]).reshape(grid_shape)
+            pad_shape = (record_len - actual_len,) + inner_shp
+            padding = np.full(pad_shape, np.nan, dtype=data.dtype)
+            data = np.concatenate([data, padding], axis=0)
         elif missing == MissingMode.RAISE:
             raise ValueError(
-                f"Data has {total_elements} elements, "
-                f"grid expects {expected_total}"
+                f"Data has {actual_len} records, "
+                f"grid expects {record_len}"
             )
-    else:
-        return data.ravel().reshape(grid_shape)
+
+    record_shape = grid_info.record_shape
+    sweep_shape = grid_info.sweep_shape
+
+    if not record_shape:
+        return data
+
+    if sweep_shape is None:
+        target = record_shape + inner_shp
+        return data.reshape(target)
+
+    # Reshape records → sweep_shape (natural storage order)
+    target = sweep_shape + inner_shp
+    data = data.reshape(target)
+
+    # Transpose record-grid axes if sweep order ≠ nominal order
+    if sweep_shape != record_shape and grid_info.sweep_axes is not None:
+        if _reorder_indices is not None and len(sweep_shape) == len(record_shape):
+            transpose_idxs = tuple(
+                _reorder_indices(grid_info.sweep_axes, grid_info.record_axes)
+            )
+        else:
+            transpose_idxs = tuple(range(len(sweep_shape)))
+        if transpose_idxs != tuple(range(len(sweep_shape))):
+            inner_axes = tuple(
+                range(len(sweep_shape), len(sweep_shape) + len(inner_shp))
+            )
+            data = data.transpose(transpose_idxs + inner_axes)
+
+    return data
 
 
 def _build_coordinates(
@@ -786,7 +912,7 @@ def _build_coordinates(
                     coords[name] = first
                 else:
                     reshaped = _reshape_to_grid(
-                        raw_md, grid_info.shape, len(grid_info.shape), missing
+                        raw_md, grid_info, missing
                     )
                     coords[name] = reshaped
         else:
@@ -844,9 +970,8 @@ def _build_data_variables(
 
         if grid_info.shape and grid_info.shape != (schemas.nrecords,):
             raw_data = ds[:]
-            n_grid_dims = len(grid_info.shape)
             reshaped = _reshape_to_grid(
-                raw_data, grid_info.shape, n_grid_dims, missing
+                raw_data, grid_info, missing
             )
         else:
             if lazy:
@@ -1087,7 +1212,7 @@ def ddh5_to_gridded_ddh5(
             raw = ds[:]
             if name in grid_info.axes_order and grid_info.shape:
                 reshaped = _reshape_to_grid(
-                    raw, grid_info.shape, len(grid_info.shape), missing
+                    raw, grid_info, missing
                 )
                 all_fields[name] = reshaped
             else:
@@ -1103,7 +1228,7 @@ def ddh5_to_gridded_ddh5(
             raw = ds[:]
             if grid_info.shape and grid_info.shape != (schemas.nrecords,):
                 reshaped = _reshape_to_grid(
-                    raw, grid_info.shape, len(grid_info.shape), missing
+                    raw, grid_info, missing
                 )
                 all_fields[name] = reshaped
             else:
