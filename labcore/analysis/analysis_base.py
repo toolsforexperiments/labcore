@@ -5,6 +5,7 @@ from datetime import datetime
 import json
 import logging
 import pickle
+from shutil import copy2
 
 import numpy as np
 from matplotlib.figure import Figure
@@ -163,6 +164,43 @@ class DatasetAnalysis:
         return fig
 
     make_figure = add_figure
+
+    def archive_file(self, file_path, name: Optional[str] = None, folder: Optional[Path] = None):
+        """Copy a source file into the analysis output folder(s).
+
+        Parameters
+        ----------
+        file_path
+            Path to the file that should be archived.
+        name
+            Optional base name for the archived copy. Defaults to the source stem.
+        folder
+            Optional destination folder. Defaults to every folder managed by this analysis.
+
+        Returns
+        -------
+        list[Path]
+            Paths of the archived copies.
+        """
+        source = Path(file_path)
+        if not source.exists():
+            raise FileNotFoundError(f"source file does not exist: {source}")
+
+        archive_name = source.stem if name is None else name
+        suffix = source.suffix.lstrip(".")
+        target_folders = self.savefolders if folder is None else [Path(folder)]
+
+        archived_paths = []
+        for target_folder in target_folders:
+            if not target_folder.exists():
+                target_folder.mkdir(parents=True, exist_ok=True)
+
+            archived_path = self._new_file_path(target_folder, archive_name, suffix)
+            copy2(source, archived_path)
+            archived_paths.append(archived_path)
+
+        self.files.extend(path for path in archived_paths if path not in self.files)
+        return archived_paths
 
     def to_table(self, name, data: Dict[str, Any]):
         data.update(
