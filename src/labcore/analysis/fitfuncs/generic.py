@@ -144,6 +144,43 @@ class ExponentiallyDecayingSine(Fit):
 
         return dict(A=A, of=of, phi=phi, f=f, tau=tau)
 
+class ExponentialDecayCosinetoground(Fit):
+    @staticmethod
+    def model(coordinates, A, of, f, phi, tau) -> np.ndarray:
+        """$A \sin(2*\pi*(f*x + \phi/360)) \exp(-x/\tau) + of$"""
+        return A * (1+np.sin(2 * np.pi * (f * coordinates + phi/360))) * np.exp(-coordinates/tau) + of
+
+    @staticmethod
+    def guess(coordinates, data):
+        """This guess will ignore the first value because since it usually is not relaiable."""
+
+        # offset guess: The mean of the data
+        of = np.mean(data)
+
+        # amplitude guess: difference between max and min.
+        A = np.abs(np.max(data) - np.min(data)) / 2.
+        if data[0] < data[-1]:
+            A *= -1
+
+        # f guess: Maximum of the absolute value of the fourier transform.
+        fft_data = np.fft.rfft(data)[1:]
+        fft_coordinates = np.fft.rfftfreq(data.size, coordinates[1] - coordinates[0])[1:]
+
+        # note to confirm, could there be multiple peaks? I am always taking the first one here.
+        f_max_index = np.argmax(fft_data)
+        f = fft_coordinates[f_max_index]
+
+        # phi guess
+        phi = -np.angle(fft_data[f_max_index], deg=True)
+
+        # tau guess: pick the point where we reach roughly 1/e
+        one_over_e_val = of + A/3.
+        one_over_e_idx = np.argmin(np.abs(data-one_over_e_val))
+        tau = coordinates[one_over_e_idx]
+
+        return dict(A=A, of=of, phi=phi, f=f, tau=tau)
+
+
 
 class Gaussian(Fit):
     @staticmethod
