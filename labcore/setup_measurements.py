@@ -11,7 +11,7 @@ from instrumentserver.helpers import nestedAttributeFromString
 
 from .data.datadict import DataDict
 from .data.datadict_storage import data_info
-from .measurement.storage import run_and_save_sweep
+from .measurement.storage import run_and_save_sweep, run_and_save_sweep_swmr
 from .measurement import Sweep
 from .utils.misc import get_environment_packages, commit_changes_in_repo
 
@@ -123,7 +123,7 @@ def find_or_create_remote_instrument(cli: Client, ins_name: str, ins_class: Opti
     return ins
 
 
-def run_measurement(sweep: Sweep, name: str, safe_write_mode: bool = False, save_path=None, **kwargs) -> Tuple[Union[str, Path], Optional[DataDict]]:
+def run_measurement(sweep: Sweep, name: str, safe_write_mode: bool = False, save_path=None, save_gridded: bool = False, swmr: bool = False, **kwargs) -> Tuple[Union[str, Path], Optional[DataDict]]:
     """
     Wrapper function around run_and_save_sweep that makes sure you are saving your measurement with all the necessary
     metadata around it.
@@ -194,11 +194,23 @@ def run_measurement(sweep: Sweep, name: str, safe_write_mode: bool = False, save
     if commit_hash is not None:
         save_kwargs['current_commit'] = {"measurement-hash": commit_hash}
 
-    data_location, data = run_and_save_sweep(**save_kwargs)
+    if swmr:
+        data_location, data = run_and_save_sweep_swmr(**save_kwargs)
+    else:
+        data_location, data = run_and_save_sweep(**save_kwargs)
 
     logger.info(f"""
-==========
-Saved data at {data_location}:
-{data_info(data_location, do_print=False)}
-=========""")
+    ==========
+    Saved data at {data_location}:
+    {data_info(data_location, do_print=False)}
+    =========""")
+    if save_gridded:
+        from labcore.data import ddh5_to_gridded_ddh5
+        data_location = ddh5_to_gridded_ddh5(data_location / 'data.ddh5')
+        logger.info(f"""
+            ==========
+            Saved gridded data at {data_location}:
+            {data_info(data_location, fn= '', do_print=False)}
+            =========""")
+
     return data_location, data

@@ -19,19 +19,24 @@ Modular layers:
 
 from __future__ import annotations
 
+import datetime
+import json
 import logging
 import os
+import re
+import shutil
 import time
+import uuid
 import warnings
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Collection, Dict, List, Optional, Tuple, Union
 
 import numpy as np
 import h5py
 
-from .datadict_storage import FileOpener, deh5ify, DATAFILEXT
+from .datadict_storage import FileOpener, deh5ify, DATAFILEXT, NumpyEncoder
 
 try:
     from labcore.utils.num import guess_grid_from_sweep_direction
@@ -67,6 +72,97 @@ except ImportError:
 # ===========================================================================
 
 _TIMESTRFORMAT = "%Y-%m-%d %H:%M:%S"
+
+
+class DDH5SWMRReader:
+    """Context manager for reading DDH5 with SWMR for lock-free reads.
+
+    Tries SWMR mode first; falls back to regular HDF5 opening.
+    Unlike :class:`FileOpener`, does **not** create a lock file,
+    so it is safe for concurrent read-while-write scenarios.
+
+    Parameters
+    ----------
+    path : str, Path
+        Full path to the ``.ddh5`` file.
+    timeout : float, optional
+        Maximum time (seconds) to wait for the file to appear / become
+        accessible.  Default: 30 s.
+    """
+
+    def __init__(self, path: Union[str, Path], timeout: float = 30.0):
+        self._path = Path(path)
+        self._timeout = timeout
+        self._h5: Optional[h5py.File] = None
+        self.swmr_active: bool = False
+
+    def __enter__(self) -> h5py.File:
+        t0 = time.time()
+        while True:
+            if not self._path.exists():
+                if time.time() - t0 > self._timeout:
+                    raise FileNotFoundError(
+                        f"File {self._path} not found within {self._timeout} s"
+                    )
+                time.sleep(0.1)
+                continue
+
+            try:
+                self._h5 = h5py.File(str(self._path), "r", swmr=True)
+                self.swmr_active = True
+                return self._h5
+            except Exception:
+                pass
+
+            try:
+                self._h5 = h5py.File(str(self._path), "r")
+                self.swmr_active = False
+                return self._h5
+            except Exception:
+                if time.time() - t0 > self._timeout:
+                    raise
+                time.sleep(0.1)
+
+    def __exit__(self, *args: Any) -> None:
+        if self._h5 is not None:
+            self._h5.close()
+            self._h5 = None
+
+
+def timestamp_from_path(p: Path) -> datetime.datetime:
+    """Return a `datetime` timestamp from a standard-formatted path.
+    Assumes that the path stem has a timestamp that begins in ISO-like format
+    ``YYYY-mm-ddTHHMMSS``.
+    """
+    timestring = str(p.stem)[:13] + ":" + str(p.stem)[13:15] + ":" + str(p.stem)[15:17]
+    return datetime.datetime.fromisoformat(timestring)
+
+
+def find_data(
+    root,
+    newer_than: Optional[datetime.datetime] = None,
+    older_than: Optional[datetime.datetime] = None,
+    folder_filter: Optional[str] = None,
+) -> dict:
+    if not isinstance(root, Path):
+        root = Path(root)
+
+    folders = {}
+    for f, dirs, files in os.walk(root):
+        if "data.ddh5" in files:
+            fp = Path(f)
+            ts = timestamp_from_path(fp)
+            if newer_than is not None and ts <= newer_than:
+                continue
+            if older_than is not None and ts >= older_than:
+                continue
+            if folder_filter is not None:
+                pattern = re.compile(folder_filter)
+                if not pattern.search(str(fp.stem)):
+                    continue
+
+            folders[fp] = (dirs, files)
+    return folders
 
 
 # ===========================================================================
@@ -249,62 +345,6 @@ class DDH5ValidationReport:
 # ===========================================================================
 
 
-class _DDH5SWMRReader:
-    """Context manager for reading DDH5 with SWMR for lock-free reads.
-
-    Tries SWMR mode first; falls back to regular HDF5 opening.
-    Unlike :class:`FileOpener`, does **not** create a lock file,
-    so it is safe for concurrent read-while-write scenarios.
-
-    Parameters
-    ----------
-    path : str, Path
-        Full path to the ``.ddh5`` file.
-    timeout : float, optional
-        Maximum time (seconds) to wait for the file to appear / become
-        accessible.  Default: 30 s.
-    """
-
-    def __init__(self, path: Union[str, Path], timeout: float = 30.0):
-        self._path = Path(path)
-        self._timeout = timeout
-        self._h5: Optional[h5py.File] = None
-        self.swmr_active: bool = False
-
-    # ------------------------------------------------------------------
-    def __enter__(self) -> h5py.File:
-        t0 = time.time()
-        while True:
-            if not self._path.exists():
-                if time.time() - t0 > self._timeout:
-                    raise FileNotFoundError(
-                        f"File {self._path} not found within {self._timeout} s"
-                    )
-                time.sleep(0.1)
-                continue
-
-            try:
-                self._h5 = h5py.File(str(self._path), "r", swmr=True)
-                self.swmr_active = True
-                return self._h5
-            except Exception:
-                pass
-
-            try:
-                self._h5 = h5py.File(str(self._path), "r")
-                self.swmr_active = False
-                return self._h5
-            except Exception:
-                if time.time() - t0 > self._timeout:
-                    raise
-                time.sleep(0.1)
-
-    # ------------------------------------------------------------------
-    def __exit__(self, *args: Any) -> None:
-        if self._h5 is not None:
-            self._h5.close()
-            self._h5 = None
-
 
 def _data_file_path(file: Union[str, Path]) -> Path:
     """Normalise a filepath, appending ``.ddh5`` if missing."""
@@ -395,7 +435,7 @@ def ddh5_schema(
         raise FileNotFoundError(f"DDH5 file not found: {filepath}")
 
     if swmr:
-        opener = _DDH5SWMRReader(filepath, timeout=file_timeout or 30.0)
+        opener = DDH5SWMRReader(filepath, timeout=file_timeout or 30.0)
     else:
         opener = FileOpener(filepath, "r", timeout=file_timeout)
 
@@ -1069,7 +1109,7 @@ def ddh5_to_xarray(
         raise FileNotFoundError(f"DDH5 file not found: {filepath}")
 
     if swmr:
-        opener = _DDH5SWMRReader(filepath, timeout=file_timeout or 30.0)
+        opener = DDH5SWMRReader(filepath, timeout=file_timeout or 30.0)
     else:
         opener = FileOpener(filepath, "r", timeout=file_timeout)
 
@@ -1189,7 +1229,7 @@ def ddh5_to_gridded_ddh5(
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     if swmr:
-        reader = _DDH5SWMRReader(filepath, timeout=file_timeout or 30.0)
+        reader = DDH5SWMRReader(filepath, timeout=file_timeout or 30.0)
     else:
         reader = FileOpener(filepath, "r", timeout=file_timeout)
 
@@ -1514,3 +1554,392 @@ def ddh5_info(
             lines.append(f"    {clean_k}: {v}")
 
     return "\n".join(lines)
+
+
+# ===========================================================================
+# SWMR Writing
+# ===========================================================================
+
+
+def _add_cur_time_attr(h5obj: Any, name: str = "creation") -> None:
+    """Add current time as HDF5 attributes to *h5obj*.
+
+    Writes ``__<name>_time_sec__`` and ``__<name>_time_str__``.
+    """
+    t = time.localtime()
+    tsec = time.mktime(t)
+    tstr = time.strftime(_TIMESTRFORMAT, t)
+    _set_h5_attr(h5obj, f"__{name}_time_sec__", tsec)
+    _set_h5_attr(h5obj, f"__{name}_time_str__", tstr)
+
+
+def _auto_chunks(
+    shape: Tuple[int, ...],
+    dtype: np.dtype,
+    chunk_size: Optional[int] = None,
+) -> Tuple[int, ...]:
+    """Compute an optimised chunk shape for SWMR HDF5 datasets.
+
+    Chunks along the first axis only; inner dimensions are kept
+    contiguous.  Targets ~1 MB per chunk unless *chunk_size* is
+    explicitly given.
+    """
+    if not shape:
+        return (1,)
+
+    target_bytes = 1024 * 1024  # 1 MB
+    inner_elems = int(np.prod(shape[1:])) if len(shape) > 1 else 1
+    bytes_per_row = max(1, int(dtype.itemsize) * max(1, inner_elems))
+
+    if chunk_size is not None:
+        rows = chunk_size
+    else:
+        rows = max(1, min(1024, target_bytes // bytes_per_row))
+
+    return (rows,) + shape[1:]
+
+
+class DDH5Writer_swmr:
+    """Context manager for SWMR (Single Writer Multiple Reader) DDH5 writing.
+
+    Creates a ``.ddh5`` file with chunked datasets suitable for
+    concurrent reads while data is being appended.  Uses h5py's
+    ``libver='latest'`` and SWMR mode underneath.
+
+    Chunk sizes are auto-optimised from dtype and shape but can be
+    overridden via *chunk_size*.
+
+    .. note::
+        HDF5 attributes cannot be modified once SWMR mode is active.
+        Only dataset resizing and data writing are permitted during
+        ``add_data`` calls.
+
+    Parameters
+    ----------
+    structure : dict
+        Field definitions.  Each key is a dataset name; each value is a
+        dict optionally containing:
+
+        - ``axes`` : list[str]  -- axis names (empty or absent for
+          independent axes)
+        - ``unit`` : str        -- physical unit
+        - ``label`` : str       -- human-readable label
+        - ``values`` : np.ndarray -- optional initial data (determines
+          shape and dtype)
+        - ``dtype`` : numpy dtype -- if *values* is not given (default
+          ``float64``)
+        - ``shape`` : tuple[int]  -- inner dimensions past the record
+          axis (required if *values* is not given)
+
+    basedir : str or Path, optional
+        Root directory for auto-generated data folders.
+    groupname : str, optional
+        HDF5 group name (default ``"data"``).
+    name : str, optional
+        Dataset name, used in folder and metadata.
+    filename : str, optional
+        Filename stem (default ``"data"``).
+    filepath : str or Path, optional
+        Explicit output path.  Overrides *basedir*/*name*/*filename*.
+    chunk_size : int, optional
+        Override auto-computed chunk size (rows per chunk).
+    """
+
+    def __init__(
+        self,
+        structure: Dict[str, Dict[str, Any]],
+        basedir: Union[str, Path] = ".",
+        groupname: str = "data",
+        name: Optional[str] = None,
+        filename: str = "data",
+        filepath: Optional[Union[str, Path]] = None,
+        chunk_size: Optional[int] = None,
+    ):
+        self._structure = structure
+        self.basedir = Path(basedir)
+        self.name = name or ""
+        self.groupname = groupname
+        self.filename = Path(filename)
+        self._chunk_size = chunk_size
+        self._filepath: Optional[Path] = (
+            Path(filepath) if filepath is not None else None
+        )
+        self._h5file: Optional[h5py.File] = None
+        self._swmr_active: bool = False
+        self._uuid = uuid.uuid1()
+        self._datasets_meta: Dict[str, Dict[str, Any]] = {}
+
+    @property
+    def filepath(self) -> Path:
+        assert self._filepath is not None
+        return self._filepath
+
+    # -- path helpers ---------------------------------------------------
+
+    def data_folder(self) -> Path:
+        """Return the sub-folder relative to *basedir*."""
+        ID = str(self._uuid).split("-")[0]
+        parent = (
+            f"{datetime.datetime.now().replace(microsecond=0).isoformat().replace(':', '')}"
+            f"_{ID}"
+        )
+        if self.name:
+            parent += f"-{self.name}"
+        return Path(time.strftime("%Y-%m-%d"), parent)
+
+    def data_file_path(self) -> Path:
+        """Determine the output filepath, avoiding clashes with existing folders."""
+        folder = Path(self.basedir, self.data_folder())
+        appendix = ""
+        idx = 2
+        while folder.exists():
+            appendix = f"-{idx}"
+            folder = Path(self.basedir, str(self.data_folder()) + appendix)
+            idx += 1
+        return Path(folder, self.filename)
+
+    # -- context manager -------------------------------------------------
+
+    def __enter__(self) -> "DDH5Writer_swmr":
+        if self._filepath is None:
+            self._filepath = _data_file_path(self.data_file_path())
+            self._filepath.parent.mkdir(parents=True, exist_ok=True)
+        else:
+            self._filepath = _data_file_path(self._filepath)
+            self._filepath.parent.mkdir(parents=True, exist_ok=True)
+
+        logger.info("SWMR data location: %s", self._filepath)
+
+        # Phase 1: create file with chunked datasets (not SWMR yet)
+        with h5py.File(str(self._filepath), "w", libver="latest") as f:
+            grp = f.create_group(self.groupname)
+            _add_cur_time_attr(grp, "creation")
+
+            if self.name:
+                _set_h5_attr(grp, "dataset_name", self.name)
+
+            self._datasets_meta = {}
+            for field_name, info in self._structure.items():
+                values = info.get("values", None)
+                axes = info.get("axes", [])
+                unit = info.get("unit", "")
+                label = info.get("label", "")
+
+                if values is not None:
+                    data = np.asarray(values)
+                    dtype = data.dtype
+                    inner_shape = data.shape[1:]
+                    shp = data.shape
+                else:
+                    dtype = np.dtype(info.get("dtype", "float64"))
+                    inner_shape = tuple(info.get("shape", ()))
+                    shp = (0,) + inner_shape
+                    data = np.empty(shp, dtype=dtype)
+
+                chunks = _auto_chunks(shp, dtype, self._chunk_size)
+                maxshp = (None,) + inner_shape
+
+                ds = grp.create_dataset(
+                    field_name,
+                    data=data,
+                    maxshape=maxshp,
+                    chunks=chunks,
+                    compression="gzip",
+                    compression_opts=4,
+                )
+
+                _add_cur_time_attr(ds)
+                if axes:
+                    _set_h5_attr(ds, "axes", axes)
+                if unit:
+                    _set_h5_attr(ds, "unit", unit)
+                if label and label != field_name:
+                    _set_h5_attr(ds, "label", label)
+
+                self._datasets_meta[field_name] = {
+                    "inner_shape": inner_shape,
+                    "dtype": dtype,
+                    "nrecords": shp[0],
+                }
+
+            f.flush()
+
+        # Phase 2: reopen for append writes (try SWMR, fall back)
+        try:
+            self._h5file = h5py.File(str(self._filepath), "r+")
+            self._h5file.swmr_mode = True
+            self._swmr_active = True
+        except Exception:
+            logger.info(
+                "SWMR write mode not available, using regular mode",
+                exc_info=True,
+            )
+            # Close the stale handle from the failed SWMR attempt
+            stale = self._h5file
+            self._h5file = None
+            if stale is not None:
+                try:
+                    stale.close()
+                except Exception:
+                    pass
+            self._h5file = h5py.File(str(self._filepath), "r+")
+            self._swmr_active = False
+
+        return self
+
+    def __exit__(
+        self,
+        exc_type: Optional[type],
+        exc_value: Optional[BaseException],
+        exc_tb: Any,
+    ) -> None:
+        close_time_written = False
+        if self._h5file is not None:
+            try:
+                if not self._swmr_active and self.groupname in self._h5file:
+                    _add_cur_time_attr(
+                        self._h5file[self.groupname], "close"
+                    )
+                    close_time_written = True
+                self._h5file.flush()
+            finally:
+                self._h5file.close()
+                self._h5file = None
+        self._swmr_active = False
+
+        # In SWMR mode attrs were read-only — reopen to write close time.
+        if not close_time_written and self._filepath is not None and self._filepath.exists():
+            try:
+                with h5py.File(str(self._filepath), "r+") as f:
+                    if self.groupname in f:
+                        _add_cur_time_attr(f[self.groupname], "close")
+                        f.flush()
+            except Exception:
+                logger.debug("Could not write close time attrs", exc_info=True)
+
+        if exc_type is None:
+            self.add_tag("__complete__")
+        else:
+            self.add_tag("__interrupted__")
+
+    # -- data writing ----------------------------------------------------
+
+    def add_data(self, **kwargs: Any) -> None:
+        """Append data to the DDH5 file.
+
+        Each keyword argument must match a field name defined in
+        *structure*.  Data arrays must have matching inner dimensions
+        and must all have the same number of records (first axis).
+        Datasets are resized, written, and flushed so that SWMR
+        readers see the update immediately.
+        """
+        if self._h5file is None:
+            raise RuntimeError(
+                "DDH5Writer_swmr is not active (use as context manager)."
+            )
+
+        grp = self._h5file[self.groupname]
+
+        # Validate and prepare
+        nrows: Optional[int] = None
+        prepared: Dict[str, np.ndarray] = {}
+        for name, data in kwargs.items():
+            if name not in self._datasets_meta:
+                raise KeyError(
+                    f"Field '{name}' was not defined in structure. "
+                    f"Known fields: {list(self._datasets_meta)}."
+                )
+            arr = np.asarray(data)
+            if arr.ndim == 0:
+                arr = arr.reshape(1)
+            expected_inner = self._datasets_meta[name]["inner_shape"]
+            if arr.shape[1:] != expected_inner:
+                raise ValueError(
+                    f"Field '{name}': expected inner shape {expected_inner}, "
+                    f"got {arr.shape[1:]}"
+                )
+            if nrows is None:
+                nrows = arr.shape[0]
+            elif arr.shape[0] != nrows:
+                raise ValueError(
+                    f"All fields in add_data must have the same number of "
+                    f"records. '{name}' has {arr.shape[0]}, expected {nrows}."
+                )
+            prepared[name] = arr
+
+        if nrows is None or nrows == 0:
+            return
+
+        # Write each field
+        for name, arr in prepared.items():
+            ds = grp[name]
+            old_len = ds.shape[0]
+            new_len = old_len + nrows
+            ds.resize(new_len, axis=0)
+            ds[old_len:new_len] = arr
+            self._datasets_meta[name]["nrecords"] = new_len
+
+        self._h5file.flush()
+
+    # -- tags & filesystem helpers ---------------------------------------
+
+    def add_tag(self, tags: Union[str, Collection[str]]) -> None:
+        """Create ``.tag`` marker files in the data directory.
+
+        Parameters
+        ----------
+        tags : str or collection of str
+            Tag name(s).  A file ``<tag>.tag`` is created for each.
+        """
+        assert self._filepath is not None
+        if isinstance(tags, str):
+            tags = [tags]
+        for tag in tags:
+            tagpath = self._filepath.parent / f"{tag}.tag"
+            if not tagpath.exists():
+                tagpath.touch()
+
+    def backup_file(self, paths: Union[str, Collection[str]]) -> None:
+        """Copy one or more files into the data directory.
+
+        Parameters
+        ----------
+        paths : str or collection of str
+            Path(s) to copy.
+        """
+        assert self._filepath is not None
+        if isinstance(paths, str):
+            paths = [paths]
+        for p in paths:
+            shutil.copy(p, self._filepath.parent)
+
+    def save_text(self, fname: str, text: str) -> None:
+        """Write a text file in the data directory.
+
+        Parameters
+        ----------
+        fname : str
+            Output filename (created in the data directory).
+        text : str
+            Text content.
+        """
+        assert self._filepath is not None
+        out = self._filepath.parent / fname
+        out.write_text(text, encoding="utf-8")
+
+    def save_dict(self, fname: str, d: Dict[str, Any]) -> None:
+        """Write a JSON file in the data directory.
+
+        Parameters
+        ----------
+        fname : str
+            Output filename (created in the data directory).
+        d : dict
+            Object to serialise.
+        """
+        assert self._filepath is not None
+        out = self._filepath.parent / fname
+        out.write_text(
+            json.dumps(d, indent=4, ensure_ascii=False, cls=NumpyEncoder),
+            encoding="utf-8",
+        )
