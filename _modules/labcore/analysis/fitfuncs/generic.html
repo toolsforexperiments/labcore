@@ -595,7 +595,7 @@
         <span class="p">]</span>
 
         <span class="c1"># note to confirm, could there be multiple peaks? I am always taking the first one here.</span>
-        <span class="n">f_max_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">fft_data</span><span class="p">)</span>
+        <span class="n">f_max_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fft_data</span><span class="p">))</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">fft_coordinates</span><span class="p">[</span><span class="n">f_max_index</span><span class="p">]</span>
 
         <span class="c1"># phi guess</span>
@@ -604,7 +604,9 @@
         <span class="c1"># tau guess: pick the point where we reach roughly 1/e</span>
         <span class="n">one_over_e_val</span> <span class="o">=</span> <span class="n">of</span> <span class="o">+</span> <span class="n">A</span> <span class="o">/</span> <span class="mf">3.0</span>
         <span class="n">one_over_e_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data</span> <span class="o">-</span> <span class="n">one_over_e_val</span><span class="p">))</span>
-        <span class="n">tau</span> <span class="o">=</span> <span class="n">coordinates</span><span class="p">[</span><span class="n">one_over_e_idx</span><span class="p">]</span>
+        <span class="n">tau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coordinates</span><span class="p">[</span><span class="n">one_over_e_idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="ow">or</span> <span class="n">tau</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">tau</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ptp</span><span class="p">(</span><span class="n">coordinates</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.0</span>
 
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="n">A</span><span class="p">,</span> <span class="n">of</span><span class="o">=</span><span class="n">of</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="n">phi</span><span class="p">,</span> <span class="n">f</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span></div>
 </div>
