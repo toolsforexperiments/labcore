@@ -490,7 +490,7 @@ super-operations, conditions, and the assembled report.</p>
 <section id="the-lifecycle-of-an-operation">
 <h2>The lifecycle of an operation<a class="headerlink" href="#the-lifecycle-of-an-operation" title="Link to this heading">#</a></h2>
 <p>Every operation runs the same five steps in order, on every attempt:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  ◀── platform-specific ──▶ ◀───── platform-agnostic ──────▶
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  ◀── platform-specific ──▶ ◀ optional override ▶ ◀─ platform-agnostic ─▶
 
   measure ──▶ load_data ──▶ analyze ──▶ evaluate ──▶ correct
      │            │            │            │            │
@@ -504,8 +504,8 @@ super-operations, conditions, and the assembled report.</p>
 </div>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">measure</span></code> — performs the measurement (or generates fake data on <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code>) and saves the raw data to disk.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">load_data</span></code> — reads the raw data back into memory and normalizes its shape and field names so the rest of the lifecycle is platform-agnostic.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">analyze</span></code> — runs fits and statistics over the loaded data and attaches the results to the operation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">load_data</span></code> — reads the raw data back into memory and normalizes its shape and field names so later steps can usually be shared across platforms.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">analyze</span></code> — runs fits and statistics over the loaded data and attaches the results to the operation. It uses the default analysis unless the selected platform has a specialized implementation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">evaluate</span></code> — returns named check results and an overall status; pure assessment, no side effects.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">correct</span></code> — the only place parameters get written: fitted outputs on success, a correction strategy on retry.</p></li>
 </ul>

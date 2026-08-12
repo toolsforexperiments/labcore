@@ -38,7 +38,7 @@ super-operations, conditions, and the assembled report.
 Every operation runs the same five steps in order, on every attempt:
 
 ```
-  ◀── platform-specific ──▶ ◀───── platform-agnostic ──────▶
+  ◀── platform-specific ──▶ ◀ optional override ▶ ◀─ platform-agnostic ─▶
 
   measure ──▶ load_data ──▶ analyze ──▶ evaluate ──▶ correct
      │            │            │            │            │
@@ -51,8 +51,8 @@ Every operation runs the same five steps in order, on every attempt:
 ```
 
 - `measure` — performs the measurement (or generates fake data on `DUMMY`) and saves the raw data to disk.
-- `load_data` — reads the raw data back into memory and normalizes its shape and field names so the rest of the lifecycle is platform-agnostic.
-- `analyze` — runs fits and statistics over the loaded data and attaches the results to the operation.
+- `load_data` — reads the raw data back into memory and normalizes its shape and field names so later steps can usually be shared across platforms.
+- `analyze` — runs fits and statistics over the loaded data and attaches the results to the operation. It uses the default analysis unless the selected platform has a specialized implementation.
 - `evaluate` — returns named check results and an overall status; pure assessment, no side effects.
 - `correct` — the only place parameters get written: fitted outputs on success, a correction strategy on retry.
 

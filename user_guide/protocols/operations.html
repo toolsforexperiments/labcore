@@ -470,7 +470,7 @@ methods on a subclass of
 <p>This page assumes you have read <a class="reference internal" href="parameters.html"><span class="doc">Parameters</span></a>.</p>
 <section id="the-lifecycle-of-an-operation">
 <h2>The lifecycle of an operation<a class="headerlink" href="#the-lifecycle-of-an-operation" title="Link to this heading">#</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  ◀── platform-specific ──▶ ◀───── platform-agnostic ──────▶
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  ◀── platform-specific ──▶ ◀ optional override ▶ ◀─ platform-agnostic ─▶
 
   measure ──▶ load_data ──▶ analyze ──▶ evaluate ──▶ correct
      │            │            │            │            │
@@ -483,10 +483,11 @@ methods on a subclass of
 </pre></div>
 </div>
 <p>The split between platform-specific and platform-agnostic steps is
-deliberate: <code class="docutils literal notranslate"><span class="pre">analyze</span></code>, <code class="docutils literal notranslate"><span class="pre">evaluate</span></code>, and <code class="docutils literal notranslate"><span class="pre">correct</span></code> should run identically no
-matter which backend produced the data. Whatever per-platform quirks exist
-in field names, units, or array shapes have to be reconciled by
-<code class="docutils literal notranslate"><span class="pre">load_data</span></code> so that everything downstream sees a single canonical shape.</p>
+deliberate: <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> and <code class="docutils literal notranslate"><span class="pre">correct</span></code> should run identically no matter which
+backend produced the data. <code class="docutils literal notranslate"><span class="pre">analyze</span></code> should normally be shared too, but it
+can specialize for a platform when the analysis itself genuinely differs.
+Per-platform quirks in field names and array shapes should still be
+reconciled by <code class="docutils literal notranslate"><span class="pre">load_data</span></code> so later steps see a canonical structure.</p>
 <ul class="simple">
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">measure</span></code></strong> performs the measurement (or generates fake data on
 <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code>) and saves it to disk via the standard sweep + DDH5 machinery.
@@ -496,12 +497,17 @@ Returns the path the data was written to.</p></li>
 data so that downstream steps see the same shape and variable names
 regardless of platform</strong>. Different backends can save data with
 different field names or slightly different shapes; reconciling those
-differences here is what lets <code class="docutils literal notranslate"><span class="pre">analyze</span></code> be platform-agnostic. Stores
+differences here is what lets analysis use a shared default in most
+operations. Stores
 the result on the operation as <code class="docutils literal notranslate"><span class="pre">independents</span></code> and <code class="docutils literal notranslate"><span class="pre">dependents</span></code>
 dictionaries. Dispatches to <code class="docutils literal notranslate"><span class="pre">_load_data_dummy</span></code> / <code class="docutils literal notranslate"><span class="pre">_load_data_qick</span></code> /
 <code class="docutils literal notranslate"><span class="pre">_load_data_opx</span></code>.</p></li>
-<li><p><strong><code class="docutils literal notranslate"><span class="pre">analyze</span></code></strong> is platform-agnostic. Run your fits, compute summary
-statistics, attach results to <code class="docutils literal notranslate"><span class="pre">self</span></code>. Do <strong>not</strong> mutate parameters here.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">analyze</span></code></strong> dispatches to <code class="docutils literal notranslate"><span class="pre">_analyze_dummy</span></code>, <code class="docutils literal notranslate"><span class="pre">_analyze_qick</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">_analyze_opx</span></code>. Each inherited platform hook falls back to
+<code class="docutils literal notranslate"><span class="pre">_analyze_default</span></code>, so most operations only implement that default.
+Override a platform hook only when its analysis genuinely differs. Run
+fits, compute summary statistics, and attach results to <code class="docutils literal notranslate"><span class="pre">self</span></code>; do
+<strong>not</strong> mutate parameters here.</p></li>
 <li><p><strong><code class="docutils literal notranslate"><span class="pre">evaluate</span></code></strong> is <strong>pure assessment</strong>. It returns named check results
 and an overall status (<code class="docutils literal notranslate"><span class="pre">SUCCESS</span></code> / <code class="docutils literal notranslate"><span class="pre">RETRY</span></code> / <code class="docutils literal notranslate"><span class="pre">FAILURE</span></code>). No side
 effects. By default this just runs every check registered with
@@ -569,8 +575,9 @@ an attribute on the operation. After the calls above, <code class="docutils lite
 <code class="docutils literal notranslate"><span class="pre">self.amplitude()</span></code>, and <code class="docutils literal notranslate"><span class="pre">self.noise_reduction_factor()</span></code> all work. Inputs
 get verified before the protocol runs; outputs are written by <code class="docutils literal notranslate"><span class="pre">correct()</span></code>
 on success; correction parameters skip the hardware verification check.</p>
-<p>Platform-specific work — measurement and data loading — is split exactly
-the way parameter getters and setters are:</p>
+<p>Platform-specific work is split into hooks in the same way as parameter
+getters and setters. Measurement and data loading require a hook for each
+supported platform; analysis additionally provides a shared default:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_measure_dummy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
     <span class="c1"># generate fake data and run a sweep into a DDH5 file</span>
     <span class="o">...</span>
@@ -583,13 +590,27 @@ the way parameter getters and setters are:</p>
     <span class="n">data</span> <span class="o">=</span> <span class="n">datadict_from_hdf5</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_loc</span> <span class="o">/</span> <span class="s2">&quot;data.ddh5&quot;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">[</span><span class="s2">&quot;x_values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">]</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">dependents</span><span class="p">[</span><span class="s2">&quot;y_values&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_analyze_default</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># shared fitting and statistics for every platform without an override</span>
+    <span class="o">...</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_analyze_qick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># optional: replace the default only when QICK analysis genuinely differs</span>
+    <span class="o">...</span>
 </pre></div>
 </div>
-<p>The base class’s <code class="docutils literal notranslate"><span class="pre">measure()</span></code> and <code class="docutils literal notranslate"><span class="pre">load_data()</span></code> dispatch to the right
-method based on the platform selected with
+<p>The base class’s <code class="docutils literal notranslate"><span class="pre">measure()</span></code>, <code class="docutils literal notranslate"><span class="pre">load_data()</span></code>, and <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> dispatch to the
+right method based on the platform selected with
 <code class="xref py py-func docutils literal notranslate"><span class="pre">select_platform</span></code>. You only
-implement the platforms you actually run on; the others raise
-<code class="docutils literal notranslate"><span class="pre">NotImplementedError</span></code> if invoked.</p>
+implement measurement and loading for platforms you actually run on; the
+others raise <code class="docutils literal notranslate"><span class="pre">NotImplementedError</span></code> if invoked. For analysis, an omitted
+platform hook automatically calls <code class="docutils literal notranslate"><span class="pre">_analyze_default</span></code>. A platform hook is a
+complete replacement, but it can call <code class="docutils literal notranslate"><span class="pre">_analyze_default()</span></code> explicitly when
+it only needs to add behavior.</p>
+<p>Treat <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> as the public lifecycle method called by the framework.
+Normal operations should override <code class="docutils literal notranslate"><span class="pre">_analyze_default()</span></code> or one of the
+platform hooks rather than overriding <code class="docutils literal notranslate"><span class="pre">analyze()</span></code> itself.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The leading underscore on methods like <code class="docutils literal notranslate"><span class="pre">_register_inputs</span></code>,
@@ -600,7 +621,7 @@ protocol, and let the framework call these for you. Whoever is <strong>writing</
 an operation absolutely does use them — in <code class="docutils literal notranslate"><span class="pre">__init__</span></code> and in overrides.
 The same convention applies everywhere on this page (<code class="docutils literal notranslate"><span class="pre">_register_outputs</span></code>,
 <code class="docutils literal notranslate"><span class="pre">_register_correction_params</span></code>, <code class="docutils literal notranslate"><span class="pre">_register_check</span></code>,
-<code class="docutils literal notranslate"><span class="pre">_register_success_update</span></code>, <code class="docutils literal notranslate"><span class="pre">_measure_*</span></code>, <code class="docutils literal notranslate"><span class="pre">_load_data_*</span></code>, …).</p>
+<code class="docutils literal notranslate"><span class="pre">_register_success_update</span></code>, <code class="docutils literal notranslate"><span class="pre">_measure_*</span></code>, <code class="docutils literal notranslate"><span class="pre">_load_data_*</span></code>, <code class="docutils literal notranslate"><span class="pre">_analyze_*</span></code>, …).</p>
 </div>
 </section>
 <section id="correcting-itself">
@@ -795,8 +816,8 @@ inline and the lmfit fit report dumped in a code block — all written by
 <h2>Putting it all together<a class="headerlink" href="#putting-it-all-together" title="Link to this heading">#</a></h2>
 <p>Here is a complete, runnable operation that uses every concept introduced
 above — a registered output, a registered check, a registered success
-update, platform-specific <code class="docutils literal notranslate"><span class="pre">measure</span></code> and <code class="docutils literal notranslate"><span class="pre">load_data</span></code>, and a
-platform-agnostic <code class="docutils literal notranslate"><span class="pre">analyze</span></code>. Copy it into a script, run it, and the
+update, platform-specific <code class="docutils literal notranslate"><span class="pre">measure</span></code> and <code class="docutils literal notranslate"><span class="pre">load_data</span></code>, and a default analysis.
+Copy it into a script, run it, and the
 protocol will execute end-to-end on the <code class="docutils literal notranslate"><span class="pre">DUMMY</span></code> platform:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
@@ -850,7 +871,7 @@ protocol will execute end-to-end on the <code class="docutils literal notranslat
         <span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">[</span><span class="s2">&quot;x_values&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dependents</span><span class="p">[</span><span class="s2">&quot;y_values&quot;</span><span class="p">]</span>   <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="s2">&quot;values&quot;</span><span class="p">]</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_default</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">DatasetAnalysis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_loc</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">as</span> <span class="n">ds</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">independents</span><span class="p">[</span><span class="s2">&quot;x_values&quot;</span><span class="p">])</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dependents</span><span class="p">[</span><span class="s2">&quot;y_values&quot;</span><span class="p">])</span>
@@ -914,8 +935,8 @@ That file maps onto the sections of this page like so:</p>
 <tr class="row-odd"><td><p>Platform code</p></td>
 <td><p><code class="docutils literal notranslate"><span class="pre">_measure_dummy</span></code>, <code class="docutils literal notranslate"><span class="pre">_load_data_dummy</span></code></p></td>
 </tr>
-<tr class="row-even"><td><p>Analyze</p></td>
-<td><p><code class="docutils literal notranslate"><span class="pre">analyze()</span></code></p></td>
+<tr class="row-even"><td><p>Default analysis</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">_analyze_default()</span></code></p></td>
 </tr>
 <tr class="row-odd"><td><p>Override of <code class="docutils literal notranslate"><span class="pre">correct()</span></code></p></td>
 <td><p>bottom of the class</p></td>

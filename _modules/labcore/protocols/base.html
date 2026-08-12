@@ -938,10 +938,37 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Platform type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="si">}</span><span class="s2"> not implemented&quot;</span><span class="p">)</span></div>
 
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_default</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze loaded data when no platform-specific implementation exists.&quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Default analysis not implemented&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_qick</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze QICK data, falling back to the default implementation.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_default</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_opx</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze OPX data, falling back to the default implementation.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_default</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_analyze_dummy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Analyze DUMMY data, falling back to the default implementation.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_default</span><span class="p">()</span>
+
 <div class="viewcode-block" id="ProtocolOperation.analyze">
 <a class="viewcode-back" href="../../../api/generated/labcore.protocols.base.html#labcore.protocols.base.ProtocolOperation.analyze">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Analyze method not implemented&quot;</span><span class="p">)</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Dispatch analysis to the selected platform, with a default fallback.&quot;&quot;&quot;</span>
+        <span class="k">match</span> <span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="p">:</span>
+            <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">QICK</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_qick</span><span class="p">()</span>
+            <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">OPX</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_opx</span><span class="p">()</span>
+            <span class="k">case</span> <span class="n">PlatformTypes</span><span class="o">.</span><span class="n">DUMMY</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_analyze_dummy</span><span class="p">()</span>
+            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Platform type </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">platform_type</span><span class="si">}</span><span class="s2"> not implemented&quot;</span>
+                <span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_data_opx</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
