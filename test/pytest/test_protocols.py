@@ -81,7 +81,7 @@ def make_simple_op(
         def _load_data_dummy(self):
             log.append("load_data")
 
-        def analyze(self):
+        def _analyze_default(self):
             log.append("analyze")
 
         def evaluate(self) -> EvaluateResult:
@@ -185,6 +185,71 @@ class TestProtocolOperation:
         op.execute()
         assert log == ["measure", "load_data", "analyze", "evaluate"]
 
+    @pytest.mark.parametrize(
+        ("platform", "expected"),
+        [
+            (PlatformTypes.QICK, "qick"),
+            (PlatformTypes.OPX, "opx"),
+            (PlatformTypes.DUMMY, "dummy"),
+        ],
+    )
+    def test_analyze_dispatches_to_platform_implementation(self, platform, expected):
+        calls = []
+
+        class _Op(ProtocolOperation):
+            def _analyze_default(self):
+                calls.append("default")
+
+            def _analyze_qick(self):
+                calls.append("qick")
+
+            def _analyze_opx(self):
+                calls.append("opx")
+
+            def _analyze_dummy(self):
+                calls.append("dummy")
+
+        op = _Op()
+        op.platform_type = platform
+        op.analyze()
+
+        assert calls == [expected]
+
+    @pytest.mark.parametrize(
+        "platform", [PlatformTypes.QICK, PlatformTypes.OPX, PlatformTypes.DUMMY]
+    )
+    def test_analyze_falls_back_to_default(self, platform):
+        calls = []
+
+        class _Op(ProtocolOperation):
+            def _analyze_default(self):
+                calls.append("default")
+
+        op = _Op()
+        op.platform_type = platform
+        op.analyze()
+
+        assert calls == ["default"]
+
+    def test_analyze_raises_when_no_implementation_exists(self):
+        with pytest.raises(NotImplementedError, match="Default analysis"):
+            ProtocolOperation().analyze()
+
+    def test_analyze_does_not_mask_errors_from_platform_implementation(self):
+        calls = []
+
+        class _Op(ProtocolOperation):
+            def _analyze_default(self):
+                calls.append("default")
+
+            def _analyze_dummy(self):
+                raise NotImplementedError("nested analysis is unavailable")
+
+        with pytest.raises(NotImplementedError, match="nested analysis"):
+            _Op().analyze()
+
+        assert calls == []
+
     def test_execute_increments_attempt_counters(self):
         op, _ = make_simple_op()
         op.execute()
@@ -274,7 +339,7 @@ class TestSuperOperationBase:
             def _load_data_dummy(self):
                 pass
 
-            def analyze(self):
+            def _analyze_default(self):
                 pass
 
             def evaluate(self) -> EvaluateResult:
@@ -451,7 +516,7 @@ class TestParameterOptimizationLifecycle:
             def _load_data_dummy(self):
                 pass
 
-            def analyze(self):
+            def _analyze_default(self):
                 pass
 
             def evaluate(self) -> EvaluateResult:
@@ -484,7 +549,7 @@ class TestParameterOptimizationLifecycle:
             def _load_data_dummy(self):
                 pass
 
-            def analyze(self):
+            def _analyze_default(self):
                 pass
 
             def evaluate(self) -> EvaluateResult:
@@ -511,7 +576,7 @@ class TestParameterOptimizationLifecycle:
             def _load_data_dummy(self):
                 pass
 
-            def analyze(self):
+            def _analyze_default(self):
                 pass
 
             def evaluate(self) -> EvaluateResult:
@@ -541,7 +606,7 @@ def make_op_with_check(status: OperationStatus, check_name: str = "test_check"):
         def _load_data_dummy(self):
             pass
 
-        def analyze(self):
+        def _analyze_default(self):
             pass
 
         def evaluate(self) -> EvaluateResult:
@@ -619,7 +684,7 @@ def make_op_with_failing_check(check_name: str = "test_check"):
         def _load_data_dummy(self):
             pass
 
-        def analyze(self):
+        def _analyze_default(self):
             pass
 
         def evaluate(self) -> EvaluateResult:
@@ -705,7 +770,7 @@ def make_op_with_registered_checks(passing: dict[str, bool]):
         def _load_data_dummy(self):
             pass
 
-        def analyze(self):
+        def _analyze_default(self):
             pass
 
     return _Op()

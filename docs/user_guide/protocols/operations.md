@@ -13,7 +13,7 @@ This page assumes you have read {doc}`parameters`.
 ## The lifecycle of an operation
 
 ```
-  ◀── platform-specific ──▶ ◀───── platform-agnostic ──────▶
+  ◀── platform-specific ──▶ ◀ optional override ▶ ◀─ platform-agnostic ─▶
 
   measure ──▶ load_data ──▶ analyze ──▶ evaluate ──▶ correct
      │            │            │            │            │
@@ -26,10 +26,11 @@ This page assumes you have read {doc}`parameters`.
 ```
 
 The split between platform-specific and platform-agnostic steps is
-deliberate: `analyze`, `evaluate`, and `correct` should run identically no
-matter which backend produced the data. Whatever per-platform quirks exist
-in field names, units, or array shapes have to be reconciled by
-`load_data` so that everything downstream sees a single canonical shape.
+deliberate: `evaluate` and `correct` should run identically no matter which
+backend produced the data. `analyze` should normally be shared too, but it
+can specialize for a platform when the analysis itself genuinely differs.
+Per-platform quirks in field names and array shapes should still be
+reconciled by `load_data` so later steps see a canonical structure.
 
 - **`measure`** performs the measurement (or generates fake data on
   `DUMMY`) and saves it to disk via the standard sweep + DDH5 machinery.
@@ -39,12 +40,17 @@ in field names, units, or array shapes have to be reconciled by
   data so that downstream steps see the same shape and variable names
   regardless of platform**. Different backends can save data with
   different field names or slightly different shapes; reconciling those
-  differences here is what lets `analyze` be platform-agnostic. Stores
+  differences here is what lets analysis use a shared default in most
+  operations. Stores
   the result on the operation as `independents` and `dependents`
   dictionaries. Dispatches to `_load_data_dummy` / `_load_data_qick` /
   `_load_data_opx`.
-- **`analyze`** is platform-agnostic. Run your fits, compute summary
-  statistics, attach results to `self`. Do **not** mutate parameters here.
+- **`analyze`** dispatches to `_analyze_dummy`, `_analyze_qick`, or
+  `_analyze_opx`. Each inherited platform hook falls back to
+  `_analyze_default`, so most operations only implement that default.
+  Override a platform hook only when its analysis genuinely differs. Run
+  fits, compute summary statistics, and attach results to `self`; do
+  **not** mutate parameters here.
 - **`evaluate`** is **pure assessment**. It returns named check results
   and an overall status (`SUCCESS` / `RETRY` / `FAILURE`). No side
   effects. By default this just runs every check registered with
@@ -115,8 +121,9 @@ an attribute on the operation. After the calls above, `self.center()`,
 get verified before the protocol runs; outputs are written by `correct()`
 on success; correction parameters skip the hardware verification check.
 
-Platform-specific work — measurement and data loading — is split exactly
-the way parameter getters and setters are:
+Platform-specific work is split into hooks in the same way as parameter
+getters and setters. Measurement and data loading require a hook for each
+supported platform; analysis additionally provides a shared default:
 
 ```python
 def _measure_dummy(self) -> Path:
@@ -131,13 +138,28 @@ def _load_data_dummy(self) -> None:
     data = datadict_from_hdf5(self.data_loc / "data.ddh5")
     self.independents["x_values"] = data["x"]["values"]
     self.dependents["y_values"]   = data["y"]["values"]
+
+def _analyze_default(self) -> None:
+    # shared fitting and statistics for every platform without an override
+    ...
+
+def _analyze_qick(self) -> None:
+    # optional: replace the default only when QICK analysis genuinely differs
+    ...
 ```
 
-The base class's `measure()` and `load_data()` dispatch to the right
-method based on the platform selected with
+The base class's `measure()`, `load_data()`, and `analyze()` dispatch to the
+right method based on the platform selected with
 {py:func}`select_platform <labcore.protocols.select_platform>`. You only
-implement the platforms you actually run on; the others raise
-`NotImplementedError` if invoked.
+implement measurement and loading for platforms you actually run on; the
+others raise `NotImplementedError` if invoked. For analysis, an omitted
+platform hook automatically calls `_analyze_default`. A platform hook is a
+complete replacement, but it can call `_analyze_default()` explicitly when
+it only needs to add behavior.
+
+Treat `analyze()` as the public lifecycle method called by the framework.
+Normal operations should override `_analyze_default()` or one of the
+platform hooks rather than overriding `analyze()` itself.
 
 :::{note}
 The leading underscore on methods like `_register_inputs`,
@@ -148,7 +170,7 @@ protocol, and let the framework call these for you. Whoever is **writing**
 an operation absolutely does use them — in `__init__` and in overrides.
 The same convention applies everywhere on this page (`_register_outputs`,
 `_register_correction_params`, `_register_check`,
-`_register_success_update`, `_measure_*`, `_load_data_*`, …).
+`_register_success_update`, `_measure_*`, `_load_data_*`, `_analyze_*`, …).
 :::
 
 ## Correcting itself
@@ -360,8 +382,8 @@ inline and the lmfit fit report dumped in a code block — all written by
 
 Here is a complete, runnable operation that uses every concept introduced
 above — a registered output, a registered check, a registered success
-update, platform-specific `measure` and `load_data`, and a
-platform-agnostic `analyze`. Copy it into a script, run it, and the
+update, platform-specific `measure` and `load_data`, and a default analysis.
+Copy it into a script, run it, and the
 protocol will execute end-to-end on the `DUMMY` platform:
 
 ```python
@@ -417,7 +439,7 @@ class MinimalGaussianFit(ProtocolOperation):
         self.independents["x_values"] = data["x"]["values"]
         self.dependents["y_values"]   = data["y"]["values"]
 
-    def analyze(self) -> None:
+    def _analyze_default(self) -> None:
         with DatasetAnalysis(self.data_loc, self.name) as ds:
             x = np.asarray(self.independents["x_values"])
             y = np.asarray(self.dependents["y_values"])
@@ -469,7 +491,7 @@ That file maps onto the sections of this page like so:
 | Registering a check + correction | `_register_check` call in `__init__` |
 | Correction subclass | `_ReduceNoiseLevelCorrection` |
 | Platform code | `_measure_dummy`, `_load_data_dummy` |
-| Analyze | `analyze()` |
+| Default analysis | `_analyze_default()` |
 | Override of `correct()` | bottom of the class |
 
 ## Where to read next

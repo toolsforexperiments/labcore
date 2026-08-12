@@ -99,7 +99,7 @@ class GaussianOperation(ProtocolOperation):
         self.independents["x_values"] = data["x"]["values"]
         self.dependents["y_values"] = data["y"]["values"]
 
-    def analyze(self) -> None:
+    def _analyze_default(self) -> None:
         """Fit the data to a Gaussian"""
         assert self.data_loc is not None
         with DatasetAnalysis(self.data_loc, self.name) as ds:

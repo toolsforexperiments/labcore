@@ -56,7 +56,9 @@ clarified; remove or rewrite entries that go stale.
 - **Platform** — the hardware backend a protocol runs against (`DUMMY`, `QICK`,
   `OPX`). Selected globally via the `PLATFORMTYPE` module variable in
   `labcore.protocols.base`; parameters and operations dispatch to
-  platform-specific code (`_dummy_getter`, `_qick_getter`, …) based on it.
+  platform-specific code (`_dummy_getter`, `_measure_qick`, …) based on it.
+  Analysis uses a shared default unless an operation supplies a
+  platform-specific analysis.
 
 - **Report** — a self-contained HTML document assembled by
   `ProtocolBase._assemble_report()` after a protocol runs. Each operation

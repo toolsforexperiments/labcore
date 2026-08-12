@@ -473,8 +473,35 @@ class ProtocolOperation:
                 return loc
         raise NotImplementedError(f"Platform type {self.platform_type} not implemented")
 
+    def _analyze_default(self) -> None:
+        """Analyze loaded data when no platform-specific implementation exists."""
+        raise NotImplementedError("Default analysis not implemented")
+
+    def _analyze_qick(self) -> None:
+        """Analyze QICK data, falling back to the default implementation."""
+        self._analyze_default()
+
+    def _analyze_opx(self) -> None:
+        """Analyze OPX data, falling back to the default implementation."""
+        self._analyze_default()
+
+    def _analyze_dummy(self) -> None:
+        """Analyze DUMMY data, falling back to the default implementation."""
+        self._analyze_default()
+
     def analyze(self) -> None:
-        raise NotImplementedError("Analyze method not implemented")
+        """Dispatch analysis to the selected platform, with a default fallback."""
+        match self.platform_type:
+            case PlatformTypes.QICK:
+                self._analyze_qick()
+            case PlatformTypes.OPX:
+                self._analyze_opx()
+            case PlatformTypes.DUMMY:
+                self._analyze_dummy()
+            case _:
+                raise NotImplementedError(
+                    f"Platform type {self.platform_type} not implemented"
+                )
 
     def _load_data_opx(self) -> None:
         raise NotImplementedError("Load OPX data method not implemented")
