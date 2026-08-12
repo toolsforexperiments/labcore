@@ -131,7 +131,7 @@ class ExponentiallyDecayingSine(Fit):
         ]
 
         # note to confirm, could there be multiple peaks? I am always taking the first one here.
-        f_max_index = np.argmax(fft_data)
+        f_max_index = np.argmax(np.abs(fft_data))
         f = fft_coordinates[f_max_index]
 
         # phi guess
@@ -140,7 +140,9 @@ class ExponentiallyDecayingSine(Fit):
         # tau guess: pick the point where we reach roughly 1/e
         one_over_e_val = of + A / 3.0
         one_over_e_idx = np.argmin(np.abs(data - one_over_e_val))
-        tau = coordinates[one_over_e_idx]
+        tau = np.abs(coordinates[one_over_e_idx] - coordinates[0])
+        if not np.isfinite(tau) or tau <= 0:
+            tau = np.ptp(coordinates) / 2.0
 
         return dict(A=A, of=of, phi=phi, f=f, tau=tau)
 
