@@ -108,14 +108,18 @@ class DDH5SWMRReader:
                 continue
 
             try:
-                self._h5 = h5py.File(str(self._path), "r", swmr=True)
+                self._h5 = h5py.File(
+                    str(self._path), "r", swmr=True, libver="latest"
+                )
                 self.swmr_active = True
                 return self._h5
             except Exception:
                 pass
 
             try:
-                self._h5 = h5py.File(str(self._path), "r")
+                self._h5 = h5py.File(
+                    str(self._path), "r", libver="latest"
+                )
                 self.swmr_active = False
                 return self._h5
             except Exception:
@@ -844,6 +848,12 @@ def _reshape_to_grid(
     sweep_shape = grid_info.sweep_shape
 
     if not record_shape:
+        if grid_info.sub_dim_shapes:
+            offset = len(grid_info.sub_dim_axes)
+            remaining = data.shape[1 + offset:]
+            target = grid_info.shape + remaining
+            if data.size == int(np.prod(target)) if target else False:
+                return data.reshape(target)
         return data
 
     if sweep_shape is None:
@@ -932,12 +942,11 @@ def _build_coordinates(
             if ndim == 1:
                 raw_1d = ds[:]
                 unique_vals = np.unique(raw_1d)
-                if len(unique_vals) == axis_grid_len:
-                    coord_data = unique_vals
-                else:
-                    _, idx = np.unique(raw_1d, return_index=True)
-                    coord_data = raw_1d[np.sort(idx)]
-                    if len(coord_data) > axis_grid_len:
+                _, idx = np.unique(raw_1d, return_index=True)
+                coord_data = raw_1d[np.sort(idx)]
+                if len(coord_data) == axis_grid_len:
+                    pass
+                elif len(coord_data) > axis_grid_len:
                         coord_data = coord_data[:axis_grid_len]
                 coords[name] = coord_data
             else:
@@ -1766,7 +1775,9 @@ class DDH5Writer_swmr:
 
         # Phase 2: reopen for append writes (try SWMR, fall back)
         try:
-            self._h5file = h5py.File(str(self._filepath), "r+")
+            self._h5file = h5py.File(
+                str(self._filepath), "r+", libver="latest"
+            )
             self._h5file.swmr_mode = True
             self._swmr_active = True
         except Exception:
@@ -1782,7 +1793,9 @@ class DDH5Writer_swmr:
                     stale.close()
                 except Exception:
                     pass
-            self._h5file = h5py.File(str(self._filepath), "r+")
+            self._h5file = h5py.File(
+                str(self._filepath), "r+", libver="latest"
+            )
             self._swmr_active = False
 
         return self
@@ -1801,7 +1814,10 @@ class DDH5Writer_swmr:
                         self._h5file[self.groupname], "close"
                     )
                     close_time_written = True
-                self._h5file.flush()
+                try:
+                    self._h5file.flush()
+                except OSError:
+                    pass
             finally:
                 self._h5file.close()
                 self._h5file = None
@@ -1879,7 +1895,10 @@ class DDH5Writer_swmr:
             ds[old_len:new_len] = arr
             self._datasets_meta[name]["nrecords"] = new_len
 
-        self._h5file.flush()
+        try:
+            self._h5file.flush()
+        except OSError:
+            pass
 
     # -- tags & filesystem helpers ---------------------------------------
 
