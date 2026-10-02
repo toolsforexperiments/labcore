@@ -29,6 +29,7 @@ import numpy as np
 
 from ..data.datadict import DataDict
 from ..data.datadict_storage import DDH5Writer
+from ..data.ddh5_xr import DDH5Writer_swmr, ddh5_to_xarray
 from .sweep import Sweep
 
 __author__ = "Wolfgang Pfaff"
@@ -68,6 +69,19 @@ def _create_datadict_structure(sweep: Sweep) -> DataDict:
     data_dict.validate()
 
     return data_dict
+
+def _create_swmr_structure(sweep: Sweep) -> Dict[str, Dict[str, Any]]:
+    data_specs = sweep.get_data_specs()
+    structure: Dict[str, Dict[str, Any]] = {}
+    for spec in data_specs:
+        entry: Dict[str, Any] = {}
+        if spec.depends_on is not None:
+            entry['axes'] = spec.depends_on
+        if spec.unit:
+            entry['unit'] = spec.unit
+        entry['label'] = spec.name
+        structure[spec.name] = entry
+    return structure
 
 
 def _check_none(line: Dict, all: bool = True) -> bool:
@@ -250,3 +264,211 @@ def run_and_save_sweep(
     )
     ret = (dir, data_dict) if return_data else (dir, None)
     return ret
+
+
+
+def _broadcast_line(line: Dict[str, Any]) -> Dict[str, np.ndarray]:
+    seqtypes = (np.ndarray, tuple, list)
+    records: Dict[str, np.ndarray] = {}
+    for name, val in line.items():
+        if isinstance(val, seqtypes):
+            records[name] = np.asarray(val)
+        elif val is None:
+            records[name] = np.array([np.nan])
+        else:
+            records[name] = np.array([val])
+
+    possible = {name: [1, arr.shape[0]] for name, arr in records.items()}
+    commons = []
+    for name, opts in possible.items():
+        for n in opts:
+            if n in commons:
+                continue
+            if all(n in other for other in possible.values()):
+                commons.append(n)
+    nrecs = max(commons)
+
+    for name, arr in records.items():
+        if nrecs == 1 and arr.shape[0] > 1:
+            records[name] = arr.reshape((1,) + arr.shape)
+
+    return records
+
+
+def run_and_save_sweep_swmr(sweep: Sweep,
+                             data_dir: str,
+                             name: str,
+                             ignore_all_None_results: bool = True,
+                             save_action_kwargs: bool = False,
+                             add_timestamps = False,
+                             archive_files: Optional[List[str]] = None,
+                             return_data: bool = False,
+                             chunk_size: Optional[int] = None,
+                             **extra_saving_items) -> Tuple[Union[str, Path], Optional[Any]]:
+    """
+    Iterates through a sweep, saving data via SWMR writer for
+    concurrent read-while-write access.
+
+    Uses :class:`DDH5Writer_swmr` which creates chunked HDF5 datasets
+    suitable for live monitoring.  Returns an :class:`xarray.Dataset`
+    when *return_data* is ``True`` (via :func:`ddh5_to_xarray`).
+
+    :param sweep: Sweep object to iterate through.
+    :param data_dir: Directory of file location.
+    :param name: Name of the file.
+    :param ignore_all_None_results: if ``True``, don't save any records that contain a ``None``.
+        if ``False``, only do not save records that are all-``None``.
+    :param save_action_kwargs: If ``True``, the action_kwargs of the sweep will be saved
+        as a json file in the same directory as the data.
+    :param add_timestamps: If ``True``, prepend timestamps to auxiliary file names.
+    :param archive_files: List of files to copy into a folder called 'archive_files'
+        in the same directory that the data is saved.
+    :param return_data: If ``True``, return an :class:`xarray.Dataset` read back from
+        the saved file via :func:`ddh5_to_xarray`.
+    :param chunk_size: Row chunk size for SWMR datasets.  If ``None``,
+        auto-computed from dtype and shape.
+    :param extra_saving_items: Kwargs for extra objects that should be saved.
+        Dictionaries are saved as JSON (falling back to pickle), other objects
+        are pickled.
+
+    :raises TypeError: A Typerror is raised if the object passed for archive_files
+        is not correct.
+    """
+    structure = _create_swmr_structure(sweep)
+
+    sweep_iter = iter(sweep)
+    try:
+        first_line = next(sweep_iter)
+    except StopIteration:
+        with DDH5Writer_swmr(structure, basedir=data_dir, name=name, chunk_size=chunk_size) as writer:
+            dir = writer.filepath.parent
+            if add_timestamps:
+                t = time.localtime()
+                time_stamp = time.strftime(TIMESTRFORMAT, t) + '_'
+            for key, val in extra_saving_items.items():
+                if callable(val):
+                    value = val()
+                else:
+                    value = val
+                if add_timestamps:
+                    pickle_path_file = os.path.join(dir, time_stamp + key + '.pickle')
+                    json_path_file = os.path.join(dir, time_stamp + key + '.json')
+                else:
+                    pickle_path_file = os.path.join(dir, key + '.pickle')
+                    json_path_file = os.path.join(dir, key + '.json')
+                if isinstance(value, dict):
+                    try:
+                        _save_dictionary(value, json_path_file)
+                    except TypeError as error:
+                        if os.path.isfile(json_path_file):
+                            os.remove(json_path_file)
+                        logging.info(f'{key} has not been able to save to json: {error.args}.'
+                                     f' The item will be pickled instead.')
+                        _pickle_and_save(value, pickle_path_file)
+                else:
+                    _pickle_and_save(value, pickle_path_file)
+            if save_action_kwargs:
+                if add_timestamps:
+                    json_path_file = os.path.join(dir, time_stamp + 'sweep_action_kwargs.json')
+                else:
+                    json_path_file = os.path.join(dir, 'sweep_action_kwargs.json')
+                _save_dictionary(sweep.action_kwargs, json_path_file)
+        logger.info('The measurement has finished successfully and all of the data has been saved.')
+        return dir, None
+
+    broadcast_first = _broadcast_line(first_line)
+    for fname, arr in broadcast_first.items():
+        if fname in structure:
+            inner = arr.shape[1:]
+            if inner:
+                structure[fname]['shape'] = inner
+            structure[fname]['dtype'] = arr.dtype
+
+    try:
+        with DDH5Writer_swmr(structure, basedir=data_dir, name=name, chunk_size=chunk_size) as writer:
+
+            dir: Path = writer.filepath.parent
+            if add_timestamps:
+                t = time.localtime()
+                time_stamp = time.strftime(TIMESTRFORMAT, t) + '_'
+
+            for key, val in extra_saving_items.items():
+                if callable(val):
+                    value = val()
+                else:
+                    value = val
+
+                if add_timestamps:
+                    pickle_path_file = os.path.join(dir, time_stamp + key + '.pickle')
+                    json_path_file = os.path.join(dir, time_stamp + key + '.json')
+                else:
+                    pickle_path_file = os.path.join(dir, key + '.pickle')
+                    json_path_file = os.path.join(dir, key + '.json')
+
+                if isinstance(value, dict):
+                    try:
+                        _save_dictionary(value, json_path_file)
+                    except TypeError as error:
+                        if os.path.isfile(json_path_file):
+                            os.remove(json_path_file)
+                        logging.info(f'{key} has not been able to save to json: {error.args}.'
+                                     f' The item will be pickled instead.')
+                        _pickle_and_save(value, pickle_path_file)
+                else:
+                    _pickle_and_save(value, pickle_path_file)
+
+            if save_action_kwargs:
+                if add_timestamps:
+                    json_path_file = os.path.join(dir, time_stamp + 'sweep_action_kwargs.json')
+                else:
+                    json_path_file = os.path.join(dir, 'sweep_action_kwargs.json')
+                _save_dictionary(sweep.action_kwargs, json_path_file)
+
+            if archive_files is not None:
+                archive_files_dir = os.path.join(dir, 'archive_files')
+                os.mkdir(archive_files_dir)
+                if not isinstance(archive_files, list) and not isinstance(archive_files, tuple):
+                    if isinstance(archive_files, str):
+                        archive_files = [archive_files]
+                    else:
+                        raise TypeError(f'{type(archive_files)} is not a list.')
+                for path in archive_files:
+                    if os.path.isdir(path):
+                        folder_name = os.path.basename(path)
+                        if folder_name == '':
+                            folder_name = os.path.basename(os.path.dirname(path))
+                        shutil.copytree(path, os.path.join(archive_files_dir, folder_name), dirs_exist_ok=True)
+                    elif os.path.isfile(path):
+                        shutil.copy(path, archive_files_dir)
+                    else:
+                        matches = glob.glob(path, recursive=True)
+                        if len(matches) == 0:
+                            logging.info(f'{path} could not be found. Measurement will continue without archiving {path}')
+                        for file in matches:
+                            shutil.copy(file, archive_files_dir)
+
+            if not _check_none(first_line, all=ignore_all_None_results):
+                writer.add_data(**broadcast_first)
+            while True:
+                try:
+                    line = next(sweep_iter)
+                except StopIteration:
+                    break
+                if not _check_none(line, all=ignore_all_None_results):
+                    writer.add_data(**_broadcast_line(line))
+
+    except KeyboardInterrupt:
+        logger.warning('Sweep stopped by Keyboard interrupt. Data completed before interrupt should be saved.')
+        if return_data:
+            try:
+                dataset = ddh5_to_xarray(writer.filepath)
+                return dir, dataset
+            except Exception:
+                return dir, None
+        return dir, None
+
+    logger.info('The measurement has finished successfully and all of the data has been saved.')
+    if return_data:
+        return dir, ddh5_to_xarray(writer.filepath)
+    return dir, None
+

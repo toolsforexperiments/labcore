@@ -29,3 +29,4 @@ from .sweep import Sweep as Sweep
 from .sweep import once as once
 from .sweep import pointer as pointer
 from .sweep import sweep_parameter as sweep_parameter
+from .storage import run_and_save_sweep, run_and_save_sweep_swmr
