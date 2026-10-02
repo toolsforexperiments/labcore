@@ -125,10 +125,13 @@ At the end of `execute()`, the protocol writes a self-contained HTML
 report to:
 
 ```
-<report_path>/<ProtocolName>_report/
+<report_path>/<ProtocolName>_report/<YYYY-mm-ddTHHMMSS>_<ProtocolName>_report.html
 ```
 
-The report has a table of contents linking to one section per operation
+The timestamp is the protocol's start time. The report header lists the
+platform the protocol ran on, its start and end times, and its duration,
+followed by a
+table of contents linking to one section per operation
 or condition that ran, in execution order. Inside each section you will
 find:
 
@@ -145,10 +148,9 @@ find:
 :align: center
 ```
 
-:::{warning}
-Re-running a protocol **overwrites** the previous report directory. Copy
-or rename `<report_path>/<ProtocolName>_report` before re-running if you
-want to keep a prior run.
+:::{note}
+Each run writes a new timestamped file, so re-running a protocol adds a
+report next to the previous ones instead of overwriting them.
 :::
 
 ## Super-operations: a retry boundary around several operations

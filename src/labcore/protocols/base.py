@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import logging
 from dataclasses import dataclass, field
+from datetime import datetime
 from enum import Enum, auto
 from pathlib import Path
 from typing import Any, Callable, ClassVar
@@ -10,6 +11,8 @@ from typing import Any, Callable, ClassVar
 import markdown
 import numpy as np
 from numpy.typing import ArrayLike
+
+from ..measurement.storage import TIMESTRFORMAT
 
 logger = logging.getLogger(__name__)
 
@@ -811,6 +814,8 @@ class ProtocolBase:
         self.success: bool | None = None
 
         self.report_path = report_path
+        self.start_time: datetime | None = None
+        self.end_time: datetime | None = None
 
         # Don't run if the user didn't select a platform
         if PLATFORMTYPE is None:
@@ -1004,6 +1009,24 @@ class ProtocolBase:
 
         # Add title
         html_parts.append(f"<h1>{self.name} Report</h1>\n")
+
+        # Add run metadata
+        platform = PLATFORMTYPE.name if PLATFORMTYPE is not None else "None"
+        start = (
+            self.start_time.strftime("%Y-%m-%d %H:%M:%S") if self.start_time else "N/A"
+        )
+        end = self.end_time.strftime("%Y-%m-%d %H:%M:%S") if self.end_time else "N/A"
+        if self.start_time and self.end_time:
+            # str(timedelta) gives H:MM:SS; drop microseconds
+            duration = str(self.end_time - self.start_time).split(".")[0]
+        else:
+            duration = "N/A"
+        html_parts.append(
+            f"<p><strong>Platform:</strong> {platform}<br>\n"
+            f"<strong>Start:</strong> {start}<br>\n"
+            f"<strong>End:</strong> {end}<br>\n"
+            f"<strong>Duration:</strong> {duration}</p>\n"
+        )
 
         # Add table of contents
         html_parts.append("<h2>Table of Contents</h2>\n")
@@ -1220,7 +1243,8 @@ class ProtocolBase:
 """
 
         # Save HTML file
-        html_file = report_dir / f"{self.name}_report.html"
+        time_stamp = (self.start_time or datetime.now()).strftime(TIMESTRFORMAT)
+        html_file = report_dir / f"{time_stamp}_{self.name}_report.html"
         html_file.write_text(html_template)
 
         logger.info(f"Report generated: {html_file}")
@@ -1308,6 +1332,7 @@ class ProtocolBase:
     def execute(self) -> None:
         """Execute protocol by recursively executing branches"""
         logger.info(f"Starting protocol: {self.name}")
+        self.start_time = datetime.now()
 
         if self.root_branch is None:
             raise ValueError(
@@ -1331,6 +1356,7 @@ class ProtocolBase:
             logger.info("Protocol completed successfully")
             self.success = True
 
+        self.end_time = datetime.now()
         self._assemble_report()
 
 

@@ -9,6 +9,7 @@ parameter optimization lifecycle (success/retry/failure).
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from datetime import datetime
 from pathlib import Path
 
 import numpy as np
@@ -480,8 +481,30 @@ class TestProtocolBase:
         proto = make_protocol([op], report_path=tmp_path)
         proto.execute()
         report_dir = tmp_path / f"{proto.name}_report"
-        html_file = report_dir / f"{proto.name}_report.html"
-        assert html_file.exists()
+        html_files = list(report_dir.glob(f"*_{proto.name}_report.html"))
+        assert len(html_files) == 1
+
+    def test_report_contains_platform_and_times(self, tmp_path):
+        op, _ = make_simple_op(status=OperationStatus.SUCCESS)
+        proto = make_protocol([op], report_path=tmp_path)
+        proto.execute()
+        report_dir = tmp_path / f"{proto.name}_report"
+        html = next(report_dir.glob(f"*_{proto.name}_report.html")).read_text()
+        assert "<strong>Platform:</strong> DUMMY" in html
+        assert "<strong>Start:</strong>" in html
+        assert "<strong>End:</strong>" in html
+        assert "<strong>Duration:</strong> 0:00:" in html
+
+    def test_reports_do_not_overwrite(self, tmp_path):
+        op, _ = make_simple_op(status=OperationStatus.SUCCESS)
+        proto = make_protocol([op], report_path=tmp_path)
+        proto.execute()
+        proto.start_time = datetime(2000, 1, 1, 12, 0, 0)
+        proto._assemble_report()
+        report_dir = tmp_path / f"{proto.name}_report"
+        html_files = list(report_dir.glob(f"*_{proto.name}_report.html"))
+        assert len(html_files) == 2
+        assert (report_dir / f"2000-01-01T120000_{proto.name}_report.html").exists()
 
 
 # ===========================================================================

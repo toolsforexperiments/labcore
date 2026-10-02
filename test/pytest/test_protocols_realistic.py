@@ -92,8 +92,7 @@ class TestGaussianFitWithRetry:
 
         # HTML report exists
         report_dir = tmp_path / f"{proto.name}_report"
-        html_file = report_dir / f"{proto.name}_report.html"
-        assert html_file.exists()
+        assert len(list(report_dir.glob(f"*_{proto.name}_report.html"))) == 1
 
 
 # ---------------------------------------------------------------------------
